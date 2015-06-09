@@ -33,4 +33,9 @@ codename-html5.war.dodeploy
 
 If you want to edit the contents of the web application you can uncompress the .war file with any app for uncompressing zip files and then making sure that the directory is called codename-html5.war/
 
+3) Run the application server:
+> cd wildfly-9.0.0.CR1/bin/
+> ./standalone.sh
+
+
 
