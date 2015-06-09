@@ -72,8 +72,8 @@
         factory.loadAll = function(){
             return $http({
                 method: 'GET',
-                url: appConstants.server + appConstants.context + 'rest/users/all',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
+                url: appConstants.server + appConstants.context + 'rest/public/users/all',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {}
             });
