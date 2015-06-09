@@ -1,0 +1,36 @@
+package grogshop;
+
+import com.grogdj.grogshop.core.model.*;
+import org.grogshop.services.api.*;
+import org.grogshop.services.impl.*;
+
+global MatchingsService matchingsService;
+global NotificationsService notificationsService;
+
+
+rule "post matching with request in price range"
+  when
+    $p: Item(type == Item.ItemType.POST, $club: club, $clubId: club.id, $postUserId: user.id, $postTags: tags, $postPrice: minPrice )
+    $r: Item(type == Item.ItemType.REQUEST, club.id == $clubId, $requestUserId: user.id != $postUserId, tags matchp $postTags, minPrice < $postPrice, maxPrice > $postPrice)
+  then
+    
+    Matching newMatching = new Matching($club, $p, $r, Matching.MatchingType.FULL);
+    Long matchingId = matchingsService.newMatching(newMatching);
+
+    notificationsService.newNotification($postUserId, "Your post: "+$r.getName() + " matched with request: "+$p.getName()+".", "", "MATCHING");
+    //notificationsService.newNotification($requestUserId, "Your request matched ... userId:"+ $requestUserId + "Rule(pmr) Matching:"+matchingId, "", "MATCHING");
+    
+end
+
+rule "request matching with post in price range"
+  when
+    $r: Item(type == Item.ItemType.REQUEST, $club: club, $clubId: club.id, $requestUserId: user.id, $requestTags: tags, $requestMinPrice: minPrice, $requestMaxPrice: maxPrice )
+    $p: Item(type == Item.ItemType.POST, club.id == $clubId, $postUserId: user.id != $requestUserId, tags matchp $requestTags, minPrice < $requestMaxPrice, minPrice > $requestMinPrice)
+  then
+    
+    Matching newMatching = new Matching($club, $r, $p, Matching.MatchingType.FULL);
+    Long matchingId = matchingsService.newMatching(newMatching);
+  //  notificationsService.newNotification($postUserId, "Your post matched ... userId: "+ $postUserId + "Rule(rmp) Matching:"+matchingId, "", "MATCHING");
+    notificationsService.newNotification($requestUserId, "Your request: "+$r.getName() + " matched with post: "+$p.getName()+".", "", "MATCHING");
+    
+end

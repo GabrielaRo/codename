@@ -1,0 +1,49 @@
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse app-main-nav" role="navigation">
+        <div class="container-fluid">
+
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header navbar-left ">
+                <button type="button" class="navbar-toggle collapsed btn-block app-toogle-nav" data-toggle="collapse" data-target="#main-nav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span>Open menu</span>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="main-nav">
+                <ul class="nav navbar-nav" ng-show="auth_token" >
+                   <li class="avatar" ng-style="avatarStyle">
+
+                   </li>
+                    <li ng-show="auth_token">
+
+                          <p class="navbar-text" >
+
+                            Hi {{email}}!
+                        </p>
+                    </li>
+                    <li ng-class="{active: isActive('/')}" ><a href="#/" >Home</a></li>
+                    <li ng-class="{active: isActive('/localfhellows')}" ><a href="#localfhellows" >Local Fhellows</a></li>
+          
+
+                </ul>
+            <ul class="nav navbar-nav navbar-right" ng-show="!auth_token">
+
+                <li ng-class="{active : isActive('/login')}"> <a href="#login" >Login</a></li>
+                <li ng-class="{active : isActive('/signup')}"><a href="#signup" >Register</a></li>
+
+
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right" ng-show="auth_token">
+                <li ng-include="'app/views/notifications-dropdown.html'"></li>
+                <li ng-class="{active : isActive('/settings')}" > <a href="#settings">Settings</a></li>
+                <li > <a href="#" ng-click="logoutUser()" >Logout</a></li>
+
+            </ul>
+
+        </div>
+
+    </div>
+</nav>

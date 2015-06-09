@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="codename" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="codename" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="codename" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="codename" class="no-js"> <!--<![endif]-->
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>codename</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css"> -->
+        <!--  <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">-->
+        <!--<script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>-->
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+
+        <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <!-- LIBRARIES STYLES -->
+        <link rel="stylesheet" type="text/css" href="bower_components/ng-tags-input/ng-tags-input.min.css"> 
+        <link rel="stylesheet" type="text/css" href="bower_components/ng-tags-input/ng-tags-input.bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="bower_components/angular-rangeslider/angular.rangeSlider.css">
+        <link rel="stylesheet" type="text/css" href="bower_components/angular-growl-v2/build/angular-growl.min.css">
+        <!-- APP STYLES -->
+        <link rel="stylesheet" type="text/css" href="app/styles/app.css">
+        <link rel="apple-touch-icon" href="appleicon.png">
+
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+          <![endif]-->
+    </head>
+
+    <body ng-controller="MainCtrl">
+
+
+        <div growl></div>
+
+        <!-- APP MAIN NAVIGATION -->
+
+        <div ng-controller="NavigationController">
+            <div ng-include="'app/views/nav.html'"> </div>
+        </div>
+
+        <!-- APP NG-VIEW -->
+        <div class="screen {{pageClass}}" ng-view  > </div>
+
+
+
+        <!-- APP SCRIPTS -->
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+        <script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
+        <script src="bower_components/angularjs-file-upload/angular-file-upload-all.min.js"></script> 
+        <script src="bower_components/angularjs-file-upload/angular-file-upload-shim.min.js"></script> 
+        <script src="bower_components/angular-masonry-directive/src/angular-masonry-directive.js"></script> 
+        <script src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>
+        <script src="bower_components/imagesloaded/imagesloaded.pkgd.js"></script>
+        <script src="bower_components/angular-rangeslider/angular.rangeSlider.js"></script>
+        <script src="bower_components/FileAPI/dist/FileAPI.min.js"></script> 
+        <script src="bower_components/masonry/dist/masonry.pkgd.js"></script>
+        <script src="bower_components/angular-growl-v2/build/angular-growl.min.js"></script>
+
+
+        <script src="components/version/version.js"></script>
+        <script src="components/version/version-directive.js"></script>
+        <script src="components/version/interpolate-filter.js"></script>
+
+        <!-- APP JS -->
+        <script type="text/javascript" src="app/app.js"></script>
+        <!-- SERVICES -->
+        <script type="text/javascript" src="app/services/transformRequestToFormFactory.js"></script>
+        <script type="text/javascript" src="app/services/usersFactory.js"></script>
+
+
+        <script type="text/javascript" src="app/services/interestFactory.js"></script>
+
+        <script type="text/javascript" src="app/services/commentsFactory.js"></script>
+
+        <script type="text/javascript" src="app/services/notificationsFactory.js"></script>
+        <!-- CONTROLLERS -->
+        <script type="text/javascript" src="app/controllers/mainController.js"></script>
+        <script type="text/javascript" src="app/controllers/navController.js"></script>
+        <script type="text/javascript" src="app/controllers/homeController.js"></script>
+        <script type="text/javascript" src="app/controllers/settingsController.js"></script>
+        <script type="text/javascript" src="app/controllers/signUpController.js"></script>
+        <script type="text/javascript" src="app/controllers/userInterestsController.js"></script>
+        <script type="text/javascript" src="app/controllers/localFhellowsController.js"></script>
+        <script type="text/javascript" src="app/controllers/notificationsController.js"></script>
+        <!-- DIRECTIVES -->
+        <script type="text/javascript" src="app/directives/vCompare.js"></script>
+
+    </body>
+</html>
