@@ -106,7 +106,9 @@ Require all granted
 
 
 
-Final step- sudo apachectl restart
-
+Final step- 
+```
+sudo apachectl restart
+```
 
 
