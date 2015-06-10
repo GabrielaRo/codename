@@ -32,9 +32,15 @@ public interface ProfilesService {
     
     void updateAvatar(Long user_id, String fileName, byte[] content) throws ServiceException;
     
+    void updateCover(Long user_id, String fileName, byte[] content) throws ServiceException;
+    
     byte[] getAvatar(Long user_id) throws ServiceException;
     
+    byte[] getCover(Long user_id) throws ServiceException;
+    
     void removeAvatar(Long user_id) throws ServiceException;
+    
+    void removeCover(Long user_id) throws ServiceException;
     
     List<Profile> getAll();
 }

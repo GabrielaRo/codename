@@ -36,6 +36,12 @@ public interface PublicUserProfileEndpointService extends Serializable {
     @Produces({MediaType.MEDIA_TYPE_WILDCARD})
     Response getAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException;
     
+    @Path("{id}/cover")
+    @GET
+    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    @Produces({MediaType.MEDIA_TYPE_WILDCARD})
+    Response getCover(@NotNull @PathParam("id") Long user_id) throws ServiceException;
+    
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})

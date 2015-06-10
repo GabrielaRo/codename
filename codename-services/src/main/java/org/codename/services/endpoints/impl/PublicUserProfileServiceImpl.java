@@ -124,5 +124,35 @@ public class PublicUserProfileServiceImpl implements PublicUserProfileEndpointSe
         return Response.serverError().build();
 
     }
+    
+    @Override
+    public Response getCover(@NotNull @PathParam("id") Long user_id) throws ServiceException {
+
+        byte[] tmp = profileService.getCover(user_id);
+        final byte[] avatar;
+        if (tmp != null && tmp.length > 0) {
+            log.info("avatar found");
+            avatar = tmp;
+            return Response.ok().entity(new StreamingOutput() {
+                @Override
+                public void write(OutputStream output)
+                        throws IOException, WebApplicationException {
+                    output.write(avatar);
+                    output.flush();
+                }
+            }).build();
+        } else {
+            try {
+                log.info("avatar not found");
+                return Response.temporaryRedirect(new URI("http://"+serverUrl+"/static/img/public-images/default-cover.png")).build();
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(PublicUserProfileServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        return Response.serverError().build();
+
+    }
 
 }

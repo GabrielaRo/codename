@@ -168,10 +168,43 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
         }
         return Response.ok().build();
     }
+    
+    @Override
+    public Response uploadCover(@NotNull @PathParam("id") Long user_id, MultipartFormDataInput input) throws ServiceException {
+        log.info(">>>> sit back - starting file upload for user_id..." + user_id);
+
+        Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+        List<InputPart> inputParts = uploadForm.get(UPLOADED_FILE_PARAMETER_NAME);
+
+        for (InputPart inputPart : inputParts) {
+            MultivaluedMap<String, String> headers = inputPart.getHeaders();
+            String filename = getFileName(headers);
+
+            try {
+                InputStream inputStream = inputPart.getBody(InputStream.class, null);
+
+                byte[] bytes = IOUtils.toByteArray(inputStream);
+
+                log.log(Level.INFO, ">>> File '''{'{0}'}''' has been read, size: #'{'{1}'}' bytes", new Object[]{filename, bytes.length});
+                profileService.updateCover(user_id, filename, bytes);
+
+            } catch (IOException e) {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+            }
+        }
+        return Response.ok().build();
+    }
+
 
     @Override
     public Response removeAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException {
         profileService.removeAvatar(user_id);
+        return Response.ok().build();
+    }
+    
+     @Override
+    public Response removeCover(@NotNull @PathParam("id") Long user_id) throws ServiceException {
+        profileService.removeCover(user_id);
         return Response.ok().build();
     }
 

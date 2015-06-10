@@ -93,12 +93,32 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
+    public void updateCover(Long user_id, String fileName, byte[] content) throws ServiceException {
+        Profile find = em.find(Profile.class, user_id);
+        if (find == null) {
+            throw new ServiceException("User Profile doesn't exist: " + user_id);
+        }
+        find.setCoverFileName(fileName);
+        find.setCoverContent(content);
+        em.merge(find);
+    }
+
+    @Override
     public byte[] getAvatar(Long user_id) throws ServiceException {
         Profile find = em.find(Profile.class, user_id);
         if (find == null) {
             return null;
         }
         return find.getAvatarContent();
+    }
+
+    @Override
+    public byte[] getCover(Long user_id) throws ServiceException {
+        Profile find = em.find(Profile.class, user_id);
+        if (find == null) {
+            return null;
+        }
+        return find.getCoverContent();
     }
 
     @Override
@@ -113,10 +133,19 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public List<Profile> getAll() {
-       return em.createNamedQuery("Profile.getAll", Profile.class).getResultList();
+    public void removeCover(Long user_id) throws ServiceException {
+        Profile find = em.find(Profile.class, user_id);
+        if (find == null) {
+            throw new ServiceException("User Profile doesn't exist: " + user_id);
+        }
+        find.setCoverFileName("");
+        find.setCoverContent(null);
+        em.merge(find);
     }
-    
-    
+
+    @Override
+    public List<Profile> getAll() {
+        return em.createNamedQuery("Profile.getAll", Profile.class).getResultList();
+    }
 
 }

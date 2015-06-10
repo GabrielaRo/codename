@@ -27,6 +27,22 @@
                     <a href ng-show="{{profileImage}}">Remove Image</a>
                 </div>
             </div>
+            
+            <div class="col-xs-12 col-md-4 text-center profile-image clearfix">
+
+                <img ng-show="picCoverFile[0].dataUrl == null" class="img-thumbnail img-responsive" alt="Cover Image {{email}}"  ng-src="{{settings.coverUrl}}"/>
+                <img ng-show="picCoverFile[0].dataUrl != null" class="img-thumbnail img-responsive" ng-src="{{picCoverFile[0].dataUrl}}" >
+                <div class="options">
+                    <button class="btn btn-default btn-block" ng-file-select ng-model="picCoverFile" name="fileCover" ng-file-change="generateThumb(picCoverFile[0])"  accept="image/*"  multiple="false">Attach Any File</button><br/> <br/>
+                    <div class="progress"ng-show="uploading" >
+                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{uploadCoverPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{uploadCoverPercentage}}%;">
+                        <span class="sr-only">{{uploadCoverPercentage}} Complete</span>
+                      </div>
+                    </div>
+                    
+                    <a href ng-show="{{coverImage}}">Remove Image</a>
+                </div>
+            </div>
 
             <div class="col-xs-12 col-md-8 clearfix">
                 <div class="profile-form">
@@ -71,7 +87,7 @@
                                     <div class="col-xs-12">
                                         <div class="form-group text-right">
                                             <a  href class="btn btn-default" ng-click="cancel()">Cancel</a>
-                                            <button type="submit"  ng-disabled="!settingsForm.$dirty" ng-click="save(settingsForm.$valid, picFile)" class="btn btn-primary">Save Changes</button>
+                                            <button type="submit"  ng-disabled="!settingsForm.$dirty" ng-click="save(settingsForm.$valid, picFile, picCoverFile)" class="btn btn-primary">Save Changes</button>
                                         </div>
                                     </div>
                                 </div>

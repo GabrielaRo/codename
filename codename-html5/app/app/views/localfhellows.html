@@ -54,7 +54,7 @@
                
                
                 <div class="fhellow-item" ng-repeat="fhellow in fhellowsList">
-                    <div class="fhellow-cover-image" style="background-image:url('resources/img/cover-image-test.jpg')"> </div>
+                    <div class="fhellow-cover-image" style="background-image:url('{{serverUrlFull+ 'rest/public/users/' + fhellow.userId + '/cover'}}')"> </div>
                     <div class="fhellow-profile">
                         <div class="fhellow-profile-image hexagon">
                             <div class="hexagon-inner-1">

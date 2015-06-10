@@ -6,31 +6,54 @@
             lastname: "",
             location: "",
             bio: "",
-            avatarUrl: appConstants.server + appConstants.context +"rest/public/users/" + $scope.user_id + "/avatar"
+            avatarUrl: appConstants.server + appConstants.context +"rest/public/users/" + $scope.user_id + "/avatar",
+            coverUrl:  appConstants.server + appConstants.context +"rest/public/users/" + $scope.user_id + "/cover"
         };
         
-        $scope.uploading = false;
-        $scope.uploadPercentage = 0;
-    
+        $scope.uploadingAvatar = false;
+        $scope.uploadAvatarPercentage = 0;
+        $scope.uploadingCover = false;
+        $scope.uploadCoverPercentage = 0;
 
         $scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
 
         console.log("AVATAR URL " + appConstants.server + appConstants.context + $scope.settings.avatarUrl);
 
-        $scope.uploadFile = function (files, event) {
+        $scope.uploadAvatarFile = function (files, event) {
             console.log("Files : " + files + "-- event: " + event);
             var file = files[0];
             $scope.upload = $users.uploadAvatar(file)
             .progress(function (evt) {
-                $scope.uploadPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                $scope.uploading = true;
+                $scope.uploadAvatarPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                $scope.uploadingAvatar = true;
                 console.log('progress: ' + parseInt(100.0 * evt.loaded / evt.total) + '% file :' + evt.config.file.name);
             }).success(function (data) {
                 // file is uploaded successfully
                 console.log('file ' + file.name + 'is uploaded successfully. Response: ' + data);
-                $scope.uploading = false;
+                $scope.uploadAvatarPercentage = false;
                 $scope.settings.avatarUrl = "";
                 $scope.settings.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar" + '?' + new Date().getTime();
+                $rootScope.$broadcast("updateProfileImage");
+
+            }).error(function (data) {
+                console.log('file ' + file.name + ' upload error. Response: ' + data);
+            });
+        };
+        
+        $scope.uploadCoverFile = function (files, event) {
+            console.log("Files : " + files + "-- event: " + event);
+            var file = files[0];
+            $scope.upload = $users.uploadCover(file)
+            .progress(function (evt) {
+                $scope.uploadCoverPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                $scope.uploadingCover = true;
+                console.log('progress: ' + parseInt(100.0 * evt.loaded / evt.total) + '% file :' + evt.config.file.name);
+            }).success(function (data) {
+                // file is uploaded successfully
+                console.log('file ' + file.name + 'is uploaded successfully. Response: ' + data);
+                $scope.uploadingCover = false;
+                $scope.settings.coverUrl = "";
+                $scope.settings.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover" + '?' + new Date().getTime();
                 $rootScope.$broadcast("updateProfileImage");
 
             }).error(function (data) {
@@ -84,7 +107,7 @@
 
         };
 
-        $scope.save = function (isValid, files, event) {
+        $scope.save = function (isValid, files, coverFiles, event) {
 
             console.log("save-changes");
             if (isValid) {
@@ -94,7 +117,10 @@
 
                     initialData = angular.copy($scope.settings)
                     if(files != undefined){
-                        $scope.uploadFile(files, event);
+                        $scope.uploadAvatarFile(files, event);
+                    }
+                    if(coverFiles != undefined){
+                        $scope.uploadCoverFile(coverFiles, event);
                     }
                     $scope.settingsForm.$setPristine();
                 }).error(function (data) {

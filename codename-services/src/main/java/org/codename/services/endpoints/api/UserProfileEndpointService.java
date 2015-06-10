@@ -33,6 +33,11 @@ public interface UserProfileEndpointService extends Serializable {
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     Response uploadAvatar(@NotNull @PathParam("id") Long user_id, MultipartFormDataInput input) throws ServiceException;
     
+    @Path("{id}/cover/upload")
+    @POST
+    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    Response uploadCover(@NotNull @PathParam("id") Long user_id, MultipartFormDataInput input) throws ServiceException;
+    
     @Path("{id}/avatar")
     @GET
     @Produces({MediaType.APPLICATION_OCTET_STREAM})
@@ -41,6 +46,10 @@ public interface UserProfileEndpointService extends Serializable {
     @Path("{id}/avatar/remove")
     @POST
     Response removeAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException;
+    
+    @Path("{id}/cover/remove")
+    @POST
+    Response removeCover(@NotNull @PathParam("id") Long user_id) throws ServiceException;
 
     @Path("{id}/exist")
     @GET

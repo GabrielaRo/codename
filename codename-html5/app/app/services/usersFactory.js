@@ -98,6 +98,16 @@
             })
         };
         
+        //UPLOAD COVER
+        factory.uploadCover = function(file) {
+            return $upload.upload({
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/cover/upload',
+                method: 'POST',
+                headers: {'Content-Type': 'multipart/form-data', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
+                file: file,
+            })
+        };
+        
         
         return factory;
     };
