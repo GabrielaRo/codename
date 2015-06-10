@@ -55,14 +55,15 @@ I've followed the following two links as guide:
 If you are in Mac OSX Yosemite, this are the steps that I've followed (from the terminal)
 
 1- sudo open -a TextEdit /etc/apache2/httpd.conf
-Search "httpd-vhosts.conf" and uncomment the line by removing the initial #
-Search "mod_vhost_alias.so" and uncomment the line by removing the initial #
-Search "mod_userdir.so" and uncomment the line by removing the initial #
-Search "httpd-userdir.conf" and uncomment the line by removing the initial #
+
+* Search "httpd-vhosts.conf" and uncomment the line by removing the initial #
+* Search "mod_vhost_alias.so" and uncomment the line by removing the initial #
+* Search "mod_userdir.so" and uncomment the line by removing the initial #
+* Search "httpd-userdir.conf" and uncomment the line by removing the initial #
 
 2- sudo open -a TextEdit /etc/apache2/extra/httpd-vhosts.conf
 Add this content and replace the correct path to where the project is and the <domain-name.com>
-
+```
 <VirtualHost *:80>
 ServerName localhost
 DocumentRoot /Library/WebServer/Documents/
@@ -76,27 +77,31 @@ DocumentRoot /Library/WebServer/Documents/
     CustomLog "/private/var/log/apache2/apple.com-access_log" common
     ServerAdmin web@coolestguidesontheplanet.com
 </VirtualHost>
-
+```
 3- sudo open -a TextEdit /etc/hosts
 
 Replace the localhost line for:
-
+```
 127.0.0.1	localhost <domain-name.com> www.<domain-name.com>
-
+```
 4- sudo open -a TextEdit /etc/apache2/extra/httpd-userdir.conf
 Uncomment this line:
+```
 Include /private/etc/apache2/users/*.conf
+```
 
 5- Create or edit a file called: <username>.conf in /etc/apache2/users/
 
 sudo open -a TextEdit /etc/apache2/users/<username>.conf 
 
 Add this content:
+```
 <Directory "/Users/<username>/<path to project>/codename/codename-html5/app/">
 AllowOverride All
 Options Indexes MultiViews FollowSymLinks
 Require all granted
 </Directory>
+```
 
 
 
