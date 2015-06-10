@@ -112,3 +112,7 @@ sudo apachectl restart
 ```
 
 
+Services to initialize data:
+
+http://localhost:8080/codename-server/rest/public/app/init
+
