@@ -1,0 +1,115 @@
+#global-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: @navBgr;
+    height: @globalNavHeight;
+    z-index: @navIndex;
+    #fhellow-brand {
+        display: inline-block;
+        padding-left:  @padding;
+        font-weight: 300;
+        line-height: @globalNavHeight;
+        margin: 0;
+    }
+    #nav-primary-wrapper {
+        position: absolute;
+        right: 0;
+        display: inline-block;
+
+        #nav-primary,  #nav-primary-no-user {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            font-size: @navFontSize;
+            font-weight: @navFontWeight;
+        }
+
+        #nav-user {
+
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+
+            .nav-item {
+                border-left: 1px solid rgba(255,255,255,.3);
+                .nav-item-link {
+                    &:hover{
+                        svg{
+                            path {
+                                fill: @link;
+                            }
+                        }
+                    }
+
+                }
+                &.messages {
+                    width: 75px;
+
+                    svg{
+                        width: 40px;
+                        height: 40px;
+                        position: absolute;
+                        top: 12px;
+
+                    }
+                }
+
+                &.user {
+                    width: 100px;
+                    position: relative;
+
+
+                    .user-profile-image {
+                        display: inline-block;
+                        width: 28px;
+                        height: 32px;
+                        margin-right: 10px;
+                        position: absolute;
+                        top: 14px;
+                        z-index: 10;
+                        left: 22px;
+                    }
+                    .user-profile-image-brd {
+                        display: inline-block;
+                        width: 32px;
+                        height: 36px;
+                        margin-right: 10px;
+                        position: absolute;
+                        top: 12px;
+                        left: 20px;
+                        .hexagon-inner-2 {
+                            background-color: @textLight;
+                        }
+
+                    }
+
+                    &:hover {
+                        .user-profile-image-brd {
+                            .hexagon-inner-2 {
+                                background-color: @link;
+                            } 
+                        }
+                    }
+
+                    svg{
+                        width: 20px;
+                        height: 40px;
+                        position: absolute;
+                        top: 12px;
+                        right: 20px;
+
+                    }
+                }
+            }
+
+
+        }
+
+    }
+
+    nav {
+        list-style-type: none;
+    }
+}

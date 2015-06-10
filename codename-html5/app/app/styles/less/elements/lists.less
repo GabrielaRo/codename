@@ -1,0 +1,27 @@
+.list-container {
+    h2 {
+        font-size: @listH2FontSize;
+        font-weight: 500;
+        margin: (@padding) 0;
+    }
+    .load-more {
+        border-bottom: 1px solid #757575;
+        margin: 0 0 (@padding);
+        text-align: center;
+        a {
+           position: relative;
+           top: 16px;
+            display: inline-block;
+            background-color: @bgr;
+            border: 1px solid #757575;
+            padding: (@padding/8) (@padding/4);
+            color: #757575;
+            font-weight: 300;
+            .transition();
+            &:hover {
+                background-color: @buttonBgr;
+                color: @textLight;
+            }
+        }
+    }
+}

@@ -1,0 +1,65 @@
+
+//FORMS
+
+.control {
+    display: inline-block;
+    position: relative;
+    padding-bottom: (@padding/2);
+    margin-left: (@padding/4);
+    font-size: @fontSize;
+    
+
+
+    .control-help-text {
+        position: absolute;
+        bottom: 0;
+        font-size: @helpTextFontSize;
+        font-style: italic;
+        color: @helpTextColor;
+        font-weight: 300;
+    }
+
+    input {
+        height: @inputHeight;
+        box-sizing: border-box;
+        padding: 0 (@padding/4);
+        border: 1px solid @borders;
+
+    }
+    .select {
+        display: block;
+        height: 40px;
+        padding: 0 (@padding/4);
+        background-color: @textLight;
+        appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0;
+        border: 1px solid @borders;
+        background-image: url(/codename-server/static/img/select.svg);
+        background-position: top right;
+        background-repeat: no-repeat;
+    }
+    .button.search-button {
+        width: 40px;
+        overflow: hidden;
+        text-indent: -9000px;
+        background-image: url(/codename-server/static/img/search-button.svg);
+        &:hover {
+            background-color: @link;
+        }
+    }
+    .search-input + .search-button {
+        margin-left: -5px;
+    }
+
+}
+.button {
+    background-color: @buttonBgr;
+    color: @buttonColor;
+    border: 0;
+    padding: (@padding/4) (@padding/2);
+    .transition();
+    &:hover {
+        color: @link;
+    }
+}

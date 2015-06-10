@@ -1,0 +1,32 @@
+#filters {
+    background-color: @filtersBgr;
+    padding: (@padding/2) 0;
+    box-shadow: none;
+    z-index: @filtersIndex;
+    .transition();
+    &.isSticky{
+        .boxShadow();
+    }
+
+    #filters-container {
+        font-size: 0;
+        width: 956px;
+        margin: 0 auto;
+
+        .location-input {
+            width: 170px;
+            background-image: url(/codename-server/static/img/location.svg);
+            background-position: top right;
+            background-repeat: no-repeat;
+        }
+        .proximity-select {
+            width: 130px;
+        }
+        .type-select {
+            width: 160px;
+        }
+        .search-input {
+            width: 410px;
+        }
+    }
+}

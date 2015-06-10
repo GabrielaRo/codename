@@ -160,7 +160,7 @@
 
         if ($scope.auth_token && $scope.auth_token !== "") {
             $scope.initWebSocket();
-            $scope.loadMemberships($scope.user_id, $scope.email, $scope.auth_token);
+         //   $scope.loadMemberships($scope.user_id, $scope.email, $scope.auth_token);
             $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
 
         }

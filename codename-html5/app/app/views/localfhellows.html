@@ -1,4 +1,105 @@
-<!-- HOME -->
+<div id="section-header">
+    <div id="header-image">
+        <img src="/codename-server/static/img/find-header.svg" alt="">
+    </div>
+    <h1>Find Fhellows working around you</h1>
+    <h2>Discuss ideas, share experiences and start building your own work community</h2>
+</div>
+
+    <div id="filters" class="sticky">
+            <div id="filters-container">
+                <form>
+
+                    <div class="control">
+                        <input type="text" placeholder="My Location" class="location-input">
+                    </div>
+
+                    <div class="control">
+                        <select name="proximity" class="select proximity-select">
+                            <option selected disabled>Proximity</option>
+                            <option>10 km</option>
+                            <option>20 km</option>
+                            <option>30 km</option>
+                            <option>40 km</option>
+                            <option>100 km</option>
+                        </select>
+                    </div>
+                    <div class="control">
+                        <select name="type of fhellow" class="select type-select">
+                            <option selected disabled>Type of fhellow</option>
+                            <option>Designer</option>
+                            <option>Developer</option>
+                            <option>Entrepreneur</option>
+                            <option>Journalist </option>
+                        </select>
+                    </div>
+
+                    <div class="control">
+                        <input type="search"  class="search-input">
+                        <input type="submit" value="Search" class="search-button button">
+                        <div class="control-help-text">
+                            Separate interests with commas
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        
+        
+   <div id="results" class="list-container">
+            <h2>New to Fhellow</h2>
+            <p ng-hide="fhellowsList.length">There is no result</p>
+            <div class="cards-container"  >
+               
+               
+                <div class="fhellow-item" ng-repeat="fhellow in fhellowsList">
+                    <div class="fhellow-cover-image" style="background-image:url('resources/img/cover-image-test.jpg')"> </div>
+                    <div class="fhellow-profile">
+                        <div class="fhellow-profile-image hexagon">
+                            <div class="hexagon-inner-1">
+                                <div class="hexagon-inner-2" style="background-image:url('resources/img/profile-image-test.jpg')">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fhellow-profile-image-brd hexagon">
+                            <div class="hexagon-inner-1">
+                                <div class="hexagon-inner-2">
+
+                                </div>
+                            </div>
+                        </div>
+                        <button class="button">View Profile</button>
+                    </div>
+                    <div class="fhellow-info">
+                        <div class="fhellow-name">
+                            {{fhellow.name}}
+                        </div>
+                        <div class="fhellow-type">
+                            Freelance Journalist & Broadcaster
+                        </div>
+                        <div class="fhellow-location">
+                            {{fhellow.location}}
+                        </div>
+                        <div class="fhellow-description">
+                            {{fhellow.bio}}
+                        </div>
+                        <div class="fhellow-interests">
+                            <strong>Interested in:</strong>  Entrepreneurship, Business, Technology, Journalism, Writing.
+                        </div>
+                    </div>
+                </div>
+                
+
+
+            </div>
+            <div class="load-more" style="display:none;">
+                <a href>View More</a>
+            </div>
+        </div>
+
+<!-- HOME 
 <div class="container">
     <div class="row">
         <div class="jumbotron clearfix" style="background-color: transparent;" ng-show="!auth_token">
@@ -71,7 +172,7 @@
                                 <div class="caption">
                                     <h4 class="no-margin one-line">{{fhellow.name}}</h4>
                                     <p class="one-line" ><small>{{fhellow.location}}</small></p>
-
+                                    <p  ><small>{{fhellow.bio}}</small></p>
                                 </div>
                             </div>
                         </div>
@@ -92,3 +193,6 @@
     <br/><br/>
 
 </div>
+
+
+-->

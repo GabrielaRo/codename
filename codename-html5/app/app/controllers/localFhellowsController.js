@@ -5,7 +5,7 @@
         $scope.interests = [];
         $scope.allInterests = [];
         $scope.userInterests = [];
-        
+
         $scope.loadUserInterests = function () {
             //console.log("loading interests for user " + user_id + " with email: " + email + " and auth_token: " + auth_token);
 
@@ -42,26 +42,27 @@
             $users.loadAll().success(function (data) {
                 //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
                 $scope.fhellowsList = data;
+                console.log(  $scope.fhellowsList);
             }).error(function (data) {
                 console.log("Error: " + data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
             });
 
         };
-       
 
-       
 
-//        if ($scope.auth_token && $scope.auth_token !== "") {
-//
-//            console.log("loading private clubs because: " + $scope.auth_token);
-//           
-//            //
-//        } else {
-//            console.log("loading public clubs because: " + $scope.auth_token);
-//            
-//
-//        }
+
+
+        //        if ($scope.auth_token && $scope.auth_token !== "") {
+        //
+        //            console.log("loading private clubs because: " + $scope.auth_token);
+        //           
+        //            //
+        //        } else {
+        //            console.log("loading public clubs because: " + $scope.auth_token);
+        //            
+        //
+        //        }
         $scope.loadFhellows();
         $scope.loadAllInterests();
 
@@ -89,6 +90,15 @@
             }
             return temp;
         };
+
+        $( window ).scroll(function() {
+            console.log("SCROLL " + $(window).scrollTop() );
+            if ($(window).scrollTop() > 235){
+                $( ".sticky" ).addClass("isSticky");
+            }else {
+                $( ".sticky" ).removeClass("isSticky");
+            }
+        });
 
     };
 

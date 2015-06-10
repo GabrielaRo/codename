@@ -1,0 +1,39 @@
+// out: ../app.css, compress: true, strictMath: true, autoprefixer:true
+//BASICS
+@import "variables.less";
+@import "mixins.less";
+@import "normalize.less";
+
+
+html {
+    .full();
+}
+body {
+    font-family: @sansSerifFont;
+    background-color: @bgr;
+    font-size: @fontSize;
+    line-height: @lineHeight;
+    .full();
+}
+
+a {
+    color: @link;
+    text-decoration: none;
+}
+
+//ELEMENTS
+@import "elements/forms.less"; 
+@import "elements/global-nav.less";
+@import "elements/section-header.less"; 
+@import "elements/footer.less"; 
+@import "elements/filters.less";
+@import "elements/lists.less";
+@import "elements/cards.less";
+@import "elements/screen.less";
+//
+
+#results {
+    .container(); 
+}
+ 
+@import "helpers.less";

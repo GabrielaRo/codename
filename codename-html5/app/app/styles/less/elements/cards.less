@@ -1,0 +1,67 @@
+.fhellow-item {
+    background-color: @cardBgr;
+    vertical-align: top;
+    height: 460px;
+    .boxShadow();
+    .card();
+    width: 304px;
+
+    .fhellow-cover-image {
+        height: 108px;
+         background-color: #000;
+    }
+    .fhellow-profile {
+        position: relative;
+        padding: (@padding/2);
+        height: 100px;
+        .button {
+            position: absolute;
+            right: (@padding/2);
+        }
+        .fhellow-profile-image {
+            width: 120px;
+            height: 150px;
+            position: absolute;
+            top: -60px;
+            z-index: 10;
+            .hexagon-inner-2 {
+                background-color: #000;
+            }
+        }
+        .fhellow-profile-image-brd {
+             width: 126px;
+            height: 156px;
+            position: absolute;
+            top: -63px;
+            left: 17px;
+            z-index: 5;
+            .hexagon-inner-2 {
+                background-color: #FFF;
+            }
+        }    
+    }
+    .fhellow-info {
+        padding: 0 (@padding/2)  ;
+        .fhellow-name {
+            font-size: @cardNameFontSize;
+            line-height: (@lineHeight*1.2);
+        }
+        .fhellow-location {
+            font-size: @cardLocationFontSize;
+            color: #717171;
+              font-weight: 300;
+           
+        }
+        .fhellow-description {
+             padding: (@padding/2) 0;
+            font-weight: 300;
+            color: #444444;
+        }
+        .fhellow-interests {
+            color: #777;
+            max-height: 40px;
+            overflow: hidden;
+            font-size: @cardLocationFontSize;
+        }
+    }
+}
