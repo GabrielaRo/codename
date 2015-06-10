@@ -23,7 +23,7 @@ public interface ProfilesService {
 
     void create(Long user_id) throws ServiceException;
     
-    void update(Long user_id, String username, 
+    void update(Long user_id, String username,  String lastname,
             String location, String bio) throws ServiceException;
     
     void setInterests(Long user_id, List<Interest> interests) throws ServiceException;

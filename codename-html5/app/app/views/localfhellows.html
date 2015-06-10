@@ -58,7 +58,7 @@
                     <div class="fhellow-profile">
                         <div class="fhellow-profile-image hexagon">
                             <div class="hexagon-inner-1">
-                                <div class="hexagon-inner-2" style="background-image:url('resources/img/profile-image-test.jpg')">
+                                <div class="hexagon-inner-2" style="background-image:url('{{serverUrlFull+ 'rest/public/users/' + fhellow.userId + '/avatar'}}')">
 
                                 </div>
                             </div>
@@ -74,7 +74,11 @@
                     </div>
                     <div class="fhellow-info">
                         <div class="fhellow-name">
-                            {{fhellow.name}}
+                            {{fhellow.userId}}
+                            {{fhellow.firstname}}
+                        </div>
+                        <div class="fhellow-name">
+                            {{fhellow.lastname}}
                         </div>
                         <div class="fhellow-type">
                             Freelance Journalist & Broadcaster

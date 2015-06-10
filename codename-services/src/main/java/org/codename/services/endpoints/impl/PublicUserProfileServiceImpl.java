@@ -23,6 +23,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
+import org.codename.model.Interest;
 import org.codename.model.Profile;
 import org.codename.services.api.ProfilesService;
 import org.codename.services.endpoints.api.PublicUserProfileEndpointService;
@@ -55,9 +56,16 @@ public class PublicUserProfileServiceImpl implements PublicUserProfileEndpointSe
         for(Profile p : profiles){
             
             JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+            jsonObjBuilder.add("userId", (p.getUser() == null) ? "" : p.getUser().getId().toString());
             jsonObjBuilder.add("bio", (p.getIntroduction() == null) ? "" : p.getIntroduction());
             jsonObjBuilder.add("location", (p.getPostcode() == null) ? "" : p.getPostcode());
-            jsonObjBuilder.add("username", (p.getRealname() == null) ? "" : p.getRealname());
+            jsonObjBuilder.add("firstname", (p.getFirstname()== null) ? "" : p.getFirstname());
+            jsonObjBuilder.add("lastname", (p.getLastname()== null) ? "" : p.getLastname());
+            JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
+            for(Interest i : p.getInterests()){
+                jsonArrayBuilder2.add(i.getName());
+            }
+            jsonObjBuilder.add("interests", jsonArrayBuilder2);
             jsonArrayBuilder.add(jsonObjBuilder);
             
         }
@@ -73,10 +81,16 @@ public class PublicUserProfileServiceImpl implements PublicUserProfileEndpointSe
             throw new ServiceException("Profile for " + user_id + " doesn't exists");
         }
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+        jsonObjBuilder.add("userId", (p.getUser() == null) ? "" : p.getUser().getId().toString());
         jsonObjBuilder.add("bio", (p.getIntroduction() == null) ? "" : p.getIntroduction());
         jsonObjBuilder.add("location", (p.getPostcode() == null) ? "" : p.getPostcode());
-        jsonObjBuilder.add("username", (p.getRealname() == null) ? "" : p.getRealname());
-
+        jsonObjBuilder.add("username", (p.getFirstname() == null) ? "" : p.getFirstname());
+        jsonObjBuilder.add("lastname", (p.getLastname()== null) ? "" : p.getLastname());
+        JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
+            for(Interest i : p.getInterests()){
+                jsonArrayBuilder2.add(i.getName());
+            }
+            jsonObjBuilder.add("interests", jsonArrayBuilder2);
         JsonObject jsonObj = jsonObjBuilder.build();
         return Response.ok(jsonObj.toString()).build();
     }

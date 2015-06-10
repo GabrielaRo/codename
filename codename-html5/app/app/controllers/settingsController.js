@@ -2,7 +2,8 @@
     var settingsController = function ($rootScope, $scope, $upload, $timeout, $users, appConstants) {
          
         $scope.settings = {
-            username: "",
+            firstname: "",
+            lastname: "",
             location: "",
             bio: "",
             avatarUrl: appConstants.server + appConstants.context +"rest/public/users/" + $scope.user_id + "/avatar"
@@ -64,10 +65,14 @@
             $users.getProfile()
             .success(function (data) {
                // $rootScope.$broadcast("quickNotification", "Loading your settings...!");
-                console.log("username = " + data.username);
+                console.log("firstname = " + data.firstname);
+                console.log("lastname = " + data.lastname);
+                console.log("userId = " + data.userId);
                 console.log("location = " + data.location);
                 console.log("bio = " + data.bio);
-                $scope.settings.username = data.username;
+                $scope.settings.userId = data.userId;
+                $scope.settings.firstname = data.firstname;
+                $scope.settings.lastname = data.lasttname;
                 $scope.settings.location = data.location;
                 $scope.settings.bio = data.bio;
                 initialData = angular.copy($scope.settings)
@@ -83,7 +88,7 @@
 
             console.log("save-changes");
             if (isValid) {
-                $users.updateProfile($scope.settings.username, $scope.settings.location, $scope.settings.bio)
+                $users.updateProfile($scope.settings.firstname, $scope.settings.lastname, $scope.settings.location, $scope.settings.bio)
                 .success(function (data) {
                     //$rootScope.$broadcast("quickNotification", "Your settings are now updated!");
 
@@ -104,7 +109,8 @@
 
         $scope.cancel = function () {
             console.log("cancel-changes");
-            console.log("initial data username: " + initialData.username);
+            console.log("initial data firstname: " + initialData.firstname);
+            console.log("initial data lastname: " + initialData.lastname);
             console.log("initial data bio: " + initialData.bio);
             console.log("initial data location: " + initialData.location);
             $scope.settings = angular.copy(initialData);

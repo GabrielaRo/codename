@@ -48,12 +48,13 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public void update(Long user_id, String username, String location, String bio) throws ServiceException {
+    public void update(Long user_id, String firstname, String lastname, String location, String bio) throws ServiceException {
         Profile find = em.find(Profile.class, user_id);
         if (find == null) {
             throw new ServiceException("User Profile doesn't exist: " + user_id);
         }
-        find.setRealname(username);
+        find.setFirstname(firstname);
+        find.setLastname(lastname);
         find.setIntroduction(bio);
         find.setPostcode(location);
 

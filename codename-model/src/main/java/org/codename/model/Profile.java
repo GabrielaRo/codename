@@ -16,8 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import org.hibernate.search.annotations.Latitude;
-import org.hibernate.search.annotations.Longitude;
 
 /**
  *
@@ -42,18 +40,23 @@ public class Profile implements Serializable {
     private String avatarFileName;
 
     @Lob
-    @Column(name = "CONTENT")
+    @Column(name = "AVATAR_CONTENT")
     private byte[] avatarContent;
 
-    private String realname;
-    
-    
-    @Latitude
+    private String coverFileName;
+    @Lob
+    @Column(name = "COVER_CONTENT")
+    private byte[] coverContent;
+
+    private String firstname;
+
+    private String lastname;
+
+   // @Latitude
     private Double lat;
 
-    @Longitude
+   // @Longitude
     private Double lon;
-
 
     @ManyToMany
     private List<Interest> interests;
@@ -65,11 +68,12 @@ public class Profile implements Serializable {
     public Profile() {
     }
 
-    public Profile(User user, String introduction, String postcode, String realname) {
+    public Profile(User user, String introduction, String postcode, String firstname, String lastname) {
         this(user);
         this.introduction = introduction;
         this.postcode = postcode;
-        this.realname = realname;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
     public String getIntroduction() {
@@ -88,12 +92,20 @@ public class Profile implements Serializable {
         this.postcode = postcode;
     }
 
-    public String getRealname() {
-        return realname;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setRealname(String realname) {
-        this.realname = realname;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public List<Interest> getInterests() {
@@ -126,9 +138,31 @@ public class Profile implements Serializable {
         this.avatarContent = avatarContent;
     }
 
+    public byte[] getCoverContent() {
+        return coverContent;
+    }
+
+    public void setCoverContent(byte[] coverContent) {
+        this.coverContent = coverContent;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getCoverFileName() {
+        return coverFileName;
+    }
+
+    public void setCoverFileName(String coverFileName) {
+        this.coverFileName = coverFileName;
+    }
+    
+    
+
     @Override
     public String toString() {
-        return "Profile{" + "user=" + user + ", introduction=" + introduction + ", postcode=" + postcode + ", avatarFileName=" + avatarFileName + ", avatarContent=" + avatarContent + ", realname=" + realname + ", lat=" + lat + ", lon=" + lon + ", interests=" + interests + '}';
+        return "Profile{ introduction=" + introduction + ", postcode=" + postcode + ", avatarFileName=" + avatarFileName + ", avatarContent=" + avatarContent + ", realname=" + firstname + ", lat=" + lat + ", lon=" + lon + ", interests=" + interests + '}';
     }
 
     public Double getLat() {
@@ -146,8 +180,5 @@ public class Profile implements Serializable {
     public void setLon(Double lon) {
         this.lon = lon;
     }
-    
-    
-   
-    
+
 }

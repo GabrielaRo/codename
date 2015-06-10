@@ -5,6 +5,7 @@
         $scope.interests = [];
         $scope.allInterests = [];
         $scope.userInterests = [];
+        $scope.serverUrlFull = appConstants.server + appConstants.context;
 
         $scope.loadUserInterests = function () {
             //console.log("loading interests for user " + user_id + " with email: " + email + " and auth_token: " + auth_token);
@@ -102,7 +103,7 @@
 
     };
 
-    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests'];
+    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests', 'appConstants'];
     angular.module("codename").controller("localFhellowsController", localFhellowsController);
 
 }());

@@ -67,10 +67,16 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
             throw new ServiceException("Profile for " + user_id + " doesn't exists");
         }
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+        jsonObjBuilder.add("userId", (p.getUser()== null) ? "" : p.getUser().getId().toString());
         jsonObjBuilder.add("bio", (p.getIntroduction() == null) ? "" : p.getIntroduction());
         jsonObjBuilder.add("location", (p.getPostcode() == null) ? "" : p.getPostcode());
-        jsonObjBuilder.add("username", (p.getRealname() == null) ? "" : p.getRealname());
-
+        jsonObjBuilder.add("firstname", (p.getFirstname()== null) ? "" : p.getFirstname());
+        jsonObjBuilder.add("lastname", (p.getLastname()== null) ? "" : p.getLastname());
+         JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
+            for(Interest i : p.getInterests()){
+                jsonArrayBuilder2.add(i.getName());
+            }
+            jsonObjBuilder.add("interests", jsonArrayBuilder2);
         JsonObject jsonObj = jsonObjBuilder.build();
         return Response.ok(jsonObj.toString()).build();
     }
@@ -91,10 +97,11 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
 
     @Override
     public Response update(@NotNull @PathParam("user_id") Long user_id,
-            @FormParam("username") String username,
+            @FormParam("firstname") String firstname,
+            @FormParam("lastname") String lastname,
             @FormParam("location") String location,
             @FormParam("bio") String bio) throws ServiceException {
-        profileService.update(user_id, username, location, bio);
+        profileService.update(user_id, firstname, lastname, location, bio);
         return Response.ok().build();
 
     }
