@@ -1,7 +1,7 @@
 (function () {
     var localFhellowsController = function ($scope, $rootScope, $users, $interests, appConstants) {
         $scope.imagePath = "static/img/public-images/";
-
+        $scope.filters = {location: '', proximity: 200, type:"", search: ""};
         $scope.interests = [];
         $scope.allInterests = [];
         $scope.userInterests = [];
@@ -66,7 +66,25 @@
         //        }
         $scope.loadFhellows();
         $scope.loadAllInterests();
-
+        
+        //FHELLOW FILTERS
+        
+        $scope.userPosition = function(position){
+            console.log(position);
+            $scope.filters.location = "Lat " + (Math.round(position.coords.latitude * 100) / 100) + " Long " +  (Math.round(position.coords.longitude * 100) / 100); 
+        }
+        
+        $scope.getLocation = function(){
+           
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition($scope.userPosition);
+                
+            } else { 
+                alert( "Geolocation is not supported by this browser.");
+            }
+        }
+        
+       
 
         //CUSTOM FILTER FOR USER INTERESTS
         $scope.checkUserInterest = function (interest) {

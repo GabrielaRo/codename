@@ -10,12 +10,12 @@
             <div id="filters-container">
                 <form>
 
-                    <div class="control">
-                        <input type="text" placeholder="My Location" class="location-input">
+                    <div class="control" >
+                        <input type="text" ng-click="getLocation()" placeholder="My Location" name="filters.location" ng-model="filters.location" class="location-input">
                     </div>
 
                     <div class="control">
-                        <select name="proximity" class="select proximity-select">
+                        <select name="filters.proximity" class="select proximity-select">
                             <option selected disabled>Proximity</option>
                             <option>10 km</option>
                             <option>20 km</option>
@@ -25,7 +25,7 @@
                         </select>
                     </div>
                     <div class="control">
-                        <select name="type of fhellow" class="select type-select">
+                        <select name="filters.type" class="select type-select">
                             <option selected disabled>Type of fhellow</option>
                             <option>Designer</option>
                             <option>Developer</option>
@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="control">
-                        <input type="search"  class="search-input">
+                        <input type="search" name="filters.search" ng-model="filters.search"  class="search-input">
                         <input type="submit" value="Search" class="search-button button">
                         <div class="control-help-text">
                             Separate interests with commas
@@ -53,7 +53,7 @@
             <div class="cards-container"  >
                
                
-                <div class="fhellow-item" ng-repeat="fhellow in fhellowsList">
+                <div class="fhellow-item" ng-repeat="fhellow in fhellowsList  | filter:filters.search">
                     <div class="fhellow-cover-image" style="background-image:url('{{serverUrlFull+ 'rest/public/users/' + fhellow.userId + '/cover'}}')"> </div>
                     <div class="fhellow-profile">
                         <div class="fhellow-profile-image hexagon">
