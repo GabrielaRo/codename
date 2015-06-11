@@ -19,8 +19,8 @@ public interface InterestsService {
     
     Interest get(String interest) throws ServiceException;
     
-    void newInterest(String interest) throws ServiceException;
+    Interest newInterest(String interest) throws ServiceException;
     
-    void newInterest(String interest, String imagePath) throws ServiceException;
+    Interest newInterest(String interest, String imagePath) throws ServiceException;
     
 }

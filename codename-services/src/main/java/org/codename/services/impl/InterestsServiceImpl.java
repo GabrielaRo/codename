@@ -29,16 +29,19 @@ public class InterestsServiceImpl implements InterestsService {
    
 
     @Override
-    public void newInterest(String tag) throws ServiceException {
-        em.persist(new Interest(tag));
+    public Interest newInterest(String tag) throws ServiceException {
+        Interest interest = new Interest(tag);
+        em.persist(interest);
         log.log(Level.INFO, "Interest {0} created", new Object[]{tag});
-
+        return interest;
     }
 
     @Override
-    public void newInterest(String tag, String imagePath) throws ServiceException {
-        em.persist(new Interest(tag, imagePath));
+    public Interest newInterest(String tag, String imagePath) throws ServiceException {
+        Interest interest = new Interest(tag, imagePath);
+        em.persist(interest);
         log.log(Level.INFO, "Interest {0} - {1} created", new Object[]{tag, imagePath});
+        return interest;
 
     }
 

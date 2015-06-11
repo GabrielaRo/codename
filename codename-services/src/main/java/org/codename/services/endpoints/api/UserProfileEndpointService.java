@@ -73,7 +73,7 @@ public interface UserProfileEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response update(@NotNull @PathParam("id") Long user_id, @FormParam("firstname") String username, 
             @FormParam("lastname") String lastname, 
-            @FormParam("location") String location, @FormParam("bio") String bio) throws ServiceException;
+            @FormParam("location") String location, @FormParam("bio") String bio, @FormParam("title") String title) throws ServiceException;
     
     
     @Path("{id}/interests")

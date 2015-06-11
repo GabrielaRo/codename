@@ -67,16 +67,17 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
             throw new ServiceException("Profile for " + user_id + " doesn't exists");
         }
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-        jsonObjBuilder.add("userId", (p.getUser()== null) ? "" : p.getUser().getId().toString());
+        jsonObjBuilder.add("userId", (p.getUser() == null) ? "" : p.getUser().getId().toString());
         jsonObjBuilder.add("bio", (p.getIntroduction() == null) ? "" : p.getIntroduction());
         jsonObjBuilder.add("location", (p.getPostcode() == null) ? "" : p.getPostcode());
-        jsonObjBuilder.add("firstname", (p.getFirstname()== null) ? "" : p.getFirstname());
-        jsonObjBuilder.add("lastname", (p.getLastname()== null) ? "" : p.getLastname());
-         JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
-            for(Interest i : p.getInterests()){
-                jsonArrayBuilder2.add(i.getName());
-            }
-            jsonObjBuilder.add("interests", jsonArrayBuilder2);
+        jsonObjBuilder.add("firstname", (p.getFirstname() == null) ? "" : p.getFirstname());
+        jsonObjBuilder.add("lastname", (p.getLastname() == null) ? "" : p.getLastname());
+        jsonObjBuilder.add("title", (p.getTitle() == null) ? "" : p.getTitle());
+        JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
+        for (Interest i : p.getInterests()) {
+            jsonArrayBuilder2.add(i.getName());
+        }
+        jsonObjBuilder.add("interests", jsonArrayBuilder2);
         JsonObject jsonObj = jsonObjBuilder.build();
         return Response.ok(jsonObj.toString()).build();
     }
@@ -100,8 +101,9 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
             @FormParam("firstname") String firstname,
             @FormParam("lastname") String lastname,
             @FormParam("location") String location,
-            @FormParam("bio") String bio) throws ServiceException {
-        profileService.update(user_id, firstname, lastname, location, bio);
+            @FormParam("bio") String bio,
+            @FormParam("title") String title) throws ServiceException {
+        profileService.update(user_id, firstname, lastname, location, bio, title);
         return Response.ok().build();
 
     }
@@ -113,7 +115,7 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
 
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         for (Interest i : interests) {
-            jsonArrayBuilder.add(Json.createObjectBuilder().add("name", i.getName()).add("imagePath", i.getImageURL()));
+            jsonArrayBuilder.add(i.getName());
         }
         JsonArray build = jsonArrayBuilder.build();
         return Response.ok(build.toString()).build();
@@ -131,8 +133,12 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
             if (array != null) {
 
                 for (int i = 0; i < array.size(); i++) {
-                    log.info("Interest[" + i + "]: " + array.getJsonObject(i).getString("name"));
-                    interestsList.add(interestService.get(array.getJsonObject(i).getString("name")));
+                    log.info("Interest[" + i + "]: " + array.getJsonObject(i).getString("text"));
+                    Interest interest = interestService.get(array.getJsonObject(i).getString("text"));
+                    if (interest == null) {
+                        interest = interestService.newInterest(array.getJsonObject(i).getString("text"));
+                    }
+                    interestsList.add(interest);
                 }
 
             }
@@ -168,7 +174,7 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
         }
         return Response.ok().build();
     }
-    
+
     @Override
     public Response uploadCover(@NotNull @PathParam("id") Long user_id, MultipartFormDataInput input) throws ServiceException {
         log.info(">>>> sit back - starting file upload for user_id..." + user_id);
@@ -195,14 +201,13 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
         return Response.ok().build();
     }
 
-
     @Override
     public Response removeAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException {
         profileService.removeAvatar(user_id);
         return Response.ok().build();
     }
-    
-     @Override
+
+    @Override
     public Response removeCover(@NotNull @PathParam("id") Long user_id) throws ServiceException {
         profileService.removeCover(user_id);
         return Response.ok().build();

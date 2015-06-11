@@ -79,13 +79,13 @@
             });
         };
         //UPDATE PROFILE
-        factory.updateProfile = function(firstname, lastname, location, bio){
+        factory.updateProfile = function(firstname, lastname, location, bio, title){
             return $http({
                 method: 'POST',
                 url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/update',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
-                data: {firstname: firstname, lastname: lastname, location: location, bio: bio},
+                data: {firstname: firstname, lastname: lastname, location: location, bio: bio, title: title},
             }); 
         };
         //UPLOAD AVATAR

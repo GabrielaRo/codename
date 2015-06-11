@@ -1,17 +1,16 @@
-(function(){
+(function () {
     var settingsController = function ($rootScope, $scope, $upload, $timeout, $users, appConstants) {
-         
+
         $scope.settings = {
             firstname: "",
             lastname: "",
             location: "",
             bio: "",
-            profession: "",
-            interests: {},
-            avatarUrl: appConstants.server + appConstants.context +"rest/public/users/" + $scope.user_id + "/avatar",
-            coverUrl:  appConstants.server + appConstants.context +"rest/public/users/" + $scope.user_id + "/cover"
+            title: "",
+            avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar",
+            coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
         };
-        
+
         $scope.uploadingAvatar = false;
         $scope.uploadAvatarPercentage = 0;
         $scope.uploadingCover = false;
@@ -25,11 +24,11 @@
             console.log("Files : " + files + "-- event: " + event);
             var file = files[0];
             $scope.upload = $users.uploadAvatar(file)
-            .progress(function (evt) {
-                $scope.uploadAvatarPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                $scope.uploadingAvatar = true;
-                console.log('progress: ' + parseInt(100.0 * evt.loaded / evt.total) + '% file :' + evt.config.file.name);
-            }).success(function (data) {
+                    .progress(function (evt) {
+                        $scope.uploadAvatarPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        $scope.uploadingAvatar = true;
+                        console.log('progress: ' + parseInt(100.0 * evt.loaded / evt.total) + '% file :' + evt.config.file.name);
+                    }).success(function (data) {
                 // file is uploaded successfully
                 console.log('file ' + file.name + 'is uploaded successfully. Response: ' + data);
                 $scope.uploadAvatarPercentage = false;
@@ -41,16 +40,16 @@
                 console.log('file ' + file.name + ' upload error. Response: ' + data);
             });
         };
-        
+
         $scope.uploadCoverFile = function (files, event) {
             console.log("Files : " + files + "-- event: " + event);
             var file = files[0];
             $scope.upload = $users.uploadCover(file)
-            .progress(function (evt) {
-                $scope.uploadCoverPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                $scope.uploadingCover = true;
-                console.log('progress: ' + parseInt(100.0 * evt.loaded / evt.total) + '% file :' + evt.config.file.name);
-            }).success(function (data) {
+                    .progress(function (evt) {
+                        $scope.uploadCoverPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        $scope.uploadingCover = true;
+                        console.log('progress: ' + parseInt(100.0 * evt.loaded / evt.total) + '% file :' + evt.config.file.name);
+                    }).success(function (data) {
                 // file is uploaded successfully
                 console.log('file ' + file.name + 'is uploaded successfully. Response: ' + data);
                 $scope.uploadingCover = false;
@@ -88,26 +87,33 @@
         $scope.loadProfile = function () {
             //console.log("Loading profile for user " + user_id + " with email: " + email + " and auth_token: " + auth_token);
             $users.getProfile()
-            .success(function (data) {
-               // $rootScope.$broadcast("quickNotification", "Loading your settings...!");
-                console.log("firstname = " + data.firstname);
-                console.log("lastname = " + data.lastname);
-                console.log("userId = " + data.userId);
-                console.log("location = " + data.location);
-                console.log("bio = " + data.bio);
-                console.log("profession = " + data.profession);
-                $scope.settings.userId = data.userId;
-                $scope.settings.firstname = data.firstname;
-                $scope.settings.lastname = data.lastname;
-                $scope.settings.location = data.location;
-                $scope.settings.bio = data.bio;
-                $scope.settings.profession = data.profession;
-                $scope.settings.interests = data.interests;
-                initialData = angular.copy($scope.settings)
+                    .success(function (data) {
+                        // $rootScope.$broadcast("quickNotification", "Loading your settings...!");
+                        console.log("firstname = " + data.firstname);
+                        console.log("lastname = " + data.lastname);
+                        console.log("userId = " + data.userId);
+                        console.log("location = " + data.location);
+                        console.log("bio = " + data.bio);
+                        console.log("title = " + data.title);
+                        $scope.settings.userId = data.userId;
+                        $scope.settings.firstname = data.firstname;
+                        $scope.settings.lastname = data.lastname;
+                        $scope.settings.location = data.location;
+                        $scope.settings.bio = data.bio;
+                        $scope.settings.title = data.title;
 
-            }).error(function (data) {
+                        initialData = angular.copy($scope.settings)
+
+                        $users.loadInterests().success(function (data) {
+                            console.log("interest loaded: "+data);
+                            $scope.settings.interests = data;
+                        }).error(function (data) {
+                            console.log("Error: " + data);
+                            $rootScope.$broadcast("quickNotification", "Something went wrong with loading the interests!" + data);
+                        });
+                    }).error(function (data) {
                 console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong with getting the profile" + data);
             });
 
         };
@@ -116,19 +122,28 @@
 
             console.log("save-changes");
             if (isValid) {
-                $users.updateProfile($scope.settings.firstname, $scope.settings.lastname, $scope.settings.location, $scope.settings.bio, $scope.settings.profession, $scope.settings.interests  )
-                .success(function (data) {
-                    //$rootScope.$broadcast("quickNotification", "Your settings are now updated!");
+                $users.updateProfile($scope.settings.firstname, $scope.settings.lastname, $scope.settings.location, $scope.settings.bio, $scope.settings.title)
+                        .success(function (data) {
+                            //$rootScope.$broadcast("quickNotification", "Your settings are now updated!");
+                            console.log("interests here: "+$scope.settings.interests);
+                            $users.updateInterests($scope.settings.interests).success(function (data) {
+                                $rootScope.$broadcast("quickNotification", "Interest updated:" + data);
+                            }).error(function (data) {
+                                console.log("Error: " + data.error);
+                                $rootScope.$broadcast("quickNotification", "Interest not saved because:" + data);
+                            });
 
-                    initialData = angular.copy($scope.settings)
-                    if(files != undefined){
-                        $scope.uploadAvatarFile(files, event);
-                    }
-                    if(coverFiles != undefined){
-                        $scope.uploadCoverFile(coverFiles, event);
-                    }
-                    $scope.settingsForm.$setPristine();
-                }).error(function (data) {
+                            initialData = angular.copy($scope.settings)
+                            if (files != undefined) {
+                                console.log("uploading avatar!");
+                                $scope.uploadAvatarFile(files, event);
+                            }
+                            if (coverFiles != undefined) {
+                                console.log("uploading coverfile!");
+                                $scope.uploadCoverFile(coverFiles, event);
+                            }
+                            $scope.settingsForm.$setPristine();
+                        }).error(function (data) {
                     console.log("Error: " + data.error);
                     $rootScope.$broadcast("quickNotification", "Settings not saved because:" + data);
                 });
@@ -151,10 +166,10 @@
         };
 
         $scope.loadProfile($scope.user_id, $scope.email, $scope.auth_token);
-        
+
     };
-    
-    settingsController.$inject = ['$rootScope', '$scope','$upload','$timeout', '$users', 'appConstants'];
-    angular.module( "codename" ).controller("settingsController", settingsController);
+
+    settingsController.$inject = ['$rootScope', '$scope', '$upload', '$timeout', '$users', 'appConstants'];
+    angular.module("codename").controller("settingsController", settingsController);
 
 }());

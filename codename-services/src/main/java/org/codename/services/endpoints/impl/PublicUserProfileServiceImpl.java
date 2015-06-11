@@ -25,6 +25,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import org.codename.model.Interest;
 import org.codename.model.Profile;
+import org.codename.services.api.InterestsService;
 import org.codename.services.api.ProfilesService;
 import org.codename.services.endpoints.api.PublicUserProfileEndpointService;
 import org.codename.services.exceptions.ServiceException;
@@ -40,6 +41,8 @@ public class PublicUserProfileServiceImpl implements PublicUserProfileEndpointSe
 
     @Inject
     private ProfilesService profileService;
+  
+    
     private final static String serverUrl = "localhost";
     
     private final static Logger log = Logger.getLogger(PublicUserProfileServiceImpl.class.getName());
@@ -61,6 +64,7 @@ public class PublicUserProfileServiceImpl implements PublicUserProfileEndpointSe
             jsonObjBuilder.add("location", (p.getPostcode() == null) ? "" : p.getPostcode());
             jsonObjBuilder.add("firstname", (p.getFirstname()== null) ? "" : p.getFirstname());
             jsonObjBuilder.add("lastname", (p.getLastname()== null) ? "" : p.getLastname());
+            jsonObjBuilder.add("title", (p.getTitle()== null) ? "" : p.getTitle());
             JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
             for(Interest i : p.getInterests()){
                 jsonArrayBuilder2.add(i.getName());
@@ -86,6 +90,7 @@ public class PublicUserProfileServiceImpl implements PublicUserProfileEndpointSe
         jsonObjBuilder.add("location", (p.getPostcode() == null) ? "" : p.getPostcode());
         jsonObjBuilder.add("username", (p.getFirstname() == null) ? "" : p.getFirstname());
         jsonObjBuilder.add("lastname", (p.getLastname()== null) ? "" : p.getLastname());
+        jsonObjBuilder.add("title", (p.getTitle()== null) ? "" : p.getTitle());
         JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
             for(Interest i : p.getInterests()){
                 jsonArrayBuilder2.add(i.getName());
