@@ -6,6 +6,8 @@
             lastname: "",
             location: "",
             bio: "",
+            profession: "",
+            interests: {},
             avatarUrl: appConstants.server + appConstants.context +"rest/public/users/" + $scope.user_id + "/avatar",
             coverUrl:  appConstants.server + appConstants.context +"rest/public/users/" + $scope.user_id + "/cover"
         };
@@ -93,11 +95,14 @@
                 console.log("userId = " + data.userId);
                 console.log("location = " + data.location);
                 console.log("bio = " + data.bio);
+                console.log("profession = " + data.profession);
                 $scope.settings.userId = data.userId;
                 $scope.settings.firstname = data.firstname;
                 $scope.settings.lastname = data.lasttname;
                 $scope.settings.location = data.location;
                 $scope.settings.bio = data.bio;
+                $scope.settings.profession = data.profession;
+                $scope.settings.interests = data.interests;
                 initialData = angular.copy($scope.settings)
 
             }).error(function (data) {
@@ -111,7 +116,7 @@
 
             console.log("save-changes");
             if (isValid) {
-                $users.updateProfile($scope.settings.firstname, $scope.settings.lastname, $scope.settings.location, $scope.settings.bio)
+                $users.updateProfile($scope.settings.firstname, $scope.settings.lastname, $scope.settings.location, $scope.settings.bio, $scope.settings.profession, $scope.settings.interests  )
                 .success(function (data) {
                     //$rootScope.$broadcast("quickNotification", "Your settings are now updated!");
 
@@ -139,6 +144,8 @@
             console.log("initial data lastname: " + initialData.lastname);
             console.log("initial data bio: " + initialData.bio);
             console.log("initial data location: " + initialData.location);
+            console.log("initial data profession: " + initialData.profession);
+            console.log("initial data interests: " + initialData.interests);
             $scope.settings = angular.copy(initialData);
             $scope.settingsForm.$setPristine();
         };
