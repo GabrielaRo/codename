@@ -98,7 +98,7 @@
                 console.log("profession = " + data.profession);
                 $scope.settings.userId = data.userId;
                 $scope.settings.firstname = data.firstname;
-                $scope.settings.lastname = data.lasttname;
+                $scope.settings.lastname = data.lastname;
                 $scope.settings.location = data.location;
                 $scope.settings.bio = data.bio;
                 $scope.settings.profession = data.profession;

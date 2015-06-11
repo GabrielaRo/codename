@@ -77,7 +77,7 @@
                             {{fhellow.firstname}}  {{fhellow.lastname}}
                         </div>
                         <div class="fhellow-type">
-                            Freelance Journalist & Broadcaster
+                             {{fhellow.profession}}
                         </div>
                         <div class="fhellow-location">
                             {{fhellow.location}}
@@ -85,8 +85,10 @@
                         <div class="fhellow-description">
                             {{fhellow.bio}}
                         </div>
-                        <div class="fhellow-interests">
-                            <strong>Interested in:</strong>  Entrepreneurship, Business, Technology, Journalism, Writing.
+                        <div class="fhellow-interests"  ng-hide="fhellow.interests.length == 0">
+                          
+                            <strong>Interested in:</strong>   
+                            <span ng-repeat="interest in fhellow.interests">{{interest}}</span>
                         </div>
                     </div>
                 </div>
