@@ -89,6 +89,9 @@
 .transition {
     transition: all .3s ease-in-out;
 }
+.transitionProperty(@property,@time,@function,@delay) {
+    transition: @property @time @function @delay;
+}
 //CARDS
 .cards-container {
     font-size: 0;
