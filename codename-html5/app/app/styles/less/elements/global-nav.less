@@ -31,19 +31,15 @@
             display: inline-block;
             margin: 0;
             padding: 0;
+            white-space: nowrap;
+            font-size: 0;
+            line-height: 0;
+            vertical-align: top;
 
             .nav-item {
                 border-left: 1px solid rgba(255,255,255,.3);
-                .nav-item-link {
-                    &:hover{
-                        svg{
-                            path {
-                                fill: @link;
-                            }
-                        }
-                    }
-
-                }
+                line-height: 63px;
+                
                 &.messages {
                     width: 75px;
 
@@ -85,13 +81,7 @@
 
                     }
 
-                    &:hover {
-                        .user-profile-image-brd {
-                            .hexagon-inner-2 {
-                                background-color: @link;
-                            } 
-                        }
-                    }
+                 
 
                     svg{
                         width: 20px;
@@ -101,6 +91,10 @@
                         right: 20px;
 
                     }
+                }
+                
+                &:hover {
+                    background-color: @navHoverBackground;
                 }
             }
 

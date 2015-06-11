@@ -24,10 +24,13 @@
     
     .dropdown-item {
         border-bottom: 1px solid @borders;
+        height: @dropdownItemHeight;
         .dropdown-link {
             display: inline-block;
-            height: @padding;
-            line-height: @padding;
+            height: @dropdownItemHeight;
+            line-height: @dropdownItemHeight;
+            font-size: @dropdowFontSize;
+            font-weight: @dropdownFontWeight;
             width: 100%;
             box-sizing: border-box;
             padding: 0 @padding;
@@ -39,7 +42,9 @@
             
         }
         &.active {
-            opacity: .5;        
+            .dropdown-link {
+                color: @borders ;     
+            }
         }
     }
     
