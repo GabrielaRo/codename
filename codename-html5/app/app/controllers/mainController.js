@@ -3,6 +3,7 @@
 
     angular.module('codename').config(['growlProvider', function (growlProvider) {
             growlProvider.globalTimeToLive(3000);
+            growlProvider.globalPosition('top-center');
         }]);
 
     var MainCtrl = function ($scope, $cookieStore, $rootScope, $users,  appConstants, growl, $notifications) {
@@ -97,7 +98,8 @@
                     console.log("firstLogin: " + $scope.firstLogin);
                     $scope.initWebSocket();
                     if ($scope.firstLogin) {
-                        $rootScope.$broadcast('goTo', "/firstlogin");
+                       // $rootScope.$broadcast('goTo', "/firstlogin");
+                        $rootScope.$broadcast('goTo', "/");
                     } else {
                         $rootScope.$broadcast('goTo', "/");
                     }

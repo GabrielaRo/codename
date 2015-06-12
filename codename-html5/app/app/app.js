@@ -34,10 +34,10 @@
                 templateUrl: 'app/views/login.html'
             })
 
-            .when('/firstlogin', {
+           /* .when('/firstlogin', {
                 templateUrl: 'app/views/userinterests.html',
                 controller: 'userInterestsController'
-            })
+            })*/
 
            
             .otherwise({
