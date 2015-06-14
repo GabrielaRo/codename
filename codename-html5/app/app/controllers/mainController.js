@@ -98,8 +98,8 @@
                     console.log("firstLogin: " + $scope.firstLogin);
                     $scope.initWebSocket();
                     if ($scope.firstLogin) {
-                       // $rootScope.$broadcast('goTo', "/firstlogin");
-                        $rootScope.$broadcast('goTo', "/");
+                        $rootScope.$broadcast('goTo', "/firstlogin");
+                       // $rootScope.$broadcast('goTo', "/");
                     } else {
                         $rootScope.$broadcast('goTo', "/");
                     }

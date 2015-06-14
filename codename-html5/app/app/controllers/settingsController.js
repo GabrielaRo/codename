@@ -1,5 +1,5 @@
 (function () {
-    var settingsController = function ($rootScope, $scope, $upload, $timeout, $users, appConstants) {
+    var settingsController = function ($rootScope, $scope, $upload, $timeout, $users, $cookieStore,  appConstants) {
 
         $scope.settings = {
             firstname: "",
@@ -117,6 +117,20 @@
             });
 
         };
+        
+        $scope.newProfile = function () {
+            //console.log("creating profile for user " + user_id + " with email: " + email + " and auth_token: " + auth_token);
+            $users.createProfile().success(function (data) {
+                //$rootScope.$broadcast("quickNotification", "Profile created!");
+                $cookieStore.put('firstLogin', false);
+                $scope.loadProfile($scope.user_id, $scope.email, $scope.auth_token);
+            }).error(function (data) {
+                console.log("Error: " + data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
+            });
+
+        };
+       
 
         $scope.save = function (isValid, files, coverFiles, event) {
 
@@ -164,12 +178,20 @@
             $scope.settings = angular.copy(initialData);
             $scope.settingsForm.$setPristine();
         };
+        var firstLogin = $cookieStore.get('firstLogin');
+        if(firstLogin){
+            
+            $scope.newProfile();
+            
+        }else{
+            $scope.loadProfile($scope.user_id, $scope.email, $scope.auth_token);
+        }
+            
 
-        $scope.loadProfile($scope.user_id, $scope.email, $scope.auth_token);
 
     };
 
-    settingsController.$inject = ['$rootScope', '$scope', '$upload', '$timeout', '$users', 'appConstants'];
+    settingsController.$inject = ['$rootScope', '$scope', '$upload', '$timeout', '$users', '$cookieStore', 'appConstants'];
     angular.module("codename").controller("settingsController", settingsController);
 
 }());
