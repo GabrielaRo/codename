@@ -6,14 +6,23 @@
 package org.codename.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Latitude;
+import org.hibernate.search.annotations.Longitude;
+import org.hibernate.search.annotations.Spatial;
+import org.hibernate.search.annotations.SpatialMode;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -23,6 +32,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity(name = "User")
 @Table(name = "USERS")
+@Indexed
+@Spatial(spatialMode = SpatialMode.GRID)
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,6 +53,38 @@ public class User implements Serializable {
     @Email
     private String email;
 
+    private boolean isFirstLogin = true;
+
+    private String bio;
+
+    private String location;
+
+    private String avatarFileName;
+
+    private String title;
+
+    @Lob
+    @Column(name = "AVATAR_CONTENT")
+    private byte[] avatarContent;
+
+    private String coverFileName;
+    @Lob
+    @Column(name = "COVER_CONTENT")
+    private byte[] coverContent;
+
+    private String firstname;
+
+    private String lastname;
+
+    @Latitude
+    private Double latitude;
+
+    @Longitude
+    private Double longitude;
+
+    @IndexedEmbedded
+    @ManyToMany
+    private List<Interest> interests;
 
     public User() {
     }
@@ -75,17 +118,115 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", password=" + password + ", email=" + email + '}';
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getAvatarFileName() {
+        return avatarFileName;
+    }
+
+    public void setAvatarFileName(String avatarFileName) {
+        this.avatarFileName = avatarFileName;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public byte[] getAvatarContent() {
+        return avatarContent;
+    }
+
+    public void setAvatarContent(byte[] avatarContent) {
+        this.avatarContent = avatarContent;
+    }
+
+    public String getCoverFileName() {
+        return coverFileName;
+    }
+
+    public void setCoverFileName(String coverFileName) {
+        this.coverFileName = coverFileName;
+    }
+
+    public byte[] getCoverContent() {
+        return coverContent;
+    }
+
+    public void setCoverContent(byte[] coverContent) {
+        this.coverContent = coverContent;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public List<Interest> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(List<Interest> interests) {
+        this.interests = interests;
+    }
+
+    public boolean isIsFirstLogin() {
+        return isFirstLogin;
+    }
+
+    public void setIsFirstLogin(boolean isFirstLogin) {
+        this.isFirstLogin = isFirstLogin;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + (this.id != null ? this.id.hashCode() : 0);
-        hash = 23 * hash + (this.password != null ? this.password.hashCode() : 0);
-        hash = 23 * hash + (this.email != null ? this.email.hashCode() : 0);
+        int hash = 7;
+        hash = 17 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 17 * hash + (this.email != null ? this.email.hashCode() : 0);
         return hash;
     }
 
@@ -101,17 +242,10 @@ public class User implements Serializable {
         if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
-        if ((this.password == null) ? (other.password != null) : !this.password.equals(other.password)) {
-            return false;
-        }
         if ((this.email == null) ? (other.email != null) : !this.email.equals(other.email)) {
             return false;
         }
         return true;
     }
-
-    
-
-    
 
 }

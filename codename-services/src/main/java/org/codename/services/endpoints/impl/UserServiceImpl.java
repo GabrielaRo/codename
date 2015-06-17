@@ -31,10 +31,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import org.apache.commons.io.IOUtils;
 import org.codename.model.Interest;
-import org.codename.model.Profile;
+import org.codename.model.User;
+
 import org.codename.services.api.InterestsService;
-import org.codename.services.api.ProfilesService;
-import org.codename.services.endpoints.api.UserProfileEndpointService;
+import org.codename.services.api.UsersService;
+
+import org.codename.services.endpoints.api.UserEndpointService;
 import org.codename.services.exceptions.ServiceException;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
@@ -44,37 +46,38 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
  * @author grogdj
  */
 @Stateless
-public class UserProfileServiceImpl implements UserProfileEndpointService {
+public class UserServiceImpl implements UserEndpointService {
 
     @Inject
-    private ProfilesService profileService;
+    private UsersService usersService;
 
     @Inject
     private InterestsService interestService;
 
-    private final static Logger log = Logger.getLogger(UserProfileServiceImpl.class.getName());
+    private final static Logger log = Logger.getLogger(UserServiceImpl.class.getName());
 
     private final String UPLOADED_FILE_PARAMETER_NAME = "file";
 
-    public UserProfileServiceImpl() {
+    public UserServiceImpl() {
 
     }
+    
 
     @Override
     public Response get(@PathParam("id") Long user_id) throws ServiceException {
-        Profile p = profileService.getById(user_id);
-        if (p == null) {
-            throw new ServiceException("Profile for " + user_id + " doesn't exists");
+        User u = usersService.getById(user_id);
+        if (u == null) {
+            throw new ServiceException("User " + user_id + " doesn't exists");
         }
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-        jsonObjBuilder.add("userId", (p.getUser() == null) ? "" : p.getUser().getId().toString());
-        jsonObjBuilder.add("bio", (p.getIntroduction() == null) ? "" : p.getIntroduction());
-        jsonObjBuilder.add("location", (p.getPostcode() == null) ? "" : p.getPostcode());
-        jsonObjBuilder.add("firstname", (p.getFirstname() == null) ? "" : p.getFirstname());
-        jsonObjBuilder.add("lastname", (p.getLastname() == null) ? "" : p.getLastname());
-        jsonObjBuilder.add("title", (p.getTitle() == null) ? "" : p.getTitle());
+        jsonObjBuilder.add("userId", (u.getId()== null) ? "" : u.getId().toString());
+        jsonObjBuilder.add("bio", (u.getBio()== null) ? "" : u.getBio());
+        jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
+        jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
+        jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
+        jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
         JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
-        for (Interest i : p.getInterests()) {
+        for (Interest i : u.getInterests()) {
             jsonArrayBuilder2.add(i.getName());
         }
         jsonObjBuilder.add("interests", jsonArrayBuilder2);
@@ -84,17 +87,10 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
 
     @Override
     public Response exist(@NotNull @FormParam("user_id") Long user_id) throws ServiceException {
-        return Response.ok(profileService.exist(user_id)).build();
+        return Response.ok(usersService.exist(user_id)).build();
     }
 
-    @Override
-    public Response create(@NotNull @FormParam("user_id") Long user_id) throws ServiceException {
-        if (!profileService.exist(user_id)) {
-            profileService.create(user_id);
-            return Response.ok().build();
-        }
-        throw new ServiceException("Profile for " + user_id + " already exists");
-    }
+    
 
     @Override
     public Response update(@NotNull @PathParam("user_id") Long user_id,
@@ -103,14 +99,14 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
             @FormParam("location") String location,
             @FormParam("bio") String bio,
             @FormParam("title") String title) throws ServiceException {
-        profileService.update(user_id, firstname, lastname, location, bio, title);
+        usersService.update(user_id, firstname, lastname, location, bio, title);
         return Response.ok().build();
 
     }
 
     @Override
     public Response getInterests(@NotNull @PathParam("user_id") Long user_id) throws ServiceException {
-        List<Interest> interests = profileService.getInterests(user_id);
+        List<Interest> interests = usersService.getInterests(user_id);
         log.info("Interests from the database: (" + user_id + ") " + interests);
 
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
@@ -143,7 +139,7 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
 
             }
 
-            profileService.setInterests(user_id, interestsList);
+            usersService.setInterests(user_id, interestsList);
         }
 
         return Response.ok().build();
@@ -166,7 +162,7 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
                 byte[] bytes = IOUtils.toByteArray(inputStream);
 
                 log.log(Level.INFO, ">>> File '''{'{0}'}''' has been read, size: #'{'{1}'}' bytes", new Object[]{filename, bytes.length});
-                profileService.updateAvatar(user_id, filename, bytes);
+                usersService.updateAvatar(user_id, filename, bytes);
 
             } catch (IOException e) {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -192,7 +188,7 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
                 byte[] bytes = IOUtils.toByteArray(inputStream);
 
                 log.log(Level.INFO, ">>> File '''{'{0}'}''' has been read, size: #'{'{1}'}' bytes", new Object[]{filename, bytes.length});
-                profileService.updateCover(user_id, filename, bytes);
+                usersService.updateCover(user_id, filename, bytes);
 
             } catch (IOException e) {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -203,19 +199,19 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
 
     @Override
     public Response removeAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException {
-        profileService.removeAvatar(user_id);
+        usersService.removeAvatar(user_id);
         return Response.ok().build();
     }
 
     @Override
     public Response removeCover(@NotNull @PathParam("id") Long user_id) throws ServiceException {
-        profileService.removeCover(user_id);
+        usersService.removeCover(user_id);
         return Response.ok().build();
     }
 
     @Override
     public Response getAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException {
-        final byte[] avatar = profileService.getAvatar(user_id);
+        final byte[] avatar = usersService.getAvatar(user_id);
         return Response.ok().entity(new StreamingOutput() {
             @Override
             public void write(OutputStream output)
@@ -250,5 +246,43 @@ public class UserProfileServiceImpl implements UserProfileEndpointService {
     private String sanitizeFilename(String s) {
         return s.trim().replaceAll("\"", "");
     }
+
+    @Override
+    public Response updateFirstLogin(Long user_id) throws ServiceException {
+        usersService.updateFirstLogin(user_id);
+        return Response.ok().build();
+    }
+
+    @Override
+    public Response updateFirstName(Long user_id, String firstname) throws ServiceException {
+        usersService.updateFirstName(user_id, firstname);
+        return Response.ok().build();
+    }
+
+    @Override
+    public Response updateLastName(Long user_id, String lastname) throws ServiceException {
+        usersService.updateLastName(user_id, lastname);
+        return Response.ok().build();
+    }
+
+    @Override
+    public Response updateLocation(Long user_id, String location) throws ServiceException {
+        usersService.updateLocation(user_id, location);
+        return Response.ok().build();
+    }
+
+    @Override
+    public Response updateBio(Long user_id, String bio) throws ServiceException {
+        usersService.updateBio(user_id, bio);
+        return Response.ok().build();
+    }
+    
+    @Override
+    public Response updateTitle(Long user_id, String title) throws ServiceException {
+        usersService.updateTitle(user_id, title);
+        return Response.ok().build();
+    }
+    
+    
 
 }

@@ -167,7 +167,7 @@
 
         }
 
-        $rootScope.$on("updateProfileImage", function (event, data) {
+        $rootScope.$on("updateUserImage", function (event, data) {
             $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
 
         });

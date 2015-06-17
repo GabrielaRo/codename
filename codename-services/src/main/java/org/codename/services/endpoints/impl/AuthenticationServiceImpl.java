@@ -18,7 +18,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import org.codename.model.User;
-import org.codename.services.api.ProfilesService;
 import org.codename.services.api.UsersService;
 import org.codename.services.endpoints.api.AuthenticationEndpointService;
 import org.codename.services.exceptions.ServiceException;
@@ -35,13 +34,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class AuthenticationServiceImpl implements AuthenticationEndpointService {
 
     @Inject
-    UsersService userService;
+    private UsersService userService;
     
     @Inject
-    ProfilesService profileService;
-
-    @Inject
-    GrogAuthenticator authenticator;
+    private GrogAuthenticator authenticator;
     
     private final static Logger log =  Logger.getLogger(AuthenticationServiceImpl.class.getName() );
 
@@ -66,7 +62,7 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
 
         String authToken = authenticator.login(serviceKey, email, password);
         User authUser = userService.getByEmail(email);
-        boolean firstLogin = !profileService.exist(authUser.getId());
+        boolean firstLogin = authUser.isIsFirstLogin();
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("email", email);
         jsonObjBuilder.add("service_key", serviceKey);
@@ -114,14 +110,6 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
 
     public void setUserService(UsersService userService) {
         this.userService = userService;
-    }
-
-    public ProfilesService getProfileService() {
-        return profileService;
-    }
-
-    public void setProfileService(ProfilesService profileService) {
-        this.profileService = profileService;
     }
 
     public GrogAuthenticator getAuthenticator() {

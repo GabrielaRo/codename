@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 import org.codename.model.Interest;
 import org.codename.model.User;
 import org.codename.services.api.InterestsService;
-import org.codename.services.api.ProfilesService;
+
 import org.codename.services.api.UsersService;
 import org.codename.services.endpoints.api.PublicInitEndpointService;
 import org.codename.services.exceptions.ServiceException;
@@ -32,9 +32,7 @@ public class PublicInitServiceImpl implements PublicInitEndpointService {
     @Inject
     private InterestsService interestsService;
 
-    @Inject
-    private ProfilesService profilesService;
-
+    
     private String server_url = "localhost";
 
     public Response initApplication() throws ServiceException {
@@ -46,16 +44,16 @@ public class PublicInitServiceImpl implements PublicInitEndpointService {
             interestsService.newInterest("Software Development", "music.jpg");
             interestsService.newInterest("Architecture", "film.jpg");
 
-            profilesService.create(grogdjId);
+            
             List<Interest> interests = new ArrayList<Interest>();
             interests.add(interestsService.get("Design"));
             interests.add(interestsService.get("Architecture"));
-            profilesService.setInterests(grogdjId, interests);
+            usersService.setInterests(grogdjId, interests);
 
-            profilesService.create(ezeId);
+            
             interests = new ArrayList<Interest>();
             interests.add(interestsService.get("Design"));
-            profilesService.setInterests(ezeId, interests);
+            usersService.setInterests(ezeId, interests);
 
 
         } catch (Exception ex) {

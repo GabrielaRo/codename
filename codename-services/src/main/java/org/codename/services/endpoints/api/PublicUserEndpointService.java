@@ -23,7 +23,7 @@ import org.codename.services.exceptions.ServiceException;
  */
 @Local
 @Path("/public/users")
-public interface PublicUserProfileEndpointService extends Serializable {
+public interface PublicUserEndpointService extends Serializable {
 
     @GET
     @Path("all")

@@ -3,37 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/app.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/index.html</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/views/home.html</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/controllers/homeController.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/controllers/mainController.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/controllers/navController.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/controllers/notificationsController.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/controllers/settingsController.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/controllers/signUpController.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/controllers/userInterestsController.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/services/commentsFactory.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/services/interestFactory.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/services/itemsFactory.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/services/notificationsFactory.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/services/transformRequestToFormFactory.js</file>
             <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/services/usersFactory.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/directives/vCompare.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/src/main/webapp/WEB-INF/web.xml</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/src/main/webapp/WEB-INF/jboss-web.xml</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/src/main/webapp/WEB-INF/quickstart-ds.xml</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/src/main/resources/META-INF/jboss-all.xml</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/src/main/resources/META-INF/beans.xml</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/views/login.html</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/views/nav.html</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/views/notifications-dropdown.html</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/views/password.html</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/views/settings.html</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/views/signup.html</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/views/userinterests.html</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/views/localfhellows.html</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/controllers/localFhellowsController.js</file>
+            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/controllers/settingsController.js</file>
+            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app/controllers/mainController.js</file>
         </group>
     </open-files>
 </project-private>

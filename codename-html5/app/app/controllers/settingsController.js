@@ -34,7 +34,7 @@
                 $scope.uploadAvatarPercentage = false;
                 $scope.settings.avatarUrl = "";
                 $scope.settings.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar" + '?' + new Date().getTime();
-                $rootScope.$broadcast("updateProfileImage");
+                $rootScope.$broadcast("updateUserImage");
 
             }).error(function (data) {
                 console.log('file ' + file.name + ' upload error. Response: ' + data);
@@ -55,7 +55,7 @@
                 $scope.uploadingCover = false;
                 $scope.settings.coverUrl = "";
                 $scope.settings.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover" + '?' + new Date().getTime();
-                $rootScope.$broadcast("updateProfileImage");
+                $rootScope.$broadcast("updateUserCover");
 
             }).error(function (data) {
                 console.log('file ' + file.name + ' upload error. Response: ' + data);
@@ -84,11 +84,10 @@
 
         var initialData = "";
 
-        $scope.loadProfile = function () {
-            //console.log("Loading profile for user " + user_id + " with email: " + email + " and auth_token: " + auth_token);
-            $users.getProfile()
+        $scope.loadUserData = function () {
+            $users.getUserData()
                     .success(function (data) {
-                        // $rootScope.$broadcast("quickNotification", "Loading your settings...!");
+                        $rootScope.$broadcast("quickNotification", "Loading your settings...!");
                         console.log("firstname = " + data.firstname);
                         console.log("lastname = " + data.lastname);
                         console.log("userId = " + data.userId);
@@ -113,17 +112,16 @@
                         });
                     }).error(function (data) {
                 console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with getting the profile" + data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong with getting the user data" + data);
             });
 
         };
         
-        $scope.newProfile = function () {
-            //console.log("creating profile for user " + user_id + " with email: " + email + " and auth_token: " + auth_token);
-            $users.createProfile().success(function (data) {
-                //$rootScope.$broadcast("quickNotification", "Profile created!");
+        $scope.updateUserFirstLogin = function () {
+            $users.updateUserFirstLogin().success(function (data) {
+                $rootScope.$broadcast("quickNotification", "First Login Updated!");
                 $cookieStore.put('firstLogin', false);
-                $scope.loadProfile($scope.user_id, $scope.email, $scope.auth_token);
+                $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
             }).error(function (data) {
                 console.log("Error: " + data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
@@ -136,7 +134,7 @@
 
             console.log("save-changes");
             if (isValid) {
-                $users.updateProfile($scope.settings.firstname, $scope.settings.lastname, $scope.settings.location, $scope.settings.bio, $scope.settings.title)
+                $users.updateUserData($scope.settings.firstname, $scope.settings.lastname, $scope.settings.location, $scope.settings.bio, $scope.settings.title)
                         .success(function (data) {
                             //$rootScope.$broadcast("quickNotification", "Your settings are now updated!");
                             console.log("interests here: "+$scope.settings.interests);
@@ -181,10 +179,10 @@
         var firstLogin = $cookieStore.get('firstLogin');
         if(firstLogin){
             
-            $scope.newProfile();
+            $scope.updateUserFirstLogin();
             
         }else{
-            $scope.loadProfile($scope.user_id, $scope.email, $scope.auth_token);
+            $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
         }
             
 

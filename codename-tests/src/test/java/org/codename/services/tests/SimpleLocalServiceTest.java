@@ -7,7 +7,6 @@ package org.codename.services.tests;
 
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -30,6 +29,7 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.hibernate.search.query.dsl.Unit;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -82,6 +82,7 @@ public class SimpleLocalServiceTest {
 
     @Inject
     private InterestsService interestService;
+    
 
     @Inject
     private UserTransaction ut;
@@ -103,41 +104,56 @@ public class SimpleLocalServiceTest {
     }
 
     @Test
-    public void newUserAndLoginTest() throws ServiceException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+    public void newUserProfileLocationSearchTest() throws ServiceException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
         ut.begin();
         Long newUser = usersService.newUser(new User("grogdj@gmail.com", "asdasd"));
-
+        
         ut.commit();
-        Assert.assertNotNull(newUser);
+      
+        
         ut.begin();
-        interestService.newInterest("sports");
-        interestService.newInterest("food");
-        ut.commit();
-        List<String> tags = new ArrayList<String>();
-
-        tags.add("sports");
-        ut.begin();
-//        clubsService.newClub("My First Sports Club", "This is my sports first club description",
-//                "sports", tags, newUser, "imagePathHere", 51.5033630, -0.1276250);
-//        
-//        clubsService.newClub("My First food Club", "This is my first food club description",
-//                "food", tags, newUser, "imagePathHere", 51.5033630, -0.1276250);
+        usersService.updateLocation(newUser, 51.5004232, -0.2588513);
         ut.commit();
         
-        String userInput = "food";
+        Double lon = 51.4987702;
+        Double lat = -0.2624294;
+        
+        User byId = usersService.getById(newUser);
+        Assert.assertEquals(byId.getLongitude(), Double.valueOf(51.5004232));
+        Assert.assertEquals(byId.getLatitude(), Double.valueOf(-0.2588513));
         
         FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(em);
         Assert.assertNotNull(fullTextEm);
         
-//        QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(Club.class).get();
-//        Query query = qb.phrase().onField("name").andField("description").sentence(userInput).createQuery();
-//        
-//        FullTextQuery fullTextQuery = fullTextEm.createFullTextQuery(query, Club.class);
-//        fullTextQuery.setSort(org.apache.lucene.search.Sort.RELEVANCE);
-//        List resultList = fullTextQuery.getResultList();
+        QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
+        Query query = qb.spatial().onDefaultCoordinates()
+        .within( 1, Unit.KM )
+        .ofLatitude( lat )
+        .andLongitude( lon )
+        .createQuery();
+        
+        FullTextQuery fullTextQuery = fullTextEm.createFullTextQuery(query, User.class);
+        fullTextQuery.setSort(org.apache.lucene.search.Sort.RELEVANCE);
+        List resultList = fullTextQuery.getResultList();
         
         
-//        Assert.assertNotEquals(0, resultList.size());
+        Assert.assertNotEquals(0, resultList.size());
+
+        lon = 52.4987702;
+        lat = -0.2624294;
+        
+        qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
+        query = qb.spatial().onDefaultCoordinates()
+        .within( 1, Unit.KM )
+        .ofLatitude( lat )
+        .andLongitude( lon )
+        .createQuery();
+        
+        fullTextQuery = fullTextEm.createFullTextQuery(query, User.class);
+        fullTextQuery.setSort(org.apache.lucene.search.Sort.RELEVANCE);
+        resultList = fullTextQuery.getResultList();
+        
+        Assert.assertEquals(0, resultList.size());
     }
 
 
