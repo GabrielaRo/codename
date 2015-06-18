@@ -1,0 +1,41 @@
+.col {
+   display: inline-block;
+    vertical-align: top;
+    
+}
+.container{
+    width: 940px;
+    margin: 0 auto;
+    white-space: nowrap;
+     padding: 0 !important;
+    position: relative;
+    font-size: 0;
+    & > div {
+        font-size: @fontSize;
+    }
+}
+
+.left-col {
+    .col();
+    .col-margin();
+    width: 300px;
+    
+}
+
+.right-col {
+    .col();
+    width: 620px;
+}
+
+.six-col {
+    .col();
+    width: 460px; 
+}
+.two-col {
+    .col();
+    width: 140px; 
+}
+
+.col-margin{
+    margin-right: @colMargin;
+}

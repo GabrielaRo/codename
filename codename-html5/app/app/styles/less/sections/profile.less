@@ -1,0 +1,119 @@
+#profile {
+    
+    #profile-cover-image {
+        height: 380px;
+        background-color: @sectionHeaderBgr;
+        position: relative;
+        width: 100%;
+        #profile-cover-options-wrapper {
+            .container();
+            height: 100%;
+            position: relative;
+            #profile-cover-options {
+                position: absolute;
+                bottom: 20px;
+                text-align: right;
+                width: 100%;
+
+            }
+        }
+    }
+    
+    #profile-user-main-info {
+        height: 140px;
+        background-color: @bgrLight;
+        .boxShadow();
+        
+        #profile-user-image {
+            top: -102px;
+            height: 344px;
+            position: relative;
+
+            .profile-image {
+                width: 294px;
+                height: 344px;
+                position: absolute;
+                top: 0px;
+                left: 3px;
+                z-index: 10;
+                .hexagon-inner-2 {
+                    background-color: #000;
+                }
+            }
+            .profile-image-brd {
+                width: 300px;
+                height: 350px;
+                position: absolute;
+                top: -3px;
+                left: 0px;
+                z-index: 5;
+                .hexagon-inner-2 {
+                    background-color: #FFF;
+                }
+            }
+            
+            #profile-user-image-options {
+                position: absolute;
+                bottom: 60px;
+                width: 100%;
+                text-align: center;
+                z-index: 50;        
+            }
+            
+        }
+        #profile-user-data {
+            .six-col();
+            .col-margin();
+            padding: (@padding * 0.75) 0 0;
+            
+            #profile-user-name {
+                font-size: @nameFontSize;
+                padding-bottom: 15px;
+            }
+            #profile-user-job-title {
+                font-size: @jobFontSize;
+                font-weight: @lightText;
+                padding-bottom: 10px;
+            }
+            #profile-user-looking-to {
+                 font-weight: @lightText;
+            }
+        }
+        
+        #profile-status {
+            .two-col();
+            padding: (@padding * 0.75) 0 0;
+            font-weight: @lightText;
+            position: absolute;
+            
+            span {
+                font-size: @statusFontSize;
+                display: block;
+                padding-bottom: (@padding /4);
+                
+            }
+        }
+    }
+    
+    #profile-location {
+        .container();
+        font-weight: @lightText;
+        .right-col {
+           margin-left: 320px;
+        }
+    }
+    
+    #profile-user-info {
+        .container();
+        
+        #profile-user-links {
+            .link {
+                display: block;
+                padding: (@padding /4) 0;
+            
+            }
+        }
+    }
+    
+    
+}

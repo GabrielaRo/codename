@@ -1,0 +1,41 @@
+
+.button {
+    background-color: @buttonBgr;
+    color: @buttonColor;
+    border: 0;
+    padding: (@padding/4) (@padding/2);
+    box-sizing: border-box;
+    .transition();
+    &:hover {
+        color: @link;
+    }
+
+    &.inverted {
+        background-color: @buttonBgrInverted;
+        border: 1px solid @buttonBgr;
+        color: @buttonColorInverted;
+         &:hover {
+            color: @link;
+            border: 1px solid @link;
+         }
+    }
+    
+    &.primary {
+        background-color: @link;
+        font-weight: @boldText;
+         &:hover {
+            color:  @buttonColorInverted;
+        
+         }
+    }
+    &.block {
+        width: 100%;
+    }
+    
+    &.disabled {
+        background-color: @buttonBgrDisabled;
+        color: @buttonColorDisabled;
+        cursor: default;
+        pointer-events: none;
+    }
+}

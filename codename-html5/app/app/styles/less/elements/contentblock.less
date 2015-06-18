@@ -1,0 +1,26 @@
+.content-block {
+    background-color: @blockBgr;
+    padding: @blockPadding;
+    .boxShadow();
+    margin-top: (@padding/2);
+    
+    .content-block-title {
+        font-weight: @lightText;
+        font-size: @titleFontSize !important;
+        border-bottom: 1px solid @borders;
+        padding-bottom: (@padding/2);
+        margin-bottom: (@padding/4);
+        display: block;
+         &:hover {
+            &:before {
+                display: none;
+            }
+        }
+    }
+    .content-block-content {
+        color: @textGray;
+        font-weight: @lightText;
+        padding-top: (@padding/4);
+       
+    }
+}

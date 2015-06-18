@@ -126,8 +126,8 @@
 
                         </a>
                         <ul class="dropdown main-nav-dropdown">
-                            <li class="dropdown-item">
-                                <a href class="dropdown-link">View my profile</a>
+                            <li class="dropdown-item" ng-class="{active : isActive('/profile')}">
+                                <a href="#profile" class="dropdown-link">View my profile</a>
                             </li>
                             
                             <li class="dropdown-item" ng-class="{active : isActive('/settings')}">

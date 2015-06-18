@@ -39,6 +39,11 @@
                 controller: 'settingsController'
             })
 
+            .when('/profile', {
+                templateUrl: 'app/views/profile.html',
+                controller: 'profileController'
+            })
+
            
             .otherwise({
                 redirectto: '/'
