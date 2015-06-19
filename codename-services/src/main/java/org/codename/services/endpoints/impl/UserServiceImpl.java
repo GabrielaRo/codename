@@ -61,7 +61,6 @@ public class UserServiceImpl implements UserEndpointService {
     public UserServiceImpl() {
 
     }
-    
 
     @Override
     public Response get(@PathParam("id") Long user_id) throws ServiceException {
@@ -70,8 +69,8 @@ public class UserServiceImpl implements UserEndpointService {
             throw new ServiceException("User " + user_id + " doesn't exists");
         }
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-        jsonObjBuilder.add("userId", (u.getId()== null) ? "" : u.getId().toString());
-        jsonObjBuilder.add("bio", (u.getBio()== null) ? "" : u.getBio());
+        jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
+        jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
         jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
         jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
         jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
@@ -89,8 +88,6 @@ public class UserServiceImpl implements UserEndpointService {
     public Response exist(@NotNull @FormParam("user_id") Long user_id) throws ServiceException {
         return Response.ok(usersService.exist(user_id)).build();
     }
-
-    
 
     @Override
     public Response update(@NotNull @PathParam("user_id") Long user_id,
@@ -117,7 +114,7 @@ public class UserServiceImpl implements UserEndpointService {
         return Response.ok(build.toString()).build();
     }
 
-    public Response setInterests(@NotNull @PathParam("user_id") Long user_id, @FormParam("interests") String interests) throws ServiceException {
+    public Response updateInterests(@NotNull @PathParam("user_id") Long user_id, @FormParam("interests") String interests) throws ServiceException {
         log.info("Storing from the database: (" + user_id + ") " + interests);
         if (interests != null) {
             JsonReader reader = Json.createReader(new ByteArrayInputStream(interests.getBytes()));
@@ -276,13 +273,72 @@ public class UserServiceImpl implements UserEndpointService {
         usersService.updateBio(user_id, bio);
         return Response.ok().build();
     }
-    
+
     @Override
     public Response updateTitle(Long user_id, String title) throws ServiceException {
         usersService.updateTitle(user_id, title);
         return Response.ok().build();
     }
-    
-    
+
+    public Response updateBothNames(Long user_id, String firstname, String lastname) throws ServiceException {
+        usersService.updateBothNames(user_id, firstname, lastname);
+        return Response.ok().build();
+    }
+
+    public Response updateOriginallyFrom(Long user_id, String originallyfrom) throws ServiceException {
+        usersService.updateOriginallyFrom(user_id, originallyfrom);
+        return Response.ok().build();
+    }
+
+    public Response updateLookingFor(Long user_id, String lookingfor) throws ServiceException {
+        log.info("Storing from the database: (" + user_id + ") " + lookingfor);
+        if (lookingfor != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(lookingfor.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
+
+            List<String> lookingForList = new ArrayList<String>(array.size());
+
+            if (array != null) {
+
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("Looking For[" + i + "]: " + array.getJsonObject(i).getString("text"));
+                    lookingForList.add(array.getJsonObject(i).getString("text"));
+                }
+
+            }
+            usersService.updateLookingFor(user_id, lookingForList);
+        }
+
+        return Response.ok().build();
+    }
+
+    public Response updateCategories(Long user_id, String categories) throws ServiceException {
+        log.info("Storing from the database: (" + user_id + ") " + categories);
+        if (categories != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(categories.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
+
+            List<String> categoriesList = new ArrayList<String>(array.size());
+
+            if (array != null) {
+
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("Category [" + i + "]: " + array.getJsonObject(i).getString("text"));
+                    categoriesList.add(array.getJsonObject(i).getString("text"));
+                }
+
+            }
+            usersService.updateCategories(user_id, categoriesList);
+        }
+
+        return Response.ok().build();
+    }
+
+    public Response updateLongBio(Long user_id, String longbio) throws ServiceException {
+        usersService.updateLongBio(user_id, longbio);
+        return Response.ok().build();
+    }
 
 }

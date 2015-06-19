@@ -67,5 +67,15 @@ public interface UsersService {
     void updateLocation(Long user_id, Double lon, Double lat) throws ServiceException;
     
     Coordinates getLocation(Long user_id) throws ServiceException;
+
+    void updateBothNames(Long user_id, String firstname, String lastname) throws ServiceException;
+
+    void updateOriginallyFrom(Long user_id, String originallyfrom) throws ServiceException;
+
+    void updateLookingFor(Long user_id, List<String> lookingForList) throws ServiceException;
+
+    void updateCategories(Long user_id, List<String> categoriesList) throws ServiceException;
+
+    void updateLongBio(Long user_id, String longbio) throws ServiceException;
     
 }

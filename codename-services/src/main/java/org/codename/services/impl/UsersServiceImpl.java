@@ -26,15 +26,15 @@ import org.codename.services.util.CodenameUtil;
  */
 @ApplicationScoped
 public class UsersServiceImpl implements UsersService {
-
+    
     @Inject
     private EntityManager em;
-
+    
     private final static Logger log = Logger.getLogger(UsersServiceImpl.class.getName());
-
+    
     public UsersServiceImpl() {
     }
-
+    
     @Override
     public Long newUser(User user) throws ServiceException {
         if (getByEmail(user.getEmail()) != null) {
@@ -46,17 +46,17 @@ public class UsersServiceImpl implements UsersService {
         log.log(Level.INFO, "User {0} registered. Service Key: {1}", new Object[]{user.getEmail(), key});
         return user.getId();
     }
-
+    
     @Override
     public boolean exist(String email) {
         return (getByEmail(email) != null);
     }
-
+    
     @Override
     public boolean exist(Long user_id) {
         return (getById(user_id) != null);
     }
-
+    
     @Override
     public User getByEmail(String email) {
         try {
@@ -64,9 +64,9 @@ public class UsersServiceImpl implements UsersService {
         } catch (NoResultException e) {
             return null;
         }
-
+        
     }
-
+    
     @Override
     public User getById(Long user_id) {
         try {
@@ -74,16 +74,16 @@ public class UsersServiceImpl implements UsersService {
         } catch (NoResultException e) {
             return null;
         }
-
+        
     }
-
+    
     private String generateWebKey(String email) {
         String key = "webkey:" + email;
         log.log(Level.INFO, "Generating Key: {0}", key);
         em.persist(new ServiceKey(key, email));
         return key;
     }
-
+    
     @Override
     public String getKey(String serviceKey) {
         try {
@@ -96,12 +96,12 @@ public class UsersServiceImpl implements UsersService {
         }
         return "";
     }
-
+    
     @Override
     public boolean existKey(String serviceKey) {
         return (em.createNamedQuery("ServiceKey.getByKey", ServiceKey.class).setParameter("key", serviceKey).getResultList().size() > 0);
     }
-
+    
     @Override
     public void update(Long user_id, String firstname, String lastname, String location, String bio, String title) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -115,7 +115,7 @@ public class UsersServiceImpl implements UsersService {
         u.setTitle(title);
         em.merge(u);
     }
-
+    
     @Override
     public void updateFirstName(Long user_id, String firstname) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -125,7 +125,7 @@ public class UsersServiceImpl implements UsersService {
         u.setFirstname(firstname);
         em.merge(u);
     }
-
+    
     @Override
     public void updateLastName(Long user_id, String lastname) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -135,7 +135,7 @@ public class UsersServiceImpl implements UsersService {
         u.setLastname(lastname);
         em.merge(u);
     }
-
+    
     @Override
     public void updateBio(Long user_id, String bio) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -145,7 +145,7 @@ public class UsersServiceImpl implements UsersService {
         u.setBio(bio);
         em.merge(u);
     }
-
+    
     @Override
     public void updateLocation(Long user_id, String location) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -155,17 +155,17 @@ public class UsersServiceImpl implements UsersService {
         u.setLocation(location);
         em.merge(u);
     }
-
+    
     @Override
     public void updateTitle(Long user_id, String title) throws ServiceException {
-         User u = em.find(User.class, user_id);
+        User u = em.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setTitle(title);
         em.merge(u);
     }
-
+    
     @Override
     public void updateLocation(Long user_id, Double lon, Double lat) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -176,7 +176,7 @@ public class UsersServiceImpl implements UsersService {
         u.setLatitude(lat);
         em.merge(u);
     }
-
+    
     @Override
     public Coordinates getLocation(Long user_id) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -185,7 +185,7 @@ public class UsersServiceImpl implements UsersService {
         }
         return new Coordinates(u.getLongitude(), u.getLatitude());
     }
-
+    
     @Override
     public void setInterests(Long user_id, List<Interest> interests) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -196,7 +196,7 @@ public class UsersServiceImpl implements UsersService {
         u.setInterests(interests);
         em.merge(u);
     }
-
+    
     @Override
     public List<Interest> getInterests(Long user_id) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -206,19 +206,19 @@ public class UsersServiceImpl implements UsersService {
         log.info("Interest from the database: " + u.getInterests());
         return u.getInterests();
     }
-
+    
     @Override
     public void updateFirstLogin(Long user_id) throws ServiceException {
-
+        
         User u = em.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setIsFirstLogin(false);
         em.merge(u);
-
+        
     }
-
+    
     @Override
     public void updateAvatar(Long user_id, String fileName, byte[] content) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -229,7 +229,7 @@ public class UsersServiceImpl implements UsersService {
         u.setAvatarContent(content);
         em.merge(u);
     }
-
+    
     @Override
     public void updateCover(Long user_id, String fileName, byte[] content) throws ServiceException {
         User find = em.find(User.class, user_id);
@@ -240,7 +240,7 @@ public class UsersServiceImpl implements UsersService {
         find.setCoverContent(content);
         em.merge(find);
     }
-
+    
     @Override
     public byte[] getAvatar(Long user_id) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -249,7 +249,7 @@ public class UsersServiceImpl implements UsersService {
         }
         return u.getAvatarContent();
     }
-
+    
     @Override
     public byte[] getCover(Long user_id) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -258,7 +258,7 @@ public class UsersServiceImpl implements UsersService {
         }
         return u.getCoverContent();
     }
-
+    
     @Override
     public void removeAvatar(Long user_id) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -269,7 +269,7 @@ public class UsersServiceImpl implements UsersService {
         u.setAvatarContent(null);
         em.merge(u);
     }
-
+    
     @Override
     public void removeCover(Long user_id) throws ServiceException {
         User u = em.find(User.class, user_id);
@@ -280,10 +280,56 @@ public class UsersServiceImpl implements UsersService {
         u.setCoverContent(null);
         em.merge(u);
     }
-
+    
     @Override
     public List<User> getAll() {
         return em.createNamedQuery("User.getAll", User.class).getResultList();
     }
-
+    
+    public void updateBothNames(Long user_id, String firstname, String lastname) throws ServiceException {
+        User u = em.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setFirstname(firstname);
+        u.setLastname(lastname);
+        em.merge(u);
+    }
+    
+    public void updateOriginallyFrom(Long user_id, String originallyfrom) throws ServiceException {
+        User u = em.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setOriginallyFrom(originallyfrom);
+        em.merge(u);
+    }
+    
+    public void updateLookingFor(Long user_id, List<String> lookingForList) throws ServiceException {
+        User u = em.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setLookingFor(lookingForList);
+        em.merge(u);
+    }
+    
+    public void updateCategories(Long user_id, List<String> categoriesList) throws ServiceException {
+        User u = em.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setCategories(categoriesList);
+        em.merge(u);
+    }
+    
+    public void updateLongBio(Long user_id, String longbio) throws ServiceException {
+        User u = em.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setLongBio(longbio);
+        em.merge(u);
+    }
+    
 }

@@ -6,8 +6,10 @@
 package org.codename.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -56,7 +58,11 @@ public class User implements Serializable {
     private boolean isFirstLogin = true;
 
     private String bio;
+    
+    private String longBio;
 
+    private String originallyFrom;
+    
     private String location;
 
     private String avatarFileName;
@@ -84,7 +90,15 @@ public class User implements Serializable {
 
     @IndexedEmbedded
     @ManyToMany
-    private List<Interest> interests;
+    private List<Interest> interests; // I can remove Interest and just do strings for now
+    
+    @IndexedEmbedded
+    @ElementCollection
+    private List<String> categories;
+    
+    @IndexedEmbedded
+    @ElementCollection
+    private List<String> lookingFor;
 
     public User() {
     }
@@ -222,11 +236,66 @@ public class User implements Serializable {
         this.isFirstLogin = isFirstLogin;
     }
 
+    public String getLongBio() {
+        return longBio;
+    }
+
+    public void setLongBio(String longBio) {
+        this.longBio = longBio;
+    }
+
+    public String getOriginallyFrom() {
+        return originallyFrom;
+    }
+
+    public void setOriginallyFrom(String originallyFrom) {
+        this.originallyFrom = originallyFrom;
+    }
+
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+    }
+
+    public List<String> getLookingFor() {
+        return lookingFor;
+    }
+
+    public void setLookingFor(List<String> lookingFor) {
+        this.lookingFor = lookingFor;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", email=" + email + ", isFirstLogin=" + isFirstLogin + ", bio=" + bio + ", longBio=" + longBio + ", originallyFrom=" + originallyFrom + ", location=" + location + ", avatarFileName=" + avatarFileName + ", title=" + title + ", coverFileName=" + coverFileName + ", firstname=" + firstname + ", lastname=" + lastname + ", latitude=" + latitude + ", longitude=" + longitude + ", interests=" + interests + ", categories=" + categories + ", lookingFor=" + lookingFor + '}';
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + (this.id != null ? this.id.hashCode() : 0);
-        hash = 17 * hash + (this.email != null ? this.email.hashCode() : 0);
+        hash = 83 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 83 * hash + (this.password != null ? this.password.hashCode() : 0);
+        hash = 83 * hash + (this.email != null ? this.email.hashCode() : 0);
+        hash = 83 * hash + (this.isFirstLogin ? 1 : 0);
+        hash = 83 * hash + (this.bio != null ? this.bio.hashCode() : 0);
+        hash = 83 * hash + (this.longBio != null ? this.longBio.hashCode() : 0);
+        hash = 83 * hash + (this.originallyFrom != null ? this.originallyFrom.hashCode() : 0);
+        hash = 83 * hash + (this.location != null ? this.location.hashCode() : 0);
+        hash = 83 * hash + (this.avatarFileName != null ? this.avatarFileName.hashCode() : 0);
+        hash = 83 * hash + (this.title != null ? this.title.hashCode() : 0);
+        hash = 83 * hash + Arrays.hashCode(this.avatarContent);
+        hash = 83 * hash + (this.coverFileName != null ? this.coverFileName.hashCode() : 0);
+        hash = 83 * hash + Arrays.hashCode(this.coverContent);
+        hash = 83 * hash + (this.firstname != null ? this.firstname.hashCode() : 0);
+        hash = 83 * hash + (this.lastname != null ? this.lastname.hashCode() : 0);
+        hash = 83 * hash + (this.latitude != null ? this.latitude.hashCode() : 0);
+        hash = 83 * hash + (this.longitude != null ? this.longitude.hashCode() : 0);
+        hash = 83 * hash + (this.interests != null ? this.interests.hashCode() : 0);
+        hash = 83 * hash + (this.categories != null ? this.categories.hashCode() : 0);
+        hash = 83 * hash + (this.lookingFor != null ? this.lookingFor.hashCode() : 0);
         return hash;
     }
 
@@ -242,10 +311,65 @@ public class User implements Serializable {
         if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
+        if ((this.password == null) ? (other.password != null) : !this.password.equals(other.password)) {
+            return false;
+        }
         if ((this.email == null) ? (other.email != null) : !this.email.equals(other.email)) {
+            return false;
+        }
+        if (this.isFirstLogin != other.isFirstLogin) {
+            return false;
+        }
+        if ((this.bio == null) ? (other.bio != null) : !this.bio.equals(other.bio)) {
+            return false;
+        }
+        if ((this.longBio == null) ? (other.longBio != null) : !this.longBio.equals(other.longBio)) {
+            return false;
+        }
+        if ((this.originallyFrom == null) ? (other.originallyFrom != null) : !this.originallyFrom.equals(other.originallyFrom)) {
+            return false;
+        }
+        if ((this.location == null) ? (other.location != null) : !this.location.equals(other.location)) {
+            return false;
+        }
+        if ((this.avatarFileName == null) ? (other.avatarFileName != null) : !this.avatarFileName.equals(other.avatarFileName)) {
+            return false;
+        }
+        if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
+            return false;
+        }
+        if (!Arrays.equals(this.avatarContent, other.avatarContent)) {
+            return false;
+        }
+        if ((this.coverFileName == null) ? (other.coverFileName != null) : !this.coverFileName.equals(other.coverFileName)) {
+            return false;
+        }
+        if (!Arrays.equals(this.coverContent, other.coverContent)) {
+            return false;
+        }
+        if ((this.firstname == null) ? (other.firstname != null) : !this.firstname.equals(other.firstname)) {
+            return false;
+        }
+        if ((this.lastname == null) ? (other.lastname != null) : !this.lastname.equals(other.lastname)) {
+            return false;
+        }
+        if (this.latitude != other.latitude && (this.latitude == null || !this.latitude.equals(other.latitude))) {
+            return false;
+        }
+        if (this.longitude != other.longitude && (this.longitude == null || !this.longitude.equals(other.longitude))) {
+            return false;
+        }
+        if (this.interests != other.interests && (this.interests == null || !this.interests.equals(other.interests))) {
+            return false;
+        }
+        if (this.categories != other.categories && (this.categories == null || !this.categories.equals(other.categories))) {
+            return false;
+        }
+        if (this.lookingFor != other.lookingFor && (this.lookingFor == null || !this.lookingFor.equals(other.lookingFor))) {
             return false;
         }
         return true;
     }
 
+    
 }
