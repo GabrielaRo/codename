@@ -2,9 +2,10 @@
 .button {
     background-color: @buttonBgr;
     color: @buttonColor;
-    border: 0;
+    
     padding: (@padding/4) (@padding/2);
     box-sizing: border-box;
+    border: 1px solid @buttonBgr;
     .transition();
     &:hover {
         color: @link;
@@ -23,6 +24,7 @@
     &.primary {
         background-color: @link;
         font-weight: @boldText;
+        border: 1px solid @link;
          &:hover {
             color:  @buttonColorInverted;
         
@@ -37,5 +39,6 @@
         color: @buttonColorDisabled;
         cursor: default;
         pointer-events: none;
+        border: 1px solid @buttonColorDisabled;
     }
 }
