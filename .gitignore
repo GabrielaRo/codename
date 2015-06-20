@@ -15,3 +15,4 @@ hs_err_pid*
 /codename-rules/target/
 /codename-tests/target/
 /codename-html5/target/
+.DS_Store
