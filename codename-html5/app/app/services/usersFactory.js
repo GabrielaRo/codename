@@ -108,7 +108,7 @@
         };
         
         //UPDATE User Data
-        factory.updateBothNames = function( firstname, lastname){
+        factory.updateBothNames = function(firstname, lastname){
             return $http({
                 method: 'POST',
                 url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/bothnames/update',

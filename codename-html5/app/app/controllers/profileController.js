@@ -23,14 +23,18 @@
             $users.getUserData()
                     .success(function (data) {
                         
-                        
+                        console.log("profile.userId: " + data.userId);
+                        console.log("profile.firstname: " + data.firstname);
+                        console.log("profile.lastname: " + data.lastname);
+                        console.log("profile.location: " + data.location);
+                        console.log("profile.bio: " + data.bio);
+                        console.log("profile.title: " + data.title);
                         $scope.profile.userId = data.userId;
-                        $scope.profile.firstname = data.firstname;
-                        $scope.profile.lastname = data.lastname;
-                        $scope.profile.location = data.location;
+                        $scope.profile.firstname = (data.firstname != "undefined" && data.firstname !="")? data.firstname:"First Name";
+                        $scope.profile.lastname = (data.lastname != "undefined" && data.lastname !="")? data.lastname:"Last Name";
+                        $scope.profile.location = (data.location != "undefined" && data.location !="")? data.location:"Set Your Location";
                         $scope.profile.bio = data.bio;
-                        $scope.profile.title = data.title;
-
+                        $scope.profile.title = (data.title != "undefined" && data.title !="")? data.title:"Job Title";
                         initialData = angular.copy($scope.profile)
 
                         $users.loadInterests().success(function (data) {
@@ -123,7 +127,15 @@
             }
         };
         
-        
+        $scope.updateBothNames = function (firstname, lastname) {
+            $users.updateBothNames(firstname, lastname).success(function (data) {
+                $rootScope.$broadcast("quickNotification", "First & Last Name Updated Successfully");
+            }).error(function (data) {
+                console.log("Error: " + data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the first & last name!" + data);
+            });
+
+        }; 
         
         $scope.updateFirstName = function (firstname) {
             $users.updateFirstName(firstname).success(function (data) {

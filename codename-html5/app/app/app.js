@@ -35,8 +35,8 @@
             })
 
            .when('/firstlogin', {
-                templateUrl: 'app/views/settings.html',
-                controller: 'settingsController'
+                templateUrl: 'app/views/profile.html',
+                controller: 'profileController'
             })
 
             .when('/profile', {
