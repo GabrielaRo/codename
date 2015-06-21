@@ -1,10 +1,10 @@
 <div id="profile">
     <form novalidate name="profileForm" ng-init="">
-    <div id="profile-cover-image">
+    <div id="profile-cover-image" style="background-image:url('{{profile.coverUrl}}')">
         <div id="profile-cover-options-wrapper">
             <div id="profile-cover-options">
 
-                    <button class="button inverted">Change Cover Image</button>
+                    <button class="button inverted" ng-file-select ng-model="picCoverFile" name="file" ng-file-change="generateCoverThumb(picCoverFile[0])"  accept="image/*"  multiple="false">Change Cover Image</button>
 
             </div>
         </div>
@@ -16,7 +16,7 @@
                 <div id="profile-user-image">
                     <div class="profile-image hexagon">
                         <div class="hexagon-inner-1">
-                            <div class="hexagon-inner-2" style="background-image:url('/static/public-images/default-avatar.png')">
+                            <div class="hexagon-inner-2" style="background-image:url('{{profile.avatarUrl}}')">
 
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                     </div>
                   
                     <div id="profile-user-image-options">
-                        <button class="button inverted">Change Profile Picture</button>
+                        <button class="button inverted" ng-file-select ng-model="picFile" name="file" ng-file-change="generateThumb(picFile[0])"  accept="image/*"  multiple="false">Change Profile Picture</button>
                     </div>
                     
                     

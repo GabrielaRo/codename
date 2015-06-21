@@ -182,7 +182,7 @@
                 url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/lastname/update',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
-                data: {lastname: lastname},
+                data: {lastname: lastname}
             }); 
         };
         
@@ -193,7 +193,7 @@
                 url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/firstname/update',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
-                data: {firstname: firstname},
+                data: {firstname: firstname}
             }); 
         };
         //UPLOAD AVATAR
@@ -202,7 +202,7 @@
                 url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/avatar/upload',
                 method: 'POST',
                 headers: {'Content-Type': 'multipart/form-data', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
-                file: file,
+                file: file
             })
         };
         

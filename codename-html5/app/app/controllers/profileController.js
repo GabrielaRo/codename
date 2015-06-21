@@ -87,8 +87,9 @@
         $scope.uploadingAvatar = false;
         $scope.uploadAvatarPercentage = 0;
         $scope.uploadAvatarFile = function (files, event) {
-            console.log("Files : " + files + "-- event: " + event);
-            var file = files[0];
+            
+            var file = files;
+            
             $scope.upload = $users.uploadAvatar(file)
                     .progress(function (evt) {
                         $scope.uploadAvatarPercentage = parseInt(100.0 * evt.loaded / evt.total);
@@ -96,7 +97,7 @@
                         console.log('progress: ' + parseInt(100.0 * evt.loaded / evt.total) + '% file :' + evt.config.file.name);
                     }).success(function (data) {
                 // file is uploaded successfully
-                console.log('file ' + file.name + 'is uploaded successfully. Response: ' + data);
+                //console.log('file ' + file.name + 'is uploaded successfully. Response: ' + data);
                 $scope.uploadAvatarPercentage = false;
                 $scope.profile.avatarUrl = "";
                 $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar" + '?' + new Date().getTime();
@@ -113,8 +114,8 @@
         $scope.uploadingCover = false;
         $scope.uploadCoverPercentage = 0;
         $scope.uploadCoverFile = function (files, event) {
-            console.log("Files : " + files + "-- event: " + event);
-            var file = files[0];
+            
+            var file = files;
             $scope.upload = $users.uploadCover(file)
                     .progress(function (evt) {
                         $scope.uploadCoverPercentage = parseInt(100.0 * evt.loaded / evt.total);
@@ -145,7 +146,28 @@
                         fileReader.readAsDataURL(file);
                         fileReader.onload = function (e) {
                             $timeout(function () {
+                                
                                 file.dataUrl = e.target.result;
+                                $scope.profile.avatarUrl = e.target.result;
+                                $scope.uploadAvatarFile(file);
+                            });
+                        }
+                    });
+                }
+            }
+        };
+         $scope.generateCoverThumb = function (file) {
+            if (file != null) {
+                if ($scope.fileReaderSupported && file.type.indexOf('image') > -1) {
+                    $timeout(function () {
+                        var fileReader = new FileReader();
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function (e) {
+                            $timeout(function () {
+
+                                file.dataUrl = e.target.result;
+                                $scope.profile.coverUrl = e.target.result;
+                                $scope.uploadCoverFile(file);
                             });
                         }
                     });
