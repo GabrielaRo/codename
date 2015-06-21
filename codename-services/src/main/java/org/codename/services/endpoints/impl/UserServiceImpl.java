@@ -71,17 +71,55 @@ public class UserServiceImpl implements UserEndpointService {
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
         jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
+        jsonObjBuilder.add("longbio", (u.getLongBio() == null) ? "" : u.getLongBio());
         jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
+        jsonObjBuilder.add("originallyFrom", (u.getOriginallyFrom() == null) ? "" : u.getOriginallyFrom());
         jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
         jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
         jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
-        JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
+
+        JsonArrayBuilder interestsJsonArrayBuilder = Json.createArrayBuilder();
         for (Interest i : u.getInterests()) {
-            jsonArrayBuilder2.add(i.getName());
+            interestsJsonArrayBuilder.add(i.getName());
         }
-        jsonObjBuilder.add("interests", jsonArrayBuilder2);
+        jsonObjBuilder.add("interests", interestsJsonArrayBuilder);
+        JsonArrayBuilder lookingForJsonArrayBuilder = Json.createArrayBuilder();
+        for (String l : u.getLookingFor()) {
+            lookingForJsonArrayBuilder.add(l);
+        }
+        jsonObjBuilder.add("lookingFor", lookingForJsonArrayBuilder);
         JsonObject jsonObj = jsonObjBuilder.build();
         return Response.ok(jsonObj.toString()).build();
+    }
+
+    @Override
+    public Response getAll() throws ServiceException {
+        List<User> users = usersService.getAll();
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+
+        for (User u : users) {
+            JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+            jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
+            jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
+            jsonObjBuilder.add("longbio", (u.getLongBio() == null) ? "" : u.getLongBio());
+            jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
+            jsonObjBuilder.add("originallyFrom", (u.getOriginallyFrom() == null) ? "" : u.getOriginallyFrom());
+            jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
+            jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
+            jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
+            JsonArrayBuilder interestsJsonArrayBuilder = Json.createArrayBuilder();
+            for (Interest i : u.getInterests()) {
+                interestsJsonArrayBuilder.add(i.getName());
+            }
+            jsonObjBuilder.add("interests", interestsJsonArrayBuilder);
+            jsonArrayBuilder.add(jsonObjBuilder);
+            JsonArrayBuilder lookingForJsonArrayBuilder = Json.createArrayBuilder();
+            for (String l : u.getLookingFor()) {
+                lookingForJsonArrayBuilder.add(l);
+            }
+            jsonObjBuilder.add("lookingFor", lookingForJsonArrayBuilder);
+        }
+        return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
 
     @Override
@@ -292,22 +330,21 @@ public class UserServiceImpl implements UserEndpointService {
 
     public Response updateLookingFor(Long user_id, String lookingfor) throws ServiceException {
         log.info("Storing from the database: (" + user_id + ") " + lookingfor);
+        System.out.println("Looking Fors here: "+lookingfor);
         if (lookingfor != null) {
             JsonReader reader = Json.createReader(new ByteArrayInputStream(lookingfor.getBytes()));
             JsonArray array = reader.readArray();
             reader.close();
 
-            List<String> lookingForList = new ArrayList<String>(array.size());
-
             if (array != null) {
-
+                List<String> lookingForList = new ArrayList<String>(array.size());
                 for (int i = 0; i < array.size(); i++) {
-                    log.info("Looking For[" + i + "]: " + array.getJsonObject(i).getString("text"));
-                    lookingForList.add(array.getJsonObject(i).getString("text"));
+                    log.info("Looking For[" + i + "]: " + array.getString(i));
+                    lookingForList.add(array.getString(i));
                 }
-
+                usersService.updateLookingFor(user_id, lookingForList);
             }
-            usersService.updateLookingFor(user_id, lookingForList);
+
         }
 
         return Response.ok().build();

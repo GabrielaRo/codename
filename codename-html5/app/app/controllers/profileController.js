@@ -9,10 +9,30 @@
             location: "",
             bio: "",
             title: "",
+            lookingFors: "",
             avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
         };
+
+        $scope.lookingFors = ['socialise', 'collaborate', 'mentor'];
+
+        // selected fruits
         
+
+        $scope.toggleSelection = function (lookingFor) {
+            var idx = $scope.profile.lookingFor.indexOf(lookingFor);
+
+            // is currently selected
+            if (idx > -1) {
+                $scope.profile.lookingFor.splice(idx, 1);
+            }
+
+            // is newly selected
+            else {
+                $scope.profile.lookingFor.push(lookingFor);
+            }
+        };
+
         /*
          * This code loads all the profile user data from the server.
          *  We use initialData to store the information that we retrieved from the server when the method
@@ -22,19 +42,25 @@
         $scope.loadUserData = function () {
             $users.getUserData()
                     .success(function (data) {
-                        
+
                         console.log("profile.userId: " + data.userId);
                         console.log("profile.firstname: " + data.firstname);
                         console.log("profile.lastname: " + data.lastname);
                         console.log("profile.location: " + data.location);
+                        console.log("profile.originallyFrom: " + data.originallyFrom);
                         console.log("profile.bio: " + data.bio);
+                        console.log("profile.longbio: " + data.longbio);
                         console.log("profile.title: " + data.title);
+                        console.log("profile.lookingFor: " + data.lookingFor);
                         $scope.profile.userId = data.userId;
-                        $scope.profile.firstname = (data.firstname != "undefined" && data.firstname !="")? data.firstname:"First Name";
-                        $scope.profile.lastname = (data.lastname != "undefined" && data.lastname !="")? data.lastname:"Last Name";
-                        $scope.profile.location = (data.location != "undefined" && data.location !="")? data.location:"Set Your Location";
+                        $scope.profile.firstname = (data.firstname != "undefined" && data.firstname != "") ? data.firstname : "First Name";
+                        $scope.profile.lastname = (data.lastname != "undefined" && data.lastname != "") ? data.lastname : "Last Name";
+                        $scope.profile.location = (data.location != "undefined" && data.location != "") ? data.location : "What is your current location?";
+                        $scope.profile.originallyFrom = (data.originallyFrom != "undefined" && data.originallyFrom != "") ? data.originallyFrom : "Where are you from orginally?";
                         $scope.profile.bio = data.bio;
-                        $scope.profile.title = (data.title != "undefined" && data.title !="")? data.title:"Job Title";
+                        $scope.profile.longbio = data.longbio;
+                        $scope.profile.title = (data.title != "undefined" && data.title != "") ? data.title : "Job Title";
+                        $scope.profile.lookingFor = data.lookingFor;
                         initialData = angular.copy($scope.profile)
 
                         $users.loadInterests().success(function (data) {
@@ -51,10 +77,10 @@
 
         };
 
-        
+
         // Does this browser support the FILEAPI ?
         $scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
-        
+
         /*
          * Code for Uploading the User Profile Avatar
          */
@@ -80,7 +106,7 @@
                 console.log('file ' + file.name + ' upload error. Response: ' + data);
             });
         };
-        
+
         /*
          * Code for Uploading the User Profile Cover
          */
@@ -126,7 +152,7 @@
                 }
             }
         };
-        
+
         $scope.updateBothNames = function (firstname, lastname) {
             $users.updateBothNames(firstname, lastname).success(function (data) {
                 $rootScope.$broadcast("quickNotification", "First & Last Name Updated Successfully");
@@ -135,8 +161,19 @@
                 $rootScope.$broadcast("quickNotification", "Something went wrong with updating the first & last name!" + data);
             });
 
-        }; 
+        };
         
+        $scope.updateLookingFors = function (lookingFors) {
+            console.log("lookingFors = "+lookingFors);
+            $users.updateLookingFor(lookingFors).success(function (data) {
+                $rootScope.$broadcast("quickNotification", "LookingFor Updated Successfully");
+            }).error(function (data) {
+                console.log("Error: " + data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the lookingFor values!" + data);
+            });
+
+        };
+
         $scope.updateFirstName = function (firstname) {
             $users.updateFirstName(firstname).success(function (data) {
                 $rootScope.$broadcast("quickNotification", "First Name Updated Successfully");
@@ -145,8 +182,8 @@
                 $rootScope.$broadcast("quickNotification", "Something went wrong with updating the first name!" + data);
             });
 
-        }; 
-        
+        };
+
         $scope.updateLastName = function (lastname) {
             $users.updateLastName(lastname).success(function (data) {
                 $rootScope.$broadcast("quickNotification", "Last Name Updated Successfully");
@@ -155,8 +192,8 @@
                 $rootScope.$broadcast("quickNotification", "Something went wrong with updating the last name!" + data);
             });
 
-        }; 
-        
+        };
+
         $scope.updateLocation = function (location) {
             $users.updateLocation(location).success(function (data) {
                 $rootScope.$broadcast("quickNotification", "Location Updated Successfully");
@@ -165,8 +202,8 @@
                 $rootScope.$broadcast("quickNotification", "Something went wrong with updating the location!" + data);
             });
 
-        };  
-        
+        };
+
         $scope.updateBio = function (bio) {
             $users.updateBio(bio).success(function (data) {
                 $rootScope.$broadcast("quickNotification", "Bio Updated Successfully");
@@ -175,8 +212,8 @@
                 $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
             });
 
-        };  
-        
+        };
+
         $scope.updateTitle = function (title) {
             $users.updateTitle(title).success(function (data) {
                 $rootScope.$broadcast("quickNotification", "Title Updated Successfully");
@@ -184,7 +221,7 @@
                 console.log("Error: " + data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
             });
-        };  
+        };
 
         /*
          * This code updates on the server side if the user is accessing the site
@@ -201,7 +238,7 @@
             });
 
         };
-        
+
         /*
          * This code is executed everytime that we access to the profile page
          */

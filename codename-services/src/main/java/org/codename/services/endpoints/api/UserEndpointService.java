@@ -28,6 +28,11 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 @Path("/users")
 public interface UserEndpointService extends Serializable {
 
+    @GET
+    @Path("all")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response getAll() throws ServiceException;
+    
     @Path("{id}/avatar/upload")
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})

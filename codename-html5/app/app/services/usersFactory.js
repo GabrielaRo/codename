@@ -63,7 +63,7 @@
                 url: appConstants.server + appConstants.context + 'rest/users/'+$cookieStore.get('user_id')+"/lookingfor/update",
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
-                data: { categories: JSON.stringify(lookingfor)}
+                data: { lookingfor: JSON.stringify(lookingfor)}
             })
         };
         //CREATE Update First Login
