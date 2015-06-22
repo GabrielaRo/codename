@@ -8,13 +8,38 @@
             lastname: "",
             location: "",
             bio: "",
+            longbio: "",
             title: "",
             lookingFors: "",
             interests: "",
             avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
         };
-
+        
+        //ABOUT EDITABLE BLOCK
+        $scope.aboutStatus = false;
+        $scope.editAboutBlock = function () {
+            $scope.aboutStatus = true;
+            $('#user-about-form input, #user-about-form textarea').removeAttr('disabled'); 
+            $(".checkbox-label").removeClass("disabled");
+           
+        }
+        $scope.saveAboutBlock = function () {
+            $scope.aboutStatus = false;
+            $('#user-about-form input, #user-about-form textarea').attr('disabled', 'disabled'); 
+            $(".checkbox-label").addClass("disabled");
+            $scope.updateBio($scope.profile.bio);
+            $scope.updateLongBio($scope.profile.longbio);
+            
+        }
+        $scope.cancelAboutBlock = function () {
+            $scope.aboutStatus = false;
+            $('#user-about-form input, #user-about-form textarea').attr('disabled', 'disabled'); 
+            $(".checkbox-label").addClass("disabled");
+        }
+        
+        //
+        
         $scope.lookingFors = [['Socialise', 'Socialise with other Fhellows'], ['Collaborate', 'Collaborate with other Fhellows'], ['Mentor', 'Mentor Fhellows']];
 
         // selected fruits
@@ -243,6 +268,17 @@
             });
 
         };
+        
+         $scope.updateLongBio = function (longbio) {
+            $users.updateLongBio(longbio).success(function (data) {
+                $rootScope.$broadcast("quickNotification", "Long Bio Updated Successfully");
+            }).error(function (data) {
+                console.log("Error: " + data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the long bio!" + data);
+            });
+
+        };
+
 
         $scope.updateTitle = function (title) {
             $users.updateTitle(title).success(function (data) {

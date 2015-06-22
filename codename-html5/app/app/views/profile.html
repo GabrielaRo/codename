@@ -192,23 +192,29 @@
             </div>
         </div>
         <div class="right-col">
-            <div class="content-block">
-                <div class="content-block-title editable">
+            <div class="content-block editable-block" id="user-about-form">
+                <div class="content-block-title editable-title">
                     About Me
+                    <div class="editable-title-options">
+                        <button class="button inverted" ng-show="!aboutStatus" ng-click="editAboutBlock()">Edit</button>
+                        <button class="button inverted" ng-show="aboutStatus" ng-click="cancelAboutBlock()">Cancel</button>
+                        <button class="button primary" ng-show="aboutStatus" ng-click="saveAboutBlock()">Save</button>
+                        
+                    </div>
                 </div>
                 <div class="content-block-content">
                     <div class="control inline">
                         <label>I am a</label>
                         <div class="checkboxes">
-                            <div class="checkbox-label">
-                                <input type="checkbox"> Freelancer
-                            </div>
-                            <div class="checkbox-label">
-                                <input type="checkbox"> Entrepreneur
-                            </div>
-                            <div class="checkbox-label">
-                                <input type="checkbox"> Digital Nomad
-                            </div>
+                            <label class="checkbox-label disabled">
+                                <input type="checkbox" checked  disabled> Freelancer
+                            </label>
+                            <label class="checkbox-label disabled">
+                                <input type="checkbox" checked disabled> Entrepreneur
+                            </label>
+                            <label class="checkbox-label disabled" >
+                                <input type="checkbox" disabled> Digital Nomad
+                            </label>
                         </div>
                     </div>
                     <div class="control inline">
@@ -219,7 +225,7 @@
                             </div>
                         </label>
                         <div class="textarea">
-                            <textarea placeholder="Type here"></textarea>
+                            <textarea placeholder="Type here" disabled ng-model="profile.bio"></textarea>
                         </div>
                     </div>
                     
@@ -231,8 +237,8 @@
                            
                            
                         </label>
-                        <div class="textarea">
-                            <textarea placeholder="Type here"></textarea>
+                        <div class="textarea" ng-model="profile.longbio">
+                            <textarea placeholder="Type here" disabled></textarea>
                         </div>
                     </div>
                 </div>

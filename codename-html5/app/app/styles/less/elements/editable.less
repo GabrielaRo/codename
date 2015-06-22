@@ -25,3 +25,19 @@
         }
     }
 }
+
+.editable-block {
+    .editable-title {
+        .editable-title-options {
+            position: absolute;
+            right: @blockPadding;
+            top: (@blockPadding*1.5);
+        }
+        
+    }
+    input[type="text"]:disabled, textarea:disabled, .checkbox-label.disabled  {
+        opacity: .5;
+    }
+    
+}
+
