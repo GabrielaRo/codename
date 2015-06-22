@@ -1,10 +1,18 @@
 #profile {
-    
+    .placeholder {
+        opacity: .5;
+        font-style: italic;
+        font-weight: 100 !important;
+    }
     #profile-cover-image {
         height: 380px;
         background-color: @sectionHeaderBgr;
         position: relative;
         width: 100%;
+        
+        background-size: cover;
+        background-position: center;
+        
         #profile-cover-options-wrapper {
             .container();
             height: 100%;
@@ -102,6 +110,9 @@
         font-weight: @lightText;
         .right-col {
            margin-left: 320px;
+        }
+        .editable {
+            font-size: 18px;
         }
     }
     

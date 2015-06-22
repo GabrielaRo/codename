@@ -40,7 +40,7 @@
                 <div id="profile-user-data">
                     <div id="profile-user-name">
                         <div class="editable">
-                            {{profile.firstname}}, {{profile.lastname}}
+                            {{profile.firstname}}<span class="placeholder" ng-show="profile.firstname == ''">First Name</span>, {{profile.lastname}} <span class="placeholder" ng-show="profile.lastname == ''">Last Name</span>
                             <div class="floatform" id="user-name-form">
                                 <div class="form-content">
                                    <div class="form-fields">
@@ -60,7 +60,7 @@
                     </div>
                     <div id="profile-user-job-title" >
                         <div class="editable">
-                            {{profile.title}}
+                            {{profile.title}} <span class="placeholder" ng-show="profile.title == ''">Job Title</span>
                             <div class="floatform" id="user-job-form">
                                 <div class="form-content">
                                    <div class="form-fields">
@@ -76,8 +76,10 @@
                         </div>
                     </div>
                      <div id="profile-user-looking-to" >
+                      
                        <div class="editable">
-                        I'm Looking to <span >Click here to select</span> : {{profile.lookingFor}}
+                      
+                        I'm Looking to  : <span ng-repeat="item in profile.lookingFor">{{item}}<span ng-hide="$index == (profile.lookingFor.length -1)">, </span></span> <span class="placeholder" ng-show="profile.lookingFor.length == 0">Click here to select</span>
                         
                         <div class="floatform" id="user-looking-to-form">
                                 <div class="form-content">
@@ -86,12 +88,14 @@
                                          I'm looking to 
                                      </div>
                                       <div class="control">
-                                           <div class="s">
-                                                <label ng-repeat="lf in lookingFors" class="checkbox-inline">
+                                           <div class="checkboxes">
+                                                <label ng-repeat="lf in lookingFors" class="checkbox-label">
                                                     <input type="checkbox" name="selectedLookingFors[]" value="{{lf}}" 
-                                                           ng-checked="profile.lookingFor.indexOf(lf) > -1" 
-                                                           ng-click="toggleSelection(lf)"> {{lf}}
+                                                           ng-checked="profile.lookingFor.indexOf(lf[0]) > -1" 
+                                                           ng-click="toggleSelection(lf)"> {{lf[1]}}
+                                                           
                                                 </label>
+                                                
                                             </div>
                                        </div>
                                    </div>
@@ -105,7 +109,7 @@
                 </div>
                 <div id="profile-status">
                     <div id="profile-status-percentage">
-                        Your profile is
+                        Your profile is 
                         <span>10% complete</span> 
                     </div>
                     <div id="profile-status-publish">
@@ -119,8 +123,42 @@
     <div id="profile-location">
         <div class="right-col ">
            <div class="content-block">
-                <div>I am originally from <div class="editable">Enter Location</div></div> 
-                <div>I am currently located in <div class="editable">Enter Location</div></div> 
+                <div>I am originally from 
+                    <div class="editable">
+                        {{profile.originallyFrom}} <span class="placeholder" ng-show="profile.originallyFrom == ''">Enter Location</span>
+                        <div class="floatform" id="user-originally-from-form">
+                                <div class="form-content">
+                                   <div class="form-fields">
+                                      <div class="control">
+                                           <input type="text" ng-model="profile.originallyFrom" placeholder="Your city">
+                                       </div>
+                                   </div>
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="updateOriginallyFrom(profile.originallyFrom)">Save</button> <button class="button inverted">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div> 
+                <div>I am currently located in 
+                   
+                    <div class="editable">
+                        {{profile.location}} <span class="placeholder" ng-show="profile.location == ''">Enter Location</span>
+                        <div class="floatform" id="user-location-form">
+                                <div class="form-content">
+                                   <div class="form-fields">
+                                      <div class="control">
+                                           <input type="text" ng-model="profile.location" placeholder="Your actual city">
+                                       </div>
+                                   </div>
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="updateLocation(profile.location)">Save</button> <button class="button inverted">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+               
+               </div> 
             </div>
         </div>
     </div>

@@ -14,14 +14,14 @@
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
         };
 
-        $scope.lookingFors = ['socialise', 'collaborate', 'mentor'];
+        $scope.lookingFors = [['Socialise', 'Socialise with other Fhellows'], ['Collaborate', 'Collaborate with other Fhellows'], ['Mentor', 'Mentor Fhellows']];
 
         // selected fruits
         
 
         $scope.toggleSelection = function (lookingFor) {
-            var idx = $scope.profile.lookingFor.indexOf(lookingFor);
-
+            
+            var idx = $scope.profile.lookingFor.indexOf(lookingFor[0]);
             // is currently selected
             if (idx > -1) {
                 $scope.profile.lookingFor.splice(idx, 1);
@@ -29,8 +29,10 @@
 
             // is newly selected
             else {
-                $scope.profile.lookingFor.push(lookingFor);
+                $scope.profile.lookingFor.push(lookingFor[0]);
             }
+            
+            console.log("EL LOOKING FOR QUEDO "+ $scope.profile.lookingFor);
         };
 
         /*
@@ -53,13 +55,13 @@
                         console.log("profile.title: " + data.title);
                         console.log("profile.lookingFor: " + data.lookingFor);
                         $scope.profile.userId = data.userId;
-                        $scope.profile.firstname = (data.firstname != "undefined" && data.firstname != "") ? data.firstname : "First Name";
-                        $scope.profile.lastname = (data.lastname != "undefined" && data.lastname != "") ? data.lastname : "Last Name";
-                        $scope.profile.location = (data.location != "undefined" && data.location != "") ? data.location : "What is your current location?";
-                        $scope.profile.originallyFrom = (data.originallyFrom != "undefined" && data.originallyFrom != "") ? data.originallyFrom : "Where are you from orginally?";
+                        $scope.profile.firstname = (data.firstname != "undefined" && data.firstname != "") ? data.firstname : "";
+                        $scope.profile.lastname = (data.lastname != "undefined" && data.lastname != "") ? data.lastname : "";
+                        $scope.profile.location = (data.location != "undefined" && data.location != "") ? data.location : "";
+                        $scope.profile.originallyFrom = (data.originallyFrom != "undefined" && data.originallyFrom != "") ? data.originallyFrom : "";
                         $scope.profile.bio = data.bio;
                         $scope.profile.longbio = data.longbio;
-                        $scope.profile.title = (data.title != "undefined" && data.title != "") ? data.title : "Job Title";
+                        $scope.profile.title = (data.title != "undefined" && data.title != "") ? data.title : "";
                         $scope.profile.lookingFor = data.lookingFor;
                         initialData = angular.copy($scope.profile)
 
@@ -212,6 +214,16 @@
             }).error(function (data) {
                 console.log("Error: " + data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with updating the last name!" + data);
+            });
+
+        };
+        
+         $scope.updateOriginallyFrom = function (locationFrom) {
+            $users.updateOriginallyFrom(locationFrom).success(function (data) {
+                $rootScope.$broadcast("quickNotification", "Originally From Updated Successfully");
+            }).error(function (data) {
+                console.log("Error: " + data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the Originally From location!" + data);
             });
 
         };
