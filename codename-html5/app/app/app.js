@@ -21,10 +21,6 @@
                 templateUrl: 'app/views/localfhellows.html',
                 controller: 'localFhellowsController'
             })
-            .when('/settings', {
-                templateUrl: 'app/views/settings.html',
-                controller: 'settingsController'
-            })
             .when('/password', {
                 templateUrl: 'app/views/password.html',
                 controller: 'passwordController'

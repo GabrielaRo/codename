@@ -58,12 +58,7 @@ public class UserServiceImpl implements UserEndpointService {
 
     }
 
-    @Override
-    public Response get(@PathParam("id") Long user_id) throws ServiceException {
-        User u = usersService.getById(user_id);
-        if (u == null) {
-            throw new ServiceException("User " + user_id + " doesn't exists");
-        }
+    private JsonObjectBuilder createJsonUser(User u) {
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
         jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
@@ -73,7 +68,7 @@ public class UserServiceImpl implements UserEndpointService {
         jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
         jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
         jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
-
+        jsonObjBuilder.add("live", u.isLive());
         JsonArrayBuilder interestsJsonArrayBuilder = Json.createArrayBuilder();
         for (String i : u.getInterests()) {
             interestsJsonArrayBuilder.add(i);
@@ -84,8 +79,57 @@ public class UserServiceImpl implements UserEndpointService {
             lookingForJsonArrayBuilder.add(l);
         }
         jsonObjBuilder.add("lookingFor", lookingForJsonArrayBuilder);
-        JsonObject jsonObj = jsonObjBuilder.build();
+        JsonArrayBuilder iAmJsonArrayBuilder = Json.createArrayBuilder();
+        for (String i : u.getiAms()) {
+            iAmJsonArrayBuilder.add(i);
+        }
+        jsonObjBuilder.add("iams", iAmJsonArrayBuilder);
+        return jsonObjBuilder;
+    }
+
+    @Override
+    public Response get(@PathParam("id") Long user_id) throws ServiceException {
+        User u = usersService.getById(user_id);
+        if (u == null) {
+            throw new ServiceException("User " + user_id + " doesn't exists");
+        }
+        JsonObjectBuilder jsonUserObjectBuilder = createJsonUser(u);
+        jsonUserObjectBuilder.add("percentage", calculateUserPercentage(u));
+        JsonObject jsonObj = jsonUserObjectBuilder.build();
         return Response.ok(jsonObj.toString()).build();
+    }
+    
+    private int calculateUserPercentage(User u){
+        int percentage = 0;
+        if(u.getFirstname() != null && !u.getFirstname().equals("") && 
+           u.getLastname() != null && !u.getLastname().equals("")){
+            percentage += 10;
+        }
+        if(u.getAvatarFileName() != null && !u.getAvatarFileName().equals("")){
+            percentage += 10;
+        }
+        if(u.getCoverFileName() != null && !u.getCoverFileName().equals("")){
+            percentage += 10;
+        }
+        if(u.getTitle() != null && !u.getTitle().equals("")){
+            percentage += 10;
+        }
+        if(u.getLocation() != null && !u.getLocation().equals("")){
+            percentage += 10;
+        }
+        if(u.getBio() != null &&!u.getBio().equals("")){
+            percentage += 10;
+        }
+        if(u.getLongBio() != null && !u.getLongBio().equals("")){
+            percentage += 10;
+        }
+        if(u.getLookingFor() != null && !u.getLookingFor().isEmpty()){
+            percentage += 10;
+        }
+        if(u.getInterests() != null && !u.getInterests().isEmpty()){
+            percentage += 10;
+        }
+        return percentage;
     }
 
     @Override
@@ -94,26 +138,20 @@ public class UserServiceImpl implements UserEndpointService {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
         for (User u : users) {
-            JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-            jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
-            jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
-            jsonObjBuilder.add("longbio", (u.getLongBio() == null) ? "" : u.getLongBio());
-            jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
-            jsonObjBuilder.add("originallyFrom", (u.getOriginallyFrom() == null) ? "" : u.getOriginallyFrom());
-            jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
-            jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
-            jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
-            JsonArrayBuilder interestsJsonArrayBuilder = Json.createArrayBuilder();
-            for (String i : u.getInterests()) {
-                interestsJsonArrayBuilder.add(i);
-            }
-            jsonObjBuilder.add("interests", interestsJsonArrayBuilder);
-            jsonArrayBuilder.add(jsonObjBuilder);
-            JsonArrayBuilder lookingForJsonArrayBuilder = Json.createArrayBuilder();
-            for (String l : u.getLookingFor()) {
-                lookingForJsonArrayBuilder.add(l);
-            }
-            jsonObjBuilder.add("lookingFor", lookingForJsonArrayBuilder);
+            JsonObjectBuilder jsonUserObjectBuilder = createJsonUser(u);
+            jsonArrayBuilder.add(jsonUserObjectBuilder);
+        }
+        return Response.ok(jsonArrayBuilder.build().toString()).build();
+    }
+
+    @Override
+    public Response getAllLive() throws ServiceException {
+        List<User> users = usersService.getAllLive();
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+
+        for (User u : users) {
+            JsonObjectBuilder jsonUserObjectBuilder = createJsonUser(u);
+            jsonArrayBuilder.add(jsonUserObjectBuilder);
         }
         return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
@@ -337,17 +375,15 @@ public class UserServiceImpl implements UserEndpointService {
             JsonArray array = reader.readArray();
             reader.close();
 
-            List<String> categoriesList = new ArrayList<String>(array.size());
-
             if (array != null) {
-
+                List<String> categoriesList = new ArrayList<String>(array.size());
                 for (int i = 0; i < array.size(); i++) {
-                    log.info("Category [" + i + "]: " + array.getJsonObject(i).getString("text"));
-                    categoriesList.add(array.getJsonObject(i).getString("text"));
+                    log.info("Category [" + i + "]: " + array.getString(i));
+                    categoriesList.add(array.getString(i));
                 }
-
+                usersService.updateCategories(user_id, categoriesList);
             }
-            usersService.updateCategories(user_id, categoriesList);
+
         }
 
         return Response.ok().build();
@@ -355,6 +391,32 @@ public class UserServiceImpl implements UserEndpointService {
 
     public Response updateLongBio(Long user_id, String longbio) throws ServiceException {
         usersService.updateLongBio(user_id, longbio);
+        return Response.ok().build();
+    }
+
+    public Response updateLive(Long user_id, Boolean live) throws ServiceException {
+        usersService.updateLive(user_id, live);
+        return Response.ok().build();
+    }
+
+    public Response updateIam(Long user_id, String iams) throws ServiceException {
+        log.info("Storing from the database: (" + user_id + ") " + iams);
+        if (iams != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(iams.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
+
+            if (array != null) {
+                List<String> iAmsList = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("I am [" + i + "]: " + array.getString(i));
+                    iAmsList.add(array.getString(i));
+                }
+                usersService.updateIams(user_id, iAmsList);
+            }
+
+        }
+
         return Response.ok().build();
     }
 

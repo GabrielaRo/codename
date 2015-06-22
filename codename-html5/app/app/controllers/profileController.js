@@ -12,6 +12,9 @@
             title: "",
             lookingFors: "",
             interests: "",
+            iam: "",
+            percentage: 0,
+            live: "false",
             avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
         };
@@ -19,33 +22,51 @@
         //ABOUT EDITABLE BLOCK
         $scope.aboutStatus = false;
         $scope.editAboutBlock = function () {
-            $scope.aboutStatus = true;
+            
             $('#user-about-form input, #user-about-form textarea').removeAttr('disabled'); 
             $(".checkbox-label").removeClass("disabled");
-           
+            $scope.aboutStatus = true;
         }
         $scope.saveAboutBlock = function () {
-            $scope.aboutStatus = false;
+            
             $('#user-about-form input, #user-about-form textarea').attr('disabled', 'disabled'); 
             $(".checkbox-label").addClass("disabled");
             $scope.updateBio($scope.profile.bio);
             $scope.updateLongBio($scope.profile.longbio);
+            $scope.updateIams($scope.profile.iam);
+            $scope.aboutStatus = false;
+            
             
         }
         $scope.cancelAboutBlock = function () {
-            $scope.aboutStatus = false;
+            
             $('#user-about-form input, #user-about-form textarea').attr('disabled', 'disabled'); 
             $(".checkbox-label").addClass("disabled");
+            $scope.aboutStatus = false;
         }
         
         //
         
         $scope.lookingFors = [['Socialise', 'Socialise with other Fhellows'], ['Collaborate', 'Collaborate with other Fhellows'], ['Mentor', 'Mentor Fhellows']];
+        $scope.iAms = [['Freelancer', 'Freelancer'], ['Entrepreneur', 'Entrepreneur'], ['Digital Nomad', 'Digital Nomad']];
 
-        // selected fruits
-        
+        $scope.toggleIamSelection = function (iam) {
+            
+            var idx = $scope.profile.iam.indexOf(iam[0]);
+            // is currently selected
+            if (idx > -1) {
+                $scope.profile.iam.splice(idx, 1);
+            }
 
-        $scope.toggleSelection = function (lookingFor) {
+            // is newly selected
+            else {
+                $scope.profile.iam.push(iam[0]);
+            }
+            
+           
+        };
+
+        $scope.toggleLookingForSelection = function (lookingFor) {
             
             var idx = $scope.profile.lookingFor.indexOf(lookingFor[0]);
             // is currently selected
@@ -58,7 +79,7 @@
                 $scope.profile.lookingFor.push(lookingFor[0]);
             }
             
-            console.log("EL LOOKING FOR QUEDO "+ $scope.profile.lookingFor);
+           
         };
 
         /*
@@ -81,16 +102,21 @@
                         console.log("profile.title: " + data.title);
                         console.log("profile.lookingFor: " + data.lookingFor);
                         console.log("profile.interests: " + data.interests);
+                        console.log("profile.imas: " + data.iams);
+                        console.log("profile.percentage: " + data.percentage);
+                        console.log("profile.live: " + data.live);
                         $scope.profile.userId = data.userId;
-                        $scope.profile.firstname = (data.firstname != "undefined" && data.firstname != "") ? data.firstname : "";
-                        $scope.profile.lastname = (data.lastname != "undefined" && data.lastname != "") ? data.lastname : "";
-                        $scope.profile.location = (data.location != "undefined" && data.location != "") ? data.location : "";
-                        $scope.profile.originallyFrom = (data.originallyFrom != "undefined" && data.originallyFrom != "") ? data.originallyFrom : "";
+                        $scope.profile.firstname = (data.firstname != "undefined" ) ? data.firstname : "";
+                        $scope.profile.lastname = (data.lastname != "undefined" ) ? data.lastname : "";
+                        $scope.profile.location = (data.location != "undefined" ) ? data.location : "";
+                        $scope.profile.originallyFrom = (data.originallyFrom != "undefined" ) ? data.originallyFrom : "";
                         $scope.profile.bio = data.bio;
                         $scope.profile.longbio = data.longbio;
-                        $scope.profile.title = (data.title != "undefined" && data.title != "") ? data.title : "";
+                        $scope.profile.title = (data.title != "undefined") ? data.title : "";
                         $scope.profile.lookingFor = data.lookingFor;
                         $scope.profile.interests = data.interests;
+                        $scope.profile.iam = data.iams;
+                        $scope.profile.percentage = data.percentage;
                         initialData = angular.copy($scope.profile)
 
                     }).error(function (data) {
@@ -215,6 +241,17 @@
             }).error(function (data) {
                 console.log("Error: " + data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with updating the lookingFor values!" + data);
+            });
+
+        };
+        
+        $scope.updateIams = function (iams) {
+            console.log("iams = "+iams);
+            $users.updateIam(iams).success(function (data) {
+                $rootScope.$broadcast("quickNotification", "I am Updated Successfully");
+            }).error(function (data) {
+                console.log("Error: " + data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the I am values!" + data);
             });
 
         };

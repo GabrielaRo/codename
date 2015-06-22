@@ -13,6 +13,17 @@
 				User _user					
 		</query>
 	</named-query>
+        
+        <named-query name="User.getAllLive">
+		<query>
+			SELECT
+				_user
+			FROM
+				User _user
+                        WHERE
+                                _user.live = true
+		</query>
+	</named-query>
 	
 
 	<named-query name="User.getByEmail">

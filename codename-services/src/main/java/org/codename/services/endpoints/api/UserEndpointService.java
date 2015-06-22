@@ -33,6 +33,11 @@ public interface UserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response getAll() throws ServiceException;
     
+    @GET
+    @Path("alllive")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response getAllLive() throws ServiceException;
+    
     @Path("{id}/avatar/upload")
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})
@@ -71,6 +76,12 @@ public interface UserEndpointService extends Serializable {
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON})
     Response updateFirstLogin(@NotNull @PathParam("id") Long user_id) throws ServiceException;
+    
+    @Path("{id}/live/update")
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON})
+    Response updateLive(@NotNull @PathParam("id") Long user_id, @FormParam("firstname") Boolean live ) throws ServiceException;
 
     @Path("{id}/firstname/update")
     @POST
@@ -115,6 +126,12 @@ public interface UserEndpointService extends Serializable {
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON})
     Response updateCategories(@NotNull @PathParam("id") Long user_id, @FormParam("categories") String categories ) throws ServiceException;
+    
+    @Path("{id}/iam/update")
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON})
+    Response updateIam(@NotNull @PathParam("id") Long user_id, @FormParam("iams") String iams ) throws ServiceException;
     
     @Path("{id}/bio/update")
     @POST

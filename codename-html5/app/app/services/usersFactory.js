@@ -29,6 +29,16 @@
                 data: {email: user.email, password: user.password}
             });
         };
+        
+        factory.updateIam = function(selectedIams){
+            return $http({
+                method: 'POST',
+                url: appConstants.server + appConstants.context + 'rest/users/'+$cookieStore.get('user_id')+"/iam/update",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: { iams: JSON.stringify(selectedIams)}
+            })
+        };
        
         factory.updateInterests = function(selectedInterests){
             return $http({
