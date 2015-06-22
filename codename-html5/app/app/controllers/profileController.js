@@ -10,6 +10,7 @@
             bio: "",
             title: "",
             lookingFors: "",
+            interests: "",
             avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
         };
@@ -54,6 +55,7 @@
                         console.log("profile.longbio: " + data.longbio);
                         console.log("profile.title: " + data.title);
                         console.log("profile.lookingFor: " + data.lookingFor);
+                        console.log("profile.interests: " + data.interests);
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = (data.firstname != "undefined" && data.firstname != "") ? data.firstname : "";
                         $scope.profile.lastname = (data.lastname != "undefined" && data.lastname != "") ? data.lastname : "";
@@ -63,15 +65,9 @@
                         $scope.profile.longbio = data.longbio;
                         $scope.profile.title = (data.title != "undefined" && data.title != "") ? data.title : "";
                         $scope.profile.lookingFor = data.lookingFor;
+                        $scope.profile.interests = data.interests;
                         initialData = angular.copy($scope.profile)
 
-                        $users.loadInterests().success(function (data) {
-                            console.log("interest loaded: " + data);
-                            $scope.profile.interests = data;
-                        }).error(function (data) {
-                            console.log("Error: " + data);
-                            $rootScope.$broadcast("quickNotification", "Something went wrong with loading the interests!" + data);
-                        });
                     }).error(function (data) {
                 console.log("Error: " + data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with getting the user data" + data);

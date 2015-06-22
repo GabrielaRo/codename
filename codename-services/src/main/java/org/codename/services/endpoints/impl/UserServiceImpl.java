@@ -30,10 +30,9 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import org.apache.commons.io.IOUtils;
-import org.codename.model.Interest;
+
 import org.codename.model.User;
 
-import org.codename.services.api.InterestsService;
 import org.codename.services.api.UsersService;
 
 import org.codename.services.endpoints.api.UserEndpointService;
@@ -50,9 +49,6 @@ public class UserServiceImpl implements UserEndpointService {
 
     @Inject
     private UsersService usersService;
-
-    @Inject
-    private InterestsService interestService;
 
     private final static Logger log = Logger.getLogger(UserServiceImpl.class.getName());
 
@@ -79,8 +75,8 @@ public class UserServiceImpl implements UserEndpointService {
         jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
 
         JsonArrayBuilder interestsJsonArrayBuilder = Json.createArrayBuilder();
-        for (Interest i : u.getInterests()) {
-            interestsJsonArrayBuilder.add(i.getName());
+        for (String i : u.getInterests()) {
+            interestsJsonArrayBuilder.add(i);
         }
         jsonObjBuilder.add("interests", interestsJsonArrayBuilder);
         JsonArrayBuilder lookingForJsonArrayBuilder = Json.createArrayBuilder();
@@ -108,8 +104,8 @@ public class UserServiceImpl implements UserEndpointService {
             jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
             jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
             JsonArrayBuilder interestsJsonArrayBuilder = Json.createArrayBuilder();
-            for (Interest i : u.getInterests()) {
-                interestsJsonArrayBuilder.add(i.getName());
+            for (String i : u.getInterests()) {
+                interestsJsonArrayBuilder.add(i);
             }
             jsonObjBuilder.add("interests", interestsJsonArrayBuilder);
             jsonArrayBuilder.add(jsonObjBuilder);
@@ -139,19 +135,6 @@ public class UserServiceImpl implements UserEndpointService {
 
     }
 
-    @Override
-    public Response getInterests(@NotNull @PathParam("user_id") Long user_id) throws ServiceException {
-        List<Interest> interests = usersService.getInterests(user_id);
-        log.info("Interests from the database: (" + user_id + ") " + interests);
-
-        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        for (Interest i : interests) {
-            jsonArrayBuilder.add(i.getName());
-        }
-        JsonArray build = jsonArrayBuilder.build();
-        return Response.ok(build.toString()).build();
-    }
-
     public Response updateInterests(@NotNull @PathParam("user_id") Long user_id, @FormParam("interests") String interests) throws ServiceException {
         log.info("Storing from the database: (" + user_id + ") " + interests);
         if (interests != null) {
@@ -159,22 +142,19 @@ public class UserServiceImpl implements UserEndpointService {
             JsonArray array = reader.readArray();
             reader.close();
 
-            List<Interest> interestsList = new ArrayList<Interest>(array.size());
+            List<String> interestsList = new ArrayList<String>(array.size());
 
             if (array != null) {
 
                 for (int i = 0; i < array.size(); i++) {
-                    log.info("Interest[" + i + "]: " + array.getJsonObject(i).getString("text"));
-                    Interest interest = interestService.get(array.getJsonObject(i).getString("text"));
-                    if (interest == null) {
-                        interest = interestService.newInterest(array.getJsonObject(i).getString("text"));
-                    }
-                    interestsList.add(interest);
+                    log.info("Interest[" + i + "]: " + array.getString(i));
+
+                    interestsList.add(array.getString(i));
                 }
 
             }
 
-            usersService.setInterests(user_id, interestsList);
+            usersService.updateInterests(user_id, interestsList);
         }
 
         return Response.ok().build();
@@ -330,7 +310,7 @@ public class UserServiceImpl implements UserEndpointService {
 
     public Response updateLookingFor(Long user_id, String lookingfor) throws ServiceException {
         log.info("Storing from the database: (" + user_id + ") " + lookingfor);
-        System.out.println("Looking Fors here: "+lookingfor);
+        System.out.println("Looking Fors here: " + lookingfor);
         if (lookingfor != null) {
             JsonReader reader = Json.createReader(new ByteArrayInputStream(lookingfor.getBytes()));
             JsonArray array = reader.readArray();

@@ -23,13 +23,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
-import org.codename.model.Interest;
 import org.codename.model.User;
 import org.codename.services.api.UsersService;
 import org.codename.services.endpoints.api.PublicUserEndpointService;
 import org.codename.services.exceptions.ServiceException;
-
-
 
 /**
  *
@@ -40,10 +37,9 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
 
     @Inject
     private UsersService usersService;
-  
-    
+
     private final static String serverUrl = "localhost";
-    
+
     private final static Logger log = Logger.getLogger(PublicUserServiceImpl.class.getName());
 
     public PublicUserServiceImpl() {
@@ -54,28 +50,26 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
     public Response getAll() throws ServiceException {
         List<User> users = usersService.getAll();
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        
-        for(User u : users){
-            
+
+        for (User u : users) {
+
             JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
             jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
             jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
             jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
-            jsonObjBuilder.add("firstname", (u.getFirstname()== null) ? "" : u.getFirstname());
-            jsonObjBuilder.add("lastname", (u.getLastname()== null) ? "" : u.getLastname());
-            jsonObjBuilder.add("title", (u.getTitle()== null) ? "" : u.getTitle());
+            jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
+            jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
+            jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
             JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
-            for(Interest i : u.getInterests()){
-                jsonArrayBuilder2.add(i.getName());
+            for (String i : u.getInterests()) {
+                jsonArrayBuilder2.add(i);
             }
             jsonObjBuilder.add("interests", jsonArrayBuilder2);
             jsonArrayBuilder.add(jsonObjBuilder);
-            
+
         }
         return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
-    
-    
 
     @Override
     public Response get(@PathParam("id") Long user_id) throws ServiceException {
@@ -86,15 +80,15 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
         jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
-        jsonObjBuilder.add("location", (u.getLocation()== null) ? "" : u.getLocation());
+        jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
         jsonObjBuilder.add("username", (u.getFirstname() == null) ? "" : u.getFirstname());
-        jsonObjBuilder.add("lastname", (u.getLastname()== null) ? "" : u.getLastname());
-        jsonObjBuilder.add("title", (u.getTitle()== null) ? "" : u.getTitle());
+        jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
+        jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
         JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
-            for(Interest i : u.getInterests()){
-                jsonArrayBuilder2.add(i.getName());
-            }
-            jsonObjBuilder.add("interests", jsonArrayBuilder2);
+        for (String i : u.getInterests()) {
+            jsonArrayBuilder2.add(i);
+        }
+        jsonObjBuilder.add("interests", jsonArrayBuilder2);
         JsonObject jsonObj = jsonObjBuilder.build();
         return Response.ok(jsonObj.toString()).build();
     }
@@ -118,7 +112,7 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
         } else {
             try {
                 log.info("avatar not found");
-                return Response.temporaryRedirect(new URI("http://"+serverUrl+"/static/img/public-images/default-avatar.png")).build();
+                return Response.temporaryRedirect(new URI("http://" + serverUrl + "/static/img/public-images/default-avatar.png")).build();
             } catch (URISyntaxException ex) {
                 Logger.getLogger(PublicUserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -128,7 +122,7 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
         return Response.serverError().build();
 
     }
-    
+
     @Override
     public Response getCover(@NotNull @PathParam("id") Long user_id) throws ServiceException {
 
@@ -148,7 +142,7 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
         } else {
             try {
                 log.info("avatar not found");
-                return Response.temporaryRedirect(new URI("http://"+serverUrl+"/static/img/public-images/default-cover.png")).build();
+                return Response.temporaryRedirect(new URI("http://" + serverUrl + "/static/img/public-images/default-cover.png")).build();
             } catch (URISyntaxException ex) {
                 Logger.getLogger(PublicUserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }

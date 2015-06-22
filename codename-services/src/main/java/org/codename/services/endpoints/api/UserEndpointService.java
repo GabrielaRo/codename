@@ -142,12 +142,6 @@ public interface UserEndpointService extends Serializable {
             @FormParam("lastname") String lastname,
             @FormParam("location") String location, @FormParam("bio") String bio, @FormParam("title") String title) throws ServiceException;
 
-    @Path("{id}/interests")
-    @GET
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-    @Produces({MediaType.APPLICATION_JSON})
-    Response getInterests(@NotNull @PathParam("id") Long user_id) throws ServiceException;
-
     @Path("{id}/interests/update")
     @POST
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})

@@ -7,7 +7,6 @@ package org.codename.services.api;
 
 import java.util.List;
 import org.codename.model.Coordinates;
-import org.codename.model.Interest;
 import org.codename.model.User;
 import org.codename.services.exceptions.ServiceException;
 
@@ -34,9 +33,8 @@ public interface UsersService {
     void update(Long user_id, String username,  String lastname,
             String location, String bio, String title) throws ServiceException;
     
-    void setInterests(Long user_id, List<Interest> interests) throws ServiceException;
+    void updateInterests(Long user_id, List<String> interests) throws ServiceException;
     
-    List<Interest> getInterests(Long user_id) throws ServiceException;
     
     void updateFirstLogin(Long user_id) throws ServiceException;
     

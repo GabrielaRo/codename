@@ -58,11 +58,11 @@ public class User implements Serializable {
     private boolean isFirstLogin = true;
 
     private String bio;
-    
+
     private String longBio;
 
     private String originallyFrom;
-    
+
     private String location;
 
     private String avatarFileName;
@@ -89,13 +89,13 @@ public class User implements Serializable {
     private Double longitude;
 
     @IndexedEmbedded
-    @ManyToMany
-    private List<Interest> interests; // I can remove Interest and just do strings for now
-    
+    @ElementCollection
+    private List<String> interests;
+
     @IndexedEmbedded
     @ElementCollection
     private List<String> categories;
-    
+
     @IndexedEmbedded
     @ElementCollection
     private List<String> lookingFor;
@@ -220,11 +220,11 @@ public class User implements Serializable {
         this.longitude = longitude;
     }
 
-    public List<Interest> getInterests() {
+    public List<String> getInterests() {
         return interests;
     }
 
-    public void setInterests(List<Interest> interests) {
+    public void setInterests(List<String> interests) {
         this.interests = interests;
     }
 
@@ -371,5 +371,4 @@ public class User implements Serializable {
         return true;
     }
 
-    
 }

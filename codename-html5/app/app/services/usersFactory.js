@@ -29,16 +29,7 @@
                 data: {email: user.email, password: user.password}
             });
         };
-        //LOAD INTEREST
-        factory.loadInterests = function(){
-            return $http({
-                method: 'GET',
-                url: appConstants.server + appConstants.context + 'rest/users/'+$cookieStore.get('user_id')+'/interests',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
-                transformRequest: $transformRequestToForm.transformRequest,
-                data: {}
-            });
-        }
+       
         factory.updateInterests = function(selectedInterests){
             return $http({
                 method: 'POST',

@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import org.codename.model.Coordinates;
-import org.codename.model.Interest;
 import org.codename.model.ServiceKey;
 import org.codename.model.User;
 import org.codename.services.api.UsersService;
@@ -187,7 +186,7 @@ public class UsersServiceImpl implements UsersService {
     }
     
     @Override
-    public void setInterests(Long user_id, List<Interest> interests) throws ServiceException {
+    public void updateInterests(Long user_id, List<String> interests) throws ServiceException {
         User u = em.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
@@ -197,15 +196,7 @@ public class UsersServiceImpl implements UsersService {
         em.merge(u);
     }
     
-    @Override
-    public List<Interest> getInterests(Long user_id) throws ServiceException {
-        User u = em.find(User.class, user_id);
-        if (u == null) {
-            throw new ServiceException("User doesn't exist: " + user_id);
-        }
-        log.info("Interest from the database: " + u.getInterests());
-        return u.getInterests();
-    }
+    
     
     @Override
     public void updateFirstLogin(Long user_id) throws ServiceException {

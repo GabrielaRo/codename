@@ -1,41 +1,11 @@
 (function () {
-    var localFhellowsController = function ($scope, $rootScope, $users, $interests, appConstants) {
+    var localFhellowsController = function ($scope, $rootScope, $users,  appConstants) {
         $scope.imagePath = "static/img/public-images/";
         $scope.filters = {location: '', proximity: 200, type:"", search: ""};
-        $scope.interests = [];
-        $scope.allInterests = [];
-        $scope.userInterests = [];
+
         $scope.serverUrlFull = appConstants.server + appConstants.context;
 
-        $scope.loadUserInterests = function () {
-            //console.log("loading interests for user " + user_id + " with email: " + email + " and auth_token: " + auth_token);
-
-            $users.loadInterests().success(function (data) {
-                //$rootScope.$broadcast("quickNotification", "User Interest loaded!");
-                $scope.interests = data;
-                for (x in $scope.interests) {
-                    $scope.userInterests.push($scope.interests[x].name);
-                }
-                console.log($scope.userInterests);
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
-            });
-
-        };
-
-        $scope.loadAllInterests = function () {
-            console.log("loading all interests");
-
-            $interests.loadAll().success(function (data) {
-                //$rootScope.$broadcast("quickNotification", "User Interest loaded!");
-                $scope.allInterests = data;
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
-            });
-
-        };
+       
 
         $scope.loadFhellows = function () {
 
@@ -65,7 +35,7 @@
         //
         //        }
         $scope.loadFhellows();
-        $scope.loadAllInterests();
+        
         
         //FHELLOW FILTERS
         
@@ -86,29 +56,7 @@
         
        
 
-        //CUSTOM FILTER FOR USER INTERESTS
-        $scope.checkUserInterest = function (interest) {
-
-            var temp = false;
-
-            if ($scope.showAllInterests) {
-                temp = true;
-            } else {
-
-                if ($scope.userInterests.length > 0) {
-                    for (i = 0; i < $scope.userInterests.length; i++) {
-                        if (interest.interest === $scope.userInterests[i]) {
-
-                            temp = true;
-                            break;
-                        }
-                    }
-                } else {
-                    temp = true;
-                }
-            }
-            return temp;
-        };
+       
 
         $( window ).scroll(function() {
             console.log("SCROLL " + $(window).scrollTop() );
@@ -121,7 +69,7 @@
 
     };
 
-    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests', 'appConstants'];
+    localFhellowsController.$inject = ['$scope', '$rootScope', '$users',  'appConstants'];
     angular.module("codename").controller("localFhellowsController", localFhellowsController);
 
 }());
