@@ -326,13 +326,14 @@ public class UsersServiceImpl implements UsersService {
         em.merge(u);
     }
 
-    public void updateLive(Long user_id, boolean live) throws ServiceException {
-
+    public void updateLive(Long user_id, String live) throws ServiceException {
+        Boolean liveBoolean = Boolean.valueOf(live);
         User u = em.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
-        u.setLive(live);
+        System.out.println("LiveBoolean is: "+liveBoolean);
+        u.setLive(liveBoolean);
         em.merge(u);
     }
 

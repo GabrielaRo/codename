@@ -113,7 +113,8 @@
                             <span>{{profile.percentage}}% complete</span> 
                         </div>
                         <div id="profile-status-publish">
-                            <button class="button primary block disabled" >Publish Profile</button>
+                            <button class="button primary block" ng-show="!profile.live" ng-click="updateUserLiveProfile(profile.live)" >Publish Profile</button>
+                            <button class="button primary block" ng-show="profile.live" ng-click="updateUserLiveProfile(profile.live)" >Profile Live</button>
                         </div>
                     </div>
                 </div>

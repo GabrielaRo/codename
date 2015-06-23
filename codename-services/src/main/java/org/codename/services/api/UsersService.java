@@ -77,7 +77,7 @@ public interface UsersService {
 
     void updateLongBio(Long user_id, String longbio) throws ServiceException;
 
-    void updateLive(Long user_id, boolean live) throws ServiceException;
+    void updateLive(Long user_id, String live) throws ServiceException;
 
     void updateIams(Long user_id, List<String> iAmsList) throws ServiceException;
 

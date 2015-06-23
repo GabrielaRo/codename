@@ -77,6 +77,16 @@
                 data: {}
             })
         };
+         //CREATE Update Live profile
+        factory.updateUserLiveProfile = function(live){
+            return $http({
+                method: 'POST',
+                url: appConstants.server + appConstants.context + 'rest/users/'+ $cookieStore.get('user_id') + '/live/update',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: { live: live}
+            })
+        };
         //GET PROFILE
         factory.getUserData = function(){
             return $http({

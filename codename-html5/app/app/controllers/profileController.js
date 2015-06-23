@@ -14,7 +14,7 @@
             interests: "",
             iam: "",
             percentage: 0,
-            live: "false",
+            live: "",
             avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
         };
@@ -117,6 +117,7 @@
                         $scope.profile.interests = data.interests;
                         $scope.profile.iam = data.iams;
                         $scope.profile.percentage = data.percentage;
+                        $scope.profile.live = data.live;
                         initialData = angular.copy($scope.profile)
 
                     }).error(function (data) {
@@ -346,6 +347,19 @@
             });
 
         };
+        
+        $scope.updateUserLiveProfile = function (live) {
+            console.log("Profile Live? "+!live)
+            $users.updateUserLiveProfile(!live).success(function (data) {
+                $scope.profile.live = !live;
+            }).error(function (data) {
+                console.log("Error: " + data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the first login data!" + data);
+            });
+
+        };
+        
+        
 
         /*
          * This code is executed everytime that we access to the profile page

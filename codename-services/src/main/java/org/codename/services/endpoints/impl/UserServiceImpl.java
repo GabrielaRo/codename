@@ -394,7 +394,8 @@ public class UserServiceImpl implements UserEndpointService {
         return Response.ok().build();
     }
 
-    public Response updateLive(Long user_id, Boolean live) throws ServiceException {
+    public Response updateLive(Long user_id, String live) throws ServiceException {
+        System.out.println("Updating profile live? "+ live);
         usersService.updateLive(user_id, live);
         return Response.ok().build();
     }
