@@ -25,14 +25,12 @@
         $scope.aboutStatus = false;
         $scope.editAboutBlock = function () {
 
-            $('#user-about-form input, #user-about-form textarea').removeAttr('disabled');
-            $(".checkbox-label").removeClass("disabled");
+            $scope.editContentBlock($("#user-about-form"));
             $scope.aboutStatus = true;
         }
         $scope.saveAboutBlock = function () {
 
-            $('#user-about-form input, #user-about-form textarea').attr('disabled', 'disabled');
-            $(".checkbox-label").addClass("disabled");
+            $scope.disableContentBlock($("#user-about-form"));
             $scope.updateBio($scope.profile.bio);
             $scope.updateLongBio($scope.profile.longbio);
             $scope.updateIams($scope.profile.iam);
@@ -41,10 +39,13 @@
 
         }
         $scope.cancelAboutBlock = function () {
-
-            $('#user-about-form input, #user-about-form textarea').attr('disabled', 'disabled');
-            $(".checkbox-label").addClass("disabled");
+            $scope.disableContentBlock($("#user-about-form"));
             $scope.aboutStatus = false;
+            
+            $scope.profile.bio = angular.copy(initialData.bio);
+            $scope.profile.longbio = angular.copy(initialData.longbio);
+             $scope.profile.iam = angular.copy(initialData.iam);
+            
         }
 
         //
@@ -65,7 +66,7 @@
                 $scope.profile.iam.push(iam[0]);
             }
 
-
+            $scope.calculatePercentage();
         };
 
         $scope.toggleLookingForSelection = function (lookingFor) {
@@ -80,7 +81,7 @@
             else {
                 $scope.profile.lookingFor.push(lookingFor[0]);
             }
-
+            $scope.calculatePercentage();
 
         };
 
@@ -236,6 +237,8 @@
         };
 
         $scope.updateBothNames = function (firstname, lastname) {
+            $scope.clearEditablesActive();
+            $scope.clearField($("#user-name-form"));
             $users.updateBothNames(firstname, lastname).success(function (data) {
                 $scope.profile.firstname = firstname;
                 $scope.profile.lastname = lastname;
@@ -249,8 +252,11 @@
         };
 
         $scope.updateLookingFors = function (lookingFors) {
+            $scope.clearEditablesActive();
             console.log("lookingFors = " + lookingFors);
+
             $users.updateLookingFor(lookingFors).success(function (data) {
+              
                 $rootScope.$broadcast("quickNotification", "LookingFor Updated Successfully");
             }).error(function (data) {
                 console.log("Error: " + data);
@@ -294,6 +300,10 @@
         };
 
         $scope.updateOriginallyFrom = function (originallyFrom) {
+            
+            $scope.clearEditablesActive();
+            $scope.clearField($("#user-originally-from-form"));
+            
             $users.updateOriginallyFrom(originallyFrom).success(function (data) {
                 $scope.profile.originallyFrom = originallyFrom;
                 $scope.calculatePercentage();
@@ -306,6 +316,10 @@
         };
 
         $scope.updateLocation = function (location) {
+            
+            $scope.clearEditablesActive();
+            $scope.clearField($("#user-location-form"));
+            
             $users.updateLocation(location).success(function (data) {
                 $scope.profile.location = location;
                 $scope.calculatePercentage();
@@ -340,6 +354,9 @@
 
 
         $scope.updateTitle = function (title) {
+            $scope.clearEditablesActive();
+            $scope.clearField($("#user-job-form"));
+            
             $users.updateTitle(title).success(function (data) {
                 $scope.profile.title = title;
                 $scope.calculatePercentage();
@@ -348,6 +365,7 @@
                 console.log("Error: " + data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
             });
+            
         };
 
         /*
@@ -428,8 +446,81 @@
             });
 
         };
+        
+        /* 
+         * Manage float forms and editable content blocks
+         */
+        
+        
+        $scope.bindEditableEvents = function () {
+            var editables = $(".editable")
+            editables.each(function(index){
+                var element = $(this);
+                element.bind("click", $scope.clickOnEditable);
+            });
+        }
+        
+        $scope.clickOnEditable = function (event) {
+            
+            if(event.target.className.indexOf("editable") > -1){
+                $scope.clearEditablesActive();
+                var target = $(event.currentTarget);
+                target.addClass("editable-active");
+            }
+        }
+        
+         $scope.clearEditablesActive = function(){
+            var editablesActive = $(".editable-active")
+            editablesActive.each(function(index){
+                var element = $(this);
+                element.removeClass("editable-active");
+            });
+         };
+        
+         $scope.closeEditables = function(event){
+            event.stopPropagation();
+            $scope.clearEditablesActive();
+            
+            var target = $(event.currentTarget);
+            var currentform = target.closest(".floatform");
+             
+            var formFields =  currentform.find("input");
+            formFields.each(function(index){
+                 $(this).val('');
+            }); 
+         };
+        
+        $scope.clearField = function(form){
+             var formFields = form.find("input");
+            formFields.each(function(index){
+                 $(this).val('');
+            }); 
+        };
+        
+        $scope.initiateContentBlocks = function () {
+            var blockContents = $(".content-block-content");
+            blockContents.each(function(index){
+            
+                var textareas = $(this).find("textarea");
+                var checkboxes = $(this).find(".checkboxes").children().attr('disabled','disabled');
 
-
+                textareas.each(function(index){
+                    $(this).attr('disabled','disabled');
+                });
+            });
+        };
+        
+        $scope.editContentBlock = function(block){
+            block.find("textarea").removeAttr('disabled');
+            block.find(".checkbox-label").removeClass('disabled');
+            block.find(".checkbox-label input").removeAttr('disabled');
+        }
+        
+        $scope.disableContentBlock = function(block){
+            block.find("textarea").attr('disabled','disabled');
+            block.find(".checkbox-label").addClass('disabled');
+            block.find(".checkbox-label input").attr('disabled','disabled');
+        }
 
         /*
          * This code is executed everytime that we access to the profile page
@@ -439,9 +530,12 @@
             // If it is the first time that the user is accessing the site using this account
             //  we need to update the information in the server and then load the basic data. 
             $scope.updateUserFirstLogin();
+            
         } else {
             $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
         }
+        $scope.bindEditableEvents();
+        $scope.initiateContentBlocks();
     };
 
     profileController.$inject = ["$rootScope", "$scope", "$upload", "$timeout", "$users", "$cookieStore", "appConstants"];
