@@ -55,11 +55,11 @@
         }
         
        
-
+        
        
 
         $( window ).scroll(function() {
-            console.log("SCROLL " + $(window).scrollTop() );
+        
             if ($(window).scrollTop() > 235){
                 $( ".sticky" ).addClass("isSticky");
             }else {

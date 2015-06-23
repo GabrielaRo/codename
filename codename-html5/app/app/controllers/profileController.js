@@ -236,6 +236,8 @@
         };
 
         $scope.updateBothNames = function (firstname, lastname) {
+            $scope.clearEditablesActive();
+            $scope.clearField($("#user-name-form"));
             $users.updateBothNames(firstname, lastname).success(function (data) {
                 $scope.profile.firstname = firstname;
                 $scope.profile.lastname = lastname;
@@ -249,8 +251,11 @@
         };
 
         $scope.updateLookingFors = function (lookingFors) {
+            $scope.clearEditablesActive();
             console.log("lookingFors = " + lookingFors);
+
             $users.updateLookingFor(lookingFors).success(function (data) {
+              
                 $rootScope.$broadcast("quickNotification", "LookingFor Updated Successfully");
             }).error(function (data) {
                 console.log("Error: " + data);
@@ -294,6 +299,10 @@
         };
 
         $scope.updateOriginallyFrom = function (originallyFrom) {
+            
+            $scope.clearEditablesActive();
+            $scope.clearField($("#user-originally-from-form"));
+            
             $users.updateOriginallyFrom(originallyFrom).success(function (data) {
                 $scope.profile.originallyFrom = originallyFrom;
                 $scope.calculatePercentage();
@@ -306,6 +315,10 @@
         };
 
         $scope.updateLocation = function (location) {
+            
+            $scope.clearEditablesActive();
+            $scope.clearField($("#user-location-form"));
+            
             $users.updateLocation(location).success(function (data) {
                 $scope.profile.location = location;
                 $scope.calculatePercentage();
@@ -340,6 +353,9 @@
 
 
         $scope.updateTitle = function (title) {
+            $scope.clearEditablesActive();
+            $scope.clearField($("#user-job-form"));
+            
             $users.updateTitle(title).success(function (data) {
                 $scope.profile.title = title;
                 $scope.calculatePercentage();
@@ -348,6 +364,7 @@
                 console.log("Error: " + data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
             });
+            
         };
 
         /*
@@ -428,8 +445,56 @@
             });
 
         };
-
-
+        
+        /* 
+         * Manage float forms and editable content blocks
+         */
+        
+        
+        $scope.bindEditableEvents = function () {
+            var editables = $(".editable")
+            editables.each(function(index){
+                var element = $(this);
+                element.bind("click", $scope.clickOnEditable);
+            });
+        }
+        
+        $scope.clickOnEditable = function (event) {
+            
+            if(event.target.className.indexOf("editable") > -1){
+                $scope.clearEditablesActive();
+                var target = $(event.currentTarget);
+                target.addClass("editable-active");
+            }
+        }
+        
+         $scope.clearEditablesActive = function(){
+            var editablesActive = $(".editable-active")
+            editablesActive.each(function(index){
+                var element = $(this);
+                element.removeClass("editable-active");
+            });
+         };
+        
+         $scope.closeEditables = function(event){
+            event.stopPropagation();
+            $scope.clearEditablesActive();
+            
+            var target = $(event.currentTarget);
+            var currentform = target.closest(".floatform");
+             
+            var formFields =  currentform.find("input");
+            formFields.each(function(index){
+                 $(this).val('');
+            }); 
+         };
+        
+        $scope.clearField = function(form){
+             var formFields = form.find("input");
+            formFields.each(function(index){
+                 $(this).val('');
+            }); 
+        };
 
         /*
          * This code is executed everytime that we access to the profile page
@@ -439,9 +504,11 @@
             // If it is the first time that the user is accessing the site using this account
             //  we need to update the information in the server and then load the basic data. 
             $scope.updateUserFirstLogin();
+            
         } else {
             $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
         }
+        $scope.bindEditableEvents();
     };
 
     profileController.$inject = ["$rootScope", "$scope", "$upload", "$timeout", "$users", "$cookieStore", "appConstants"];
