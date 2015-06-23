@@ -69,6 +69,8 @@ public class UserServiceImpl implements UserEndpointService {
         jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
         jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
         jsonObjBuilder.add("live", u.isLive());
+        jsonObjBuilder.add("hascover", u.getCoverFileName() != null && !u.getCoverFileName().equals(""));
+        jsonObjBuilder.add("hasavatar", u.getAvatarFileName() != null && !u.getAvatarFileName().equals(""));
         JsonArrayBuilder interestsJsonArrayBuilder = Json.createArrayBuilder();
         for (String i : u.getInterests()) {
             interestsJsonArrayBuilder.add(i);
@@ -94,44 +96,11 @@ public class UserServiceImpl implements UserEndpointService {
             throw new ServiceException("User " + user_id + " doesn't exists");
         }
         JsonObjectBuilder jsonUserObjectBuilder = createJsonUser(u);
-        jsonUserObjectBuilder.add("percentage", calculateUserPercentage(u));
         JsonObject jsonObj = jsonUserObjectBuilder.build();
         return Response.ok(jsonObj.toString()).build();
     }
     
-    private int calculateUserPercentage(User u){
-        int percentage = 0;
-        if(u.getFirstname() != null && !u.getFirstname().equals("") && 
-           u.getLastname() != null && !u.getLastname().equals("")){
-            percentage += 10;
-        }
-        if(u.getAvatarFileName() != null && !u.getAvatarFileName().equals("")){
-            percentage += 10;
-        }
-        if(u.getCoverFileName() != null && !u.getCoverFileName().equals("")){
-            percentage += 10;
-        }
-        if(u.getTitle() != null && !u.getTitle().equals("")){
-            percentage += 10;
-        }
-        if(u.getLocation() != null && !u.getLocation().equals("")){
-            percentage += 10;
-        }
-        if(u.getBio() != null &&!u.getBio().equals("")){
-            percentage += 10;
-        }
-        if(u.getLongBio() != null && !u.getLongBio().equals("")){
-            percentage += 10;
-        }
-        if(u.getLookingFor() != null && !u.getLookingFor().isEmpty()){
-            percentage += 10;
-        }
-        if(u.getInterests() != null && !u.getInterests().isEmpty()){
-            percentage += 10;
-        }
-        return percentage;
-    }
-
+    
     @Override
     public Response getAll() throws ServiceException {
         List<User> users = usersService.getAll();
