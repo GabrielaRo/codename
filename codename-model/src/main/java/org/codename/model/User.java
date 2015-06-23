@@ -6,6 +6,7 @@
 package org.codename.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -17,10 +18,12 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
+import org.hibernate.search.annotations.DateBridge;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Latitude;
 import org.hibernate.search.annotations.Longitude;
+import org.hibernate.search.annotations.Resolution;
 import org.hibernate.search.annotations.Spatial;
 import org.hibernate.search.annotations.SpatialMode;
 import org.hibernate.validator.constraints.Email;
@@ -103,6 +106,12 @@ public class User implements Serializable {
     private List<String> iAms;
 
     private boolean live;
+    
+    @DateBridge(resolution = Resolution.DAY)
+    private Date birthday;
+    
+    private String gender;
+    
 
     public User() {
     }

@@ -98,11 +98,11 @@
             });
         };
         //GET ALL
-        factory.loadAll = function(){
+        factory.loadAllLive = function(){
             return $http({
                 method: 'GET',
-                url: appConstants.server + appConstants.context + 'rest/public/users/all',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                url: appConstants.server + appConstants.context + 'rest/users/alllive',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {}
             });

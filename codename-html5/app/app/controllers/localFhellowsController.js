@@ -10,7 +10,7 @@
         $scope.loadFhellows = function () {
 
 
-            $users.loadAll().success(function (data) {
+            $users.loadAllLive().success(function (data) {
                 //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
                 $scope.fhellowsList = data;
                 console.log(  $scope.fhellowsList);
