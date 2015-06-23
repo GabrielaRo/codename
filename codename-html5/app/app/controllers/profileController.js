@@ -226,6 +226,8 @@
 
         $scope.updateBothNames = function (firstname, lastname) {
             $users.updateBothNames(firstname, lastname).success(function (data) {
+                $scope.profile.firstname = firstname;
+                $scope.profile.lastname = lastname;
                 $rootScope.$broadcast("quickNotification", "First & Last Name Updated Successfully");
             }).error(function (data) {
                 console.log("Error: " + data);
@@ -276,8 +278,9 @@
 
         };
         
-         $scope.updateOriginallyFrom = function (locationFrom) {
-            $users.updateOriginallyFrom(locationFrom).success(function (data) {
+         $scope.updateOriginallyFrom = function (originallyFrom) {
+            $users.updateOriginallyFrom(originallyFrom).success(function (data) {
+                $scope.profile.originallyFrom = originallyFrom;
                 $rootScope.$broadcast("quickNotification", "Originally From Updated Successfully");
             }).error(function (data) {
                 console.log("Error: " + data);
@@ -288,6 +291,7 @@
 
         $scope.updateLocation = function (location) {
             $users.updateLocation(location).success(function (data) {
+                $scope.profile.location = location;
                 $rootScope.$broadcast("quickNotification", "Location Updated Successfully");
             }).error(function (data) {
                 console.log("Error: " + data);
@@ -319,6 +323,7 @@
 
         $scope.updateTitle = function (title) {
             $users.updateTitle(title).success(function (data) {
+                $scope.profile.title = title;
                 $rootScope.$broadcast("quickNotification", "Title Updated Successfully");
             }).error(function (data) {
                 console.log("Error: " + data);
