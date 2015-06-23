@@ -79,7 +79,7 @@
 
                             <div class="editable">
 
-                                I'm Looking to  : <span ng-repeat="item in profile.lookingFor" class="editable-child">{{item}}<span ng-hide="$index == (profile.lookingFor.length - 1)">, </span></span> <span class="placeholder" ng-show="profile.lookingFor.length == 0">Click here to select</span>
+                                I'm Looking to  : <span ng-repeat="item in profile.lookingFor" class="editable-child">{{item}}<span ng-hide="$index == (profile.lookingFor.length - 1)">, </span></span> <span class="placeholder editable-child" ng-show="profile.lookingFor.length == 0">Click here to select</span>
 
                                 <div class="floatform" id="user-looking-to-form">
                                     <div class="form-content">
@@ -197,9 +197,8 @@
                     <div class="content-block-title editable-title">
                         About Me
                         <div class="editable-title-options">
-                            <button class="button inverted" ng-show="!aboutStatus" ng-click="editAboutBlock()">Edit</button>
-                            <button class="button inverted" ng-show="aboutStatus" ng-click="cancelAboutBlock()">Cancel</button>
-                            <button class="button primary" ng-show="aboutStatus" ng-click="saveAboutBlock()">Save</button>
+                            <button class="button inverted" ng-disabled="aboutStatus" ng-click="editAboutBlock()">Edit</button>
+                         
 
                         </div>
                     </div>
@@ -207,10 +206,12 @@
                         <div class="control inline">
                             <label>I am a</label>
                             <div class="checkboxes">
-                                <label ng-repeat="ia in iAms" class="checkbox-label">
+                                <label ng-repeat="ia in iAms" class="checkbox-label disabled" >
                                     <input type="checkbox" name="selectedIams[]" value="{{ia}}" 
                                            ng-checked="profile.iam.indexOf(ia[0]) > -1" 
-                                           ng-click="toggleIamSelection(ia)"> {{ia[1]}}
+                                           ng-click="toggleIamSelection(ia)"
+                                           disabled="disabled"
+                                           > {{ia[1]}}
 
                                 </label>
                             </div>
@@ -223,7 +224,7 @@
                                 </div>
                             </label>
                             <div class="textarea">
-                                <textarea placeholder="Type here" disabled ng-model="profile.bio"></textarea>
+                                <textarea placeholder="Type here" ng-model="profile.bio"></textarea>
                             </div>
                         </div>
 
@@ -236,9 +237,13 @@
 
                             </label>
                             <div class="textarea" >
-                                <textarea ng-model="profile.longbio" placeholder="Type here" disabled></textarea>
+                                <textarea ng-model="profile.longbio" placeholder="Type here" ></textarea>
                             </div>
                         </div>
+                    </div>
+                    <div class="content-block-actions" ng-show="aboutStatus">
+                           <button class="button inverted"  ng-click="cancelAboutBlock()">Cancel</button>
+                            <button class="button primary"  ng-click="saveAboutBlock()">Save</button>
                     </div>
                 </div>
 

@@ -25,14 +25,12 @@
         $scope.aboutStatus = false;
         $scope.editAboutBlock = function () {
 
-            $('#user-about-form input, #user-about-form textarea').removeAttr('disabled');
-            $(".checkbox-label").removeClass("disabled");
+            $scope.editContentBlock($("#user-about-form"));
             $scope.aboutStatus = true;
         }
         $scope.saveAboutBlock = function () {
 
-            $('#user-about-form input, #user-about-form textarea').attr('disabled', 'disabled');
-            $(".checkbox-label").addClass("disabled");
+            $scope.disableContentBlock($("#user-about-form"));
             $scope.updateBio($scope.profile.bio);
             $scope.updateLongBio($scope.profile.longbio);
             $scope.updateIams($scope.profile.iam);
@@ -41,10 +39,13 @@
 
         }
         $scope.cancelAboutBlock = function () {
-
-            $('#user-about-form input, #user-about-form textarea').attr('disabled', 'disabled');
-            $(".checkbox-label").addClass("disabled");
+            $scope.disableContentBlock($("#user-about-form"));
             $scope.aboutStatus = false;
+            
+            $scope.profile.bio = angular.copy(initialData.bio);
+            $scope.profile.longbio = angular.copy(initialData.longbio);
+             $scope.profile.iam = angular.copy(initialData.iam);
+            
         }
 
         //
@@ -495,6 +496,31 @@
                  $(this).val('');
             }); 
         };
+        
+        $scope.initiateContentBlocks = function () {
+            var blockContents = $(".content-block-content");
+            blockContents.each(function(index){
+            
+                var textareas = $(this).find("textarea");
+                var checkboxes = $(this).find(".checkboxes").children().attr('disabled','disabled');
+
+                textareas.each(function(index){
+                    $(this).attr('disabled','disabled');
+                });
+            });
+        };
+        
+        $scope.editContentBlock = function(block){
+            block.find("textarea").removeAttr('disabled');
+            block.find(".checkbox-label").removeClass('disabled');
+            block.find(".checkbox-label input").removeAttr('disabled');
+        }
+        
+        $scope.disableContentBlock = function(block){
+            block.find("textarea").attr('disabled','disabled');
+            block.find(".checkbox-label").addClass('disabled');
+            block.find(".checkbox-label input").attr('disabled','disabled');
+        }
 
         /*
          * This code is executed everytime that we access to the profile page
@@ -509,6 +535,7 @@
             $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
         }
         $scope.bindEditableEvents();
+        $scope.initiateContentBlocks();
     };
 
     profileController.$inject = ["$rootScope", "$scope", "$upload", "$timeout", "$users", "$cookieStore", "appConstants"];
