@@ -21,6 +21,13 @@
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
         };
 
+        var initialData = "";
+
+        $scope.resetData = function () {
+            $scope.profile = angular.copy(initialData);
+            $scope.calculatePercentage();
+        }
+
         //ABOUT EDITABLE BLOCK
         $scope.aboutStatus = false;
         $scope.editAboutBlock = function () {
@@ -28,12 +35,13 @@
             $scope.editContentBlock($("#user-about-form"));
             $scope.aboutStatus = true;
         }
-        $scope.saveAboutBlock = function () {
+        $scope.saveAboutBlock = function (iam, bio, longbio) {
 
             $scope.disableContentBlock($("#user-about-form"));
-            $scope.updateBio($scope.profile.bio);
-            $scope.updateLongBio($scope.profile.longbio);
-            $scope.updateIams($scope.profile.iam);
+            $scope.updateIams(iam);
+            $scope.updateBio(bio);
+            $scope.updateLongBio(longbio);
+            
             $scope.aboutStatus = false;
 
 
@@ -41,11 +49,9 @@
         $scope.cancelAboutBlock = function () {
             $scope.disableContentBlock($("#user-about-form"));
             $scope.aboutStatus = false;
-            
-            $scope.profile.bio = angular.copy(initialData.bio);
-            $scope.profile.longbio = angular.copy(initialData.longbio);
-             $scope.profile.iam = angular.copy(initialData.iam);
-            
+
+            $scope.resetData();
+
         }
 
         //
@@ -90,7 +96,7 @@
          *  We use initialData to store the information that we retrieved from the server when the method
          *  is called. So we can check if the user changed it at some point.
          */
-        var initialData = "";
+
         $scope.loadUserData = function () {
             $users.getUserData()
                     .success(function (data) {
@@ -111,13 +117,13 @@
                         console.log("profile.hascover: " + data.hascover);
                         console.log("profile.hasavatar: " + data.hasavatar);
                         $scope.profile.userId = data.userId;
-                        $scope.profile.firstname =  data.firstname ;
-                        $scope.profile.lastname = data.lastname ;
-                        $scope.profile.location = data.location ;
-                        $scope.profile.originallyFrom =  data.originallyFrom ;
+                        $scope.profile.firstname = data.firstname;
+                        $scope.profile.lastname = data.lastname;
+                        $scope.profile.location = data.location;
+                        $scope.profile.originallyFrom = data.originallyFrom;
                         $scope.profile.bio = data.bio;
                         $scope.profile.longbio = data.longbio;
-                        $scope.profile.title =  data.title ;
+                        $scope.profile.title = data.title;
                         $scope.profile.lookingFor = data.lookingFor;
                         $scope.profile.interests = data.interests;
                         $scope.profile.iam = data.iams;
@@ -238,134 +244,183 @@
 
         $scope.updateBothNames = function (firstname, lastname) {
             $scope.clearEditablesActive();
-            $scope.clearField($("#user-name-form"));
-            $users.updateBothNames(firstname, lastname).success(function (data) {
-                $scope.profile.firstname = firstname;
-                $scope.profile.lastname = lastname;
-                $rootScope.$broadcast("quickNotification", "First & Last Name Updated Successfully");
-                $scope.calculatePercentage();
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the first & last name!" + data);
-            });
+            // $scope.clearField($("#user-name-form"));
+
+
+            if (typeof (firstname) != "undefined" && firstname != "" && firstname != initialData.firstname) {
+
+                $users.updateFirstName(firstname).success(function (data) {
+                    $scope.profile.firstname = firstname;
+
+                    initialData.firstname = firstname;
+
+                    $rootScope.$broadcast("quickNotification", "First Name Updated Successfully");
+
+                    $scope.calculatePercentage();
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the first name!" + data);
+                });
+            } else {
+                $scope.resetData();
+
+            }
+            if (typeof (lastname) != "undefined" && lastname != "" && lastname != initialData.lastname) {
+
+                $users.updateLastName(lastname).success(function (data) {
+                    $scope.profile.lastname = lastname;
+
+                    initialData.lastname = lastname;
+
+                    $rootScope.$broadcast("quickNotification", "Last Name Updated Successfully");
+
+                    $scope.calculatePercentage();
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the last name!" + data);
+                });
+            } else {
+                $scope.resetData();
+
+            }
 
         };
 
+
+
         $scope.updateLookingFors = function (lookingFors) {
             $scope.clearEditablesActive();
-            console.log("lookingFors = " + lookingFors);
-
-            $users.updateLookingFor(lookingFors).success(function (data) {
-              
-                $rootScope.$broadcast("quickNotification", "LookingFor Updated Successfully");
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the lookingFor values!" + data);
-            });
+            if (typeof (lookingFors) != "undefined"
+                    && lookingFors != initialData.lookingFor) {
+                $users.updateLookingFor(lookingFors).success(function (data) {
+                    $scope.profile.lookingFor = lookingFors;
+                    initialData.lookingFor = lookingFors;
+                    $rootScope.$broadcast("quickNotification", "LookingFor Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the lookingFor values!" + data);
+                });
+            } else {
+                $scope.resetData();
+            }
 
         };
 
         $scope.updateIams = function (iams) {
             console.log("iams = " + iams);
-            $users.updateIam(iams).success(function (data) {
-                $rootScope.$broadcast("quickNotification", "I am Updated Successfully");
-                $scope.calculatePercentage();
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the I am values!" + data);
-            });
+            if (typeof (iams) != "undefined"
+                    && iams != initialData.iam) {
+                $users.updateIam(iams).success(function (data) {
+                    $scope.profile.iam = iams;
+                    initialData.iam = iams;
+                    $rootScope.$broadcast("quickNotification", "I am Updated Successfully");
+
+                    $scope.calculatePercentage();
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the I am values!" + data);
+                });
+            } else {
+                $scope.resetData();
+            }
 
         };
 
-        $scope.updateFirstName = function (firstname) {
-            $users.updateFirstName(firstname).success(function (data) {
-                $rootScope.$broadcast("quickNotification", "First Name Updated Successfully");
-                $scope.calculatePercentage();
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the first name!" + data);
-            });
 
-        };
-
-        $scope.updateLastName = function (lastname) {
-            $users.updateLastName(lastname).success(function (data) {
-                $rootScope.$broadcast("quickNotification", "Last Name Updated Successfully");
-                $scope.calculatePercentage();
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the last name!" + data);
-            });
-
-        };
 
         $scope.updateOriginallyFrom = function (originallyFrom) {
-            
+
             $scope.clearEditablesActive();
-            $scope.clearField($("#user-originally-from-form"));
-            
-            $users.updateOriginallyFrom(originallyFrom).success(function (data) {
-                $scope.profile.originallyFrom = originallyFrom;
-                $scope.calculatePercentage();
-                $rootScope.$broadcast("quickNotification", "Originally From Updated Successfully");
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the Originally From location!" + data);
-            });
+            // $scope.clearField($("#user-originally-from-form"));
+            if (typeof (originallyFrom) != "undefined" && originallyFrom != ""
+                    && originallyFrom != initialData.originallyFrom) {
+                $users.updateOriginallyFrom(originallyFrom).success(function (data) {
+                    $scope.profile.originallyFrom = originallyFrom;
+                    initialData.originallyFrom = originallyFrom;
+                    $scope.calculatePercentage();
+                    $rootScope.$broadcast("quickNotification", "Originally From Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the Originally From location!" + data);
+                });
+            } else {
+                $scope.resetData();
+            }
 
         };
 
         $scope.updateLocation = function (location) {
-            
+
             $scope.clearEditablesActive();
-            $scope.clearField($("#user-location-form"));
-            
-            $users.updateLocation(location).success(function (data) {
-                $scope.profile.location = location;
-                $scope.calculatePercentage();
-                $rootScope.$broadcast("quickNotification", "Location Updated Successfully");
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the location!" + data);
-            });
+            //$scope.clearField($("#user-location-form"));
+            if (typeof (location) != "undefined" && location != "" && location != initialData.location) {
+                $users.updateLocation(location).success(function (data) {
+                    $scope.profile.location = location;
+                    initialData.location = location;
+                    $scope.calculatePercentage();
+                    $rootScope.$broadcast("quickNotification", "Location Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the location!" + data);
+                });
+            } else {
+                $scope.resetData();
+            }
 
         };
 
         $scope.updateBio = function (bio) {
-            $users.updateBio(bio).success(function (data) {
-                $rootScope.$broadcast("quickNotification", "Bio Updated Successfully");
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
-            });
+            if (typeof (bio) != "undefined" && bio != "" && bio != initialData.bio) {
+                $users.updateBio(bio).success(function (data) {
+                    $rootScope.$broadcast("quickNotification", "Bio Updated Successfully");
+                    $scope.profile.bio = bio;
+                    initialData.bio = bio;
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
+                });
+            } else {
+                $scope.resetData();
+            }
 
         };
 
         $scope.updateLongBio = function (longbio) {
-            $users.updateLongBio(longbio).success(function (data) {
-                $rootScope.$broadcast("quickNotification", "Long Bio Updated Successfully");
-                $scope.calculatePercentage();
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the long bio!" + data);
-            });
+            if (typeof (longbio) != "undefined" && longbio != "" && longbio != initialData.longbio) {
+                $users.updateLongBio(longbio).success(function (data) {
+                    $rootScope.$broadcast("quickNotification", "Long Bio Updated Successfully");
+                    $scope.profile.longbio = longbio;
+                    initialData.longbio = longbio;
+                    $scope.calculatePercentage();
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the long bio!" + data);
+                });
+            } else {
+                $scope.resetData();
+            }
 
         };
 
 
         $scope.updateTitle = function (title) {
             $scope.clearEditablesActive();
-            $scope.clearField($("#user-job-form"));
-            
-            $users.updateTitle(title).success(function (data) {
-                $scope.profile.title = title;
-                $scope.calculatePercentage();
-                $rootScope.$broadcast("quickNotification", "Title Updated Successfully");
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
-            });
-            
+            //$scope.clearField($("#user-job-form"));
+            if (typeof (title) != "undefined" && title != "" && title != initialData.title) {
+                $users.updateTitle(title).success(function (data) {
+                    $scope.profile.title = title;
+                    initialData.title = title;
+                    $scope.calculatePercentage();
+                    $rootScope.$broadcast("quickNotification", "Title Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
+                });
+            } else {
+                $scope.resetData();
+
+            }
+
         };
 
         /*
@@ -394,14 +449,17 @@
                 console.log("> + 5 hasavatar");
                 $scope.profile.percentage += 5;
             }
-            if ($scope.profile.firstname != "undefined" && $scope.profile.firstname != "" &&
-                    $scope.profile.lastname != "undefined" && $scope.profile.lastname != "") {
-                $scope.profile.percentage += 10;
-                console.log("> + 10 firstname/lastname");
+            if ($scope.profile.firstname != "undefined" && $scope.profile.firstname != "") {
+                $scope.profile.percentage += 5;
+                console.log("> + 5 firstname");
+            }
+            if ($scope.profile.lastname != "undefined" && $scope.profile.lastname != "") {
+                $scope.profile.percentage += 5;
+                console.log("> + 5 lastname");
             }
             if ($scope.profile.title != "undefined" && $scope.profile.title != "") {
                 $scope.profile.percentage += 10;
-                console.log("> + 10 title = "+ $scope.profile.title);
+                console.log("> + 10 title = " + $scope.profile.title);
             }
             if ($scope.profile.location != "undefined" && $scope.profile.location != "") {
                 $scope.profile.percentage += 10;
@@ -426,7 +484,7 @@
             }
             if ($scope.profile.lookingFor != "undefined" && $scope.profile.lookingFor != "") {
                 $scope.profile.percentage += 10;
-                console.log("> + 10 lookingfor = "+$scope.profile.lookingFor);
+                console.log("> + 10 lookingfor = " + $scope.profile.lookingFor);
             }
             if ($scope.profile.iam != "undefined" && $scope.profile.iam != "") {
                 $scope.profile.percentage += 10;
@@ -446,80 +504,81 @@
             });
 
         };
-        
+
         /* 
          * Manage float forms and editable content blocks
          */
-        
-        
+
+
         $scope.bindEditableEvents = function () {
             var editables = $(".editable")
-            editables.each(function(index){
+            editables.each(function (index) {
                 var element = $(this);
                 element.bind("click", $scope.clickOnEditable);
             });
         }
-        
+
         $scope.clickOnEditable = function (event) {
-            
-            if(event.target.className.indexOf("editable") > -1){
+
+            if (event.target.className.indexOf("editable") > -1) {
                 $scope.clearEditablesActive();
                 var target = $(event.currentTarget);
                 target.addClass("editable-active");
             }
         }
-        
-         $scope.clearEditablesActive = function(){
+
+        $scope.clearEditablesActive = function () {
             var editablesActive = $(".editable-active")
-            editablesActive.each(function(index){
+            editablesActive.each(function (index) {
                 var element = $(this);
                 element.removeClass("editable-active");
             });
-         };
-        
-         $scope.closeEditables = function(event){
+        };
+
+        $scope.closeEditables = function (event) {
             event.stopPropagation();
             $scope.clearEditablesActive();
-            
+            $scope.resetData();
+            $scope.calculatePercentage();
             var target = $(event.currentTarget);
-            var currentform = target.closest(".floatform");
-             
-            var formFields =  currentform.find("input");
-            formFields.each(function(index){
-                 $(this).val('');
-            }); 
-         };
-        
-        $scope.clearField = function(form){
-             var formFields = form.find("input");
-            formFields.each(function(index){
-                 $(this).val('');
-            }); 
+//            var currentform = target.closest(".floatform");
+
+//            var formFields =  currentform.find("input");
+//            formFields.each(function(index){
+//                 $(this).val('');
+//            }); 
         };
-        
+
+//        $scope.clearField = function(form){
+//             var formFields = form.find("input");
+//            formFields.each(function(index){
+//                 $(this).val('');
+//            }); 
+//        };
+
         $scope.initiateContentBlocks = function () {
             var blockContents = $(".content-block-content");
-            blockContents.each(function(index){
-            
-                var textareas = $(this).find("textarea");
-                var checkboxes = $(this).find(".checkboxes").children().attr('disabled','disabled');
+            blockContents.each(function (index) {
 
-                textareas.each(function(index){
-                    $(this).attr('disabled','disabled');
+                var textareas = $(this).find("textarea");
+                var checkboxes = $(this).find(".checkboxes").children().attr('disabled', 'disabled');
+
+                textareas.each(function (index) {
+                    $(this).attr('disabled', 'disabled');
                 });
             });
         };
-        
-        $scope.editContentBlock = function(block){
+
+        $scope.editContentBlock = function (block) {
             block.find("textarea").removeAttr('disabled');
             block.find(".checkbox-label").removeClass('disabled');
             block.find(".checkbox-label input").removeAttr('disabled');
         }
-        
-        $scope.disableContentBlock = function(block){
-            block.find("textarea").attr('disabled','disabled');
+
+        $scope.disableContentBlock = function (block) {
+            block.find("textarea").attr('disabled', 'disabled');
             block.find(".checkbox-label").addClass('disabled');
-            block.find(".checkbox-label input").attr('disabled','disabled');
+            block.find(".checkbox-label input").attr('disabled', 'disabled');
         }
 
         /*
@@ -530,7 +589,7 @@
             // If it is the first time that the user is accessing the site using this account
             //  we need to update the information in the server and then load the basic data. 
             $scope.updateUserFirstLogin();
-            
+
         } else {
             $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
         }

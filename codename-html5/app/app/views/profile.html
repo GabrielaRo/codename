@@ -45,14 +45,15 @@
                                     <div class="form-content">
                                         <div class="form-fields">
                                             <div class="control">
-                                                <input type="text" ng-model="profile.newfirstname" placeholder="First Name">
+                                                <input type="text" ng-model="profile.firstname" placeholder="First Name">
                                             </div>
                                             <div class="control">
-                                                <input type="text" ng-model="profile.newlastname" placeholder="Last Name">
+                                                <input type="text" ng-model="profile.lastname" placeholder="Last Name">
                                             </div>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="button primary" ng-click="updateBothNames(profile.newfirstname, profile.newlastname)">Save</button> <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+                                            <button class="button primary" ng-click="updateBothNames(profile.firstname, profile.lastname)">Save</button> 
+                                            <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -65,11 +66,11 @@
                                     <div class="form-content">
                                         <div class="form-fields">
                                             <div class="control">
-                                                <input type="text" ng-model="profile.newtitle" placeholder="Job Title">
+                                                <input type="text" ng-model="profile.title" placeholder="Job Title">
                                             </div>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="button primary" ng-click="updateTitle(profile.newtitle)">Save</button> <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                                            <button class="button primary" ng-click="updateTitle(profile.title)">Save</button> <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -133,11 +134,12 @@
                                 <div class="form-content">
                                     <div class="form-fields">
                                         <div class="control">
-                                            <input type="text" ng-model="profile.neworiginallyFrom" placeholder="Your city">
+                                            <input type="text" ng-model="profile.originallyFrom" placeholder="Your city">
                                         </div>
                                     </div>
                                     <div class="form-actions">
-                                        <button class="button primary" ng-click="updateOriginallyFrom(profile.neworiginallyFrom)">Save</button> <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                                        <button class="button primary" ng-click="updateOriginallyFrom(profile.originallyFrom)">Save</button> 
+                                        <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -151,11 +153,12 @@
                                 <div class="form-content">
                                     <div class="form-fields">
                                         <div class="control">
-                                            <input type="text" ng-model="profile.newlocation" placeholder="Your actual city">
+                                            <input type="text" ng-model="profile.location" placeholder="Your actual city">
                                         </div>
                                     </div>
                                     <div class="form-actions">
-                                        <button class="button primary" ng-click="updateLocation(profile.newlocation)">Save</button> <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+                                        <button class="button primary" ng-click="updateLocation(profile.location)">Save</button> 
+                                        <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -245,7 +248,7 @@
                     </div>
                     <div class="content-block-actions" ng-show="aboutStatus">
                            <button class="button inverted"  ng-click="cancelAboutBlock()">Cancel</button>
-                            <button class="button primary"  ng-click="saveAboutBlock()">Save</button>
+                            <button class="button primary"  ng-click="saveAboutBlock(profile.iam, profile.bio, profile.longbio)">Save</button>
                     </div>
                 </div>
 

@@ -96,7 +96,7 @@ public interface UserEndpointService extends Serializable {
     Response updateBothNames(@NotNull @PathParam("id") Long user_id, @FormParam("firstname") String firstname , 
             @FormParam("lastname") String lastname) throws ServiceException;
 
-    @Path("{id}/lastname")
+    @Path("{id}/lastname/update")
     @POST
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON})

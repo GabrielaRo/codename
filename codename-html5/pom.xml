@@ -61,20 +61,23 @@
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>1.0.2.Final</version>
+                <!--configuration>
+                    <jvmArgs>-Xms2048m -Xmx4024m -XX:MaxPermSize=2024M -XX:PermSize=1512M -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y</jvmArgs>
+                </configuration-->
             </plugin>
              <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <webResources>
-            <resource>
-              <!-- this is relative to the pom.xml directory -->
-              <directory>app</directory>
-            </resource>
-          </webResources>
-        </configuration>
-      </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                  <webResources>
+                    <resource>
+                      <!-- this is relative to the pom.xml directory -->
+                      <directory>app</directory>
+                    </resource>
+                  </webResources>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
  
