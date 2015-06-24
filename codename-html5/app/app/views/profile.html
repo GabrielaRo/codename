@@ -204,24 +204,78 @@
                         </div>
                         
                     </div>
-                    <div class="content-block-actions" ng-show="interestStatus">
+                    <div class="content-block-actions left" ng-show="interestStatus">
                            <button class="button inverted"  ng-click="cancelInterestBlock()">Cancel</button>
                            <button class="button primary"  ng-click="saveInterestBlock(profile.interests)">Save</button>
                     </div>
 
                 </div>
                 <div class="content-block" id="profile-user-links">
-                    <div class="content-block-title editable">
+                    <div class="content-block-title ">
                         My Links
                     </div>
                     <div class="content-block-content">
-                        <div class="link"><span class="editable">Twitter</span></div>
-                        <div class="link"><span class="editable">Linkedin</span></div>
-                        <div class="link"><span class="editable">Add my website</span></div>
+                        <div class="link">
+                            <span class="editable">
+                                 {{profile.twitter}}<span class="editable-placeholder" ng-show="profile.twitter == ''">Add Twitter Link</span>
+                                
+                                <div class="floatform" id="user-twitter-form">
+                                    <div class="form-content">
+                                        <div class="form-fields">
+                                            <div class="control">
+                                                <input type="text" ng-model="profile.twitter" placeholder="Twitter Link">
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button class="button primary" ng-click="updateTwitter(profile.twitter)">Save</button> 
+                                            <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </span>
+                        </div>
+                        
+                        <div class="link">
+                            <span class="editable">
+                               {{profile.linkedin}}<span class="editable-placeholder" ng-show="profile.linkedin == ''">Add Linkedin Link</span>
+                                <div class="floatform" id="user-linkedin-form">
+                                    <div class="form-content">
+                                        <div class="form-fields">
+                                            <div class="control">
+                                                <input type="text" ng-model="profile.linkedin" placeholder="Linkedin Link">
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button class="button primary" ng-click="updateLinkedin(profile.linkedin)">Save</button> 
+                                            <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="link">
+                            <span class="editable">
+                               {{profile.website}}<span class="editable-placeholder" ng-show="profile.website == ''">Add Website</span>
+                                <div class="floatform" id="user-website-form">
+                                    <div class="form-content">
+                                        <div class="form-fields">
+                                            <div class="control">
+                                                <input type="text" ng-model="profile.website" placeholder="Website Link">
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button class="button primary" ng-click="updateWebsite(profile.website)">Save</button> 
+                                            <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="content-block">
-                    <div class="content-block-title editable">
+                    <div class="content-block-title ">
                         My work playlist
                     </div>
                 </div>

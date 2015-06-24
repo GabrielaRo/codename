@@ -13,6 +13,9 @@
             lookingFors: "",
             interests: "",
             iam: "",
+            twitter: "",
+            linkedin: "",
+            website: "",
             percentage: 0,
             live: "false",
             hasavatar: "false",
@@ -464,6 +467,10 @@
             }
 
         };
+        
+        
+        
+        
 
         /*
          * This code updates on the server side if the user is accessing the site
