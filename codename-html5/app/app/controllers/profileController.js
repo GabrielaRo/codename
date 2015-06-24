@@ -53,11 +53,36 @@
             $scope.resetData();
 
         }
+        
+        //INTEREST EDITABLE BLOCK
+        $scope.interestStatus = false;
+        $scope.editInterestBlock = function () {
 
+           // $scope.editContentBlock($("#user-about-form"));
+            $scope.interestStatus = true;
+        }
+        $scope.saveInterestBlock = function (interests) {
+
+            //$scope.disableContentBlock($("#user-interests-form"));
+            //$scope.updateIntersts(interests);
+
+            $scope.interestStatus = false;
+
+
+        }
+        $scope.cancelInterestBlock = function () {
+            //$scope.disableContentBlock($("#user-about-form"));
+            $scope.interestStatus = false;
+            $scope.resetData();
+
+        }
+
+        
         //
 
         $scope.lookingFors = [['Socialise', 'Socialise with other Fhellows'], ['Collaborate', 'Collaborate with other Fhellows'], ['Mentor', 'Mentor Fhellows']];
         $scope.iAms = [['Freelancer', 'Freelancer'], ['Entrepreneur', 'Entrepreneur'], ['Digital Nomad', 'Digital Nomad']];
+        $scope.interestsList = ['Tech', 'Design', 'Journalism', 'Photography', 'Fashion', 'Gaming', 'Virtual Reality', 'Software', 'Education', 'Startups','Business', 'Blogging', 'Music', 'Sports'];
 
         $scope.toggleIamSelection = function (iam) {
 
@@ -90,6 +115,23 @@
             $scope.calculatePercentage();
 
         };
+        
+        $scope.toggleInterstsSelection = function (interest) {
+            console.log( interest +  "LOS INTERESTS SON = " + $scope.profile.interests);
+            var idx = $scope.profile.interests.indexOf(interest);
+            // is currently selected
+            if (idx > -1) {
+                $scope.profile.interests.splice(idx, 1);
+            }
+
+            // is newly selected
+            else {
+                $scope.profile.interests.push(interest);
+            }
+
+            $scope.calculatePercentage();
+        };
+        
 
         /*
          * This code loads all the profile user data from the server.
