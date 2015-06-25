@@ -68,6 +68,9 @@ public class UserServiceImpl implements UserEndpointService {
         jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
         jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
         jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
+        jsonObjBuilder.add("website", (u.getWebsite() == null) ? "" : u.getWebsite());
+        jsonObjBuilder.add("twitter", (u.getTwitter() == null) ? "" : u.getTwitter());
+        jsonObjBuilder.add("linkedin", (u.getLinkedin() == null) ? "" : u.getLinkedin());
         jsonObjBuilder.add("live", u.isLive());
         jsonObjBuilder.add("hascover", u.getCoverFileName() != null && !u.getCoverFileName().equals(""));
         jsonObjBuilder.add("hasavatar", u.getAvatarFileName() != null && !u.getAvatarFileName().equals(""));
@@ -389,5 +392,22 @@ public class UserServiceImpl implements UserEndpointService {
 
         return Response.ok().build();
     }
+
+    public Response updateTwitter(Long user_id, String twitter) throws ServiceException {
+        usersService.updateTwitter(user_id, twitter);
+        return Response.ok().build();
+    }
+
+    public Response updateWebsite(Long user_id, String website) throws ServiceException {
+        usersService.updateWebsite(user_id, website);
+        return Response.ok().build();
+    }
+
+    public Response updateLinkedin(Long user_id, String linkedin) throws ServiceException {
+        usersService.updateLinkedin(user_id, linkedin);
+        return Response.ok().build();
+    }
+    
+    
 
 }

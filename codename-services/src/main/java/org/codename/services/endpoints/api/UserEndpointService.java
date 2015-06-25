@@ -89,6 +89,24 @@ public interface UserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response updateFirstName(@NotNull @PathParam("id") Long user_id, @FormParam("firstname") String firstname) throws ServiceException;
     
+    @Path("{id}/twitter/update")
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON})
+    Response updateTwitter(@NotNull @PathParam("id") Long user_id, @FormParam("twitter") String twitter) throws ServiceException;
+    
+    @Path("{id}/website/update")
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON})
+    Response updateWebsite(@NotNull @PathParam("id") Long user_id, @FormParam("website") String website) throws ServiceException;
+    
+    @Path("{id}/linkedin/update")
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON})
+    Response updateLinkedin(@NotNull @PathParam("id") Long user_id, @FormParam("linkedin") String linkedin) throws ServiceException;
+    
     @Path("{id}/bothnames/update")
     @POST
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})

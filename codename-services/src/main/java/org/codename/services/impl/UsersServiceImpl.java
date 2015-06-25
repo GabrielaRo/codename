@@ -346,4 +346,33 @@ public class UsersServiceImpl implements UsersService {
         em.merge(u);
     }
 
+    public void updateTwitter(Long user_id, String twitter) throws ServiceException {
+        User u = em.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setTwitter(twitter);
+        em.merge(u);
+    }
+
+    public void updateWebsite(Long user_id, String website) throws ServiceException {
+        User u = em.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setWebsite(website);
+        em.merge(u);
+    }
+
+    public void updateLinkedin(Long user_id, String linkedin) throws ServiceException {
+        User u = em.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setLinkedin(linkedin);
+        em.merge(u);
+    }
+    
+    
+
 }

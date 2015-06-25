@@ -112,6 +112,12 @@ public class User implements Serializable {
     
     private String gender;
     
+    private String website;
+    
+    private String twitter;
+    
+    private String linkedin;
+    
 
     public User() {
     }
@@ -297,18 +303,46 @@ public class User implements Serializable {
         this.live = live;
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", password=" + password + ", email=" + email + 
-                ", isFirstLogin=" + isFirstLogin + ", bio=" + bio + ", longBio=" + longBio + 
-                ", originallyFrom=" + originallyFrom + ", location=" + location + 
-                ", avatarFileName=" + avatarFileName + ", title=" + title +
-                ", avatarContent=" + avatarContent + ", coverFileName=" + coverFileName + 
-                ", coverContent=" + coverContent + ", firstname=" + firstname + 
-                ", lastname=" + lastname + ", latitude=" + latitude + 
-                ", longitude=" + longitude + ", interests=" + interests +
-                ", categories=" + categories + ", lookingFor=" + lookingFor + 
-                ", iAms=" + iAms + ", live=" + live + '}';
+    public Date getBirthday() {
+        return birthday;
     }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
+    }
+
+    public String getLinkedin() {
+        return linkedin;
+    }
+
+    public void setLinkedin(String linkedin) {
+        this.linkedin = linkedin;
+    }
+
+    
 
 }

@@ -190,6 +190,9 @@
                         $scope.profile.lookingFor = data.lookingFor;
                         $scope.profile.interests = data.interests;
                         $scope.profile.iam = data.iams;
+                        $scope.profile.website = data.website;
+                        $scope.profile.linkedin = data.linkedin;
+                        $scope.profile.twitter = data.twitter;
 
                         $scope.profile.live = data.live;
                         $scope.profile.hasavatar = data.hasavatar;
@@ -486,6 +489,65 @@
 
         };
         
+        $scope.updateTwitter = function (twitter) {
+            $scope.clearEditablesActive();
+            //$scope.clearField($("#user-job-form"));
+            if (typeof (twitter) != "undefined" && twitter != "" && twitter != initialData.twitter) {
+                $users.updateTwitter(twitter).success(function (data) {
+                    $scope.profile.twitter = twitter;
+                    initialData.twitter = twitter;
+                    $scope.calculatePercentage();
+                    $rootScope.$broadcast("quickNotification", "twitter Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating twitter!" + data);
+                });
+            } else {
+                $scope.resetData();
+
+            }
+
+        };
+        
+        $scope.updateWebsite = function (website) {
+            $scope.clearEditablesActive();
+            //$scope.clearField($("#user-job-form"));
+            if (typeof (website) != "undefined" && website != "" && website != initialData.website) {
+                $users.updateWebsite(website).success(function (data) {
+                    $scope.profile.website = website;
+                    initialData.website = website;
+                    $scope.calculatePercentage();
+                    $rootScope.$broadcast("quickNotification", "website Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating website!" + data);
+                });
+            } else {
+                $scope.resetData();
+
+            }
+
+        };
+        
+        $scope.updateLinkedin = function (linkedin) {
+            $scope.clearEditablesActive();
+            //$scope.clearField($("#user-job-form"));
+            if (typeof (linkedin) != "undefined" && linkedin != "" && linkedin != initialData.linkedin) {
+                $users.updateLinkedin(linkedin).success(function (data) {
+                    $scope.profile.linkedin = linkedin;
+                    initialData.linkedin = linkedin;
+                    $scope.calculatePercentage();
+                    $rootScope.$broadcast("quickNotification", "linkedin Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating linkedin!" + data);
+                });
+            } else {
+                $scope.resetData();
+
+            }
+
+        };
         
         
         

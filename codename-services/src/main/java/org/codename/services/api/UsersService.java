@@ -81,4 +81,10 @@ public interface UsersService {
 
     void updateIams(Long user_id, List<String> iAmsList) throws ServiceException;
 
+    void updateTwitter(Long user_id, String twitter) throws ServiceException;
+
+    void updateWebsite(Long user_id, String webpage) throws ServiceException;
+
+    void updateLinkedin(Long user_id, String linkedin) throws ServiceException;
+
 }
