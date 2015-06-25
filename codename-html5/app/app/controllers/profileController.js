@@ -66,8 +66,8 @@
         }
         $scope.saveInterestBlock = function (interests) {
 
-            //$scope.disableContentBlock($("#user-interests-form"));
-            //$scope.updateIntersts(interests);
+           // $scope.disableContentBlock($("#user-interests-form"));
+            $scope.updateInterests(interests);
 
             $scope.interestStatus = false;
 
@@ -80,7 +80,25 @@
 
         }
 
-        
+        $scope.updateInterests = function (interests) {
+            console.log("interests = " + interests);
+            if (typeof (interests) != "undefined"
+                    && interests != initialData.interests) {
+                $users.updateInterests(interests).success(function (data) {
+                    $scope.profile.interests = interests;
+                    initialData.interests = interests;
+                    $rootScope.$broadcast("quickNotification", "Interests Updated Successfully");
+
+                    $scope.calculatePercentage();
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the Interests values!" + data);
+                });
+            } else {
+                $scope.resetData();
+            }
+
+        };
         //
 
         $scope.lookingFors = [['Socialise', 'Socialise with other Fhellows'], ['Collaborate', 'Collaborate with other Fhellows'], ['Mentor', 'Mentor Fhellows']];
