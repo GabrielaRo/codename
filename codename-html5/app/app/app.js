@@ -53,8 +53,15 @@
     codename.run(function ($rootScope, $location) {
 
         var history = [];
+        $rootScope.navStatus = "show";
 
         $rootScope.$on('$routeChangeSuccess', function () {
+            console.log("LA RUTA ACTUAL ES = " +$location.path())
+            if($location.path() == "/"){
+                $rootScope.navStatus = "hidden";
+            }else{
+                $rootScope.navStatus = "show";
+            }
             history.push($location.$$path);
             console.log("HISTORY " + history)
         });

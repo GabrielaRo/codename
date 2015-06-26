@@ -1,4 +1,30 @@
 .screen {
       padding-top: (@padding * 1.5);
       min-height: 90%;
+    .sub-screen {
+        height: 100%;
+        &.vertical {
+            display: table;
+            width: 100%;
+            .wrapper {
+                display: table-cell;
+                
+                vertical-align: middle;
+            }
+        }
+        
+        &.dark {
+            background-color: @darkBgr;
+            color: @darkText;
+        }
+        
+        &.auto-height {
+            height: auto;
+            padding: (@padding*2) 0;
+        }
+        
+        &.center {
+            text-align: center;
+        }
+    }
 }

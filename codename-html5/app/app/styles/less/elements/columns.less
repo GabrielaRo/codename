@@ -12,6 +12,7 @@
     font-size: 0;
     & > div {
         font-size: @fontSize;
+        white-space: normal;
     }
 }
 
@@ -31,6 +32,10 @@
     .col();
     width: 460px; 
 }
+.four-col {
+    .col();
+    width: 300px; 
+}
 .two-col {
     .col();
     width: 140px; 
@@ -38,4 +43,19 @@
 
 .col-margin{
     margin-right: @colMargin;
+}
+
+.right-offset-col(@cols) {
+    margin-right:  (60*@cols + 20*(@cols));
+}
+.left-offset-col(@cols) {
+    margin-left: (60*@cols + 20*(@cols));
+}
+
+.text-col {
+    .col();
+    .col-margin();
+    .left-offset-col(1px);
+    .right-offset-col(1px);
+    width: 460px;
 }

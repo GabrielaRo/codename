@@ -41,15 +41,15 @@
 
     <!-- APP MAIN NAVIGATION -->
 
-    <div ng-controller="NavigationController">
-        <div ng-include="'app/views/nav.html'"> </div>
+    <div ng-controller="NavigationController" class="{{navStatus}}">
+        <div ng-include="'app/views/nav.html'" > </div>
     </div>
 
     <!-- APP NG-VIEW -->
     <div class="screen {{pageClass}}" ng-view  > </div>
 
     <!-- FOOTER -->
-    <footer id="global-footer">
+    <footer id="global-footer" class="{{navStatus}}">
         <nav >
             <ul id="nav-footer">
                 <li class="nav-item">

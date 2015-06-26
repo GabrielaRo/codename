@@ -3,7 +3,7 @@
     var NavigationController = function($scope, $location, $rootScope){
         
         $scope.isActive = function (route) {
-        return route === $location.path();
+            return route === $location.path();
         };
 
         $rootScope.$on('goTo', function (event, data) {

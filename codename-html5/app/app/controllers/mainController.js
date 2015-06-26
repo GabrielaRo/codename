@@ -16,6 +16,8 @@
         $scope.notifications = {};
         $scope.avatarStyle = "";
         $scope.websocket = {};
+        
+        
         $rootScope.$on('quickNotification', function (event, data, type) {
             var config = {};
 
@@ -74,11 +76,12 @@
         };
 
         $scope.loginUser = function (isValid, user) {
-            console.log("logged user " + user.email + " / password" + user.password);
+            
 
             $scope.submitted = true;
 
             if (isValid) {
+                console.log("logged user " + user.email + " / password" + user.password);
                 $users.login(user).success(function (data) {
                     $rootScope.$broadcast("quickNotification", "You are logged now, have fun!", 'success');
                     console.log("You are signed in! " + data.auth_token);

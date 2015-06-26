@@ -1,4 +1,151 @@
- <!-- HOME -->
+
+ <section class="sub-screen vertical dark">
+      <div class="wrapper">
+       <div class="container">
+
+         <div class="text-col ">
+             <h1>
+                 <div class="brand">
+                     Fhellow    
+                 </div>
+             </h1>
+             <h2>
+                 A community for independant workers
+             </h2>
+             <p>Find fellow freelancers, location independant entrepreneurs and digital nomads working around you. Discuss ideas, share experiences, swap advice, collaborate and start building your own work community.</p>
+         </div>
+         <div id="home-form" class="four-col">
+            <div class="content-block">
+             <div class="tabs" id="home-tabs">
+                 <div class="tab-nav">
+                     <div class="tab active"  id="sign-in" ng-click="tabClicked('sign-in', 'home-tabs')">
+                         Sign In
+                     </div>
+                     <div class="tab" id="join" ng-click="tabClicked('join', 'home-tabs')">
+                         Join
+                     </div>
+                 </div>
+                 <div class="tab-contents">
+                     <div class="tab-content" ng-show="formTabActive == 'sign-in'" id="sign-in">
+                         <form novalidate name="loginForm" ng-submit="loginUser(loginForm.$valid, credentials)">
+                             <div>
+                                 <button class="button block facebook">Sign in with Facebook</button>
+                                 <button class="button block google">Sign in with Google</button>
+                             </div>
+                             <div class="form-spacer">
+                                 <span>or</span>
+                             </div>
+
+                             <div class="control full">
+                                 <input ng-model="credentials.email" id="email" name="email" type="email" placeholder="Email" required>
+                                 <div class="error-msg" ng-show="loginForm.email.$invalid && submitted">Enter a valid email.</div>
+                             </div>
+                             <div class="control full">
+                                 <input ng-model="credentials.password" type="password" id="pass" name="password" placeholder="Password" required>
+                             </div>
+                             <div class="control-row">
+                                 <div class="control full">
+                                     <div class="checkboxes">
+                                        <label class="checkbox-label " >
+                                            <input type="checkbox"> Remember Me
+                                        </label>
+                                        
+                                        <a href="#password" class="link">Forgotten password?</a>
+                                    </div>
+                                 </div>
+                                
+                             </div>
+                             
+                             <button  type="submit" value="Login" class="button block">Sign In</button>
+                             
+                         </form>
+                     </div>
+                     <div class="tab-content" ng-show="formTabActive == join" id="join">
+                     Join
+                     </div>
+                 </div>
+             </div>
+          </div>
+
+        </div>
+      </div>    
+    </div>
+</section>
+<section class="sub-screen vertical">
+   <div class="wrapper">
+       <div class="container">
+           <div class="six-col">
+                <h2>Welcome to the revolution</h2>
+                <p>We are an empowered new workforce that celebrates flexible and independent work over the usual 9-5 in an flurescent lit office. We are the new workforce, and Fhellow is here to help you create your new work community.</p>
+           </div>
+        </div>
+    </div>
+</section>
+<section class="sub-screen vertical">
+   <div class="wrapper">
+       <div class="container">
+           <div class="six-col"></div>
+           <div class="six-col">
+                <h2>Find Fhellows working around you</h2>
+                <p>Don’t get lonely working alone. Use our geo location to find who else is working around you or shares similar interests. Have a chat with a Fhellow over your coffee break, meet local Fhellows for after work drinks or collaborate on projects. </p>
+           </div>
+       </div>
+    </div>
+</section>
+<section class="sub-screen vertical">
+   <div class="wrapper">
+       <div class="container">
+         <div class="six-col">
+                <h2>Share & support each other</h2>
+                <p>Share ideas, locations that are geat to work in, and with many learnt along the way to becoming an indepndant worker, let’s support each other by sharing our own experiences, posting helpful resources and learning form each others mistakes.</p>
+           </div>
+       </div>
+    </div>
+</section>
+
+<section class="sub-screen auto-height center">
+   <div class="wrapper">
+       <div class="container">
+         <div >
+                <h2>Join the community<br/>and be part of the revolution</h2>
+              <p>
+                  <button class="button">Join The Community</button>
+              </p>
+               
+           </div>
+       </div>
+    </div>
+</section>
+<!-- FOOTER -->
+<footer id="global-footer" >
+    <nav >
+        <ul id="nav-footer">
+            <li class="nav-item">
+                <a href class="nav-item-link">About us</a>
+            </li>
+            <li class="nav-item">
+                <a href class="nav-item-link">Team</a>
+            </li>
+            <li class="nav-item">
+                <a href class="nav-item-link">Privacy Policy</a>
+            </li>
+            <li class="nav-item">
+                <a href class="nav-item-link">Terms & Condition</a>
+            </li>
+            <li class="nav-item">
+                <a href class="nav-item-link">Feedback</a>
+            </li>
+            <li class="nav-item">
+                <a href class="nav-item-link">Contact</a>
+            </li>
+        </ul>
+    </nav>
+    <div id="legal">
+        © Copyright Fhellow LTD 2014
+    </div>
+</footer>
+       
+       <!-- HOME 
         <div class="container">
             <div class="row">
                 <div class="jumbotron clearfix" style="background-color: transparent;" ng-show="!auth_token">
@@ -75,3 +222,5 @@
             <br/><br/>
 
         </div>
+        
+       -->

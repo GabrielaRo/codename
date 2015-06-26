@@ -1,14 +1,38 @@
 
 //FORMS
-
+.control-row {
+    display: block;
+}
+.form-spacer {
+    border-bottom: 1px solid @borders;
+    text-align: center;
+    padding: 0;
+    margin-bottom: 20px;
+    span {
+      background-color: @cardBgr;
+      padding: 0 10px;
+      position: relative;
+      top: 10px;
+        color: @borders;
+    }
+}
 .control {
     display: inline-block;
     position: relative;
-    padding-bottom: (@padding/2);
+    padding-bottom: (@padding/4);
     margin-left: (@padding/4);
     font-size: @fontSize;
     
-
+    .error-msg {
+        font-size: 12px;
+        font-style: italic;
+    }
+    &.full {
+        margin-left: 0;
+        input[type="text"],input[type="password"], input[type="email"],textarea, select {
+            width: 100%;
+        }
+    }
 
     .control-help-text {
         position: absolute;
@@ -91,6 +115,7 @@
         min-height: @inputHeight;
         white-space: nowrap;
         .checkbox-label {
+            white-space: nowrap;
             display: inline-block;
             line-height: @inputHeight;
             vertical-align: top;
@@ -101,6 +126,15 @@
                 height: auto;
                 margin-right: (@padding/8);
             }
+            
+        }
+        .link {
+            display: inline-block;
+            width: 50%;
+            margin: 0;
+            color: @textDark;
+            font-size: @helpTextFontSize;
+            line-height: (@padding);
         }
         
         &.two-cols {
@@ -112,6 +146,7 @@
                 margin: 0;
                 line-height: (@padding*0.75);
             }
+           
         }
     }
     .textarea {

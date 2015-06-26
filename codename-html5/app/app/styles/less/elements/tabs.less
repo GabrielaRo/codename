@@ -1,0 +1,32 @@
+.content-block {
+    .tabs {
+        margin: (-(@padding/2)) (-(@padding/2)) 0;
+    }
+}
+.tabs {
+    .tab-nav {
+        display: flex;
+        .tab {
+            font-size: @tabFontSize;
+            width: 100%;
+            font-weight: 100;
+            text-align: center;
+            height: @tabHeight;
+            line-height: @tabHeight;
+            background-color: @tabInactiveBgr;
+            cursor: pointer;
+            &.active {
+                background-color: @tabActiveBgr;
+                 &:hover {
+                     background-color: inherit;
+                 }
+            }
+            &:hover {
+                background-color: @link;
+            }
+        }
+    }
+    .tab-contents {
+        padding: (@padding/2) (@padding/2) 0;
+    }
+}

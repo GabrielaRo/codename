@@ -33,6 +33,13 @@
     }
     &.block {
         width: 100%;
+        margin: (@padding/8) 0;
+        &:first-child {
+            margin-top: 0;
+        }
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
     
     &.disabled, &:disabled  {
@@ -41,5 +48,24 @@
         cursor: default;
         pointer-events: none;
         border: 1px solid @buttonColorDisabled;
+    }
+    
+    &.facebook {
+        color: @buttonColor;
+        background-color: @facebook;
+        border-color:  @facebook;
+         &:hover {
+             background-color: darken(@facebook, 10%);
+             border-color:  darken(@facebook, 10%);
+         }
+    }
+    &.google {
+        color: @buttonColor;
+        background-color: @google;
+        border-color:  @google;
+         &:hover {
+             background-color: darken(@google, 10%);
+             border-color: darken(@google, 10%);
+         }
     }
 }
