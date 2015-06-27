@@ -3,6 +3,7 @@
         $scope.imagePath = "static/img/public-images/";
         $scope.pageClass = "home full";
         $scope.formTabActive = "sign-in";
+        $scope.joinStatus = "home";
         
         $scope.tabClicked = function(tab, tabsForm){
             var form = $("#"+tabsForm);
@@ -20,8 +21,43 @@
             });
             actualTab.addClass("active");
         }
-    
+        
+        $scope.joinStatusChange = function(status){
+            if(status ==  'home'){
+                $scope.joinStatus = status;
+            }else {
+                $scope.joinStatus = status;
+            }
+            
+        }
+        
+        
+         $scope.registerUser = function (isValid) {
+        // console.log("asd " + $scope.newUser.email + " / " + $scope.newUser.pass);
 
+            $scope.joinSubmitted = true;
+
+            if (isValid) {
+               $users.signup($scope.newUser.email, $scope.newUser.pass).success(function (data) {
+                   // $rootScope.$broadcast("quickNotification", "You are  now registered, please login!");
+                    
+                   $rootScope.$broadcast("goTo", "/");
+                    $scope.registerForm.$setPristine();
+                    console.log("Welcome to " + $scope.newUser.email + "!");
+                    
+                   $scope.tabClicked("sign-in", 'home-tabs');
+                   $scope.joinStatus = "home";
+                   
+                   
+                }).error(function (data) {
+                    $rootScope.$broadcast("quickNotification", "Something failed: "+data.error, 'error');
+                    console.log("Error : " + data.error + "!");
+
+                });
+            } else {
+                console.log("Invalid Form");
+            }
+        };
       
 
        
