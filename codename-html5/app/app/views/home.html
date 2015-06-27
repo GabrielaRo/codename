@@ -60,8 +60,58 @@
                              
                          </form>
                      </div>
-                     <div class="tab-content" ng-show="formTabActive == join" id="join">
-                     Join
+                     <div class="tab-content" ng-show="formTabActive == 'join'" id="join">
+                        <div ng-show="joinStatus == 'home'">
+                            <div>
+                                <button class="button block facebook">Join with Facebook</button>
+                                <button class="button block google">Join with Google</button>
+                            </div>
+                            <div class="form-spacer">
+                                <span>or</span>
+                            </div>
+                            <button class="button block" ng-click="joinStatusChange('mail')">Join with email</button>
+                            <div class="control full">
+                                <div class="control-help-text center block">
+                                    By joining, I agree to Fhellow’s <a href> Terms & Conditions</a> and <a href>Privacy Policy</a>.
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="joinStatus == 'mail'">
+                            <form novalidate name="registerForm" id="registerForm" ng-submit="registerUser(registerForm.$valid)">
+                                <div class="control full">
+                                    <div class="control-help-text center block">
+                                       <a href ng-click="joinStatusChange('home')">Join with Facebook or Google</a>
+                                    </div>
+                                    <div class="form-spacer">
+                                        <span>or</span>
+                                    </div>
+                                    
+                                    <div class="control full">
+                                        <input type="email" name="email" id="email" required ng-model="newUser.email" placeholder="Your Email" ng-class="{submitError: submitted}" />
+                                        <div class="error-msg" ng-show="registerForm.email.$invalid && joinSubmitted ">Enter a valid email.</div>
+                                    </div>
+                                    
+                                    <div class="control full">
+                                        <input type="password" ng-minlength="6" id="pass" name="pass" required ng-model="newUser.pass" placeholder="Password" class="form-control" ng-class="{submitError: submitted}"  />           
+                                        <div class="error-msg" ng-show="registerForm.pass.$error.minlength && joinSubmitted">Password is too short.</div>
+                                    </div>
+                                    
+                                    <div class="control full">
+                                        <input type="password" name="passc" placeholder="Repeat Password" id="passc" required ng-model="newUser.passc" class="form-control" compare-to="newUser.pass" ng-class="{submitError: joinSubmitted}"  />
+                                        <div class="error-msg" ng-show="registerForm.passc.$invalid && registerForm.pass.$valid && !registerForm.passc.$pristine && joinSubmitted">Passwords don't match</div>
+                                    </div>
+                                    
+                                    <button  type="submit" value="signup" class="button block" ng-disabled="registerForm.$pristine">Sign up</button>
+                                    
+                                    <div class="control full">
+                                        <div class="control-help-text center block">
+                                            By joining, I agree to Fhellow’s <a href> Terms & Conditions</a> and <a href>Privacy Policy</a>.
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                        </div>
                      </div>
                  </div>
              </div>
