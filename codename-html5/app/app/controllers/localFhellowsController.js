@@ -24,16 +24,6 @@
 
 
 
-        //        if ($scope.auth_token && $scope.auth_token !== "") {
-        //
-        //            console.log("loading private clubs because: " + $scope.auth_token);
-        //           
-        //            //
-        //        } else {
-        //            console.log("loading public clubs because: " + $scope.auth_token);
-        //            
-        //
-        //        }
         $scope.loadFhellows();
         
         

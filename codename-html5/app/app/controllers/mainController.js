@@ -104,7 +104,7 @@
                         $rootScope.$broadcast('goTo', "/firstlogin");
                        // $rootScope.$broadcast('goTo', "/");
                     } else {
-                        $rootScope.$broadcast('goTo', "/");
+                        $rootScope.$broadcast('goTo', "/localfhellows");
                     }
 
                 }).error(function (data) {

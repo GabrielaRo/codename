@@ -15,7 +15,7 @@
              <p>Find fellow freelancers, location independant entrepreneurs and digital nomads working around you. Discuss ideas, share experiences, swap advice, collaborate and start building your own work community.</p>
          </div>
          <div id="home-form" class="four-col">
-            <div class="content-block">
+            <div class="content-block" >
              <div class="tabs" id="home-tabs">
                  <div class="tab-nav">
                      <div class="tab active"  id="sign-in" ng-click="tabClicked('sign-in', 'home-tabs')">
@@ -195,82 +195,4 @@
     </div>
 </footer>
        
-       <!-- HOME 
-        <div class="container">
-            <div class="row">
-                <div class="jumbotron clearfix" style="background-color: transparent;" ng-show="!auth_token">
-                	<div class="col-md-6 col-md-offset-3 text-center">
-	                    <h1>Codename</h1>
-	                    <h4>Description.</h4>
-                    </div>
-
-                </div>
-                <div class="logged" ng-show="auth_token">
-	                <div class="col-md-6" >
-	                	<h1 class="no-margin">Codename</h1>
-	                </div>
-	                <div class="col-md-6" >
-	                	<p>Description.</p>
-	                </div>
-                </div>
-            </div>
-            <hr style="border-color:#999;">
-            <div class="row" ng-show="!auth_token">
-               	<div class="col-md-6">
-               		<a href="#login" class="btn btn-default btn-block" >Log in</a>
-               	</div>
-               	<div class="col-md-6">
-               		<a href="#signup" class="btn btn-primary btn-block" >Sign Up</a>
-               	</div>
-            </div>
-            <hr style="border-color:#999;" ng-show="!auth_token">
-            
-                    
-            <div class="row" >
-            	<div class="col-md-12">
-            	    
-	            	<div class="panel panel-default">
-                        
-	            		<div class="panel-heading clearfix">
-	            			<h5 class="pull-left">Top Fhellows</h5>
-                          
-                            <div ng-cloak class="col-md-3 pull-right">
-                                
-	            			 <select ng-cloak ng-show="!auth_token || showAllInterests"  ng-options="opt.name as opt.name for opt in allInterests" name="interest-select" id="interest-select" ng-model="selectInterest.interest" class=" form-control">        
-	            			     <option value="">All </option>
-	            			    
-	            			 </select>
-                             
-                            <select ng-cloak ng-show="auth_token && !showAllInterests"  ng-options="opt.name as opt.name for opt in interests" name="interest-select" id="interest-select" ng-model="selectInterest.interest" class=" form-control">        
-	            			     <option value="">All my Interests </option>
-	            			    
-	            			 </select>
-                                
-                		    </div>
-                		     <div class="col-md-3 pull-right" ng-show="auth_token">
-                              <div class="checkbox text-right" >
-                                <label>
-                                   <small style="float:left; margin-right:30px;">View All interests</small> <input style="float:right;"  type="checkbox" ng-model="showAllInterests">
-                                </label>
-                              </div>
-                               
-                           </div>
-
-	            		</div>
-	            		
-	            	</div>
-            	</div>
-            </div>
-            
-            
-            <hr style="border-color:#999;">
-            <div class="row">
-            	<div class="col-md-12">
-            		<a href="" class="btn btn-primary btn-lg  btn-block">find something specific</a>
-            	</div>
-            </div>
-            <br/><br/>
-
-        </div>
-        
-       -->
+      

@@ -13,10 +13,7 @@
                 templateUrl: 'app/views/home.html',
                 controller: 'homeController'
             })
-            .when('/signup', {
-                templateUrl: 'app/views/signup.html',
-                controller: 'signUpController'
-            })
+
             .when('/localfhellows', {
                 templateUrl: 'app/views/localfhellows.html',
                 controller: 'localFhellowsController'
@@ -25,9 +22,6 @@
                 templateUrl: 'app/views/password.html',
                 controller: 'passwordController'
 
-            })
-            .when('/login', {
-                templateUrl: 'app/views/login.html'
             })
 
            .when('/firstlogin', {
@@ -39,7 +33,6 @@
                 templateUrl: 'app/views/profile.html',
                 controller: 'profileController'
             })
-
            
             .otherwise({
                 redirectto: '/'
@@ -63,7 +56,6 @@
                 $rootScope.navStatus = "show";
             }
             history.push($location.$$path);
-            console.log("HISTORY " + history)
         });
 
         $rootScope.back = function () {
