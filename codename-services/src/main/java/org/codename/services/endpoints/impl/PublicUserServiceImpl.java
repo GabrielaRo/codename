@@ -16,7 +16,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.PathParam;
@@ -26,6 +25,7 @@ import javax.ws.rs.core.StreamingOutput;
 import org.codename.model.User;
 import org.codename.services.api.UsersService;
 import org.codename.services.endpoints.api.PublicUserEndpointService;
+import static org.codename.services.endpoints.impl.UsersHelper.createPublicJsonUser;
 import org.codename.services.exceptions.ServiceException;
 
 /**
@@ -53,18 +53,7 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
 
         for (User u : users) {
 
-            JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-            jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
-            jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
-            jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
-            jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
-            jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
-            jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
-            JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
-            for (String i : u.getInterests()) {
-                jsonArrayBuilder2.add(i);
-            }
-            jsonObjBuilder.add("interests", jsonArrayBuilder2);
+            JsonObjectBuilder jsonObjBuilder = createPublicJsonUser(u);
             jsonArrayBuilder.add(jsonObjBuilder);
 
         }
@@ -77,20 +66,8 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
         if (u == null) {
             throw new ServiceException("User  " + user_id + " doesn't exists");
         }
-        JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-        jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
-        jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
-        jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
-        jsonObjBuilder.add("username", (u.getFirstname() == null) ? "" : u.getFirstname());
-        jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
-        jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
-        JsonArrayBuilder jsonArrayBuilder2 = Json.createArrayBuilder();
-        for (String i : u.getInterests()) {
-            jsonArrayBuilder2.add(i);
-        }
-        jsonObjBuilder.add("interests", jsonArrayBuilder2);
-        JsonObject jsonObj = jsonObjBuilder.build();
-        return Response.ok(jsonObj.toString()).build();
+        JsonObjectBuilder jsonObjBuilder = createPublicJsonUser(u);
+        return Response.ok(jsonObjBuilder.build().toString()).build();
     }
 
     @Override

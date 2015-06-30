@@ -32,6 +32,20 @@
             
         }
         
+        $scope.initMockUsers = function (){
+            $users.initMockUsers().success(function (data) {
+                   $rootScope.$broadcast("quickNotification", "Mock Users");
+                    
+                   
+                   
+                   
+                }).error(function (data) {
+                    $rootScope.$broadcast("quickNotification", "Something failed: "+data.error, 'error');
+                    console.log("Error : " + data.error + "!");
+
+                });
+            
+        }
         
          $scope.registerUser = function (isValid) {
         // console.log("asd " + $scope.newUser.email + " / " + $scope.newUser.pass);

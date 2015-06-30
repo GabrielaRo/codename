@@ -97,6 +97,26 @@
                 data: {}
             });
         };
+        //GET Public PROFILE
+        factory.getPublicUserData = function (userId) {
+            return $http({
+                method: 'GET',
+                url: appConstants.server + appConstants.context + 'rest/public/users/' + userId,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: {}
+            });
+        };
+        
+        factory.initMockUsers = function () {
+            return $http({
+                method: 'GET',
+                url: appConstants.server + appConstants.context + 'rest/public/app/init',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: {}
+            });
+        };
         //GET ALL
         factory.loadAllLive = function () {
             return $http({
@@ -114,7 +134,7 @@
                 url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/update',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
-                data: {firstname: firstname, lastname: lastname, location: location, bio: bio, title: title},
+                data: {firstname: firstname, lastname: lastname, location: location, bio: bio, title: title}
             });
         };
 
@@ -125,7 +145,18 @@
                 url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/bothnames/update',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
-                data: {firstname: firstname, lastname: lastname},
+                data: {firstname: firstname, lastname: lastname}
+            });
+        };
+        
+        //UPDATE User Data
+        factory.updateBioLongBioIams = function (bio, longbio, iams) {
+            return $http({
+                method: 'POST',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/biolongbioiams/update',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: {bio: bio, longbio: longbio, iams: JSON.stringify(iams) }
             });
         };
 
@@ -136,7 +167,7 @@
                 url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/originallyfrom/update',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
-                data: {originallyfrom: originallyfrom},
+                data: {originallyfrom: originallyfrom}
             });
         };
 

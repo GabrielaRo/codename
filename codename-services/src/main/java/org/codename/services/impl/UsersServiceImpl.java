@@ -289,6 +289,17 @@ public class UsersServiceImpl implements UsersService {
         u.setLastname(lastname);
         em.merge(u);
     }
+    
+    public void updateBioLongBioIams(Long user_id, String bio, String longbio, List<String> iAmsList) throws ServiceException {
+        User u = em.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setBio(bio);
+        u.setLongBio(longbio);
+        u.setiAms(iAmsList);
+        em.merge(u);
+    }
 
     public void updateOriginallyFrom(Long user_id, String originallyfrom) throws ServiceException {
         User u = em.find(User.class, user_id);

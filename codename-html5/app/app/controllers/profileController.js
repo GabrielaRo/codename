@@ -42,9 +42,7 @@
         $scope.saveAboutBlock = function (iam, bio, longbio) {
 
             $scope.disableContentBlock($("#user-about-form"));
-            $scope.updateIams(iam);
-            $scope.updateBio(bio);
-            $scope.updateLongBio(longbio);
+            $scope.updateBioLongBioIams(bio, longbio, iam);
             
             $scope.aboutStatus = false;
 
@@ -165,21 +163,21 @@
             $users.getUserData()
                     .success(function (data) {
 
-                        console.log("profile.userId: " + data.userId);
-                        console.log("profile.firstname: " + data.firstname);
-                        console.log("profile.lastname: " + data.lastname);
-                        console.log("profile.location: " + data.location);
-                        console.log("profile.originallyFrom: " + data.originallyFrom);
-                        console.log("profile.bio: " + data.bio);
-                        console.log("profile.longbio: " + data.longbio);
-                        console.log("profile.title: " + data.title);
-                        console.log("profile.lookingFor: " + data.lookingFor);
-                        console.log("profile.interests: " + data.interests);
-                        console.log("profile.imas: " + data.iams);
-
-                        console.log("profile.live: " + data.live);
-                        console.log("profile.hascover: " + data.hascover);
-                        console.log("profile.hasavatar: " + data.hasavatar);
+//                        console.log("profile.userId: " + data.userId);
+//                        console.log("profile.firstname: " + data.firstname);
+//                        console.log("profile.lastname: " + data.lastname);
+//                        console.log("profile.location: " + data.location);
+//                        console.log("profile.originallyFrom: " + data.originallyFrom);
+//                        console.log("profile.bio: " + data.bio);
+//                        console.log("profile.longbio: " + data.longbio);
+//                        console.log("profile.title: " + data.title);
+//                        console.log("profile.lookingFor: " + data.lookingFor);
+//                        console.log("profile.interests: " + data.interests);
+//                        console.log("profile.imas: " + data.iams);
+//
+//                        console.log("profile.live: " + data.live);
+//                        console.log("profile.hascover: " + data.hascover);
+//                        console.log("profile.hasavatar: " + data.hasavatar);
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
@@ -198,6 +196,8 @@
                         $scope.profile.live = data.live;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
+                        $scope.profile.avatarUrl  = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/avatar",
+                        $scope.profile.coverUrl =  appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/cover"
                         initialData = angular.copy($scope.profile)
                         $scope.calculatePercentage();
                     }).error(function (data) {
@@ -207,6 +207,50 @@
 
         };
 
+        $scope.loadPublicUserData = function (userId) {
+            $users.getPublicUserData(userId)
+                    .success(function (data) {
+
+//                        console.log("profile.userId: " + data.userId);
+//                        console.log("profile.firstname: " + data.firstname);
+//                        console.log("profile.lastname: " + data.lastname);
+//                        console.log("profile.location: " + data.location);
+//                        console.log("profile.originallyFrom: " + data.originallyFrom);
+//                        console.log("profile.bio: " + data.bio);
+//                        console.log("profile.longbio: " + data.longbio);
+//                        console.log("profile.title: " + data.title);
+//                        console.log("profile.lookingFor: " + data.lookingFor);
+//                        console.log("profile.interests: " + data.interests);
+//                        console.log("profile.imas: " + data.iams);
+//
+//                        console.log("profile.live: " + data.live);
+//                        console.log("profile.hascover: " + data.hascover);
+//                        console.log("profile.hasavatar: " + data.hasavatar);
+                        $scope.profile.userId = data.userId;
+                        $scope.profile.firstname = data.firstname;
+                        $scope.profile.lastname = data.lastname;
+                        $scope.profile.location = data.location;
+                        $scope.profile.originallyFrom = data.originallyFrom;
+                        $scope.profile.bio = data.bio;
+                        $scope.profile.longbio = data.longbio;
+                        $scope.profile.title = data.title;
+                        $scope.profile.lookingFor = data.lookingFor;
+                        $scope.profile.interests = data.interests;
+                        $scope.profile.iam = data.iams;
+                        $scope.profile.website = data.website;
+
+                        $scope.profile.hasavatar = data.hasavatar;
+                        $scope.profile.hascover = data.hascover;
+                        $scope.profile.avatarUrl  = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/avatar",
+                        $scope.profile.coverUrl =  appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/cover"
+                        initialData = angular.copy($scope.profile)
+                        $scope.calculatePercentage();
+                    }).error(function (data) {
+                console.log("Error: " + data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong with getting the user data" + data);
+            });
+
+        };
 
         // Does this browser support the FILEAPI ?
         $scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
@@ -311,15 +355,23 @@
 
         $scope.updateBothNames = function (firstname, lastname) {
             $scope.clearEditablesActive();
-            // $scope.clearField($("#user-name-form"));
-
-
-            if (typeof (firstname) != "undefined" && firstname != "" && firstname != initialData.firstname) {
-
-                $users.updateFirstName(firstname).success(function (data) {
+            
+//            if (typeof (firstname) != "undefined" && firstname != "" && firstname != initialData.firstname) {
+//            } else {
+//                $scope.resetData();
+//            }
+//            if (typeof (lastname) != "undefined" && lastname != "" && lastname != initialData.lastname) {
+//            } else {
+//                $scope.resetData();
+//
+//            }
+            $users.updateBothNames(firstname, lastname).success(function (data) {
                     $scope.profile.firstname = firstname;
 
                     initialData.firstname = firstname;
+                    $scope.profile.lastname = lastname;
+
+                    initialData.lastname = lastname;
 
                     $rootScope.$broadcast("quickNotification", "First Name Updated Successfully");
 
@@ -327,29 +379,8 @@
                 }).error(function (data) {
                     console.log("Error: " + data);
                     $rootScope.$broadcast("quickNotification", "Something went wrong with updating the first name!" + data);
+                    $scope.resetData();
                 });
-            } else {
-                $scope.resetData();
-
-            }
-            if (typeof (lastname) != "undefined" && lastname != "" && lastname != initialData.lastname) {
-
-                $users.updateLastName(lastname).success(function (data) {
-                    $scope.profile.lastname = lastname;
-
-                    initialData.lastname = lastname;
-
-                    $rootScope.$broadcast("quickNotification", "Last Name Updated Successfully");
-
-                    $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the last name!" + data);
-                });
-            } else {
-                $scope.resetData();
-
-            }
 
         };
 
@@ -433,6 +464,27 @@
             } else {
                 $scope.resetData();
             }
+
+        };
+        
+        $scope.updateBioLongBioIams = function (bio, longbio, iams) {
+           // if (typeof (bio) != "undefined" && bio != "" && bio != initialData.bio) {
+                $users.updateBioLongBioIams(bio, longbio, iams).success(function (data) {
+                    
+                    $scope.profile.bio = bio;
+                    initialData.bio = bio;
+                    $scope.profile.longbio = longbio;
+                    initialData.longbio = longbio;
+                    $scope.profile.iam = iams;
+                    initialData.iam = iams;
+                    $rootScope.$broadcast("quickNotification", "Bio Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
+                });
+//            } else {
+//                $scope.resetData();
+//            }
 
         };
 
@@ -725,7 +777,7 @@
             console.log($scope.params.id);
             if($scope.params.id){ 
                  console.log("ROUTE PARAMS ID ");
-               // $scope.loadUserData($scope.params.id, $scope.email, $scope.auth_token);
+                 $scope.loadPublicUserData($scope.params.id);
                 $("#profile").addClass("read-only");    
             }else {
                 $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);

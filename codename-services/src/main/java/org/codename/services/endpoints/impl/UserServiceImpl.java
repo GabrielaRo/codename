@@ -36,6 +36,7 @@ import org.codename.model.User;
 import org.codename.services.api.UsersService;
 
 import org.codename.services.endpoints.api.UserEndpointService;
+import static org.codename.services.endpoints.impl.UsersHelper.createFullJsonUser;
 import org.codename.services.exceptions.ServiceException;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
@@ -58,39 +59,7 @@ public class UserServiceImpl implements UserEndpointService {
 
     }
 
-    private JsonObjectBuilder createJsonUser(User u) {
-        JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-        jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
-        jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
-        jsonObjBuilder.add("longbio", (u.getLongBio() == null) ? "" : u.getLongBio());
-        jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
-        jsonObjBuilder.add("originallyFrom", (u.getOriginallyFrom() == null) ? "" : u.getOriginallyFrom());
-        jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
-        jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
-        jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
-        jsonObjBuilder.add("website", (u.getWebsite() == null) ? "" : u.getWebsite());
-        jsonObjBuilder.add("twitter", (u.getTwitter() == null) ? "" : u.getTwitter());
-        jsonObjBuilder.add("linkedin", (u.getLinkedin() == null) ? "" : u.getLinkedin());
-        jsonObjBuilder.add("live", u.isLive());
-        jsonObjBuilder.add("hascover", u.getCoverFileName() != null && !u.getCoverFileName().equals(""));
-        jsonObjBuilder.add("hasavatar", u.getAvatarFileName() != null && !u.getAvatarFileName().equals(""));
-        JsonArrayBuilder interestsJsonArrayBuilder = Json.createArrayBuilder();
-        for (String i : u.getInterests()) {
-            interestsJsonArrayBuilder.add(i);
-        }
-        jsonObjBuilder.add("interests", interestsJsonArrayBuilder);
-        JsonArrayBuilder lookingForJsonArrayBuilder = Json.createArrayBuilder();
-        for (String l : u.getLookingFor()) {
-            lookingForJsonArrayBuilder.add(l);
-        }
-        jsonObjBuilder.add("lookingFor", lookingForJsonArrayBuilder);
-        JsonArrayBuilder iAmJsonArrayBuilder = Json.createArrayBuilder();
-        for (String i : u.getiAms()) {
-            iAmJsonArrayBuilder.add(i);
-        }
-        jsonObjBuilder.add("iams", iAmJsonArrayBuilder);
-        return jsonObjBuilder;
-    }
+    
 
     @Override
     public Response get(@PathParam("id") Long user_id) throws ServiceException {
@@ -98,7 +67,7 @@ public class UserServiceImpl implements UserEndpointService {
         if (u == null) {
             throw new ServiceException("User " + user_id + " doesn't exists");
         }
-        JsonObjectBuilder jsonUserObjectBuilder = createJsonUser(u);
+        JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
         JsonObject jsonObj = jsonUserObjectBuilder.build();
         return Response.ok(jsonObj.toString()).build();
     }
@@ -110,7 +79,7 @@ public class UserServiceImpl implements UserEndpointService {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
         for (User u : users) {
-            JsonObjectBuilder jsonUserObjectBuilder = createJsonUser(u);
+            JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
             jsonArrayBuilder.add(jsonUserObjectBuilder);
         }
         return Response.ok(jsonArrayBuilder.build().toString()).build();
@@ -122,7 +91,7 @@ public class UserServiceImpl implements UserEndpointService {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
         for (User u : users) {
-            JsonObjectBuilder jsonUserObjectBuilder = createJsonUser(u);
+            JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
             jsonArrayBuilder.add(jsonUserObjectBuilder);
         }
         return Response.ok(jsonArrayBuilder.build().toString()).build();
@@ -310,6 +279,27 @@ public class UserServiceImpl implements UserEndpointService {
 
     public Response updateBothNames(Long user_id, String firstname, String lastname) throws ServiceException {
         usersService.updateBothNames(user_id, firstname, lastname);
+        return Response.ok().build();
+    }
+    
+    public Response updateBioLongBioIams(Long user_id, String bio, String longbio, String iams) throws ServiceException {
+        List<String> iAmsList = null;
+        if (iams != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(iams.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
+
+            if (array != null) {
+                iAmsList = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("I am [" + i + "]: " + array.getString(i));
+                    iAmsList.add(array.getString(i));
+                }
+                
+            }
+
+        }
+        usersService.updateBioLongBioIams(user_id, bio, longbio, iAmsList);
         return Response.ok().build();
     }
 

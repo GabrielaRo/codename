@@ -87,4 +87,6 @@ public interface UsersService {
 
     void updateLinkedin(Long user_id, String linkedin) throws ServiceException;
 
+    void updateBioLongBioIams(Long user_id, String bio, String longbio, List<String> iams) throws ServiceException;
+
 }

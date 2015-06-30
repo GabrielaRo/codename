@@ -25,7 +25,7 @@ import org.joda.time.DateTime;
  */
 public class CodenameUtil {
     private static final JWSHeader JWT_HEADER = new JWSHeader(JWSAlgorithm.HS256);
-	private static final String TOKEN_SECRET = "aliceinwonderland";
+	private static final String TOKEN_SECRET = "codename-secret-sauce-from-the-outer-space";
 	public static final String AUTH_HEADER_KEY = "Authorization";
     public static String hash(String value){
         try {
