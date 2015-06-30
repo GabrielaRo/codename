@@ -33,8 +33,12 @@
                      <div class="tab-content" ng-show="formTabActive == 'sign-in'" id="sign-in">
                          <form novalidate name="loginForm" ng-submit="loginUser(loginForm.$valid, credentials)">
                              <div>
-                                 <button class="button block facebook">Sign in with Facebook</button>
-                                 <button class="button block google">Sign in with Google</button>
+                                 <button class="button block facebook" ng-click="authenticate('facebook')">Sign in with Facebook</button> 
+                                 <button class="button block google" ng-click="authenticate('google')">Sign in with Google</button> 
+                                 
+                                 <!--button class="button block facebook">Sign in with Facebook</button-->
+                                
+                                 <!--button class="button block google">Sign in with Google</button-->
                              </div>
                              <div class="form-spacer">
                                  <span>or</span>

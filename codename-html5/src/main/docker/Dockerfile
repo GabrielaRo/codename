@@ -1,0 +1,26 @@
+
+
+####### BASE ############
+FROM jboss/wildfly:8.2.0.Final
+
+####### MAINTAINER ############
+MAINTAINER "grogdj" "grogdj@gmail.com"
+
+####### ENVIRONMENT ############
+
+USER root
+
+ADD maven/codename.war /opt/jboss/wildfly/standalone/deployments/
+
+
+####### INTER WAR DEPENDENCY DESCRIPTOR FOR WILDFLY8 ############
+RUN chown jboss:jboss $JBOSS_HOME/standalone/deployments/*
+
+####### CUSTOM JBOSS USER ############
+# Switchback to jboss user
+USER jboss
+
+
+####### RUNNING JBPM-WB ############
+WORKDIR $JBOSS_HOME/bin/
+CMD ["./standalone.sh", "-b", "0.0.0.0"]

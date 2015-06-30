@@ -78,6 +78,79 @@
                   </webResources>
                 </configuration>
             </plugin>
+            <plugin>
+        <groupId>org.jolokia</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.11.3</version>
+        <configuration>
+          <!-- Global configuration. -->
+          <dockerHost>http://192.168.59.103:2376</dockerHost>
+          
+          <!-- Although no authentication on registry, set empty values. If not, plugin push goal fails. -->
+          <authConfig>
+            <username></username>
+            <password></password>
+          </authConfig>
+          <useColor>true</useColor>
+          <logDate>default</logDate>
+          <verbose>true</verbose>
+
+          <!-- KIE Images. -->
+          <images>
+
+            <!-- KIE Server latest SNAPSHOT & Wildfly 8.1.0.Final. -->
+            <image>
+              <name>codename/codename:${project.version}</name>
+              <alias>codename</alias>
+              <build>
+                <assembly>
+                  <dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
+                  <descriptor>${project.basedir}/src/main/assembly/docker-assembly.xml</descriptor>
+                </assembly>
+              </build>
+              <run>
+                <namingStrategy>alias</namingStrategy>
+                <env>
+                  
+                </env>
+                <ports>
+                  <port>codename.wf8.http.port:8080</port>
+                </ports>
+               
+                <log>
+                  <prefix>DEMO</prefix>
+                  <date>ISO8601</date>
+                  <color>blue</color>
+                </log>
+              </run>
+            </image>
+
+           
+          </images>
+        </configuration>
+
+        <!--executions>
+
+          <execution>
+            <id>ui-build</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+
+          <execution>
+            <id>ui-start</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+
+        </executions-->
+
+      </plugin> 
+            
         </plugins>
     </build>
  

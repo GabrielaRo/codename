@@ -2,6 +2,10 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/salaboy/Projects/codename/codename-html5/src/main/docker/Dockerfile</file>
+            <file>file:/Users/salaboy/Projects/codename/codename-html5/pom.xml</file>
+            <file>file:/Users/salaboy/Projects/codename/codename-html5/src/main/assembly/docker-assembly.xml</file>
+        </group>
     </open-files>
 </project-private>

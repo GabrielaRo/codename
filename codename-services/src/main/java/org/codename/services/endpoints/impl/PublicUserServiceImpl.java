@@ -38,7 +38,7 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
     @Inject
     private UsersService usersService;
 
-    private final static String serverUrl = "localhost";
+    private final static String serverUrl = "localhost:8080/codename-server/";
 
     private final static Logger log = Logger.getLogger(PublicUserServiceImpl.class.getName());
 
@@ -129,7 +129,7 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
         byte[] tmp = usersService.getCover(user_id);
         final byte[] avatar;
         if (tmp != null && tmp.length > 0) {
-            log.info("avatar found");
+            log.info("cover found");
             avatar = tmp;
             return Response.ok().entity(new StreamingOutput() {
                 @Override
@@ -141,7 +141,7 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
             }).build();
         } else {
             try {
-                log.info("avatar not found");
+                log.info("cover not found");
                 return Response.temporaryRedirect(new URI("http://" + serverUrl + "/static/img/public-images/default-cover.png")).build();
             } catch (URISyntaxException ex) {
                 Logger.getLogger(PublicUserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
