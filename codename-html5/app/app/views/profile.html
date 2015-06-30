@@ -2,6 +2,15 @@
     <form novalidate name="profileForm" ng-init="">
         <div id="profile-cover-image" style="background-image:url('{{profile.coverUrl}}')">
             <div id="profile-cover-options-wrapper">
+                <div ng-hide="picCoverFile">
+                    <div id="section-header" class="ng-scope">
+                        
+                        <h1>Welcome to the Community!<br/>You are now officially a Fhellow</h1>
+                        <h3>Complete your profile and start finding Fhellows around you.<br/>Your profile must be at least 50% complete in order to start.</h3>
+                    </div>
+                </div>
+                
+                
                 <div id="profile-cover-options">
 
                     <button class="button inverted" ng-file-select ng-model="picCoverFile" name="file" ng-file-change="generateCoverThumb(picCoverFile[0])"  accept="image/*"  multiple="false">Change Cover Image</button>

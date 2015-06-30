@@ -39,7 +39,7 @@
 
             if (isValid) {
                $users.signup($scope.newUser.email, $scope.newUser.pass).success(function (data) {
-                   // $rootScope.$broadcast("quickNotification", "You are  now registered, please login!");
+                   $rootScope.$broadcast("quickNotification", "You are  now registered, please login!");
                     
                    $rootScope.$broadcast("goTo", "/");
                     $scope.registerForm.$setPristine();

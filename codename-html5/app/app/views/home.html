@@ -15,7 +15,11 @@
              <p>Find fellow freelancers, location independant entrepreneurs and digital nomads working around you. Discuss ideas, share experiences, swap advice, collaborate and start building your own work community.</p>
          </div>
          <div id="home-form" class="four-col">
-            <div class="content-block" >
+            <div class="content-block" ng-show="auth_token != undefined && auth_token != '' ">
+                <a href="#/profile">Profile</a>
+                <a href="#/localfhellows">Fhellows</a>
+            </div>
+            <div class="content-block" ng-show="auth_token == undefined || auth_token == '' " >
              <div class="tabs" id="home-tabs">
                  <div class="tab-nav">
                      <div class="tab active"  id="sign-in" ng-click="tabClicked('sign-in', 'home-tabs')">
