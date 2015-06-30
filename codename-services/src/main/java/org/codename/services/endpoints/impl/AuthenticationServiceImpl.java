@@ -58,11 +58,9 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
 
     @Inject
     private GrogAuthenticator authenticator;
-
     
     private Client client;
 
-    
 
     private final static Logger log = Logger.getLogger(AuthenticationServiceImpl.class.getName());
 
@@ -120,9 +118,7 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
             @Context final HttpServletRequest request) throws ServiceException {
         final String accessTokenUrl = "https://accounts.google.com/o/oauth2/token";
         final String peopleApiUrl = "https://www.googleapis.com/plus/v1/people/me/openIdConnect";
-        System.out.println("########################################");
-        System.out.println("##########FUCKKKKKK##########");
-        System.out.println("########################################");
+        
         Response response;
 
         // Step 1. Exchange authorization code for access token.
@@ -159,6 +155,9 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
 //        return processUser(request, Provider.GOOGLE, userInfo.get("sub").toString(),
 //                userInfo.get("name").toString());
 //        final Token token = AuthUtils.createToken(request.getRemoteHost(), userToSave.getId());
+        //
+        Long newUser = userService.newUser(new User("email", "password"));
+        userService.updateBothNames(newUser, "firstname", "lastname");
         String token = "";
         try {
             token = createToken(request.getRemoteHost(), userInfo.get("sub").toString());
@@ -166,9 +165,6 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
             Logger.getLogger(AuthenticationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
-        System.out.println("########################################");
-        System.out.println("##########TOKEN:"+token+" ##########");
-        System.out.println("########################################");
         return Response.ok().entity(token).build();
     }
 
