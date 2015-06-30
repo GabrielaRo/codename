@@ -1,0 +1,38 @@
+#chat {
+    position: fixed;
+    z-index: 2000;
+    bottom: 0;
+    right: 0;
+    background-color: @chatBgr;
+    width: @chatWidth;
+    .boxShadow();
+    #chat-title {
+        height: @padding;
+        line-height: @padding;
+        padding: 0 (@padding/2);
+        color: #FFF;
+        background-color: @chatTitleBgr;
+        position: relative;
+        #chat-title-options {
+            position: absolute;
+            right: (@padding/2);
+            height: @padding;
+            line-height: @padding;
+            top: 0;
+        }
+    }
+    #chat-field {
+        background-color: @chatFieldBgr;
+         height: @padding;
+        line-height: @padding;
+        input {
+            height: @padding;
+            line-height: @padding;
+            padding: 0 (@padding/2);
+        }
+    }
+    #chat-history {
+        min-height: 100px;
+        padding: (@padding/2);
+    }
+}

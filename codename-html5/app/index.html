@@ -76,6 +76,24 @@
             © Copyright Fhellow LTD 2014
         </div>
     </footer>
+    
+    <div id="chat" ng-show="auth_token">
+        <div id="chat-title">
+           User Name
+           <div id="chat-title-options">
+               <a href>Close</a>
+           </div>
+        </div>
+        <div id="chat-history">
+            old messages
+        </div>
+        <div id="chat-field">
+            <form>
+                <input type="text">
+                <button>Send</button>
+            </form>
+        </div>
+    </div>
 
     <!-- APP SCRIPTS -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
