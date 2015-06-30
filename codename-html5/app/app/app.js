@@ -33,6 +33,10 @@
                 templateUrl: 'app/views/profile.html',
                 controller: 'profileController'
             })
+            .when('/profile/:id', {
+                templateUrl: 'app/views/profile.html',
+                controller: 'profileController'
+            })
            
             .otherwise({
                 redirectto: '/'

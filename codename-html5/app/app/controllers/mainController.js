@@ -6,7 +6,7 @@
             growlProvider.globalPosition('top-center');
         }]);
 
-    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users,  appConstants, growl, $notifications) {
+    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users,  appConstants, growl, $notifications, $route, $routeParams) {
         $scope.auth_token = $cookieStore.get('auth_token');
         $scope.email = $cookieStore.get('email');
         $scope.user_id = $cookieStore.get('user_id');
@@ -16,6 +16,7 @@
         $scope.notifications = {};
         $scope.avatarStyle = "";
         $scope.websocket = {};
+        $scope.$routeParams = $routeParams;
         
         
         $rootScope.$on('quickNotification', function (event, data, type) {
@@ -177,7 +178,7 @@
     };
 
 
-    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users',  'appConstants', 'growl', '$notifications'];
+    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users',  'appConstants', 'growl', '$notifications', '$route', '$routeParams' ];
     angular.module("codename").controller("MainCtrl", MainCtrl);
 }());
 

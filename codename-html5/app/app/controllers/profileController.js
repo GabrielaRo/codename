@@ -1,8 +1,9 @@
 (function () {
-    var profileController = function ($rootScope, $scope, $upload, $timeout, $users, $cookieStore, appConstants) {
+    var profileController = function ($rootScope, $scope, $upload, $timeout, $users, $cookieStore, appConstants, $routeParams) {
         /*
          * For Loading we try to fetch everything at once instead of each different piece
          */
+        $scope.params = $routeParams;
         $scope.profile = {
             firstname: "",
             lastname: "",
@@ -720,12 +721,22 @@
             $scope.updateUserFirstLogin();
 
         } else {
-            $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
+              console.log("ROUTE PARAMS ");
+            console.log($scope.params.id);
+            if($scope.params.id){ 
+                 console.log("ROUTE PARAMS ID ");
+               // $scope.loadUserData($scope.params.id, $scope.email, $scope.auth_token);
+                $("#profile").addClass("read-only");    
+            }else {
+                $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
+            }
         }
+      
+        
         $scope.bindEditableEvents();
         $scope.initiateContentBlocks();
     };
 
-    profileController.$inject = ["$rootScope", "$scope", "$upload", "$timeout", "$users", "$cookieStore", "appConstants"];
+    profileController.$inject = ["$rootScope", "$scope", "$upload", "$timeout", "$users", "$cookieStore", "appConstants", "$routeParams"];
     angular.module("codename").controller("profileController", profileController);
 }());
