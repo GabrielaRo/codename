@@ -12,7 +12,7 @@
                 
                 <div id="profile-cover-options">
 
-                    <button class="button inverted" ng-file-select ng-model="picCoverFile" name="file" ng-file-change="generateCoverThumb(picCoverFile[0])"  accept="image/*"  multiple="false">Change Cover Image</button>
+                    <button class="button inverted" ng-if="edit" ng-file-select ng-model="picCoverFile" name="file" ng-file-change="generateCoverThumb(picCoverFile[0])"  accept="image/*"  multiple="false">Change Cover Image</button>
 
                 </div>
             </div>
@@ -37,7 +37,7 @@
                             </div>
                         </div>
 
-                        <div id="profile-user-image-options">
+                        <div id="profile-user-image-options" ng-if="edit">
                             <button class="button inverted" ng-file-select ng-model="picFile" name="file" ng-file-change="generateThumb(picFile[0])"  accept="image/*"  multiple="false">Change Profile Picture</button>
                         </div>
 
@@ -116,7 +116,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="profile-status">
+                    <div id="profile-status" ng-if="edit">
                         <div id="profile-status-percentage">
                             Your profile is 
                             <span>{{profile.percentage}}% complete</span> 
@@ -134,9 +134,12 @@
 
         <div id="profile-location">
             <div class="right-col ">
-                <div class="content-block">
-                    <div>I am originally from 
-                        <div class="editable">
+                <div class="content-block" >
+                   
+                                       
+                    <div ng-if="edit">
+                        I am originally from 
+                        <div class="editable" >
                             {{profile.originallyFrom}} <span class="editable-placeholder" ng-show="profile.originallyFrom == ''">Enter Location</span>
                             <div class="floatform" id="user-originally-from-form">
                                 <div class="form-content">
@@ -153,7 +156,8 @@
                             </div>
                         </div>
                     </div> 
-                    <div>I am currently located in 
+                    <div ng-if="edit">
+                        I am currently located in 
 
                         <div class="editable">
                             {{profile.location}} <span class="editable-placeholder" ng-show="profile.location == ''">Enter Location</span>
@@ -171,7 +175,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div> 
                 </div>
             </div>
@@ -183,7 +186,7 @@
                 <div class="content-block editable-block" id="user-interests-form">
                     <div class="content-block-title editable-title">
                         My Interests
-                        <div class="editable-title-options">
+                        <div class="editable-title-options" ng-if="edit">
                             <button class="button inverted" ng-disabled="interestStatus" ng-click="editInterestBlock()">Edit</button>
                         </div>
                     </div>
@@ -223,8 +226,9 @@
                         My Links
                     </div>
                     <div class="content-block-content">
-                        <div class="link">
-                            <span class="editable">
+                        <div class="link" ng-show="edit || profile.twitter != ''">
+                            <span class="editable"  >
+                                
                                  {{profile.twitter}}<span class="editable-placeholder" ng-show="profile.twitter == ''">Add Twitter Link</span>
                                 
                                 <div class="floatform" id="user-twitter-form">
@@ -244,9 +248,9 @@
                             </span>
                         </div>
                         
-                        <div class="link">
+                        <div class="link" ng-show="edit || profile.linkedin != ''">
                             <span class="editable">
-                               {{profile.linkedin}}<span class="editable-placeholder" ng-show="profile.linkedin == ''">Add Linkedin Link</span>
+                                {{profile.linkedin}}<span class="editable-placeholder" ng-show="profile.linkedin == ''">Add Linkedin Link</span>
                                 <div class="floatform" id="user-linkedin-form">
                                     <div class="form-content">
                                         <div class="form-fields">
@@ -262,7 +266,7 @@
                                 </div>
                             </span>
                         </div>
-                        <div class="link">
+                        <div class="link" ng-show="edit || profile.website != ''">
                             <span class="editable">
                                {{profile.website}}<span class="editable-placeholder" ng-show="profile.website == ''">Add Website</span>
                                 <div class="floatform" id="user-website-form">
@@ -292,7 +296,7 @@
                 <div class="content-block editable-block" id="user-about-form">
                     <div class="content-block-title editable-title">
                         About Me
-                        <div class="editable-title-options">
+                        <div class="editable-title-options" ng-if="edit">
                             <button class="button inverted" ng-disabled="aboutStatus" ng-click="editAboutBlock()">Edit</button>
                          
 
@@ -300,46 +304,53 @@
                     </div>
                     <div class="content-block-content">
                         <div class="control inline">
-                            <label>I am a</label>
-                            <div class="checkboxes">
-                                <label ng-repeat="ia in iAms" class="checkbox-label disabled" >
-                                    <input type="checkbox" name="selectedIams[]" value="{{ia}}" 
-                                           ng-checked="profile.iam.indexOf(ia[0]) > -1" 
-                                           ng-click="toggleIamSelection(ia)"
-                                           disabled="disabled"
-                                           > {{ia[1]}}
+                            <label ng-if="edit">I am a</label>
+                            
+                                <div class="textarea" ng-switch="edit">
+                                    <div class="checkboxes" ng-switch-when="true">
+                                        <label ng-repeat="ia in iAms" class="checkbox-label disabled" >
+                                            <input type="checkbox" name="selectedIams[]" value="{{ia}}" 
+                                                   ng-checked="profile.iam.indexOf(ia[0]) > -1" 
+                                                   ng-click="toggleIamSelection(ia)"
+                                                   disabled="disabled"
+                                                   > {{ia[1]}}
 
-                                </label>
+                                        </label>
+                                    </div>
+                                    <div class="textarea-text" ng-switch-when="false">
+                                       <div ng-repeat="ia in iAms" class="iams">{{ia[1]}}</div>
+                                    </div>
+                                </div>
+                                
                             </div>
+                            
                         </div>
-                        <div class="control inline">
-                            <label>
+                        <div class="control inline" >
+                            <label ng-if="edit">
                                 <div class="label-help">
                                     Intro
                                     <span class="control-help-text">140 Characters</span>
                                 </div>
                             </label>
-                            <div class="textarea">
-                                <textarea placeholder="Type here" ng-model="profile.bio"></textarea>
+                            <div class="textarea" ng-switch="edit">
+                                <textarea  ng-switch-when="true" placeholder="Type here" ng-model="profile.bio" ng-if="edit"></textarea>
+                                 <div class="textarea-text" ng-switch-when="false"> {{profile.bio}} </div>
                             </div>
                         </div>
 
                         <div class="control inline">
-                            <label>
-
+                            <label ng-if="edit">
                                 Tell us more <span class="tooltip-content tooltip-help">?</span>
-
-
-
                             </label>
-                            <div class="textarea" >
-                                <textarea ng-model="profile.longbio" placeholder="Type here" ></textarea>
+                            <div class="textarea" ng-switch="edit" >
+                                <textarea ng-switch-when="true" ng-model="profile.longbio" placeholder="Type here" ></textarea>
+                                <div class="textarea-text" ng-switch-when="false"> {{profile.longbio}} </div>
                             </div>
                         </div>
-                    </div>
+                    
                     <div class="content-block-actions" ng-show="aboutStatus">
-                           <button class="button inverted"  ng-click="cancelAboutBlock()">Cancel</button>
-                            <button class="button primary"  ng-click="saveAboutBlock(profile.iam, profile.bio, profile.longbio)">Save</button>
+                         <button class="button inverted"  ng-click="cancelAboutBlock()">Cancel</button>
+                         <button class="button primary"  ng-click="saveAboutBlock(profile.iam, profile.bio, profile.longbio)">Save</button>
                     </div>
                 </div>
 

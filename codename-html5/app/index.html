@@ -41,7 +41,7 @@
 
     <!-- APP MAIN NAVIGATION -->
 
-    <div ng-controller="NavigationController" class="{{navStatus}}">
+    <div ng-controller="NavigationController" ng-if="navStatus == 'show'" >
         <div ng-include="'app/views/nav.html'" > </div>
     </div>
 
@@ -49,7 +49,7 @@
     <div class="screen {{pageClass}}" ng-view  > </div>
 
     <!-- FOOTER -->
-    <footer id="global-footer" class="{{navStatus}}">
+    <footer id="global-footer" ng-if="navStatus == 'show'">
         <nav >
             <ul id="nav-footer">
                 <li class="nav-item">

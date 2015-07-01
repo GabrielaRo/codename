@@ -4,6 +4,7 @@
          * For Loading we try to fetch everything at once instead of each different piece
          */
         $scope.params = $routeParams;
+        $scope.edit = true;
         $scope.profile = {
             firstname: "",
             lastname: "",
@@ -767,26 +768,37 @@
          * This code is executed everytime that we access to the profile page
          */
         var firstLogin = $cookieStore.get('firstLogin');
-        if (firstLogin) {
-            // If it is the first time that the user is accessing the site using this account
-            //  we need to update the information in the server and then load the basic data. 
-            $scope.updateUserFirstLogin();
-
-        } else {
-              console.log("ROUTE PARAMS ");
-            console.log($scope.params.id);
-            if($scope.params.id){ 
-                 console.log("ROUTE PARAMS ID ");
-                 $scope.loadPublicUserData($scope.params.id);
-                $("#profile").addClass("read-only");    
-            }else {
-                $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
-            }
-        }
-      
         
-        $scope.bindEditableEvents();
-        $scope.initiateContentBlocks();
+        angular.element(document).ready(function () {
+
+
+            if (firstLogin) {
+                // If it is the first time that the user is accessing the site using this account
+                //  we need to update the information in the server and then load the basic data. 
+                $scope.updateUserFirstLogin();
+
+            } else {
+                  console.log("ROUTE PARAMS ");
+                console.log($scope.params.id);
+                if($scope.params.id){ 
+                     console.log("ROUTE PARAMS ID ");
+                     $scope.loadPublicUserData($scope.params.id);
+                    $("#profile").addClass("read-only");    
+                    $scope.edit = false;
+                    $scope.initiateContentBlocks();
+                }else {
+                    $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
+                    $scope.edit = true;
+                    
+                    setTimeout(function(){ $scope.bindEditableEvents();
+                                $scope.initiateContentBlocks(); }, 1000);
+                   
+                }
+            }
+                  
+        });
+        
+       
     };
 
     profileController.$inject = ["$rootScope", "$scope", "$upload", "$timeout", "$users", "$cookieStore", "appConstants", "$routeParams"];
