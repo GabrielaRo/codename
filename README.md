@@ -18,7 +18,9 @@ git clone https://github.com/grogdj/codename.git
 > cd codename-html5/
 > mvn wildfly:run
 
-
+3) access the application
+In your browser:
+http://localhost:8080/codename-server/
 
 
 -------------------------------------------------
