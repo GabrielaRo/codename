@@ -113,6 +113,7 @@
                         $scope.email = $cookieStore.get('email');
                         $scope.user_id = $cookieStore.get('user_id');
                         $scope.firstLogin = $cookieStore.get('firstLogin');
+                        $rootScope.$broadcast("updateUser", $scope.auth_token);
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
@@ -344,7 +345,7 @@
                 $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar" + '?' + new Date().getTime();
                 $scope.profile.hasavatar = true;
                 $scope.calculatePercentage();
-                $rootScope.$broadcast("updateUserImage");
+                $rootScope.$broadcast("updateUser");
 
             }).error(function (data) {
                 console.log('file ' + file.name + ' upload error. Response: ' + data);

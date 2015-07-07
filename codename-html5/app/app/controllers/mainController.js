@@ -3,7 +3,7 @@
 
     angular.module('codename');
 
-    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users,  appConstants, $notifications, $route, $routeParams) {
+    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $sockets, appConstants,  $route, $routeParams) {
         $scope.auth_token = $cookieStore.get('auth_token');
         $scope.email = $cookieStore.get('email');
         $scope.user_id = $cookieStore.get('user_id');
@@ -63,7 +63,7 @@
                 $cookieStore.remove('auth_token');
                 $cookieStore.remove('email');
                 $scope.avatarStyle = "";
-                $scope.closeWebSocket();
+                $sockets.closeWebSocket();
                 $rootScope.$broadcast('goTo', "/");
                 $rootScope.$broadcast("quickNotification", "You have been logged out.", 'info');
             }).error(function (data) {
@@ -97,10 +97,9 @@
                     $scope.submitted = false;
                     $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
                     console.log("firstLogin: " + $scope.firstLogin);
-                    $scope.initWebSocket();
+                    $sockets.initWebSocket();
                     if ($scope.firstLogin) {
                         $rootScope.$broadcast('goTo', "/firstlogin");
-                       // $rootScope.$broadcast('goTo', "/");
                     } else {
                         $rootScope.$broadcast('goTo', "/localfhellows");
                     }
@@ -113,53 +112,23 @@
         };
 
         
-        $scope.initWebSocket = function(){
-            //var wsUri = "ws://" + "grog-restprovider.rhcloud.com:8000" + "/grogshop-server/" + "shop";
-            var wsUri = "ws://" + "localhost:8080" + "/codename-server/" + "fhellow?email=" + $cookieStore.get('email');
-            //var wsUri = "ws://" + document.location.hostname + ":" + document.location.port + "/grogshop-server/" + "shop";
-            $scope.websocket = new WebSocket(wsUri);
-            console.log("Init websocket for: "+$cookieStore.get('email'));
-            $scope.websocket.onopen = function (evt) {
-                console.log("onOpen client side");
-
-            };
-            $scope.websocket.onmessage = function (evt) {
-                console.log(">>> onMessage: " + evt.data);
-                $rootScope.$broadcast('quickNotification', evt.data, "success");
-                $notifications.newMatchingsNotifications.push(evt.data);
-            };
-            $scope.websocket.onerror = function (evt) {
-                console.log("Error: " + evt.data);
-            };
-
-            $scope.websocket.onclose = function () {
-                console.log("onClose client side");
-            };
-            
-        };
-        
-        $scope.closeWebSocket = function(){
-            $scope.websocket.onclose = function () {};
-            $scope.websocket.close(); 
-        };
-
+     
         
 
         if ($scope.auth_token && $scope.auth_token !== "") {
             $scope.initWebSocket();
-         //   $scope.loadMemberships($scope.user_id, $scope.email, $scope.auth_token);
             $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
 
         }
 
-        $rootScope.$on("updateUserImage", function (event, data) {
+        $rootScope.$on("updateUser", function (data) {
             $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
-
+            $scope.auth_token = data;
         });
     };
 
 
-    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users',  'appConstants',  '$notifications', '$route', '$routeParams' ];
+    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$sockets',  'appConstants',   '$route', '$routeParams' ];
     angular.module("codename").controller("MainCtrl", MainCtrl);
 }());
 
