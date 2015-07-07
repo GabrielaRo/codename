@@ -162,7 +162,7 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
                     CodenameUtil.getSubject(request.getHeader(CodenameUtil.AUTH_HEADER_KEY)));
             JsonObjectBuilder jsonObjBuilder = createFullJsonUser(authUser);
             jsonObjBuilder.add("email", authUser.getEmail());
-            jsonObjBuilder.add("service_key", "webkey:" + authUser.getEmail());
+
             jsonObjBuilder.add("auth_token", authToken);
             jsonObjBuilder.add("userId", authUser.getId());
             jsonObjBuilder.add("firstLogin", authUser.isIsFirstLogin());

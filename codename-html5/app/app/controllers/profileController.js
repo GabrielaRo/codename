@@ -53,6 +53,7 @@
 //                        console.log("profile.live: " + data.live);
 //                        console.log("profile.hascover: " + data.hascover);
 //                        console.log("profile.hasavatar: " + data.hasavatar);
+
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
@@ -82,8 +83,8 @@
             });
 
         };
-        
-        
+
+
         $scope.loadExternalUserData = function () {
             console.log("loading external data");
             $users.getExternalUserData()
@@ -104,6 +105,14 @@
                         console.log("profile.live: " + data.live);
                         console.log("profile.hascover: " + data.hascover);
                         console.log("profile.hasavatar: " + data.hasavatar);
+                        $cookieStore.put('auth_token', data.auth_token);
+                        $cookieStore.put('email', data.email);
+                        $cookieStore.put('user_id', data.userId);
+                        $cookieStore.put('firstLogin', data.firstLogin);
+                        $scope.auth_token = $cookieStore.get('auth_token');
+                        $scope.email = $cookieStore.get('email');
+                        $scope.user_id = $cookieStore.get('user_id');
+                        $scope.firstLogin = $cookieStore.get('firstLogin');
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
@@ -846,6 +855,11 @@
                     $scope.initiateContentBlocks();
                 } else if ($auth.isAuthenticated()) {
                     $scope.loadExternalUserData();
+                    $scope.edit = true;
+                    setTimeout(function () {
+                        $scope.bindEditableEvents();
+                        $scope.initiateContentBlocks();
+                    }, 1000);
                 } else {
                     $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
                     $scope.edit = true;
