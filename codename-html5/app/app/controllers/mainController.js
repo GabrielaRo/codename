@@ -1,12 +1,9 @@
 
 (function () {
 
-    angular.module('codename').config(['growlProvider', function (growlProvider) {
-            growlProvider.globalTimeToLive(3000);
-            growlProvider.globalPosition('top-center');
-        }]);
+    angular.module('codename');
 
-    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users,  appConstants, growl, $notifications, $route, $routeParams) {
+    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users,  appConstants, $notifications, $route, $routeParams) {
         $scope.auth_token = $cookieStore.get('auth_token');
         $scope.email = $cookieStore.get('email');
         $scope.user_id = $cookieStore.get('user_id');
@@ -32,22 +29,22 @@
             //$scope.notifications[i] = data;
             console.log("notification " + data);
 
-            switch (type) {
-                case "success":
-                    growl.success(data, config);
-                    break;
-                case "info":
-                    growl.info(data, config);
-                    break;
-                case "warning":
-                    growl.warning(data, config);
-                    break;
-                case "error":
-                    growl.error(data, config);
-                    break;
-                default:
-                    growl.error(data, config);
-            }
+//            switch (type) {
+//                case "success":
+//                    growl.success(data, config);
+//                    break;
+//                case "info":
+//                    growl.info(data, config);
+//                    break;
+//                case "warning":
+//                    growl.warning(data, config);
+//                    break;
+//                case "error":
+//                    growl.error(data, config);
+//                    break;
+//                default:
+//                    growl.error(data, config);
+//            }
 
 
 
@@ -115,20 +112,6 @@
             }
         };
 
-        $scope.loadMemberships = function () {
-
-            $memberships.load().success(function (data) {
-                // $rootScope.$broadcast("quickNotification", "Memberships loaded! ");
-                console.log("data: " + data);
-                $scope.memberships = JSON.parse(JSON.stringify(data));
-                console.log("my memberships: " + $scope.memberships);
-
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
-            });
-
-        };
         
         $scope.initWebSocket = function(){
             //var wsUri = "ws://" + "grog-restprovider.rhcloud.com:8000" + "/grogshop-server/" + "shop";
@@ -160,9 +143,7 @@
             $scope.websocket.close(); 
         };
 
-        $scope.hasMembership = function (club_id) {
-            return $memberships.hasMembership(club_id, $scope.memberships);
-        };
+        
 
         if ($scope.auth_token && $scope.auth_token !== "") {
             $scope.initWebSocket();
@@ -178,7 +159,7 @@
     };
 
 
-    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users',  'appConstants', 'growl', '$notifications', '$route', '$routeParams' ];
+    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users',  'appConstants',  '$notifications', '$route', '$routeParams' ];
     angular.module("codename").controller("MainCtrl", MainCtrl);
 }());
 

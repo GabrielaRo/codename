@@ -5,8 +5,8 @@
         $scope.formTabActive = "sign-in";
 
         $scope.joinStatus = "home";
-        $scope.tabClicked = function(tab, tabsForm){
-            var form = $("#"+tabsForm);
+        $scope.tabClicked = function (tab, tabsForm) {
+            var form = $("#" + tabsForm);
             console.log(form);
             var formsTabs = form.find(".tab");
             var actualTab = $("#" + tab);
@@ -22,50 +22,50 @@
             actualTab.addClass("active");
         }
 
-        
-        $scope.joinStatusChange = function(status){
-            if(status ==  'home'){
+
+        $scope.joinStatusChange = function (status) {
+            if (status == 'home') {
                 $scope.joinStatus = status;
-            }else {
+            } else {
                 $scope.joinStatus = status;
             }
-            
-        }
-        
-        $scope.initMockUsers = function (){
-            $users.initMockUsers().success(function (data) {
-                   $rootScope.$broadcast("quickNotification", "Mock Users");
-                    
-                   
-                   
-                   
-                }).error(function (data) {
-                    $rootScope.$broadcast("quickNotification", "Something failed: "+data.error, 'error');
-                    console.log("Error : " + data.error + "!");
 
-                });
-            
         }
-        
-         $scope.registerUser = function (isValid) {
-        // console.log("asd " + $scope.newUser.email + " / " + $scope.newUser.pass);
+
+        $scope.initMockUsers = function () {
+            $users.initMockUsers().success(function (data) {
+                $rootScope.$broadcast("quickNotification", "Mock Users");
+
+
+
+
+            }).error(function (data) {
+                $rootScope.$broadcast("quickNotification", "Something failed: " + data.error, 'error');
+                console.log("Error : " + data.error + "!");
+
+            });
+
+        }
+
+        $scope.registerUser = function (isValid) {
+            // console.log("asd " + $scope.newUser.email + " / " + $scope.newUser.pass);
 
             $scope.joinSubmitted = true;
 
             if (isValid) {
-               $users.signup($scope.newUser.email, $scope.newUser.pass).success(function (data) {
-                   $rootScope.$broadcast("quickNotification", "You are  now registered, please login!");
-                    
-                   $rootScope.$broadcast("goTo", "/");
+                $users.signup($scope.newUser.email, $scope.newUser.pass).success(function (data) {
+                    $rootScope.$broadcast("quickNotification", "You are  now registered, please login!");
+
+                    $rootScope.$broadcast("goTo", "/");
                     $scope.registerForm.$setPristine();
                     console.log("Welcome to " + $scope.newUser.email + "!");
-                    
-                   $scope.tabClicked("sign-in", 'home-tabs');
-                   $scope.joinStatus = "home";
-                   
-                   
+
+                    $scope.tabClicked("sign-in", 'home-tabs');
+                    $scope.joinStatus = "home";
+
+
                 }).error(function (data) {
-                    $rootScope.$broadcast("quickNotification", "Something failed: "+data.error, 'error');
+                    $rootScope.$broadcast("quickNotification", "Something failed: " + data.error, 'error');
                     console.log("Error : " + data.error + "!");
 
                 });
@@ -73,7 +73,7 @@
                 console.log("Invalid Form");
             }
         };
-      
+
 
 
 
@@ -82,13 +82,21 @@
                     .then(function (response) {
                 console.log("signed in: ");
                 console.log(response);
+                console.log("Is Auth: "+ $auth.isAuthenticated());
+                if($auth.isAuthenticated()){
+                    
+                    $rootScope.$broadcast('goTo', "/profile");
+                }else{
+                    $rootScope.$broadcast('goTo', "/");
+                }
+                
             }) .catch(function(response) {
                 console.log(response);
             });
         };
 
 
-
+        
         if ($scope.auth_token && $scope.auth_token !== "") {
 
             console.log("loading private clubs because: " + $scope.auth_token);

@@ -5,10 +5,12 @@
  */
 package org.codename.services.endpoints.impl;
 
+import com.nimbusds.jose.JOSEException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +19,7 @@ import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.WebApplicationException;
@@ -25,8 +28,11 @@ import javax.ws.rs.core.StreamingOutput;
 import org.codename.model.User;
 import org.codename.services.api.UsersService;
 import org.codename.services.endpoints.api.PublicUserEndpointService;
+import static org.codename.services.endpoints.impl.UsersHelper.createFullJsonUser;
 import static org.codename.services.endpoints.impl.UsersHelper.createPublicJsonUser;
 import org.codename.services.exceptions.ServiceException;
+import org.codename.services.filters.auth.GrogAuthenticator;
+import org.codename.services.util.CodenameUtil;
 
 /**
  *
@@ -41,6 +47,10 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
     private final static String serverUrl = "localhost:8080/codename-server/";
 
     private final static Logger log = Logger.getLogger(PublicUserServiceImpl.class.getName());
+    
+    // Very bad idea! 
+    @Inject
+    private GrogAuthenticator authenticator;
 
     public PublicUserServiceImpl() {
 
@@ -65,6 +75,16 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
         User u = usersService.getById(user_id);
         if (u == null) {
             throw new ServiceException("User  " + user_id + " doesn't exists");
+        }
+        JsonObjectBuilder jsonObjBuilder = createPublicJsonUser(u);
+        return Response.ok(jsonObjBuilder.build().toString()).build();
+    }
+
+    @Override
+    public Response getByNickName(String nickname) throws ServiceException {
+        User u = usersService.getByNickName(nickname);
+        if (u == null) {
+            throw new ServiceException("User  with nickname: " + nickname + " doesn't exists");
         }
         JsonObjectBuilder jsonObjBuilder = createPublicJsonUser(u);
         return Response.ok(jsonObjBuilder.build().toString()).build();
@@ -130,4 +150,36 @@ public class PublicUserServiceImpl implements PublicUserEndpointService {
 
     }
 
+    public Response getExternal(HttpServletRequest request) throws ServiceException {
+        try {
+            User authUser = getAuthUser(request);
+            if (authUser == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+            
+            String authToken = authenticator.loginWithExternalToken("webkey:" + authUser.getEmail(), 
+                    authUser.getEmail(), 
+                    CodenameUtil.getSubject(request.getHeader(CodenameUtil.AUTH_HEADER_KEY)));
+            JsonObjectBuilder jsonObjBuilder = createFullJsonUser(authUser);
+            jsonObjBuilder.add("email", authUser.getEmail());
+            jsonObjBuilder.add("service_key", "webkey:" + authUser.getEmail());
+            jsonObjBuilder.add("auth_token", authToken);
+            jsonObjBuilder.add("userId", authUser.getId());
+            jsonObjBuilder.add("firstLogin", authUser.isIsFirstLogin());
+            return Response.ok().entity(jsonObjBuilder.build()).build();
+        } catch (ParseException ex) {
+            throw new ServiceException(ex.getMessage());
+        } catch (JOSEException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+
+    /*
+     * Helper methods
+     */
+    
+    private User getAuthUser(HttpServletRequest request) throws ParseException, JOSEException {
+        String subject = CodenameUtil.getSubject(request.getHeader(CodenameUtil.AUTH_HEADER_KEY));
+        return usersService.getByProviderId(subject);
+    }
 }

@@ -12,11 +12,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import org.codename.model.User;
 import org.codename.services.api.UsersService;
 import org.codename.services.exceptions.ServiceException;
 import org.codename.services.util.CodenameUtil;
-
-
 
 /**
  *
@@ -29,29 +28,29 @@ public final class GrogAuthenticator {
 
     // An authentication token storage which stores <service_key, auth_token>.
     private final Map<String, String> authorizationTokensStorage = new HashMap();
-    
+
     @Inject
     UsersService userService;
-    
-    private final static Logger log =  Logger.getLogger( GrogAuthenticator.class.getName() );
+
+    private final static Logger log = Logger.getLogger(GrogAuthenticator.class.getName());
 
     private GrogAuthenticator() {
 
-
     }
-
 
     public String login(String serviceKey, String email, String password) throws ServiceException {
         log.log(Level.INFO, "serviceKey: {0}", serviceKey);
         log.log(Level.INFO, "email: {0}", email);
         log.log(Level.INFO, "password: {0}", password);
         if (userService.existKey(serviceKey)) {
-            
+
             String emailMatch = userService.getKey(serviceKey);
             log.log(Level.INFO, "emailMatch: {0}", emailMatch);
             if (emailMatch.equals(email) && userService.exist(email)) {
+                //If the user comes from an external provider there is no need for password check
+                User user = userService.getByEmail(email);
 
-                String passwordMatch = userService.getByEmail(email).getPassword();
+                String passwordMatch = user.getPassword();
                 log.log(Level.INFO, "passwordMatch: {0}", passwordMatch);
                 if (passwordMatch.equals(CodenameUtil.hash(password))) {
 
@@ -75,6 +74,43 @@ public final class GrogAuthenticator {
                     return authToken;
 
                 }
+
+            }
+
+        }
+
+        throw new ServiceException("Not Authorized, wrong service key for the provided email and password");
+
+    }
+
+    public String loginWithExternalToken(String serviceKey, String email, String externalToken) throws ServiceException {
+        log.log(Level.INFO, "serviceKey: {0}", serviceKey);
+        log.log(Level.INFO, "email: {0}", email);
+        log.log(Level.INFO, "externalToken: {0}", externalToken);
+        if (userService.existKey(serviceKey)) {
+
+            String emailMatch = userService.getKey(serviceKey);
+            log.log(Level.INFO, "emailMatch: {0}", emailMatch);
+            if (emailMatch.equals(email) && userService.exist(email)) {
+                //If the user comes from an external provider there is no need for password check
+                User user = userService.getByEmail(email);
+
+                /**
+                 *
+                 * Once all params are matched, the authToken will be
+                 *
+                 * generated and will be stored in the
+                 *
+                 * authorizationTokensStorage. The authToken will be needed
+                 *
+                 * for every REST API invocation and is only valid within
+                 *
+                 * the login session
+                 *
+                 */
+                authorizationTokensStorage.put(externalToken, email);
+
+                return externalToken;
 
             }
 

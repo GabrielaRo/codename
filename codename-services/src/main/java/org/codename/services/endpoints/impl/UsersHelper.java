@@ -24,6 +24,7 @@ public class UsersHelper {
         jsonObjBuilder.add("originallyFrom", (u.getOriginallyFrom() == null) ? "" : u.getOriginallyFrom());
         jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
         jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
+        jsonObjBuilder.add("nickname", (u.getNickname() == null) ? "" : u.getNickname());
         jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
         jsonObjBuilder.add("website", (u.getWebsite() == null) ? "" : u.getWebsite());
         jsonObjBuilder.add("twitter", (u.getTwitter() == null) ? "" : u.getTwitter());
@@ -49,6 +50,7 @@ public class UsersHelper {
         return jsonObjBuilder;
     }
     
+    
     public static JsonObjectBuilder createPublicJsonUser(User u) {
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
@@ -60,6 +62,7 @@ public class UsersHelper {
         jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
         jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
         jsonObjBuilder.add("website", (u.getWebsite() == null) ? "" : u.getWebsite());
+        jsonObjBuilder.add("nickname", (u.getNickname() == null) ? "" : u.getNickname());
         //jsonObjBuilder.add("twitter", (u.getTwitter() == null) ? "" : u.getTwitter());
         //jsonObjBuilder.add("linkedin", (u.getLinkedin() == null) ? "" : u.getLinkedin());
         //jsonObjBuilder.add("live", u.isLive());

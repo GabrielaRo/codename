@@ -7,12 +7,14 @@ package org.codename.services.endpoints.api;
 
 import java.io.Serializable;
 import javax.ejb.Local;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.codename.services.exceptions.ServiceException;
@@ -47,5 +49,16 @@ public interface PublicUserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response get(@PathParam("id") Long user_id) throws ServiceException;
     
+    @GET
+    @Path("external")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response getExternal(@Context HttpServletRequest request) throws ServiceException;
+    
+    @GET
+    @Path("{nickname}")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response getByNickName(@PathParam("nickname") String nickname) throws ServiceException;
+    
+  
 
 }

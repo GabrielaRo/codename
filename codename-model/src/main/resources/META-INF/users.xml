@@ -37,5 +37,27 @@
 		</query>
 	</named-query>
         
+        <named-query name="User.getByNickName">
+		<query>
+			SELECT
+				_user
+			FROM
+				User _user					
+			WHERE
+				_user.nickname = :nickname
+		</query>
+	</named-query>
+        
+        <named-query name="User.getByProviderId">
+		<query>
+			SELECT
+				_user
+			FROM
+				User _user					
+			WHERE
+				_user.providerId = :providerId
+		</query>
+	</named-query>
+        
 	
 </entity-mappings>

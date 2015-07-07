@@ -27,6 +27,10 @@ public interface UsersService {
     boolean exist(Long user_id);
 
     User getByEmail(String email);
+    
+    User getByProviderId(String providerId);
+    
+    User getByNickName(String nickname) throws ServiceException;
 
     User getById(Long user_id);
 
@@ -88,5 +92,9 @@ public interface UsersService {
     void updateLinkedin(Long user_id, String linkedin) throws ServiceException;
 
     void updateBioLongBioIams(Long user_id, String bio, String longbio, List<String> iams) throws ServiceException;
+
+    void updateNickName(Long user_id, String nickname) throws ServiceException;
+
+   
 
 }

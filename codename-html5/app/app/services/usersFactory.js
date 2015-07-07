@@ -1,5 +1,5 @@
 (function () {
-    var $users = function ($http, $cookieStore, $transformRequestToForm, $upload, appConstants) {
+    var $users = function ($http, $cookieStore, $transformRequestToForm, Upload, appConstants) {
         var factory = {};
         //SIGNUP
         factory.signup = function (email, password) {
@@ -97,6 +97,18 @@
                 data: {}
             });
         };
+        
+        //GET PROFILE
+        factory.getExternalUserData = function () {
+            return $http({
+                method: 'GET',
+                url: appConstants.server + appConstants.context + 'rest/public/users/external',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: {}
+            });
+        };
+        
         //GET Public PROFILE
         factory.getPublicUserData = function (userId) {
             return $http({
@@ -270,7 +282,7 @@
         };
         //UPLOAD AVATAR
         factory.uploadAvatar = function (file) {
-            return $upload.upload({
+            return Upload.upload({
                 url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/avatar/upload',
                 method: 'POST',
                 headers: {'Content-Type': 'multipart/form-data', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
@@ -280,7 +292,7 @@
 
         //UPLOAD COVER
         factory.uploadCover = function (file) {
-            return $upload.upload({
+            return Upload.upload({
                 url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/cover/upload',
                 method: 'POST',
                 headers: {'Content-Type': 'multipart/form-data', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
@@ -292,7 +304,7 @@
         return factory;
     };
 
-    $users.$inject = ['$http', '$cookieStore', '$transformRequestToForm', '$upload', 'appConstants'];
+    $users.$inject = ['$http', '$cookieStore', '$transformRequestToForm', 'Upload', 'appConstants'];
     angular.module("codename").factory("$users", $users);
 
 }());

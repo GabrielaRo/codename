@@ -39,6 +39,15 @@ public interface AuthenticationEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     public Response registerUser(@NotNull @Email @NotEmpty @FormParam("email") String email,
             @NotNull @NotEmpty @FormParam("password") String password) throws ServiceException;
+    
+    @POST
+    @Path("/registerfull")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response registerFullUser(@NotEmpty @FormParam("firstname") String firstname, 
+            @NotEmpty  @FormParam("lastname") String lastname, 
+            @NotNull @Email @NotEmpty @FormParam("email") String email,
+            @NotNull @NotEmpty @FormParam("password") String password, 
+            @NotNull @NotEmpty @FormParam("gender") String gender, @FormParam("birthday") String birthday) throws ServiceException;
 
     @POST
     @Path("/login")

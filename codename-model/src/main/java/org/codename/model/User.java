@@ -39,6 +39,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Spatial(spatialMode = SpatialMode.GRID)
 public class User implements Serializable {
 
+    public static enum UserProvider {
+
+        FHELLOW,
+        GOOGLE
+    };
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -69,6 +75,8 @@ public class User implements Serializable {
     private String avatarFileName;
 
     private String title;
+
+    private String nickname;
 
     @Lob
     @Column(name = "AVATAR_CONTENT")
@@ -106,25 +114,35 @@ public class User implements Serializable {
     private List<String> iAms;
 
     private boolean live;
-    
+
     @DateBridge(resolution = Resolution.DAY)
     private Date birthday;
-    
+
     private String gender;
-    
+
     private String website;
-    
+
     private String twitter;
-    
+
     private String linkedin;
-    
+
+    private UserProvider provider = UserProvider.FHELLOW;
+
+    private String providerId = "";
 
     public User() {
     }
 
     public User(String email, String password) {
         this.email = email;
+        this.nickname = email.split("@")[0];
         this.password = password;
+    }
+
+    public User(String email, String password, UserProvider provider, String providerId) {
+        this(email, password);
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
     public Long getId() {
@@ -343,6 +361,28 @@ public class User implements Serializable {
         this.linkedin = linkedin;
     }
 
-    
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public UserProvider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(UserProvider provider) {
+        this.provider = provider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
 
 }

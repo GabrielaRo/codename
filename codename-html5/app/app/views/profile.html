@@ -12,7 +12,7 @@
                 
                 <div id="profile-cover-options">
 
-                    <button class="button inverted" ng-if="edit" ng-file-select ng-model="picCoverFile" name="file" ng-file-change="generateCoverThumb(picCoverFile[0])"  accept="image/*"  multiple="false">Change Cover Image</button>
+                    <button class="button inverted" ng-if="edit" ngf-select ng-model="picCoverFile" name="file" ngf-change="generateCoverThumb(picCoverFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false">Change Cover Image</button>
 
                 </div>
             </div>
@@ -38,7 +38,7 @@
                         </div>
 
                         <div id="profile-user-image-options" ng-if="edit">
-                            <button class="button inverted" ng-file-select ng-model="picFile" name="file" ng-file-change="generateThumb(picFile[0])"  accept="image/*"  multiple="false">Change Profile Picture</button>
+                            <button class="button inverted" ngf-select ng-model="picFile" name="file" ngf-change="generateThumb(picFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false">Change Profile Picture</button>
                         </div>
 
 

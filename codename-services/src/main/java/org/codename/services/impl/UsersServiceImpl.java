@@ -67,6 +67,28 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public User getByProviderId(String providerId) {
+         try {
+            return em.createNamedQuery("User.getByProviderId", User.class).setParameter("providerId", providerId).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    
+
+    @Override
+    public User getByNickName(String nickname) throws ServiceException {
+         try {
+            return em.createNamedQuery("User.getByNickName", User.class).setParameter("nickname", nickname).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    
+
+    @Override
     public User getById(Long user_id) {
         try {
             return em.find(User.class, user_id);
@@ -363,6 +385,15 @@ public class UsersServiceImpl implements UsersService {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setTwitter(twitter);
+        em.merge(u);
+    }
+
+    public void updateNickName(Long user_id, String nickname) throws ServiceException {
+        User u = em.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setNickname(nickname);
         em.merge(u);
     }
 

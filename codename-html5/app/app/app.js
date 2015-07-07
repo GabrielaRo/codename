@@ -1,8 +1,8 @@
 (function () {
 
-    var codename = angular.module('codename', ['ngCookies', 'ngTagsInput', 'ngRoute',
-        'ngAnimate', 'angular.filter', 'angularFileUpload', 'ui-rangeSlider',
-        'masonry', 'angular-growl', 'satellizer']);
+    var codename = angular.module('codename', ['ngCookies',  'ngRoute',
+        'ngAnimate', 'angular.filter', 'ngFileUpload',
+        'satellizer']);
 
     codename.constant("appConstants", {
         server: "http://localhost:8080/",
@@ -25,7 +25,7 @@
                             controller: 'passwordController'
 
                         })
-
+                        
                         .when('/firstlogin', {
                             templateUrl: 'app/views/profile.html',
                             controller: 'profileController'
@@ -39,6 +39,7 @@
                             templateUrl: 'app/views/profile.html',
                             controller: 'profileController'
                         })
+                       
 
                         .otherwise({
                             redirectto: '/'

@@ -254,6 +254,12 @@ public class UserServiceImpl implements UserEndpointService {
     }
 
     @Override
+    public Response updateNickName(Long user_id, String nickname) throws ServiceException {
+        usersService.updateNickName(user_id, nickname);
+        return Response.ok().build();
+    }
+
+    @Override
     public Response updateLastName(Long user_id, String lastname) throws ServiceException {
         usersService.updateLastName(user_id, lastname);
         return Response.ok().build();

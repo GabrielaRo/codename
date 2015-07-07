@@ -26,7 +26,6 @@
     "commit": "5a64ab0657bd5559811ec7ff67eb19364093c793"
   },
   "_source": "git://github.com/sahat/satellizer.git",
-  "_target": "~0.11.2",
-  "_originalSource": "satellizer",
-  "_direct": true
+  "_target": "0.11",
+  "_originalSource": "satellizer"
 }
