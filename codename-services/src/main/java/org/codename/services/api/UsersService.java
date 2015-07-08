@@ -12,7 +12,7 @@ import org.codename.services.exceptions.ServiceException;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 public interface UsersService {
 

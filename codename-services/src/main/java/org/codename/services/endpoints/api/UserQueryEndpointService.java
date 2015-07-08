@@ -10,19 +10,23 @@ import javax.ejb.Local;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.codename.services.exceptions.ServiceException;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 @Local
-@Path("/public/interests")
-public interface PublicInterestsEndpointService extends Serializable {
+@Path("/query")
+public interface UserQueryEndpointService extends Serializable {
 
     @GET
-    @Path("/all")
-    @Produces({"application/json"})
-    Response getAllInterests() throws ServiceException;
+    @Path("all")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response getAll() throws ServiceException;
+    
+   
+
 }

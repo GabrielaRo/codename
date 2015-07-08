@@ -13,7 +13,7 @@ import javax.ws.rs.ext.Provider;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 @Provider
 public class ServiceExceptionHandler implements ExceptionMapper<ServiceException> {

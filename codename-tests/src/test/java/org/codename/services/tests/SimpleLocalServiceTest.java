@@ -45,7 +45,7 @@ import org.junit.runner.RunWith;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 @RunWith(Arquillian.class)
 public class SimpleLocalServiceTest {

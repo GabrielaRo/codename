@@ -24,7 +24,7 @@ import org.joda.time.DateTime;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 public class IntegrationRequestFilter implements Filter{
 

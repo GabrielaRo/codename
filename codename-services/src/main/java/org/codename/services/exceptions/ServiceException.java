@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 public class ServiceException extends Exception implements Serializable {
 

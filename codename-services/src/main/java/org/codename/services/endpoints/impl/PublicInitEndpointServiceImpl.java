@@ -24,7 +24,7 @@ import org.codename.services.exceptions.ServiceException;
 
 //http://localhost:8080/codename-server/rest/public/app/init
 @Stateless
-public class PublicInitServiceImpl implements PublicInitEndpointService {
+public class PublicInitEndpointServiceImpl implements PublicInitEndpointService {
 
     @Inject
     private UsersService usersService;
@@ -42,7 +42,7 @@ public class PublicInitServiceImpl implements PublicInitEndpointService {
             createGenericUser("bot@gmail.com", "asdasd", "1");
 
         } catch (Exception ex) {
-            Logger.getLogger(PublicInitServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return Response.ok().build();
     }
@@ -67,7 +67,7 @@ public class PublicInitServiceImpl implements PublicInitEndpointService {
             bytes = IOUtils.toByteArray(inputStream);
             inputStream.close();
         } catch (IOException ex) {
-            Logger.getLogger(PublicInitServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         usersService.updateAvatar(grogdjId, profilePic, bytes);
@@ -79,7 +79,7 @@ public class PublicInitServiceImpl implements PublicInitEndpointService {
             bytes = IOUtils.toByteArray(inputStream);
             inputStream.close();
         } catch (IOException ex) {
-            Logger.getLogger(PublicInitServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         usersService.updateCover(grogdjId, coverPic, bytes);
 
@@ -110,7 +110,7 @@ public class PublicInitServiceImpl implements PublicInitEndpointService {
             bytes = IOUtils.toByteArray(inputStream);
             inputStream.close();
         } catch (IOException ex) {
-            Logger.getLogger(PublicInitServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         usersService.updateAvatar(ezeId, profilePic, bytes);
@@ -122,7 +122,7 @@ public class PublicInitServiceImpl implements PublicInitEndpointService {
             bytes = IOUtils.toByteArray(inputStream);
             inputStream.close();
         } catch (IOException ex) {
-            Logger.getLogger(PublicInitServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         usersService.updateCover(ezeId, coverPic, bytes);
 
@@ -153,7 +153,7 @@ public class PublicInitServiceImpl implements PublicInitEndpointService {
             bytes = IOUtils.toByteArray(inputStream);
             inputStream.close();
         } catch (IOException ex) {
-            Logger.getLogger(PublicInitServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         usersService.updateAvatar(userId, profilePic, bytes);
@@ -165,7 +165,7 @@ public class PublicInitServiceImpl implements PublicInitEndpointService {
             bytes = IOUtils.toByteArray(inputStream);
             inputStream.close();
         } catch (IOException ex) {
-            Logger.getLogger(PublicInitServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         usersService.updateCover(userId, coverPic, bytes);
 

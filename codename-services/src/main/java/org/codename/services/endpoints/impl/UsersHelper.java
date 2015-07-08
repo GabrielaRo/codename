@@ -12,7 +12,7 @@ import org.codename.model.User;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 public class UsersHelper {
     public static JsonObjectBuilder createFullJsonUser(User u) {

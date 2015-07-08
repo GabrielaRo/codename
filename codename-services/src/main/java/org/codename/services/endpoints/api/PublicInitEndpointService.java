@@ -14,7 +14,7 @@ import org.codename.services.exceptions.ServiceException;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 @Local
 @Path("/public/app")

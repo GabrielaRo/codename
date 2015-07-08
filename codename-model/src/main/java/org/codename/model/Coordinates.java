@@ -7,7 +7,7 @@ package org.codename.model;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 public class Coordinates {
     private Double lon;

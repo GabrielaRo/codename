@@ -22,7 +22,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 @Local
 @Path("/users")

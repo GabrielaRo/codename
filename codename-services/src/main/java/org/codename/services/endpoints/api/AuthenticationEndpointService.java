@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 @Local
 @Path("/auth")

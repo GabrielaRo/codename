@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 public class Payload {
 

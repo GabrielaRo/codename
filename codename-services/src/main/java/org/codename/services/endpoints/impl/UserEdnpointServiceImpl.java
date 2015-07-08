@@ -46,16 +46,16 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
  * @author grogdj
  */
 @Stateless
-public class UserServiceImpl implements UserEndpointService {
+public class UserEdnpointServiceImpl implements UserEndpointService {
 
     @Inject
     private UsersService usersService;
 
-    private final static Logger log = Logger.getLogger(UserServiceImpl.class.getName());
+    private final static Logger log = Logger.getLogger(UserEdnpointServiceImpl.class.getName());
 
     private final String UPLOADED_FILE_PARAMETER_NAME = "file";
 
-    public UserServiceImpl() {
+    public UserEdnpointServiceImpl() {
 
     }
 
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserEndpointService {
         }
         return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
-
+    
     @Override
     public Response exist(@NotNull @FormParam("user_id") Long user_id) throws ServiceException {
         return Response.ok(usersService.exist(user_id)).build();

@@ -7,7 +7,7 @@ package org.codename.services.exceptions;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 public class ErrorMessage {
     private String error;

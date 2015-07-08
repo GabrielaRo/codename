@@ -58,7 +58,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author grogdj
  */
 @Stateless
-public class AuthenticationServiceImpl implements AuthenticationEndpointService {
+public class AuthenticationEndpointServiceImpl implements AuthenticationEndpointService {
 
     @Inject
     private UsersService userService;
@@ -68,7 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
 
     private Client client;
 
-    private final static Logger log = Logger.getLogger(AuthenticationServiceImpl.class.getName());
+    private final static Logger log = Logger.getLogger(AuthenticationEndpointServiceImpl.class.getName());
 
     public static final String CLIENT_ID_KEY = "client_id", REDIRECT_URI_KEY = "redirect_uri",
             CLIENT_SECRET = "client_secret", CODE_KEY = "code", GRANT_TYPE_KEY = "grant_type",
@@ -79,8 +79,8 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
             UNLINK_ERROR_MSG = "Could not unlink %s account because it is your only sign-in method";
 
     public static final ObjectMapper MAPPER = new ObjectMapper();
-
-    public AuthenticationServiceImpl() {
+    
+    public AuthenticationEndpointServiceImpl() {
         client = ClientBuilder.newClient();
 
     }
@@ -104,7 +104,7 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
         try {
             result = df.parse(birthday);
         } catch (ParseException ex) {
-            Logger.getLogger(AuthenticationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         user.setBirthday(result);
         userService.newUser(user);
@@ -117,7 +117,6 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
             @NotNull @Email @NotEmpty @FormParam("email") String email,
             @NotNull @NotEmpty @FormParam("password") String password) throws ServiceException {
 
-        
         User authUser = userService.getByEmail(email);
 
         if (authUser == null || !authUser.getProvider().equals(User.UserProvider.FHELLOW)) {
@@ -128,7 +127,7 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
         boolean firstLogin = authUser.isIsFirstLogin();
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("email", email);
-        
+
         jsonObjBuilder.add("auth_token", authToken);
         jsonObjBuilder.add("user_id", authUser.getId());
         jsonObjBuilder.add("firstLogin", firstLogin);
@@ -213,21 +212,18 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
 
             userInfo = getResponseEntity(response);
 
-        } catch (JsonMappingException ex) {
-            Logger.getLogger(AuthenticationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JsonMappingException ex){
             ex.printStackTrace();
-        } catch (IOException ex) {
-            Logger.getLogger(AuthenticationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex){
             ex.printStackTrace();
         }
 
-        System.out.println("userInfo.get(\"sub\") = "+ userInfo.get("sub"));
+        System.out.println("userInfo.get(\"sub\") = " + userInfo.get("sub"));
         User byEmail = userService.getByEmail((String) userInfo.get("email"));
         if (byEmail == null) {
-            Long newUser = userService.newUser(new User((String) userInfo.get("email"), userInfo.get("sub").toString(), 
+            Long newUser = userService.newUser(new User((String) userInfo.get("email"), userInfo.get("sub").toString(),
                     User.UserProvider.GOOGLE, userInfo.get("sub").toString()));
-            
-            
+
             userService.updateBothNames(newUser, (String) userInfo.get("given_name"), (String) userInfo.get("family_name"));
             byte[] bytes = null;
             String profilePic = (String) userInfo.get("picture");
@@ -237,27 +233,26 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
                 bytes = IOUtils.toByteArray(inputStream);
                 inputStream.close();
             } catch (IOException ex) {
-                Logger.getLogger(PublicInitServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
             userService.updateAvatar(newUser, profilePic, bytes);
 
         }
-       
+
         String token = "";
+        
+
         try {
-            
             token = createToken(request.getRemoteHost(), userInfo.get("sub").toString());
         } catch (JOSEException ex) {
-            Logger.getLogger(AuthenticationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
+            Logger.getLogger(AuthenticationEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         
+
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("token", token);
 
         return getNoCacheResponseBuilder(Response.Status.OK).entity(jsonObjBuilder.build()).build();
-
 
     }
 
@@ -270,16 +265,16 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
                 new TypeReference<Map<String, Object>>() {
                 });
     }
-    
+
     public Response loginExternal(HttpServletRequest request) throws ServiceException {
         try {
             User authUser = getAuthUser(request);
             if (authUser == null) {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
-            
-            String authToken = authenticator.loginWithExternalToken( 
-                    authUser.getEmail(), 
+
+            String authToken = authenticator.loginWithExternalToken(
+                    authUser.getEmail(),
                     CodenameUtil.getSubject(request.getHeader(CodenameUtil.AUTH_HEADER_KEY)));
             JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
             jsonObjBuilder.add("email", authUser.getEmail());
@@ -297,7 +292,6 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
     /*
      * Helper methods
      */
-    
     private User getAuthUser(HttpServletRequest request) throws ParseException, JOSEException {
         String subject = CodenameUtil.getSubject(request.getHeader(CodenameUtil.AUTH_HEADER_KEY));
         return userService.getByProviderId(subject);
