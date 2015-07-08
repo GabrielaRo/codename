@@ -68,4 +68,20 @@
              border-color: darken(@google, 10%);
          }
     }
+    
+    &.toggle {
+        background-color: @buttonBgrInverted;
+        border: 1px solid lighten(@buttonBgr, 80%);
+        color: @buttonColorInverted;
+        &:hover {
+            color: @link;
+            border: 1px solid @link;
+        }
+        
+        &.on {
+             background-color: @buttonToggleOnBgrColor;
+             color: @buttonToggleOnColor;
+             border-color: lighten(@buttonToggleOnBgrColor, 10%);
+        }
+    }
 }

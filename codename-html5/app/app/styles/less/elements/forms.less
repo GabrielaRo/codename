@@ -16,6 +16,23 @@
         color: @borders;
     }
 }
+.control-group {
+    font-size: @fontSize;
+    margin: 0 (@padding/4);
+    &:first-child {
+        margin-left: 0;
+    }
+    &:last-child {
+        margin-right: 0;
+    }
+    label {
+        display: block;
+    }
+    label + .control {
+        margin-left: 0;
+    }
+    
+}
 .control {
     display: inline-block;
     position: relative;
@@ -174,5 +191,12 @@
     }
 }
 
-
-
+.search-header-input {
+    background-color: transparent;
+    border-color: transparent;
+    border-bottom: 1px dashed @borders;
+    outline: none;
+    box-sizing: border-box;
+    padding: 0 @inputPadding;
+    
+}

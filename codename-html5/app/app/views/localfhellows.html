@@ -1,47 +1,44 @@
 <div id="section-header">
-    <div id="header-image">
-        <img src="/static/img/find-header.svg" alt="">
-    </div>
-    <h1>Find Fhellows working around you</h1>
-    <h2>Discuss ideas, share experiences and start building your own work community</h2>
+   
+        <h1>
+            Find Fhellows around 
+            <input type="text" class="search-header-input" placeholder="eg: London, EC2A, Shoreditch">
+        </h1>
+        <h1>
+            who are intested in <input type="text"  class="search-header-input" placeholder="eg: design, startups, surfing">
+        </h1>
+   
 </div>
 
     <div id="filters" class="sticky">
             <div id="filters-container">
                 <form>
-
-                    <div class="control" >
-                        <input type="text" ng-click="getLocation()" placeholder="My Location" name="filters.location" ng-model="filters.location" class="location-input">
+                    <div class="control-group ">
+                        <label>Fhellow type:</label>
+                        <div class="control" >
+                            <button class="toggle on button">Freelance</button>
+                        </div>
+                        <div class="control" >
+                            <button class="toggle button">Entrepenuers</button>
+                        </div>
+                        <div class="control" >
+                            <button class="toggle button">Digital Nomads</button>
+                        </div>
                     </div>
-
-                    <div class="control">
-                        <select name="filters.proximity" class="select proximity-select">
-                            <option selected disabled>Proximity</option>
-                            <option>10 km</option>
-                            <option>20 km</option>
-                            <option>30 km</option>
-                            <option>40 km</option>
-                            <option>100 km</option>
-                        </select>
-                    </div>
-                    <div class="control">
-                        <select name="filters.type" class="select type-select">
-                            <option selected disabled>Type of fhellow</option>
-                            <option>Designer</option>
-                            <option>Developer</option>
-                            <option>Entrepreneur</option>
-                            <option>Journalist </option>
-                        </select>
-                    </div>
-
-                    <div class="control">
-                        <input type="search" name="filters.search" ng-model="filters.search"  class="search-input">
-                        <input type="submit" value="Search" class="search-button button">
-                        <div class="control-help-text">
-                            Separate interests with commas
+                    <div class="control-group ">
+                        <label>Fhellows looking to:</label>
+                        <div class="control" >
+                            <button class="toggle button">Socialise</button>
+                        </div>
+                        <div class="control" >
+                            <button class="toggle button">Collaborate</button>
+                        </div>
+                        <div class="control" >
+                            <button class="toggle button">Mentor</button>
                         </div>
                     </div>
 
+                    
                 </form>
             </div>
         </div>
