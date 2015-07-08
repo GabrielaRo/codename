@@ -1,5 +1,10 @@
 (function () {
-    var profileController = function ($rootScope, $scope, Upload, $timeout, $users, $cookieStore, appConstants, $routeParams, $auth) {
+    var profileController = function ($rootScope, $scope, $timeout, $users, $sockets, $cookieStore, appConstants, $routeParams, $auth) {
+
+
+       
+        
+
         /*
          * For Loading we try to fetch everything at once instead of each different piece
          */
@@ -37,23 +42,6 @@
         $scope.loadUserData = function () {
             $users.getUserData()
                     .success(function (data) {
-
-//                        console.log("profile.userId: " + data.userId);
-//                        console.log("profile.firstname: " + data.firstname);
-//                        console.log("profile.lastname: " + data.lastname);
-//                        console.log("profile.location: " + data.location);
-//                        console.log("profile.originallyFrom: " + data.originallyFrom);
-//                        console.log("profile.bio: " + data.bio);
-//                        console.log("profile.longbio: " + data.longbio);
-//                        console.log("profile.title: " + data.title);
-//                        console.log("profile.lookingFor: " + data.lookingFor);
-//                        console.log("profile.interests: " + data.interests);
-//                        console.log("profile.imas: " + data.iams);
-//
-//                        console.log("profile.live: " + data.live);
-//                        console.log("profile.hascover: " + data.hascover);
-//                        console.log("profile.hasavatar: " + data.hasavatar);
-
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
@@ -69,7 +57,6 @@
                         $scope.profile.website = data.website;
                         $scope.profile.linkedin = data.linkedin;
                         $scope.profile.twitter = data.twitter;
-
                         $scope.profile.live = data.live;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
@@ -85,64 +72,7 @@
         };
 
 
-        $scope.loadExternalUserData = function () {
-            console.log("loading external data");
-            $users.getExternalUserData()
-                    .success(function (data) {
-                        console.log("FROM EXTERNAL ");
-                        console.log("profile.userId: " + data.userId);
-                        console.log("profile.firstname: " + data.firstname);
-                        console.log("profile.lastname: " + data.lastname);
-                        console.log("profile.location: " + data.location);
-                        console.log("profile.originallyFrom: " + data.originallyFrom);
-                        console.log("profile.bio: " + data.bio);
-                        console.log("profile.longbio: " + data.longbio);
-                        console.log("profile.title: " + data.title);
-                        console.log("profile.lookingFor: " + data.lookingFor);
-                        console.log("profile.interests: " + data.interests);
-                        console.log("profile.imas: " + data.iams);
-
-                        console.log("profile.live: " + data.live);
-                        console.log("profile.hascover: " + data.hascover);
-                        console.log("profile.hasavatar: " + data.hasavatar);
-                        $cookieStore.put('auth_token', data.auth_token);
-                        $cookieStore.put('email', data.email);
-                        $cookieStore.put('user_id', data.userId);
-                        $cookieStore.put('firstLogin', data.firstLogin);
-                        $scope.auth_token = $cookieStore.get('auth_token');
-                        $scope.email = $cookieStore.get('email');
-                        $scope.user_id = $cookieStore.get('user_id');
-                        $scope.firstLogin = $cookieStore.get('firstLogin');
-                        $rootScope.$broadcast("updateUser", $scope.auth_token);
-                        $scope.profile.userId = data.userId;
-                        $scope.profile.firstname = data.firstname;
-                        $scope.profile.lastname = data.lastname;
-                        $scope.profile.nickname = data.nickname;
-                        $scope.profile.location = data.location;
-                        $scope.profile.originallyFrom = data.originallyFrom;
-                        $scope.profile.bio = data.bio;
-                        $scope.profile.longbio = data.longbio;
-                        $scope.profile.title = data.title;
-                        $scope.profile.lookingFor = data.lookingFor;
-                        $scope.profile.interests = data.interests;
-                        $scope.profile.iam = data.iams;
-                        $scope.profile.website = data.website;
-                        $scope.profile.linkedin = data.linkedin;
-                        $scope.profile.twitter = data.twitter;
-
-                        $scope.profile.live = data.live;
-                        $scope.profile.hasavatar = data.hasavatar;
-                        $scope.profile.hascover = data.hascover;
-                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/avatar",
-                                $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/cover"
-                        initialData = angular.copy($scope.profile)
-                        $scope.calculatePercentage();
-                    }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with getting the user data" + data);
-            });
-
-        };
+        
 
         var initialData = "";
 
@@ -256,7 +186,6 @@
         };
 
         $scope.toggleInterstsSelection = function (interest) {
-            console.log(interest + "LOS INTERESTS SON = " + $scope.profile.interests);
             var idx = $scope.profile.interests.indexOf(interest);
             // is currently selected
             if (idx > -1) {
@@ -278,21 +207,7 @@
             $users.getPublicUserData(userId)
                     .success(function (data) {
 
-//                        console.log("profile.userId: " + data.userId);
-//                        console.log("profile.firstname: " + data.firstname);
-//                        console.log("profile.lastname: " + data.lastname);
-//                        console.log("profile.location: " + data.location);
-//                        console.log("profile.originallyFrom: " + data.originallyFrom);
-//                        console.log("profile.bio: " + data.bio);
-//                        console.log("profile.longbio: " + data.longbio);
-//                        console.log("profile.title: " + data.title);
-//                        console.log("profile.lookingFor: " + data.lookingFor);
-//                        console.log("profile.interests: " + data.interests);
-//                        console.log("profile.imas: " + data.iams);
-//
-//                        console.log("profile.live: " + data.live);
-//                        console.log("profile.hascover: " + data.hascover);
-//                        console.log("profile.hasavatar: " + data.hasavatar);
+
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
@@ -345,7 +260,7 @@
                 $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar" + '?' + new Date().getTime();
                 $scope.profile.hasavatar = true;
                 $scope.calculatePercentage();
-                $rootScope.$broadcast("updateUser");
+                $rootScope.$broadcast("updateUser", {token: $scope.auth_token, userId: $scope.user_id});
 
             }).error(function (data) {
                 console.log('file ' + file.name + ' upload error. Response: ' + data);
@@ -831,37 +746,32 @@
             block.find(".checkbox-label input").attr('disabled', 'disabled');
         }
 
-        /*
-         * This code is executed everytime that we access to the profile page
-         */
+
         var firstLogin = $cookieStore.get('firstLogin');
 
+         /*
+         * This code is executed everytime that we access to the profile page
+         */
+
         angular.element(document).ready(function () {
-
-
-            if (firstLogin) {
+            console.log("THe USER ID HERE IS: "+ $scope.user_id);
+            console.log("THe USER EMAIL HERE IS: "+ $scope.email);
+            if (firstLogin && $scope.auth_token && $scope.auth_token !== "") {
                 // If it is the first time that the user is accessing the site using this account
                 //  we need to update the information in the server and then load the basic data. 
                 $scope.updateUserFirstLogin();
 
             } else {
-                console.log("ROUTE PARAMS ");
-                console.log($scope.params.id);
 
-                if ($scope.params.id) {
+                if ($scope.params && $scope.params.id) {
                     console.log("ROUTE PARAMS ID ");
+                    console.log($scope.params.id);
+
                     $scope.loadPublicUserData($scope.params.id);
                     $("#profile").addClass("read-only");
                     $scope.edit = false;
                     $scope.initiateContentBlocks();
-                } else if ($auth.isAuthenticated()) {
-                    $scope.loadExternalUserData();
-                    $scope.edit = true;
-                    setTimeout(function () {
-                        $scope.bindEditableEvents();
-                        $scope.initiateContentBlocks();
-                    }, 1000);
-                } else {
+                } else if ($scope.auth_token && $scope.auth_token !== "") {
                     $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
                     $scope.edit = true;
 
@@ -875,9 +785,8 @@
 
         });
 
-
     };
 
-    profileController.$inject = ["$rootScope", "$scope", "Upload", "$timeout", "$users", "$cookieStore", "appConstants", "$routeParams", "$auth"];
+    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$sockets", "$cookieStore", "appConstants", "$routeParams", "$auth"];
     angular.module("codename").controller("profileController", profileController);
 }());

@@ -73,40 +73,17 @@
                 console.log("Invalid Form");
             }
         };
-
-
-
-
-        $scope.authenticate = function (provider) {
-            $auth.authenticate(provider)
-                    .then(function (response) {
-                console.log("signed in: ");
-                console.log(response);
-                console.log("Is Auth: "+ $auth.isAuthenticated());
-                if($auth.isAuthenticated()){
-                    
-                    $rootScope.$broadcast('goTo', "/profile");
-                }else{
-                    $rootScope.$broadcast('goTo', "/");
-                }
-                
-            }) .catch(function(response) {
-                console.log(response);
-            });
-        };
-
-
         
-        if ($scope.auth_token && $scope.auth_token !== "") {
-
-            console.log("loading private clubs because: " + $scope.auth_token);
-
-            //
-        } else {
-            console.log("loading public clubs because: " + $scope.auth_token);
-
-
-        }
+//        if ($scope.auth_token && $scope.auth_token !== "") {
+//
+//            console.log("loading private clubs because: " + $scope.auth_token);
+//
+//            //
+//        } else {
+//            console.log("loading public clubs because: " + $scope.auth_token);
+//
+//
+//        }
 
 
 

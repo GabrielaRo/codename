@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -56,6 +57,11 @@ public interface AuthenticationEndpointService extends Serializable {
             @Context HttpHeaders httpHeaders,
             @NotNull @Email @NotEmpty @FormParam("email") String email,
             @NotNull @NotEmpty @FormParam("password") String password) throws ServiceException;
+    
+    @POST
+    @Path("loginexternal")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response loginExternal(@Context HttpServletRequest request) throws ServiceException;
 
     @POST
     @Path("/logout")

@@ -24,9 +24,20 @@
             return $http({
                 method: 'POST',
                 url: appConstants.server + appConstants.context + 'rest/auth/login',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + user.email},
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {email: user.email, password: user.password}
+            });
+        };
+        
+        //LOGIN
+        factory.loginExternal = function () {
+            return $http({
+                method: 'POST',
+                url: appConstants.server + appConstants.context + 'rest/auth/loginexternal',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: {}
             });
         };
 
@@ -98,16 +109,7 @@
             });
         };
         
-        //GET PROFILE
-        factory.getExternalUserData = function () {
-            return $http({
-                method: 'GET',
-                url: appConstants.server + appConstants.context + 'rest/public/users/external',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: $transformRequestToForm.transformRequest,
-                data: {}
-            });
-        };
+        
         
         //GET Public PROFILE
         factory.getPublicUserData = function (userId) {

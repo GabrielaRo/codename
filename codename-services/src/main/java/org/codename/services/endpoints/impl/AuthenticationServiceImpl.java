@@ -117,18 +117,18 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
             @NotNull @Email @NotEmpty @FormParam("email") String email,
             @NotNull @NotEmpty @FormParam("password") String password) throws ServiceException {
 
-        String serviceKey = httpHeaders.getHeaderString(GrogHTTPHeaderNames.SERVICE_KEY);
+        
         User authUser = userService.getByEmail(email);
 
         if (authUser == null || !authUser.getProvider().equals(User.UserProvider.FHELLOW)) {
             return getNoCacheResponseBuilder(Response.Status.UNAUTHORIZED).build();
         }
-        String authToken = authenticator.login(serviceKey, email, password);
+        String authToken = authenticator.login(email, password);
 
         boolean firstLogin = authUser.isIsFirstLogin();
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("email", email);
-        jsonObjBuilder.add("service_key", serviceKey);
+        
         jsonObjBuilder.add("auth_token", authToken);
         jsonObjBuilder.add("user_id", authUser.getId());
         jsonObjBuilder.add("firstLogin", firstLogin);
@@ -201,8 +201,7 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
         accessData.add(GRANT_TYPE_KEY, AUTH_CODE);
         response = client.target(accessTokenUrl).request().post(Entity.form(accessData));
         accessData.clear();
-//
-//        // Step 2. Retrieve profile information about the current user.
+
         String accessToken = "";
         Map<String, Object> userInfo = null;
         try {
@@ -221,12 +220,7 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
             Logger.getLogger(AuthenticationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
-//
-//        // Step 3. Process the authenticated the user.
-//        return processUser(request, Provider.GOOGLE, userInfo.get("sub").toString(),
-//                userInfo.get("name").toString());
-//        final Token token = AuthUtils.createToken(request.getRemoteHost(), userToSave.getId());
-        //
+
         System.out.println("userInfo.get(\"sub\") = "+ userInfo.get("sub"));
         User byEmail = userService.getByEmail((String) userInfo.get("email"));
         if (byEmail == null) {
@@ -275,6 +269,38 @@ public class AuthenticationServiceImpl implements AuthenticationEndpointService 
         return MAPPER.readValue(response.readEntity(String.class),
                 new TypeReference<Map<String, Object>>() {
                 });
+    }
+    
+    public Response loginExternal(HttpServletRequest request) throws ServiceException {
+        try {
+            User authUser = getAuthUser(request);
+            if (authUser == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+            
+            String authToken = authenticator.loginWithExternalToken( 
+                    authUser.getEmail(), 
+                    CodenameUtil.getSubject(request.getHeader(CodenameUtil.AUTH_HEADER_KEY)));
+            JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+            jsonObjBuilder.add("email", authUser.getEmail());
+            jsonObjBuilder.add("auth_token", authToken);
+            jsonObjBuilder.add("user_id", authUser.getId());
+            jsonObjBuilder.add("firstLogin", authUser.isIsFirstLogin());
+            return Response.ok().entity(jsonObjBuilder.build()).build();
+        } catch (ParseException ex) {
+            throw new ServiceException(ex.getMessage());
+        } catch (JOSEException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+
+    /*
+     * Helper methods
+     */
+    
+    private User getAuthUser(HttpServletRequest request) throws ParseException, JOSEException {
+        String subject = CodenameUtil.getSubject(request.getHeader(CodenameUtil.AUTH_HEADER_KEY));
+        return userService.getByProviderId(subject);
     }
 
 }

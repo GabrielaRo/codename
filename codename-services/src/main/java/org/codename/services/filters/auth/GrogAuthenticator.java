@@ -38,62 +38,18 @@ public final class GrogAuthenticator {
 
     }
 
-    public String login(String serviceKey, String email, String password) throws ServiceException {
-        log.log(Level.INFO, "serviceKey: {0}", serviceKey);
+    public String login(String email, String password) throws ServiceException {
+
         log.log(Level.INFO, "email: {0}", email);
         log.log(Level.INFO, "password: {0}", password);
-        if (userService.existKey(serviceKey)) {
 
-            String emailMatch = userService.getKey(serviceKey);
-            log.log(Level.INFO, "emailMatch: {0}", emailMatch);
-            if (emailMatch.equals(email) && userService.exist(email)) {
-                //If the user comes from an external provider there is no need for password check
-                User user = userService.getByEmail(email);
+        if (userService.exist(email)) {
 
-                String passwordMatch = user.getPassword();
-                log.log(Level.INFO, "passwordMatch: {0}", passwordMatch);
-                if (passwordMatch.equals(CodenameUtil.hash(password))) {
+            User user = userService.getByEmail(email);
 
-                    /**
-                     *
-                     * Once all params are matched, the authToken will be
-                     *
-                     * generated and will be stored in the
-                     *
-                     * authorizationTokensStorage. The authToken will be needed
-                     *
-                     * for every REST API invocation and is only valid within
-                     *
-                     * the login session
-                     *
-                     */
-                    String authToken = UUID.randomUUID().toString();
-
-                    authorizationTokensStorage.put(authToken, email);
-
-                    return authToken;
-
-                }
-
-            }
-
-        }
-
-        throw new ServiceException("Not Authorized, wrong service key for the provided email and password");
-
-    }
-
-    public String loginWithExternalToken(String serviceKey, String email, String externalToken) throws ServiceException {
-        log.log(Level.INFO, "serviceKey: {0}", serviceKey);
-        log.log(Level.INFO, "email: {0}", email);
-        log.log(Level.INFO, "externalToken: {0}", externalToken);
-        if (userService.existKey(serviceKey)) {
-
-            String emailMatch = userService.getKey(serviceKey);
-            log.log(Level.INFO, "emailMatch: {0}", emailMatch);
-            if (emailMatch.equals(email) && userService.exist(email)) {
-                //If the user comes from an external provider there is no need for password check
-                User user = userService.getByEmail(email);
+            String passwordMatch = user.getPassword();
+            log.log(Level.INFO, "passwordMatch: {0}", passwordMatch);
+            if (passwordMatch.equals(CodenameUtil.hash(password))) {
 
                 /**
                  *
@@ -108,11 +64,45 @@ public final class GrogAuthenticator {
                  * the login session
                  *
                  */
-                authorizationTokensStorage.put(externalToken, email);
+                String authToken = UUID.randomUUID().toString();
 
-                return externalToken;
+                authorizationTokensStorage.put(authToken, email);
+
+                return authToken;
 
             }
+
+        }
+
+        throw new ServiceException("Not Authorized, wrong service key for the provided email and password");
+
+    }
+
+    public String loginWithExternalToken(String email, String externalToken) throws ServiceException {
+
+        log.log(Level.INFO, "email: {0}", email);
+        log.log(Level.INFO, "externalToken: {0}", externalToken);
+
+        if (userService.exist(email)) {
+            //If the user comes from an external provider there is no need for password check
+            User user = userService.getByEmail(email);
+
+            /**
+             *
+             * Once all params are matched, the authToken will be
+             *
+             * generated and will be stored in the
+             *
+             * authorizationTokensStorage. The authToken will be needed
+             *
+             * for every REST API invocation and is only valid within
+             *
+             * the login session
+             *
+             */
+            authorizationTokensStorage.put(externalToken, email);
+
+            return externalToken;
 
         }
 

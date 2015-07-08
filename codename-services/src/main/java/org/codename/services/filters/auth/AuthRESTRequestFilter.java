@@ -44,22 +44,25 @@ public class AuthRESTRequestFilter implements ContainerRequestFilter {
 
         }
 
-        if (!path.startsWith("/auth/register") && !path.startsWith("/static")  && !path.startsWith("/auth/google")&& !path.contains("public")) {
-            log.info("Checking for correct service_key " + path);
+        if (!path.startsWith("/auth/register")
+                && !path.startsWith("/static") && !path.startsWith("/auth/google")
+                && !path.contains("public")) {
+            
             // Then check is the service key exists and is valid.
-            String serviceKey = requestCtx.getHeaderString(GrogHTTPHeaderNames.SERVICE_KEY);
 
-            if (!grogAuthenticator.isServiceKeyValid(serviceKey)) {
-
-                // Kick anyone without a valid service key
-                requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
-                log.severe("Wrong service_key " + path);
-                return;
-
-            }
-
-            // For any pther methods besides login, the authToken must be verified
+            // For any pther methods besides login, the authToken and service key  must be verified
             if (!path.startsWith("/auth/login")) {
+                log.info("Checking for correct service_key " + path);
+                String serviceKey = requestCtx.getHeaderString(GrogHTTPHeaderNames.SERVICE_KEY);
+
+                if (!grogAuthenticator.isServiceKeyValid(serviceKey)) {
+
+                    // Kick anyone without a valid service key
+                    requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+                    log.severe("Wrong service_key " + path);
+                    return;
+
+                }
                 log.info("Checking for correct auth_token: " + path);
                 String authToken = requestCtx.getHeaderString(GrogHTTPHeaderNames.AUTH_TOKEN);
 

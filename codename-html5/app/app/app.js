@@ -1,11 +1,13 @@
 (function () {
 
-    var codename = angular.module('codename', ['ngCookies',  'ngRoute',
+    var codename = angular.module('codename', ['ngCookies', 'ngRoute',
         'ngAnimate', 'angular.filter', 'ngFileUpload',
         'satellizer']);
 
     codename.constant("appConstants", {
         server: "http://localhost:8080/",
+        address: "localhost",
+        port: "8080",
         context: "codename-server/"
     })
             // configure our routes
@@ -25,12 +27,6 @@
                             controller: 'passwordController'
 
                         })
-                        
-                        .when('/firstlogin', {
-                            templateUrl: 'app/views/profile.html',
-                            controller: 'profileController'
-                        })
-
                         .when('/profile', {
                             templateUrl: 'app/views/profile.html',
                             controller: 'profileController'
@@ -39,13 +35,12 @@
                             templateUrl: 'app/views/profile.html',
                             controller: 'profileController'
                         })
-                       
 
                         .otherwise({
                             redirectto: '/'
                         });
                 $authProvider.google({
-                    url: '/codename-server/rest/auth/google',
+                    url: '/codename-server/' + '/rest/auth/google',
                     redirectUri: window.location.protocol + '//' + window.location.host + '/codename-server/',
                     clientId: '475121985833-g2ludjvano3pbgbt98nvt04h7ojmvpjv.apps.googleusercontent.com'
                 });
@@ -59,7 +54,6 @@
         $rootScope.navStatus = "show";
 
         $rootScope.$on('$routeChangeSuccess', function () {
-            console.log("LA RUTA ACTUAL ES = " + $location.path())
             if ($location.path() == "/") {
                 $rootScope.navStatus = "hidden";
             } else {
