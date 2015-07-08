@@ -6,7 +6,18 @@
         $scope.filtersLookingTo = {socialise:false, collaborate:false, mentor:false};
 
         $scope.serverUrlFull = appConstants.server + appConstants.context;
-
+        
+        
+        $scope.tags = [
+                        { text: 'Tag1' },
+                        { text: 'Tag2' },
+                        { text: 'Tag3' }
+                      ];
+        
+         $scope.loadCountries = function($query) {
+            return $scope.tags;
+         }
+        
        
         $scope.typeButtonPressed = function(buttonName){
             $scope.filtersType[buttonName] = !$scope.filtersType[buttonName];

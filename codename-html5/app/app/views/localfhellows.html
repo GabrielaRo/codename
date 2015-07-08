@@ -5,7 +5,18 @@
             <input type="text" class="search-header-input" placeholder="eg: London, EC2A, Shoreditch">
         </h1>
         <h1>
-            who are intested in <input type="text"  class="search-header-input" placeholder="eg: design, startups, surfing">
+            who are intested in  <tags-input ng-model="tags" 
+                
+                placeholder="Interests" 
+                replace-spaces-with-dashes="false"
+                >
+                  <auto-complete source="loadCountries($query)"
+                                 min-length="0"
+                                 load-on-focus="true"
+                                 load-on-empty="true"
+                                 max-results-to-show="32"
+                                 template="autocomplete-template"></auto-complete>
+                </tags-input>
 
         </h1>
    
