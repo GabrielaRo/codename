@@ -16,25 +16,25 @@
                     <div class="control-group ">
                         <label>Fhellow type:</label>
                         <div class="control" >
-                            <button class="toggle on button">Freelance</button>
+                            <button class="toggle button" ng-class="{'on' : filtersType.freelance}" ng-click="typeButtonPressed('freelance')">Freelance</button>
                         </div>
                         <div class="control" >
-                            <button class="toggle button">Entrepenuers</button>
+                            <button class="toggle button" ng-class="{'on' : filtersType.entrepenuers}" ng-click="typeButtonPressed('entrepenuers')">Entrepenuers</button>
                         </div>
                         <div class="control" >
-                            <button class="toggle button">Digital Nomads</button>
+                            <button class="toggle button" ng-class="{'on' : filtersType.digitalnomads}" ng-click="typeButtonPressed('digitalnomads')">Digital Nomads</button>
                         </div>
                     </div>
                     <div class="control-group ">
                         <label>Fhellows looking to:</label>
                         <div class="control" >
-                            <button class="toggle button">Socialise</button>
+                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.socialise}" ng-click="lookingToButtonPressed('socialise')"><i class="fa fa-coffee"></i> Socialise</button>
                         </div>
                         <div class="control" >
-                            <button class="toggle button">Collaborate</button>
+                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.collaborate}" ng-click="lookingToButtonPressed('collaborate')"><i class="fa fa-pencil"></i> Collaborate</button>
                         </div>
                         <div class="control" >
-                            <button class="toggle button">Mentor</button>
+                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.mentor}" ng-click="lookingToButtonPressed('mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
                         </div>
                     </div>
 
@@ -45,7 +45,7 @@
         
         
    <div id="results" class="list-container">
-            <h2>New to Fhellow</h2>
+            <h2>All Fhellows</h2>
             <p ng-hide="fhellowsList.length">There is no result</p>
             <div class="cards-container"  >
                

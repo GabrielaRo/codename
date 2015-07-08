@@ -2,11 +2,19 @@
     var localFhellowsController = function ($scope, $rootScope, $users,  appConstants) {
         $scope.imagePath = "static/img/public-images/";
         $scope.filters = {location: '', proximity: 200, type:"", search: ""};
+        $scope.filtersType = {freelance:false, entrepenuers:false, digitalnomads:false};
+        $scope.filtersLookingTo = {socialise:false, collaborate:false, mentor:false};
 
         $scope.serverUrlFull = appConstants.server + appConstants.context;
 
        
-
+        $scope.typeButtonPressed = function(buttonName){
+            $scope.filtersType[buttonName] = !$scope.filtersType[buttonName];
+        }
+        $scope.lookingToButtonPressed = function(buttonName){
+            $scope.filtersLookingTo[buttonName] = !$scope.filtersLookingTo[buttonName];
+        }
+        
         $scope.loadFhellows = function () {
 
 
