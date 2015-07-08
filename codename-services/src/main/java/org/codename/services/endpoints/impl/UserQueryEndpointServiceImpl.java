@@ -16,11 +16,11 @@ import javax.ws.rs.core.Response;
 
 import org.codename.model.User;
 
-import org.codename.services.api.UsersService;
+import org.codename.core.api.UsersService;
 
 import org.codename.services.endpoints.api.UserQueryEndpointService;
 import static org.codename.services.endpoints.impl.UsersHelper.createFullJsonUser;
-import org.codename.services.exceptions.ServiceException;
+import org.codename.core.exceptions.ServiceException;
 
 /**
  *

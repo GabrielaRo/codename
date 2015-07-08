@@ -5,7 +5,10 @@
  */
 package org.codename.services.endpoints.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -16,21 +19,24 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
+import org.codename.core.api.UsersService;
 import org.codename.model.Notification;
-import org.codename.services.api.NotificationsService;
 import org.codename.services.endpoints.api.NotificationsEndpointService;
-import org.codename.services.exceptions.ServiceException;
+import org.codename.core.exceptions.ServiceException;
+import org.codename.model.User;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Stateless
 public class NotificationsServiceImpl implements NotificationsEndpointService {
-
+    
     @Inject
-    private NotificationsService notificationsService;
+    private UsersService userService;
+    
+    private Map<Long, List<Notification>> inMemoryNotifications = new HashMap<Long, List<Notification>>();
 
     @Override
     public Response getAllNotificationsByUser(@PathParam("id") Long userId) throws ServiceException {
-        List<Notification> allNotifications = notificationsService.getAllNotificationsByUser(userId);
+        List<Notification> allNotifications = inMemoryNotifications.get(userId);
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         for (Notification n : allNotifications) {
@@ -54,8 +60,14 @@ public class NotificationsServiceImpl implements NotificationsEndpointService {
             @NotNull @NotEmpty @FormParam("action") String action,
             @NotNull @NotEmpty @FormParam("type") String type) throws ServiceException {
 
-        Long newNotification = notificationsService.newNotification(userId, message, action, type);
-        return Response.ok(newNotification).build();
+        
+        if(inMemoryNotifications.get(userId) == null){
+            inMemoryNotifications.put(userId, new ArrayList<Notification>());
+        }
+        User user = userService.getById(userId);
+        Notification notification = new Notification(user, message, action, Notification.NotificationType.valueOf(type));
+        inMemoryNotifications.get(userId).add(notification);
+        return Response.ok(notification.getId()).build();
 
     }
 

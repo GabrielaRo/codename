@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.codename.services.api;
+package org.codename.core.api;
 
 
 import org.codename.model.Comment;
 import java.util.List;
-import org.codename.services.exceptions.ServiceException;
+import org.codename.core.exceptions.ServiceException;
 
 /**
  *

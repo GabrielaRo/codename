@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.codename.services.api;
+package org.codename.core.api;
 
 import java.util.List;
+import org.codename.core.exceptions.ServiceException;
 import org.codename.model.User;
-import org.codename.services.exceptions.ServiceException;
 
 /**
  *

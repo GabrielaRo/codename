@@ -19,9 +19,9 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import org.codename.model.Comment;
-import org.codename.services.api.CommentsService;
+import org.codename.core.api.CommentsService;
 import org.codename.services.endpoints.api.CommentsEndpointService;
-import org.codename.services.exceptions.ServiceException;
+import org.codename.core.exceptions.ServiceException;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Stateless

@@ -26,7 +26,12 @@
     
     <dependencies>
         <!-- Test Dependencies -->
-        
+        <dependency>
+            <groupId>org.codename</groupId>
+            <artifactId>codename-core</artifactId>
+            <version>${project.version}</version>
+            
+        </dependency>
         <dependency>
             <groupId>org.codename</groupId>
             <artifactId>codename-services</artifactId>

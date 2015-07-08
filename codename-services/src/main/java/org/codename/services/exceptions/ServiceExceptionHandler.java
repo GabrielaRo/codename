@@ -5,6 +5,7 @@
  */
 package org.codename.services.exceptions;
 
+import org.codename.core.exceptions.ServiceException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;

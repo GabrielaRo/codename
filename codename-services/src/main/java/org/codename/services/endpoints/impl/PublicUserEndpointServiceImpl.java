@@ -23,10 +23,10 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import org.codename.model.User;
-import org.codename.services.api.UsersService;
+import org.codename.core.api.UsersService;
 import org.codename.services.endpoints.api.PublicUserEndpointService;
 import static org.codename.services.endpoints.impl.UsersHelper.createPublicJsonUser;
-import org.codename.services.exceptions.ServiceException;
+import org.codename.core.exceptions.ServiceException;
 
 /**
  *

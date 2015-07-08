@@ -18,9 +18,9 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.io.IOUtils;
 import org.codename.model.User;
 
-import org.codename.services.api.UsersService;
+import org.codename.core.api.UsersService;
 import org.codename.services.endpoints.api.PublicInitEndpointService;
-import org.codename.services.exceptions.ServiceException;
+import org.codename.core.exceptions.ServiceException;
 
 //http://localhost:8080/codename-server/rest/public/app/init
 @Stateless

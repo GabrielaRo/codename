@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.codename.services.impl;
+package org.codename.core.impl;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -11,7 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import org.codename.model.User;
-import org.codename.services.api.UsersQueryService;
+import org.codename.core.api.UsersQueryService;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 

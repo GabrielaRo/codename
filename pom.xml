@@ -17,6 +17,7 @@
         <module>codename-services</module>
         <module>codename-html5</module>
         <module>codename-tests</module>
+        <module>codename-core</module>
     </modules>
   
     <properties>

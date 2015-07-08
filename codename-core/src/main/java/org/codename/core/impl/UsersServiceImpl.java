@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.codename.services.impl;
+package org.codename.core.impl;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -15,9 +15,9 @@ import javax.persistence.NoResultException;
 import org.codename.model.Coordinates;
 import org.codename.model.ServiceKey;
 import org.codename.model.User;
-import org.codename.services.api.UsersService;
-import org.codename.services.exceptions.ServiceException;
-import org.codename.services.util.CodenameUtil;
+import org.codename.core.api.UsersService;
+import org.codename.core.exceptions.ServiceException;
+import org.codename.core.util.CodenameUtil;
 
 /**
  *

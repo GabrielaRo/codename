@@ -33,11 +33,11 @@ import org.apache.commons.io.IOUtils;
 
 import org.codename.model.User;
 
-import org.codename.services.api.UsersService;
+import org.codename.core.api.UsersService;
 
 import org.codename.services.endpoints.api.UserEndpointService;
 import static org.codename.services.endpoints.impl.UsersHelper.createFullJsonUser;
-import org.codename.services.exceptions.ServiceException;
+import org.codename.core.exceptions.ServiceException;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 

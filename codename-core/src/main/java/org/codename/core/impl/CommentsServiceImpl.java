@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.codename.services.impl;
+package org.codename.core.impl;
 
 
 import java.util.List;
@@ -15,8 +15,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.codename.model.Comment;
 import org.codename.model.User;
-import org.codename.services.api.CommentsService;
-import org.codename.services.exceptions.ServiceException;
+import org.codename.core.api.CommentsService;
+import org.codename.core.exceptions.ServiceException;
 
 
 /**

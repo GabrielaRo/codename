@@ -13,9 +13,9 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.codename.model.User;
-import org.codename.services.api.UsersService;
-import org.codename.services.exceptions.ServiceException;
-import org.codename.services.util.CodenameUtil;
+import org.codename.core.api.UsersService;
+import org.codename.core.exceptions.ServiceException;
+import org.codename.core.util.CodenameUtil;
 
 /**
  *

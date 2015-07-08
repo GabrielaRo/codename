@@ -19,7 +19,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
-import org.codename.services.util.CodenameUtil;
+import org.codename.core.util.CodenameUtil;
 import org.joda.time.DateTime;
 
 /**

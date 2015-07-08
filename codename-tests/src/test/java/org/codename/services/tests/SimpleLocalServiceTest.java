@@ -21,8 +21,8 @@ import javax.transaction.UserTransaction;
 import org.apache.lucene.search.Query;
 import org.codename.model.User;
 
-import org.codename.services.api.UsersService;
-import org.codename.services.exceptions.ServiceException;
+import org.codename.core.api.UsersService;
+import org.codename.core.exceptions.ServiceException;
 
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;

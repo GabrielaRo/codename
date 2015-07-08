@@ -19,7 +19,7 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import org.codename.services.endpoints.api.AuthenticationEndpointService;
-import org.codename.services.exceptions.ServiceException;
+import org.codename.core.exceptions.ServiceException;
 
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -96,7 +96,6 @@ public class SimpleRemoteServiceTest {
         Response newUser = authService.registerUser("grogdj@gmail.com", "asdasd");
         Assert.assertNotNull(newUser);
         MultivaluedMap<String, String> headers = new MultivaluedHashMap<String, String>();
-        headers.add("service_key", "webkey:grogdj@gmail.com");
         HttpHeaders httpHeaders = new ResteasyHttpHeaders(headers);
 
         Response loginResponse = authService.login(httpHeaders, "grogdj@gmail.com", "asdasd");
@@ -108,11 +107,10 @@ public class SimpleRemoteServiceTest {
 
         String authToken = object.getString("auth_token");
         String email = object.getString("email");
-        String serviceKey = object.getString("service_key");
         Long userId = object.getJsonNumber("user_id").longValue();
         Assert.assertNotNull(authToken);
         Assert.assertEquals("grogdj@gmail.com", email);
-        Assert.assertTrue(serviceKey.contains(email));
+        
         Assert.assertNotSame(0, userId);
 
     }

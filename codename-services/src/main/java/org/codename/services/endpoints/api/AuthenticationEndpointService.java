@@ -22,7 +22,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.codename.services.exceptions.ServiceException;
+import org.codename.core.exceptions.ServiceException;
 import org.codename.services.util.Payload;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
