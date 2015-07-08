@@ -12,6 +12,18 @@
     .fa {
         margin-left: -5px;
     }
+    &.icon-only {
+        .fa {
+            margin-left: 0;
+           
+        }
+        padding-left: (@padding/4);
+        padding-right: (@padding/4);
+        &.small {
+            padding-left: (@padding/4);
+        padding-right: (@padding/4);
+        }
+    }
     
     &:hover {
         color: @link;
@@ -88,5 +100,9 @@
              color: @buttonToggleOnColor;
              border-color: lighten(@buttonToggleOnBgrColor, 10%);
         }
+    }
+    
+    &.small {
+        padding: (@padding/8) (@padding/2);
     }
 }

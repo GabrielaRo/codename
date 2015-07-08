@@ -1,7 +1,7 @@
 .fhellow-item {
     background-color: @cardBgr;
     vertical-align: top;
-    height: 465px;
+    height: 410px;
     position: relative;
     .boxShadow();
     .card();
@@ -16,7 +16,7 @@
     .fhellow-profile {
         position: relative;
         padding: (@padding/2);
-        height: 40px;
+        height: 50px;
         .button {
             position: absolute;
             right: (@padding/2);
@@ -58,39 +58,27 @@
            
         }
         .fhellow-description {
-            padding: (@padding/2) 0;
+            border-top: 1px solid @borders;
+            padding: (@padding/4) 0;
+            margin-top: (@padding/4);
             font-weight: 300;
             white-space: normal;
+            opacity: .5;
         }
         .fhellow-interests {
             max-height: 40px;
             overflow: hidden;
-            font-size: @cardLocationFontSize;
+            font-weight: 300;
+            opacity: .5;
         }
     }
     .fhellow-actions {
         position: absolute;
-        bottom: 1px;
-        width: 100%;
-        border-top: 1px solid @borders;
-        height: @cardActionsHeight;
-        line-height: @cardActionsHeight;
+        right: (@padding/2);
+        top: 160px;
         font-size: 0;
         a {
-            display: inline-block;
-            width: 50%;
-            font-size: @fontSize;
-            text-align: center;
-            border-right: 1px solid @borders;
-            color: @textDark;
-            &:hover {
-                background-color: @link;
-                color: @textLight;
-                text-decoration: none;
-            }
-            &:last-child {
-                border: none;
-            }
+            margin-left: 5px;
         }
     }
 }

@@ -6,6 +6,7 @@
         </h1>
         <h1>
             who are intested in <input type="text"  class="search-header-input" placeholder="eg: design, startups, surfing">
+
         </h1>
    
 </div>
@@ -74,24 +75,25 @@
                             {{fhellow.firstname}}  {{fhellow.lastname}}
                         </div>
                         <div class="fhellow-type">
-                             {{fhellow.title}}
+                             {{fhellow.location}}
                         </div>
+                        <!--
                         <div class="fhellow-location">
                             <strong>From: </strong>{{fhellow.location}} <br/>
                             <strong>Currently in: </strong>{{fhellow.originallyFrom}}
-                        </div>
-                        <div class="fhellow-description">
-                            <strong>Intro: </strong>{{fhellow.bio}}
-                        </div>
-                        <!--<div class="fhellow-interests"  ng-hide="fhellow.interests.length == 0">
-                          
-                            <strong>Interested in:</strong>   
-                            <span ng-repeat="interest in fhellow.interests">{{interest}}, </span>
                         </div>-->
+                        <div class="fhellow-description">
+                            {{fhellow.bio}}
+                        </div>
+                        <div class="fhellow-interests"  ng-hide="fhellow.interests.length == 0">
+                          
+                            Interests:
+                            <span ng-repeat="interest in fhellow.interests">{{interest}}, </span>
+                        </div>
                     </div>
                     <div class="fhellow-actions">
-                       <a href>Have a Chat</a>
-                       <a href="#/profile/{{fhellow.userId}}">View Profile</a>
+                       <a class="button icon-only small" href> <i class="fa fa-envelope"></i></a>
+                       <a class="button small" href="#/profile/{{fhellow.userId}}">View Profile</a>
                     </div>
                 </div>
                 
