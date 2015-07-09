@@ -7,8 +7,11 @@ package org.codename.services.endpoints.api;
 
 import java.io.Serializable;
 import javax.ejb.Local;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,7 +28,9 @@ public interface UserQueryEndpointService extends Serializable {
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
-    Response getAll() throws ServiceException;
+    Response getAll(@NotNull @PathParam("lon") Long lon, @NotNull @PathParam("lat") Long lat, 
+            @FormParam("interests") String interests, @FormParam("lookingFor") String lookingFor, 
+            @FormParam("categories") String categories) throws ServiceException;
     
    
 

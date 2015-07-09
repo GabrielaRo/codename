@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import org.apache.lucene.search.Query;
 import org.codename.model.User;
 import org.codename.core.api.UsersQueryService;
+import org.codename.core.exceptions.ServiceException;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -34,22 +35,21 @@ public class UsersQueryServiceImpl implements UsersQueryService {
     public UsersQueryServiceImpl() {
     }
 
-   
-    @Override
-    public List<User> getAll() {
+    public List<User> getAll(Long lon, Long lat, List<String> interestsList, List<String> lookingForList, List<String> categoriesList) throws ServiceException {
         FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(em);
         QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
         Query query = qb.spatial().onDefaultCoordinates()
-                .within(1, Unit.KM)
-                .ofLatitude(0)
-                .andLongitude(0)
+                .within(15, Unit.KM)
+                .ofLatitude(lat)
+                .andLongitude(lon)
                 .createQuery();
 
         FullTextQuery fullTextQuery = fullTextEm.createFullTextQuery(query, User.class);
         fullTextQuery.setSort(org.apache.lucene.search.Sort.RELEVANCE);
-        
         return fullTextQuery.getResultList();
     }
+
+
     
     
     
