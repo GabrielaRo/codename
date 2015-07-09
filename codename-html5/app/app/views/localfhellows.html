@@ -2,7 +2,9 @@
    
         <h1>
             Find Fhellows around 
-            <location-lookup ng-model="lookedUpLocation" templateUrl="" limit-to="4"></location-lookup>
+            <location-lookup ng-model="lookedUpLocation" templateUrl="" limit-to="4">
+                
+            </location-lookup>
             <input type="text" class="search-header-input" ng-model="lookedUpLocation.description" placeholder="eg: London, EC2A, Shoreditch">
         </h1>
         <h1>
@@ -25,6 +27,27 @@
 </div>
 
     <div id="filters" class="sticky">
+            <div id="collapsed-header">
+               <div class="container">
+                    <div class="six-col">
+                         <location-lookup ng-model="lookedUpLocation" templateUrl="" limit-to="4">
+                    </div>
+                    <div class="six-col">
+                        <tags-input class="header" ng-model="tags"                 
+                            placeholder="+" 
+                            replace-spaces-with-dashes="false"
+                             add-from-autocomplete-only="true" >
+                              <auto-complete source="loadInterests($query)"
+                                             min-length="0"
+                                             load-on-focus="true"
+                                             load-on-empty="true"
+                                             max-results-to-show="32" >
+
+                             </auto-complete>
+                        </tags-input>
+                    </div>
+                </div>
+            </div>
             <div id="filters-container">
                 <form>
                     <div class="control-group ">

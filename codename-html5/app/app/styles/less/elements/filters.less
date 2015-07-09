@@ -3,9 +3,12 @@
     padding: (@padding/2) 0;
     box-shadow: none;
     z-index: @filtersIndex;
-    .transition();
+
     &.isSticky{
         .boxShadow();
+        #collapsed-header {
+            display: block;
+        }
     }
 
     #filters-container {
@@ -30,5 +33,12 @@
         .search-input {
             width: 410px;
         }
+    }
+    #collapsed-header {
+        background-color: @sectionHeaderBgr;
+        color: @textLight;
+        padding: (@padding/2) 0;
+        margin: (0 - @padding/2) 0 (@padding/2);
+        display: none;
     }
 }
