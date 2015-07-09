@@ -101,7 +101,14 @@
                             </div>
                             <div class="fhellow-lookingfors">
                                 <div class="looking-fors" ng-repeat="lookingfor in fhellow.lookingFor">
-                                    <div class="icon {{lookingfor}}">{{lookingfor}}</div>
+                                    <div class="icon {{lookingfor}}">
+                                        <span ng-switch="lookingfor">
+                                          <i ng-switch-when="Socialise" class="fa fa-coffee"></i>
+                                          <i ng-switch-when="Collaborate" class="fa fa-pencil"></i>
+                                          <i ng-switch-when="Mentor" class="fa fa-graduation-cap"></i>
+                                        </span>
+                                  
+                                    </div>
                                 </div>
                             </div>
                            
