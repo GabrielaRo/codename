@@ -4,7 +4,7 @@ angular.module('locator')
     return {
       restrict: 'E',
       require: '?ngModel',
-      templateUrl: 'location-lookup/location-lookup.html',
+      templateUrl: 'app/modules/locator/location-lookup/directives/location-lookup.html',
       scope: {},
       link: function(scope, iElement, iAttrs, model) {
 
