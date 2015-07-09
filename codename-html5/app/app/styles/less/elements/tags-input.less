@@ -1,0 +1,41 @@
+tags-input{
+    &.header {
+        display: inline-block;
+        min-width: 300px;
+        vertical-align: top;
+        max-width: 600px;
+        border-bottom: 1px dashed @borders;
+        .host {
+            margin-top: 0;
+        }
+        
+        .tags {
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            &.focused {
+                 box-shadow: none;
+            }
+
+            .input {
+                background-color: transparent;
+                font: inherit;
+                height: auto;
+                margin: 0;
+            }
+            .tag-item {
+                 
+            }
+        }
+    }
+    
+    .tags {
+        .tag-item {
+            background: @bgrLight !important;
+            color: @textGray;
+            border-radius: 0 !important;
+            height: auto !important;
+            padding: 5px 10px !important;
+        }
+    }
+}

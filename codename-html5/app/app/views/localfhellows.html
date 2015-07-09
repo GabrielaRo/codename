@@ -5,18 +5,19 @@
             <input type="text" class="search-header-input" placeholder="eg: London, EC2A, Shoreditch">
         </h1>
         <h1>
-            who are intested in  <tags-input ng-model="tags" 
-                
-                placeholder="Interests" 
+            who are intested in  
+            <tags-input class="header" ng-model="tags"                 
+                placeholder="+" 
                 replace-spaces-with-dashes="false"
-                >
-                  <auto-complete source="loadCountries($query)"
+                 add-from-autocomplete-only="true" >
+                  <auto-complete source="loadInterests($query)"
                                  min-length="0"
                                  load-on-focus="true"
                                  load-on-empty="true"
-                                 max-results-to-show="32"
-                                 template="autocomplete-template"></auto-complete>
-                </tags-input>
+                                 max-results-to-show="32" >
+                                
+                 </auto-complete>
+            </tags-input>
 
         </h1>
    

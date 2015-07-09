@@ -8,14 +8,14 @@
         $scope.serverUrlFull = appConstants.server + appConstants.context;
         
         
-        $scope.tags = [
-                        { text: 'Tag1' },
-                        { text: 'Tag2' },
-                        { text: 'Tag3' }
-                      ];
+        $scope.tags = [ ];
         
-         $scope.loadCountries = function($query) {
-            return $scope.tags;
+         $scope.loadInterests = function($query) {
+            return [
+                        { text: 'design' },
+                        { text: 'development' },
+                        { text: 'other' }
+                      ];
          }
         
        
