@@ -45,6 +45,10 @@ angular.module('locator')
               model.$setViewValue(locData);
               // Callback
               scope.callback && scope.callback(locData);
+              
+              scope.clear();
+              var el = angular.element(document.querySelectorAll("#myLocationText"));
+              el[0].value = locData.description;
             });
           });
         };

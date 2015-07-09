@@ -112,8 +112,8 @@
     <!-- Google Maps API -->
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDk_iQ6QWOTHW-TWoXSFLwbcnhaxlcnXXk&libraries=places&sensor=true"></script>
     
-    <script src="bower_components/locator/dist/locator.min.js"></script>
-    <script src="bower_components/locator/dist/locator-tpl.js"></script>
+    <!--script src="bower_components/locator/dist/locator.min.js"></script>
+    <script src="bower_components/locator/dist/locator-tpl.js"></script-->
     
     
     
@@ -121,13 +121,19 @@
     <script src="components/version/version-directive.js"></script>
     <script src="components/version/interpolate-filter.js"></script>
 
+    <!-- Modules --> 
+    <script type="text/javascript" src="app/modules/locator/locator-module.js"></script>
     <!-- APP JS -->
     <script type="text/javascript" src="app/app.js"></script>
+    
     <!-- SERVICES -->
     
     <script type="text/javascript" src="app/services/usersFactory.js"></script>
+    <script type="text/javascript" src="app/services/queriesFactory.js"></script>
     <script type="text/javascript" src="app/services/socketsFactory.js"></script>
     <script type="text/javascript" src="app/services/transformRequestToFormFactory.js"></script>
+    <script type="text/javascript" src="app/modules/locator/location-picker/services/location.js"></script>
+    <script type="text/javascript" src="app/modules/locator/location-picker/services/reverse-geocoder.js"></script>
 
     <!-- CONTROLLERS -->
     <script type="text/javascript" src="app/controllers/mainController.js"></script>
@@ -139,6 +145,11 @@
     
     <!-- DIRECTIVES -->
     <script type="text/javascript" src="app/directives/vCompare.js"></script>
+    <script type="text/javascript" src="app/modules/locator/location-picker/directives/location-picker.js"></script>
+    <script type="text/javascript" src="app/modules/locator/location-lookup/directives/location-lookup-directive.js"></script>
+    <script type="text/javascript" src="app/modules/locator/location-lookup/directives/location-predictions-directive.js"></script>
+    
+    
 
 </body>
 </html>

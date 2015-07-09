@@ -4,7 +4,7 @@ angular.module('locator')
     return {
       restrict: 'E',
       scope: { results: '=' },
-      template: '<input type="text" placeholder="search for a location">',
+      template: '<input id="myLocationText" type="text" placeholder="the World">',
       link: function(scope, iElement, iAttrs) {
 
         // Setup Google Auto-complete Service

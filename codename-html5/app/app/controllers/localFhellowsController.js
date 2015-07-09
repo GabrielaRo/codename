@@ -1,5 +1,5 @@
 (function () {
-    var localFhellowsController = function ($scope, $rootScope, $users, location, appConstants) {
+    var localFhellowsController = function ($scope, $rootScope, $queries, location, appConstants) {
         $scope.imagePath = "static/img/public-images/";
         $scope.filters = {location: '', proximity: 200, type: "", search: ""};
         $scope.filtersType = {freelance: false, entrepenuers: false, digitalnomads: false};
@@ -14,7 +14,7 @@
             console.log($scope.lookedUpLocation);
             if($scope.lookedUpLocation){
                 $scope.selectedLocation = $scope.lookedUpLocation;
-                $scope.loadFhellows();
+               // $scope.loadFhellows($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, interests, lookingFor, categories);
             }
         };
 
@@ -38,10 +38,10 @@
             $scope.filtersLookingTo[buttonName] = !$scope.filtersLookingTo[buttonName];
         }
 
-        $scope.loadFhellows = function () {
+        $scope.loadFhellows = function (lon, lat, interests, lookingFor, categories) {
 
 
-            $users.loadAllLive().success(function (data) {
+            $queries.getByLocation(lon, lat, interests, lookingFor, categories).success(function (data) {
                 //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
                 $scope.fhellowsList = data;
                 console.log($scope.fhellowsList);
@@ -90,7 +90,7 @@
 
     };
 
-    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', 'location', 'appConstants'];
+    localFhellowsController.$inject = ['$scope', '$rootScope', '$queries', 'location', 'appConstants'];
     angular.module("codename").controller("localFhellowsController", localFhellowsController);
 
 }());
