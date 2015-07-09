@@ -1,0 +1,38 @@
+location-lookup {
+    background-color: transparent;
+    border-color: transparent;
+    border-bottom: 1px dashed @borders;
+    outline: none;
+    box-sizing: border-box;
+    padding: 0 @inputPadding;
+      display: inline-block;
+    input {
+        background-color: transparent;
+        border: none;
+        outline: none;
+    }
+    ul {
+        position: absolute;
+        background-color: #FFF;
+        font-size: 14px;
+        color: #333;
+        z-index: 1000;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+        max-width: 400px;
+        .boxShadow();
+        li {
+            text-align: left;
+            padding: (@padding/4)  (@padding/2);
+            border-bottom: 1px solid @borders;
+            cursor: pointer;
+            line-height: (@padding/2);
+            
+            &:hover{
+                background-color: @link;
+            }
+        }
+    }
+}
