@@ -13,10 +13,10 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.core.Response;
+import org.codename.core.api.UsersQueryService;
 
 import org.codename.model.User;
 
-import org.codename.core.api.UsersService;
 
 import org.codename.services.endpoints.api.UserQueryEndpointService;
 import static org.codename.services.endpoints.impl.UsersHelper.createFullJsonUser;
@@ -30,7 +30,7 @@ import org.codename.core.exceptions.ServiceException;
 public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
     @Inject
-    private UsersService usersService;
+    private UsersQueryService usersQueryService;
 
     private final static Logger log = Logger.getLogger(UserQueryEndpointServiceImpl.class.getName());
 
@@ -42,7 +42,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
     @Override
     public Response getAll() throws ServiceException {
-        List<User> users = usersService.getAll();
+        List<User> users = usersQueryService.getAll();
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
         for (User u : users) {
