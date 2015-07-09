@@ -2,7 +2,8 @@
    
         <h1>
             Find Fhellows around 
-            <input type="text" class="search-header-input" placeholder="eg: London, EC2A, Shoreditch">
+            <location-lookup ng-model="lookedUpLocation" templateUrl="" limit-to="4"></location-lookup>
+            <!--<input type="text" class="search-header-input" placeholder="eg: London, EC2A, Shoreditch">-->
         </h1>
         <h1>
             who are intested in  
@@ -94,6 +95,17 @@
                             <strong>From: </strong>{{fhellow.location}} <br/>
                             <strong>Currently in: </strong>{{fhellow.originallyFrom}}
                         </div>-->
+                        <div class="fhellow-attr">
+                            <div class="fhellow-iams">
+                                <div class="iams" ng-repeat="iam in fhellow.iams">{{iam}}</div>
+                            </div>
+                            <div class="fhellow-lookingfors">
+                                <div class="looking-fors" ng-repeat="lookingfor in fhellow.lookingFor">
+                                    <div class="icon {{lookingfor}}">{{lookingfor}}</div>
+                                </div>
+                            </div>
+                           
+                        </div>
                         <div class="fhellow-description">
                             {{fhellow.bio}}
                         </div>

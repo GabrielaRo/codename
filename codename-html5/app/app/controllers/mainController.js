@@ -3,7 +3,7 @@
 
     angular.module('codename');
 
-    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, $sockets, appConstants, $route, $routeParams) {
+    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, $sockets, appConstants, $route, $routeParams, location) {
         $scope.auth_token = $cookieStore.get('auth_token');
         $scope.email = $cookieStore.get('email');
         $scope.user_id = $cookieStore.get('user_id');
@@ -14,6 +14,17 @@
         $scope.avatarStyle = "";
         $scope.websocket = {};
         $scope.$routeParams = $routeParams;
+        
+        
+        location.get(angular.noop, angular.noop);
+        $scope.isModalVisible = false;
+
+        $scope.toggleModal = function() {
+          $scope.isModalVisible = !$scope.isModalVisible;
+        };
+
+        $scope.$watch('pickedLocation', $scope.toggleModal);
+        $scope.$watch('lookedUpLocation', $scope.toggleModal);
 
 
         $rootScope.$on('quickNotification', function (event, data, type) {
@@ -160,7 +171,7 @@
     };
 
 
-    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$auth', '$sockets', 'appConstants', '$route', '$routeParams'];
+    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$auth', '$sockets', 'appConstants', '$route', '$routeParams', 'location'];
     angular.module("codename").controller("MainCtrl", MainCtrl);
 }());
 

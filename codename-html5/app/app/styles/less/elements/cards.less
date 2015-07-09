@@ -50,12 +50,18 @@
             font-size: @cardNameFontSize;
             line-height: (@lineHeight*1.2);
         }
-        .fhellow-location {
-            
-            
+        .fhellow-attr {
+             padding: (@padding/4) 0 0;
+            position: relative;
+            .fhellow-lookingfors {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+        .fhellow-location {  
             font-weight: 300;
             padding: (@padding/2) 0 0;
-           
         }
         .fhellow-description {
             border-top: 1px solid @borders;
