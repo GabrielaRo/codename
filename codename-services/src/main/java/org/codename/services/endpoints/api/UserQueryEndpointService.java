@@ -8,7 +8,6 @@ package org.codename.services.endpoints.api;
 import java.io.Serializable;
 import javax.ejb.Local;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -26,11 +25,9 @@ import org.codename.core.exceptions.ServiceException;
 public interface UserQueryEndpointService extends Serializable {
 
     @GET
-    @Path("all")
+    @Path("all/lon/{lon}/lat/{lat}")
     @Produces({MediaType.APPLICATION_JSON})
-    Response getAll(@NotNull @PathParam("lon") Long lon, @NotNull @PathParam("lat") Long lat, 
-            @FormParam("interests") String interests, @FormParam("lookingFor") String lookingFor, 
-            @FormParam("categories") String categories) throws ServiceException;
+    Response getAll(@NotNull @PathParam("lon") Double lon, @NotNull @PathParam("lat") Double lat) throws ServiceException;
     
    
 

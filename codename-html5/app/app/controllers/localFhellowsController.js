@@ -14,7 +14,7 @@
             console.log($scope.lookedUpLocation);
             if($scope.lookedUpLocation){
                 $scope.selectedLocation = $scope.lookedUpLocation;
-               // $scope.loadFhellows($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, interests, lookingFor, categories);
+                $scope.loadFhellows($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, [], [], []);
             }
         };
 
@@ -49,14 +49,16 @@
         }
 
         $scope.loadFhellows = function (lon, lat, interests, lookingFor, categories) {
-
+            console.log("lon = "+ lon);
+            console.log("lat = "+ lat);
 
             $queries.getByLocation(lon, lat, interests, lookingFor, categories).success(function (data) {
                 //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
                 $scope.fhellowsList = data;
                 console.log($scope.fhellowsList);
             }).error(function (data) {
-                console.log("Error: " + data);
+                console.log("Error: ");
+                console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
             });
 
@@ -65,25 +67,9 @@
 
 
 
-       // $scope.loadFhellows();
 
 
-        //FHELLOW FILTERS
-
-        $scope.userPosition = function (position) {
-            console.log(position);
-            $scope.filters.location = "Lat " + (Math.round(position.coords.latitude * 100) / 100) + " Long " + (Math.round(position.coords.longitude * 100) / 100);
-        }
-
-        $scope.getLocation = function () {
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition($scope.userPosition);
-
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        }
+       
 
 
 

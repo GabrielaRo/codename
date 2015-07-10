@@ -37,9 +37,9 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
 
             createEze();
             
-            createGenericUser("eldo@gmail.com", "asdasd", "2");
+            createGenericUser("eldo@gmail.com", "asdasd", "2", "Hammersmith, London, United Kingdom",-0.22373149999998532, 51.4911875);
             
-            createGenericUser("bot@gmail.com", "asdasd", "1");
+            createGenericUser("bot@gmail.com", "asdasd", "1", "Piccadilly Circus, London, United Kingdom", 51.5101355, -0.1350680000000466);
 
         } catch (Exception ex) {
             Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,6 +51,8 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         Long grogdjId = usersService.newUser(new User("grogdj@gmail.com", "asdasd"));
         usersService.updateBothNames(grogdjId, "Grog", "DJ");
         usersService.updateTitle(grogdjId, "Developer");
+        usersService.updateLocation(grogdjId, -0.0969611000000441, 51.484853);
+        usersService.updateLocation(grogdjId, "77 Fielding Road, London, United Kingdom");
         //usersService.updateLookingFor(grogdjId, null);
         usersService.updateBio(grogdjId, "This is grog dj bio");
         usersService.updateLongBio(grogdjId, "XXXXXXXXXXXXXXXXXXXXXX This is grog dj longbio");
@@ -94,6 +96,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         Long ezeId = usersService.newUser(new User("eze@asd.asd", "123123"));
         usersService.updateBothNames(ezeId, "Eze", "Sala");
         usersService.updateTitle(ezeId, "Web Developer");
+        usersService.updateLocation(ezeId, 1.6951309999999467, 41.521535);
         //usersService.updateLookingFor(grogdjId, null);
         usersService.updateBio(ezeId, "This is esala dj bio");
         usersService.updateLongBio(ezeId, "XXXXXXXXXXXXXXXXXXXXXX This is esala  longbio");
@@ -133,11 +136,12 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         return ezeId;
     }
     
-    private Long createGenericUser(String username, String password, String imagesNro) throws ServiceException {
+    private Long createGenericUser(String username, String password, String imagesNro, String location, Double lon, Double lat) throws ServiceException {
         Long userId = usersService.newUser(new User(username, password));
-        usersService.updateBothNames(userId, username, "username Lastname");
+        usersService.updateBothNames(userId, username.split("@")[0], "username Lastname");
         usersService.updateTitle(userId, "Sometitle");
-        
+        usersService.updateLocation(userId, lon, lat);
+        usersService.updateLocation(userId, location);
         usersService.updateBio(userId, "This is "+username+" bio");
         usersService.updateLongBio(userId, "XXXXXXXXXXXXXXXXXXXXXX This "+username+"  longbio");
         usersService.updateWebsite(userId, username+".tumbrl.com");

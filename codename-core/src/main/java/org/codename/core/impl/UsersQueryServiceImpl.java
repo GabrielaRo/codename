@@ -35,7 +35,9 @@ public class UsersQueryServiceImpl implements UsersQueryService {
     public UsersQueryServiceImpl() {
     }
 
-    public List<User> getAll(Long lon, Long lat, List<String> interestsList, List<String> lookingForList, List<String> categoriesList) throws ServiceException {
+    public List<User> getAll(Double lon, Double lat) throws ServiceException {
+        System.out.println("Lon: "+ lon);
+        System.out.println("Lat: "+ lat);
         FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(em);
         QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
         Query query = qb.spatial().onDefaultCoordinates()
@@ -43,9 +45,10 @@ public class UsersQueryServiceImpl implements UsersQueryService {
                 .ofLatitude(lat)
                 .andLongitude(lon)
                 .createQuery();
-
+        
         FullTextQuery fullTextQuery = fullTextEm.createFullTextQuery(query, User.class);
         fullTextQuery.setSort(org.apache.lucene.search.Sort.RELEVANCE);
+        System.out.println("REsults = "+ fullTextQuery.getResultSize());
         return fullTextQuery.getResultList();
     }
 

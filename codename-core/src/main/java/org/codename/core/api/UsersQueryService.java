@@ -16,8 +16,7 @@ import org.codename.model.User;
 public interface UsersQueryService {
 
     
-    List<User> getAll(Long lon, Long lat, List<String> interestsList, 
-            List<String> lookingForList, List<String> categoriesList) throws ServiceException;
+    List<User> getAll(Double lon, Double lat) throws ServiceException;
     
    
 
