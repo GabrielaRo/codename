@@ -2,7 +2,7 @@
     position: fixed;
     z-index: 2000;
     bottom: 0;
-    right: 0;
+    right: 10px;
     background-color: @chatBgr;
     width: @chatWidth;
     .boxShadow();
@@ -23,16 +23,34 @@
     }
     #chat-field {
         background-color: @chatFieldBgr;
-         height: @padding;
+        height: @padding;
         line-height: @padding;
-        input {
+        position: relative;
+        input[type="text"] {
             height: @padding;
             line-height: @padding;
-            padding: 0 (@padding/2);
+            padding: 0 (@padding/4);
+            width: 100%;
+        }
+        #send-button {
+            position: absolute;
+            top: 0;
+            right: 1px;
         }
     }
     #chat-history {
         min-height: 100px;
-        padding: (@padding/2);
+        max-height: @chatHeight;
+        overflow-y: auto;
+        font-size: @chatFontSize;
+        .chat-message {
+            padding: (@padding/4) (@padding) (@padding/4) (@padding/2);
+            border-bottom: 1px solid @borders;
+            
+            &.own-message {
+                text-align: right;
+                padding: (@padding/4) (@padding/2) (@padding/4) (@padding) ;
+            }
+        }
     }
 }
