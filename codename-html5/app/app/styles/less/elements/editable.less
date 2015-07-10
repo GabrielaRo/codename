@@ -2,7 +2,7 @@
     display: inline-block;
     cursor: pointer;
     position: relative;
-    z-index: 1;
+    z-index: 0;
     padding-right: 10px;
     &:before {
           position: absolute;
@@ -20,14 +20,26 @@
         
     }
     &.editable-active, &:hover{
+        z-index: 10;
         &:before {
             display: block;
+        }
+        .editable-mark {
+            color: @link;
         }
     }
     .editable-placeholder {
         opacity: .5;
         font-style: italic;
         font-weight: 100 !important;
+    }
+    
+    .editable-mark {
+        position: absolute;
+        bottom: 5px;
+        color: @borders;
+        font-size: @fontSize;
+        right: (-@padding/2);
     }
 }
 

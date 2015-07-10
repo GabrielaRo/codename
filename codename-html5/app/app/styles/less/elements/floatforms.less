@@ -7,18 +7,35 @@
         margin-bottom: 10px;
         .boxShadow();
         display: none;
-        padding: (@padding/4);
+        padding: (@padding/2);
         font-size: @fontSize;
         
         .form-content {
-            
+            .form-column {
+                width: 45%;
+                display: inline-block;
+                &:first-child {
+                    margin-right: 9%;
+                }
+            }
             .form-actions {
                 
+            }
+            .form-title {
+                font-size: @titleFontSize;
+                padding-bottom: (@padding/4);
+                font-weight: @lightText;
             }
             .form-fields {
                 white-space: nowrap;
                 font-size: 0;
                 padding-bottom:  (@padding/4);
+                &.vertical {
+                    white-space: normal;
+                    .control {
+                        padding-bottom: (@padding/4);
+                    }
+                }
                 input {
                     margin-bottom: 0;
                 }
@@ -29,6 +46,17 @@
                     &:first-child {
                         margin-left: 0;
                     }
+                    &.full {
+                        width: 100%;
+                    }
+                }
+                .help-text {
+                    font-size: (@fontSize * @helpTextFontSize);
+                    font-weight: @lightText;
+                    font-style: italic;
+                    white-space: normal;
+                    color: @helpTextColor;
+                    padding-top:  (@padding/4);
                 }
                 .legend {
                     font-size: @fontSize;

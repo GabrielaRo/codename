@@ -51,6 +51,24 @@
         $scope.$watch('userCurrentLocation', $scope.selectLocation);
         $scope.$watch('userOriginallyFrom', $scope.selectOriginallyFrom);
         
+        $scope.typeButtonPressed = function (buttonName) {
+            
+            if($scope.profile.iam.indexOf(buttonName) == -1){
+                $scope.profile.iam.push(buttonName);
+            }else {
+                $scope.profile.iam.splice ($scope.profile.iam.indexOf(buttonName), 1);   
+            }
+           
+        }
+        $scope.lookingForButtonPressed = function (buttonName) {
+            console.log($scope.profile.lookingFor);
+            if($scope.profile.lookingFor.indexOf(buttonName) == -1){
+                $scope.profile.lookingFor.push(buttonName);
+            }else {
+                $scope.profile.lookingFor.splice($scope.profile.lookingFor.indexOf(buttonName), 1);   
+            }
+        }
+        
 
         /*
          * This code loads all the profile user data from the server.

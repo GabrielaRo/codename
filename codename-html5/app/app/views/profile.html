@@ -15,7 +15,7 @@
                 
                 <div id="profile-cover-options">
 
-                    <button class="button inverted" ng-if="edit" ngf-select ng-model="picCoverFile" name="file" ngf-change="generateCoverThumb(picCoverFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false">Change Cover Image</button>
+                    <button class="button inverted" ng-if="edit" ngf-select ng-model="picCoverFile" name="file" ngf-change="generateCoverThumb(picCoverFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false"><i class="fa fa-camera"></i> <span ng-hide="!profile.hascover">Change</span> <span ng-hide="profile.hascover">Upload</span> Cover Image</button>
 
                 </div>
             </div>
@@ -41,7 +41,7 @@
                         </div>
 
                         <div id="profile-user-image-options" ng-if="edit">
-                            <button class="button inverted" ngf-select ng-model="picFile" name="file" ngf-change="generateThumb(picFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false">Change Profile Picture</button>
+                            <button class="button inverted" ngf-select ng-model="picFile" name="file" ngf-change="generateThumb(picFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false"><i class="fa fa-camera"></i> <span ng-hide="!profile.hasavatar">Change</span> <span ng-hide="profile.hasavatar">Upload</span> Profile Picture</button>
                         </div>
 
 
@@ -51,9 +51,12 @@
                     <div id="profile-user-data">
                         <div id="profile-user-name">
                             <div class="editable">
-                                {{profile.firstname}}<span class="editable-placeholder" ng-show="profile.firstname == ''">First Name</span>, {{profile.lastname}} <span class="editable-placeholder" ng-show="profile.lastname == ''">Last Name</span>
+                                {{profile.firstname}}<span class="editable-placeholder" ng-show="profile.firstname == ''">First Name</span> {{profile.lastname}} <span class="editable-placeholder" ng-show="profile.lastname == ''">Last Name</span>
                                 <div class="floatform" id="user-name-form">
                                     <div class="form-content">
+                                        <div class="form-title">
+                                            Name:
+                                        </div>
                                         <div class="form-fields">
                                             <div class="control">
                                                 <input type="text" ng-model="profile.firstname" placeholder="First Name">
@@ -68,8 +71,44 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                                </div>
                             </div>
                         </div>
+                        
+                        <div id="profile-user-location">
+                            <div class="editable">
+                               <span class="editable-placeholder" ng-show="profile.location == ''"> Where are you currently based? </span>
+                               <span class="editable-placeholder" ng-show="profile.location != ''"> {{profile.location.description}}</span>
+                                <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                                </div>
+                                
+                                <div class="floatform" id="user-location-form">
+                                    <div class="form-content">
+                                        <div class="form-title">
+                                            I am currently based in:
+                                        </div>
+                                        <div class="form-fields">
+                                            <div class="control full">
+                                                <location-lookup ng-model="userCurrentLocation" templateUrl="" limit-to="4"></location-lookup>
+                                            </div>
+                                            <div class="help-text">
+                                                Rest asure we will never share your postcode or address. This is only so you can find Fhellows in your general area.
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button class="button primary" ng-click="">Save</button> 
+                                            <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <!--
                         <div id="profile-user-job-title" >
                             <div class="editable">
                                 {{profile.title}} <span class="editable-placeholder" ng-show="profile.title == ''">Job Title</span>
@@ -86,29 +125,71 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div id="profile-user-looking-to" >
 
                             <div class="editable">
-
-                                I'm Looking to  : <span ng-repeat="item in profile.lookingFor" class="editable-child">{{item}}<span ng-hide="$index == (profile.lookingFor.length - 1)">, </span></span> <span class="placeholder editable-child" ng-show="profile.lookingFor.length == 0">Click here to select</span>
+                                <span class="editable-placeholder" ng-hide="profile.lookingFor.length > 0 || profile.iam.length > 0 " >What type of Fhellow are you? And what are you looking to do?</span>
+                                
+                                <span class="iams editable-child" ng-repeat="item in profile.iam" class="editable-child">{{item}}<span ng-hide="$index == (profile.iam.length - 1)">, </span></span>
+                                
+                                <span ng-repeat="item in profile.lookingFor" class="editable-child looking-fors">
+                                    
+                                    <span class="editable-child icon" ng-show="item == 'Socialise'">
+                                        <i class="fa fa-coffee editable-child"></i>
+                                    </span>
+                                    <span class="editable-child icon" ng-show="item == 'Collaborate'">
+                                        <i class="fa fa-pencil editable-child"></i>
+                                    </span>
+                                    <span class="editable-child icon" ng-show="item == 'Mentor'">
+                                        <i class="fa fa-graduation-cap editable-child"></i>
+                                    </span>
+                                </span>    
+                                
+                                 <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                                </div>
 
                                 <div class="floatform" id="user-looking-to-form">
                                     <div class="form-content">
-                                        <div class="form-fields">
-                                            <div class="legend">
-                                                I'm looking to 
+                                        <div class="form-column">
+                                            <div class="form-title">
+                                               I’m a:
                                             </div>
-                                            <div class="control">
-                                                <div class="checkboxes">
-                                                    <label ng-repeat="lf in lookingFors" class="checkbox-label">
-                                                        <input type="checkbox" name="selectedLookingFors[]" value="{{lf}}" 
-                                                               ng-checked="profile.lookingFor.indexOf(lf[0]) > -1" 
-                                                               ng-click="toggleLookingForSelection(lf)"> {{lf[1]}}
+                                            <div class="form-fields vertical">
 
-                                                    </label>
-
+                                                <div class="control full">
+                                                      <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Freelance') > -1}" ng-click="typeButtonPressed('Freelance')">Freelance</button>
                                                 </div>
+                                                
+                                                <div class="control full">
+                                                      <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Entrepreneur') > -1}" ng-click="typeButtonPressed('Entrepreneur')">Entrepreneur</button>
+                                                </div>
+                                                
+                                                 <div class="control full">
+                                                      <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Digital Nomad') > -1}" ng-click="typeButtonPressed('Digital Nomad')">Digital Nomad</button>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-column">
+                                            <div class="form-title">
+                                               Looking to:
+                                            </div>
+                                            <div class="form-fields vertical">
+
+                                                <div class="control full">
+                                                      <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Socialise') > -1}" ng-click="lookingForButtonPressed('Socialise')"> <i class="fa fa-coffee"></i> Socialise</button>
+                                                </div>
+                                                
+                                                <div class="control full">
+                                                      <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Collaborate') > -1}" ng-click="lookingForButtonPressed('Collaborate')"> <i class="fa fa-pencil"></i> Collaborate</button>
+                                                </div>
+                                                
+                                                 <div class="control full">
+                                                      <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Mentor') > -1}" ng-click="lookingForButtonPressed('Mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                         <div class="form-actions">
@@ -121,8 +202,13 @@
                     </div>
                     <div id="profile-status" ng-if="edit">
                         <div id="profile-status-percentage">
-                            Your profile is 
-                            <span>{{profile.percentage}}% complete</span> 
+                            Profile completeness
+                            <div id="profile-progress-bar">
+                                <div class="profile-progress" style="width: {{profile.percentage}}px">
+                                    
+                                </div>
+                            </div>
+                           
                         </div>
                         <div id="profile-status-publish">
 
@@ -139,14 +225,14 @@
             <div class="right-col ">
                 <div class="content-block" >
                    
-                                       
+                    <!--                   
                     <div ng-show="edit">
                         I am originally from 
                         
                         <div class="editable" >
                             <location-lookup ng-model="userOriginallyFrom" templateUrl="" limit-to="4">
                             </location-lookup>
-                           <!--
+                           
                             {{profile.originallyFrom}} <span class="editable-placeholder" ng-show="profile.originallyFrom == ''">Enter Location</span>
                             <div class="floatform" id="user-originally-from-form">
                                 <div class="form-content">
@@ -162,9 +248,9 @@
                                     </div>
                                 </div>
                             </div>
-                            -->
+                           
                         </div>
-                    </div> 
+                    </div>  -->
                     
                     <div ng-show="edit">
                         I am currently located in  

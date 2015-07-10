@@ -76,6 +76,11 @@
                 font-size: @nameFontSize;
                 padding-bottom: 15px;
             }
+            #profile-user-location {
+               font-size: @jobFontSize;
+                font-weight: @lightText;
+                padding-bottom: 10px; 
+            }
             #profile-user-job-title {
                 font-size: @jobFontSize;
                 font-weight: @lightText;
@@ -123,6 +128,24 @@
             }
         }
     }
+    #profile-progress-bar {
+        margin: (@padding /4) 0;
+        height: 8px;
+        background-color: @borders;
+        border-radius: 4px;
+        overflow: hidden;
+        .profile-progress {
+            background-color: @link;
+            height: 8px;
+        }
+    }
     
+    #user-location-form {
+        width: 360px;
+    }
+    
+    #user-looking-to-form {
+        width: 440px;
+    }
     
 }
