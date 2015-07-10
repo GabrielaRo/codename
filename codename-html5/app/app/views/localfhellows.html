@@ -53,25 +53,25 @@
                     <div class="control-group ">
                         <label>Fhellow type:</label>
                         <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersType.freelance}" ng-click="typeButtonPressed('freelance')">Freelance</button>
+                            <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Freelance') > -1}" ng-click="typeButtonPressed('Freelance')">Freelance</button>
                         </div>
                         <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersType.entrepenuers}" ng-click="typeButtonPressed('entrepenuers')">Entrepenuers</button>
+                            <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Entrepenuers') > -1}" ng-click="typeButtonPressed('Entrepenuers')">Entrepenuers</button>
                         </div>
                         <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersType.digitalnomads}" ng-click="typeButtonPressed('digitalnomads')">Digital Nomads</button>
+                            <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Digital Nomads') > -1}" ng-click="typeButtonPressed('Digital Nomads')">Digital Nomads</button>
                         </div>
                     </div>
                     <div class="control-group ">
                         <label>Fhellows looking to:</label>
                         <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.socialise}" ng-click="lookingToButtonPressed('socialise')"><i class="fa fa-coffee"></i> Socialise</button>
+                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Socialise') > -1}" ng-click="lookingToButtonPressed('Socialise')"><i class="fa fa-coffee"></i> Socialise</button>
                         </div>
                         <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.collaborate}" ng-click="lookingToButtonPressed('collaborate')"><i class="fa fa-pencil"></i> Collaborate</button>
+                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Collaborate') > -1}" ng-click="lookingToButtonPressed('Collaborate')"><i class="fa fa-pencil"></i> Collaborate</button>
                         </div>
                         <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.mentor}" ng-click="lookingToButtonPressed('mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
+                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Mentor') > -1}" ng-click="lookingToButtonPressed('Mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
                         </div>
                     </div>
 
