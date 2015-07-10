@@ -1,4 +1,7 @@
-<div id="profile">
+
+   
+
+   <div id="profile">
     <form novalidate name="profileForm" ng-init="">
         <div id="profile-cover-image" style="background-image:url('{{profile.coverUrl}}')">
             <div id="profile-cover-options-wrapper">
@@ -137,15 +140,20 @@
                 <div class="content-block" >
                    
                                        
-                    <div ng-if="edit">
+                    <div ng-show="edit">
                         I am originally from 
+                        
                         <div class="editable" >
+                            <location-lookup ng-model="userOriginallyFrom" templateUrl="" limit-to="4">
+                            </location-lookup>
+                           <!--
                             {{profile.originallyFrom}} <span class="editable-placeholder" ng-show="profile.originallyFrom == ''">Enter Location</span>
                             <div class="floatform" id="user-originally-from-form">
                                 <div class="form-content">
                                     <div class="form-fields">
                                         <div class="control">
                                             <input type="text" ng-model="profile.originallyFrom" placeholder="Your city">
+                                              
                                         </div>
                                     </div>
                                     <div class="form-actions">
@@ -154,18 +162,25 @@
                                     </div>
                                 </div>
                             </div>
+                            -->
                         </div>
                     </div> 
-                    <div ng-if="edit">
-                        I am currently located in 
-
+                    
+                    <div ng-show="edit">
+                        I am currently located in  
+                        
                         <div class="editable">
+                           <location-lookup ng-model="userLocation" templateUrl="" limit-to="4">
+                           </location-lookup>
+                           
+                           <!--
                             {{profile.location}} <span class="editable-placeholder" ng-show="profile.location == ''">Enter Location</span>
                             <div class="floatform" id="user-location-form">
                                 <div class="form-content">
                                     <div class="form-fields">
                                         <div class="control">
                                             <input type="text" ng-model="profile.location" placeholder="Your actual city">
+                                            
                                         </div>
                                     </div>
                                     <div class="form-actions">
@@ -173,7 +188,7 @@
                                         <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div> 
                 </div>

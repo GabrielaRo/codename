@@ -1,5 +1,5 @@
 (function () {
-    var profileController = function ($rootScope, $scope, $timeout, $users, $sockets, $cookieStore, appConstants, $routeParams, $auth) {
+    var profileController = function ($rootScope, $scope, $timeout, $users, $sockets, $cookieStore, appConstants, $routeParams, $auth, location) {
 
 
        
@@ -15,6 +15,7 @@
             lastname: "",
             nickname: "",
             location: "",
+            originallyFrom: "",
             bio: "",
             longbio: "",
             title: "",
@@ -31,7 +32,25 @@
             avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
         };
+        
+        location.get(angular.noop, angular.noop);
+        
+        $scope.selectLocation = function () {
+            console.log($scope.userLocation);
+            if($scope.userLocation){
+                $scope.profile.location = $scope.userLocation; 
+            }
+        };
+        $scope.selectOriginallyFrom = function () {
+            console.log($scope.userOriginallyFrom);
+            if($scope.userOriginallyFrom){
+                $scope.profile.originallyFrom = $scope.userOriginallyFrom; 
+            }
+        };
 
+        $scope.$watch('userLocation', $scope.selectLocation);
+        $scope.$watch('userOriginallyFrom', $scope.selectOriginallyFrom);
+        
 
         /*
          * This code loads all the profile user data from the server.
@@ -787,6 +806,6 @@
 
     };
 
-    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$sockets", "$cookieStore", "appConstants", "$routeParams", "$auth"];
+    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$sockets", "$cookieStore", "appConstants", "$routeParams", "$auth", "location"];
     angular.module("codename").controller("profileController", profileController);
 }());

@@ -43,6 +43,7 @@ angular.module('locator')
 
               // Update model
               model.$setViewValue(locData);
+              
               // Callback
               scope.callback && scope.callback(locData);
               
