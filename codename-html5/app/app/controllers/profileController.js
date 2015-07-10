@@ -36,9 +36,9 @@
         location.get(angular.noop, angular.noop);
         
         $scope.selectLocation = function () {
-            console.log($scope.userLocation);
-            if($scope.userLocation){
-                $scope.profile.location = $scope.userLocation; 
+            console.log($scope.userCurrentLocation);
+            if($scope.userCurrentLocation){
+                $scope.profile.location = $scope.userCurrentLocation; 
             }
         };
         $scope.selectOriginallyFrom = function () {
@@ -48,7 +48,7 @@
             }
         };
 
-        $scope.$watch('userLocation', $scope.selectLocation);
+        $scope.$watch('userCurrentLocation', $scope.selectLocation);
         $scope.$watch('userOriginallyFrom', $scope.selectOriginallyFrom);
         
 
