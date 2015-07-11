@@ -106,7 +106,7 @@
         }
     }
     
-    #profile-location {
+    #profile-bio {
         .container();
         font-weight: @lightText;
         .right-col {
@@ -137,6 +137,7 @@
         .profile-progress {
             background-color: @link;
             height: 8px;
+            transition: width .3s ease-in-out;
         }
     }
     
@@ -146,6 +147,20 @@
     
     #user-looking-to-form {
         width: 440px;
+    }
+    
+    .profile-icon {
+        font-size: 20px;
+        margin-right: 5px;
+        &.fa-linkedin {
+            color: #2285ba;
+        }
+        &.fa-twitter {
+            color: #62aadc;
+        }
+        &.fa-globe {
+            color: #145dc9;
+        }
     }
     
 }

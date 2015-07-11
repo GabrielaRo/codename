@@ -204,7 +204,7 @@
                         <div id="profile-status-percentage">
                             Profile completeness
                             <div id="profile-progress-bar">
-                                <div class="profile-progress" style="width: {{profile.percentage}}px">
+                                <div class="profile-progress" style="width: {{profile.percentage}}%">
                                     
                                 </div>
                             </div>
@@ -221,62 +221,25 @@
             </div>
         </div>
 
-        <div id="profile-location">
+        <div id="profile-bio">
             <div class="right-col ">
-                <div class="content-block" >
-                   
-                    <!--                   
-                    <div ng-show="edit">
-                        I am originally from 
-                        
-                        <div class="editable" >
-                            <location-lookup ng-model="userOriginallyFrom" templateUrl="" limit-to="4">
-                            </location-lookup>
-                           
-                            {{profile.originallyFrom}} <span class="editable-placeholder" ng-show="profile.originallyFrom == ''">Enter Location</span>
-                            <div class="floatform" id="user-originally-from-form">
-                                <div class="form-content">
-                                    <div class="form-fields">
-                                        <div class="control">
-                                            <input type="text" ng-model="profile.originallyFrom" placeholder="Your city">
-                                              
-                                        </div>
-                                    </div>
-                                    <div class="form-actions">
-                                        <button class="button primary" ng-click="updateOriginallyFrom(profile.originallyFrom)">Save</button> 
-                                        <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                           
+                <div class="content-block editable-block" id="user-bio-form" >
+                    <div class="content-block-title editable-title">
+                        Allow me to introduce myself...
+                        <div class="editable-title-options" ng-if="edit">
+                            <i class="fa fa-pencil editable-child icon-button" ng-hide="bioStatus" ng-click="editBioBlock()"></i>
+                            <button class="button inverted" ng-show="bioStatus" ng-click="cancelBioBlock()">Cancel</button>
+                            <button class="button primary"  ng-show="bioStatus" ng-click="saveBioBlock(profile.bio)">Save</button>
                         </div>
-                    </div>  -->
+                    </div>
                     
-                    <div ng-show="edit">
-                        I am currently located in  
-                        
-                        <div class="editable">
-                           <location-lookup ng-model="userCurrentLocation" templateUrl="" limit-to="4">
-                           </location-lookup>
-                           
-                           <!--
-                            {{profile.location}} <span class="editable-placeholder" ng-show="profile.location == ''">Enter Location</span>
-                            <div class="floatform" id="user-location-form">
-                                <div class="form-content">
-                                    <div class="form-fields">
-                                        <div class="control">
-                                            <input type="text" ng-model="profile.location" placeholder="Your actual city">
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="form-actions">
-                                        <button class="button primary" ng-click="updateLocation(profile.location)">Save</button> 
-                                        <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>-->
+                    <div class="content-block-content">
+                        <div class="textarea">
+                            <textarea id="user-bio" ng-model="profile.bio"></textarea>
                         </div>
-                    </div> 
+                    </div>
+                    
+                    
                 </div>
             </div>
         </div>
@@ -288,7 +251,8 @@
                     <div class="content-block-title editable-title">
                         My Interests
                         <div class="editable-title-options" ng-if="edit">
-                            <button class="button inverted" ng-disabled="interestStatus" ng-click="editInterestBlock()">Edit</button>
+                            <i class="fa fa-pencil editable-child icon-button" ng-hide="interestStatus" ng-click="editInterestBlock()"></i>
+                            
                         </div>
                     </div>
                     <div class="content-block-content">
@@ -328,9 +292,10 @@
                     </div>
                     <div class="content-block-content">
                         <div class="link" ng-show="edit || profile.twitter != ''">
+                           <i class="fa fa-twitter profile-icon"></i> 
                             <span class="editable"  >
                                 
-                                 {{profile.twitter}}<span class="editable-placeholder" ng-show="profile.twitter == ''">Add Twitter Link</span>
+                                {{profile.twitter}}<span class="editable-placeholder" ng-show="profile.twitter == ''">Add Twitter Link</span>
                                 
                                 <div class="floatform" id="user-twitter-form">
                                     <div class="form-content">
@@ -350,8 +315,9 @@
                         </div>
                         
                         <div class="link" ng-show="edit || profile.linkedin != ''">
+                           <i class="fa fa-linkedin profile-icon"></i>
                             <span class="editable">
-                                {{profile.linkedin}}<span class="editable-placeholder" ng-show="profile.linkedin == ''">Add Linkedin Link</span>
+                                 {{profile.linkedin}}<span class="editable-placeholder" ng-show="profile.linkedin == ''">Add Linkedin Link</span>
                                 <div class="floatform" id="user-linkedin-form">
                                     <div class="form-content">
                                         <div class="form-fields">
@@ -368,6 +334,7 @@
                             </span>
                         </div>
                         <div class="link" ng-show="edit || profile.website != ''">
+                           <i class="fa fa-globe profile-icon"></i>
                             <span class="editable">
                                {{profile.website}}<span class="editable-placeholder" ng-show="profile.website == ''">Add Website</span>
                                 <div class="floatform" id="user-website-form">
@@ -392,67 +359,141 @@
                         My work playlist
                     </div>
                 </div>
+                
+                <div class="content-block">
+                    <div class="content-block-title ">
+                        I like to work at
+                    </div>
+                </div>
             </div>
             <div class="right-col">
-                <div class="content-block editable-block" id="user-about-form">
+                <div class="content-block" id="user-more-about-form">
                     <div class="content-block-title editable-title">
-                        About Me
-                        <div class="editable-title-options" ng-if="edit">
-                            <button class="button inverted" ng-disabled="aboutStatus" ng-click="editAboutBlock()">Edit</button>
-                         
-
-                        </div>
+                        More about me
                     </div>
                     <div class="content-block-content">
-                        <div class="control inline">
-                            <label ng-if="edit">I am a</label>
-                            
-                                <div class="textarea" ng-switch="edit">
-                                    <div class="checkboxes" ng-switch-when="true">
-                                        <label ng-repeat="ia in iAms" class="checkbox-label disabled" >
-                                            <input type="checkbox" name="selectedIams[]" value="{{ia}}" 
-                                                   ng-checked="profile.iam.indexOf(ia[0]) > -1" 
-                                                   ng-click="toggleIamSelection(ia)"
-                                                   disabled="disabled"
-                                                   > {{ia[1]}}
-
-                                        </label>
-                                    </div>
-                                    <div class="textarea-text" ng-switch-when="false">
-                                       <div ng-repeat="ia in iAms" class="iams">{{ia[1]}}</div>
-                                    </div>
-                                </div>
-                                
+                        <div class="sub-block" id="user-originally-from-form">
+                            <div class="block-label" ng-click="toggleBlock('#user-originally-from-form', 'originallyFrom')">
+                               Where are you originally from? 
+                               <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                               </div>
+                               <div class="editable-status">
+                                    Save Changes
+                               </div>
                             </div>
-                            
-                        </div>
-                        <div class="control inline" >
-                            <label ng-if="edit">
-                                <div class="label-help">
-                                    Intro
-                                    <span class="control-help-text">140 Characters</span>
-                                </div>
-                            </label>
-                            <div class="textarea" ng-switch="edit">
-                                <textarea  ng-switch-when="true" placeholder="Type here" ng-model="profile.bio" ng-if="edit"></textarea>
-                                 <div class="textarea-text" ng-switch-when="false"> {{profile.bio}} </div>
-                            </div>
-                        </div>
-
-                        <div class="control inline">
-                            <label ng-if="edit">
-                                Tell us more <span class="tooltip-content tooltip-help">?</span>
-                            </label>
                             <div class="textarea" ng-switch="edit" >
-                                <textarea ng-switch-when="true" ng-model="profile.longbio" placeholder="Type here" ></textarea>
-                                <div class="textarea-text" ng-switch-when="false"> {{profile.longbio}} </div>
+                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.originallyFrom" placeholder="London, New York, Paris, Timbuktu, etc..." ></textarea>
+                                    <div class="textarea-text" ng-switch-when="false"> {{profile.originallyFrom}} </div>
                             </div>
                         </div>
-                    
-                    <div class="content-block-actions" ng-show="aboutStatus">
-                         <button class="button inverted"  ng-click="cancelAboutBlock()">Cancel</button>
-                         <button class="button primary"  ng-click="saveAboutBlock(profile.iam, profile.bio, profile.longbio)">Save</button>
+                        
+                        
+                        <div class="sub-block" id="user-title-form">
+                            <div class="block-label" ng-click="toggleBlock('#user-title-form', 'title')">
+                               How do you make a living?
+                               <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                               </div>
+                               <div class="editable-status">
+                                    Save Changes
+                               </div>
+                            </div>
+                            <div class="textarea" ng-switch="edit" >
+                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.title" placeholder="Designer, developer, candle stick maker..." ></textarea>
+                                    <div class="textarea-text" ng-switch-when="false"> {{profile.title}} </div>
+                            </div>
+                        </div>
+                        
+                         <div class="sub-block" id="user-advise-form">
+                            <div class="block-label" ng-click="toggleBlock('#user-advise-form', 'advise')">
+                               What advice would you give a Fhellow a few years behind you?
+                               <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                               </div>
+                               <div class="editable-status">
+                                    Save Changes
+                               </div>
+                            </div>
+                            <div class="textarea" ng-switch="edit" >
+                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.advise" placeholder="What do you wish someone had told you?" ></textarea>
+                                    <div class="textarea-text" ng-switch-when="false"> {{profile.advise}} </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="sub-block" id="user-hobbies-form">
+                            <div class="block-label" ng-click="toggleBlock('#user-hobbies-form', 'hobbies')">
+                               What do you like to do when you’re not working?
+                               <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                               </div>
+                               <div class="editable-status">
+                                    Save Changes
+                               </div>
+                            </div>
+                            <div class="textarea" ng-switch="edit" >
+                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.hobbies" placeholder="What keeps you balanced? Are you in band, paint, surf, yoga..." ></textarea>
+                                    <div class="textarea-text" ng-switch-when="false"> {{profile.hobbies}} </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-block" id="user-books-form">
+                            <div class="block-label" ng-click="toggleBlock('#user-books-form', 'books')">
+                               What books, blogs or resources would you recomend to other Fhellows?
+                               <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                               </div>
+                               <div class="editable-status">
+                                    Save Changes
+                               </div>
+                            </div>
+                            <div class="textarea" ng-switch="edit" >
+                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.books" placeholder="Any books that inspired an ephphany, blogs you follow or articels you’ve bookmaked?" ></textarea>
+                                    <div class="textarea-text" ng-switch-when="false"> {{profile.books}} </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-block" id="user-share-form">
+                            <div class="block-label" ng-click="toggleBlock('#user-share-form', 'share')">
+                               Anything else you would like to share with Fhellows?
+                               <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                               </div>
+                               <div class="editable-status">
+                                    Save Changes
+                               </div>
+                            </div>
+                            <div class="textarea" ng-switch="edit" >
+                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.share" placeholder="A project your working on, your favourite quote, a vaulable lesson you learnt?" ></textarea>
+                                    <div class="textarea-text" ng-switch-when="false"> {{profile.share}} </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="sub-block" id="user-message-form">
+                            <div class="block-label" ng-click="toggleBlock('#user-message-form', 'message')">
+                               Message me if...
+                               <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                               </div>
+                               <div class="editable-status">
+                                    Save Changes
+                               </div>
+                            </div>
+                            <div class="textarea" ng-switch="edit" >
+                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.message" placeholder="Fancy a coffee, want to brainstorm, are going to be in Madrid in July?" ></textarea>
+                                    <div class="textarea-text" ng-switch-when="false"> {{profile.message}} </div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        
+                        
                     </div>
+                    
+                   
                 </div>
 
             </div>

@@ -17,13 +17,69 @@
                 display: none;
             }
         }
+        .icon-button {
+            opacity: .5;
+            cursor: pointer;
+            padding: (@padding/4);
+            &:hover {
+                opacity: 1;
+                color: @link;
+            }
+        }
     }
     .content-block-content {
         color: @textGray;
         white-space: normal;
         font-weight: @lightText;
         padding-top: (@padding/4);
-       
+        .textarea {
+            width: 100%;
+            textarea {
+                width: 100%;
+                border: none;
+                &[disabled] {
+                    opacity: .5;
+                }
+            }
+        }
+        .sub-block {
+            padding-top: (@padding/4);
+            padding-bottom: (@padding/4);
+            border-bottom: 1px solid @borders;
+            
+            .block-label {
+                font-weight: @boldText;
+                cursor: pointer;
+                .editable-mark {
+                    display: inline-block;
+                    opacity: .5;
+                    padding: 0 5px;
+                }
+
+                &:hover {
+                     color: @link;
+                    .editable-mark {
+                        color: @link;
+                        opacity: 1;
+                    }
+                }
+                .editable-status {
+                    display: none;
+                    opacity: .5;
+                }
+            }
+            
+            &.active {
+                .editable-mark {
+                    display: none;
+                }
+                .editable-status {
+                    display: inline-block;
+                }
+            }
+        }
+        
+        
     }
     .content-block-actions {
         padding-top: (@padding/2);

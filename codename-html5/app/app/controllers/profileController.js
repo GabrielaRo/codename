@@ -118,14 +118,67 @@
             $scope.profile = angular.copy(initialData);
             $scope.calculatePercentage();
         }
+        
+        //BIO EDITABLE BLOCK
+        $scope.bioStatus = false;
+        $scope.editBioBlock = function () {
+            $scope.editContentBlock($("#user-bio-form"));
+            $scope.bioStatus = true;
+        }
+        
+        $scope.saveBioBlock = function (bio) {
+
+            $scope.disableContentBlock($("#user-bio-form"));
+            //$scope.updateBioLongBioIams(bio);
+
+            $scope.bioStatus = false;
+
+
+        }
+        $scope.cancelBioBlock = function () {
+            $scope.disableContentBlock($("#user-bio-form"));
+            $scope.bioStatus = false;
+            $scope.resetData();
+        }
+        
+        //NEW TOGGLE BLOCKS
+        $scope.toggleBlock = function (blockToEdit, blockName) {
+            
+            var block = $(blockToEdit);
+            var content = block.find(".block-content").val(); 
+            console.log("TOGGLE THIS BLOCK WITH CONTENT" + content);
+            
+            if( block.hasClass("active")){
+                block.removeClass("active");
+                $scope.disableContentBlock(block);
+                $scope.saveBlock(blockName, content);
+                
+            }else {
+                $scope.editContentBlock(block);
+                block.addClass("active");
+            }
+        }
+        
+        //NEW SAVE FUNCTION
+        $scope.saveBlock = function(blockToSave, blockContent){
+            switch (blockToSave)
+                {
+                    case "originallyFrom":
+                        $scope.updateOriginallyFrom(blockContent)
+                        break;
+                    case "title":
+                        $scope.updateTitle(blockContent)
+                        break;
+                }           
+        }
 
         //ABOUT EDITABLE BLOCK
         $scope.aboutStatus = false;
         $scope.editAboutBlock = function () {
-
             $scope.editContentBlock($("#user-about-form"));
             $scope.aboutStatus = true;
         }
+        
         $scope.saveAboutBlock = function (iam, bio, longbio) {
 
             $scope.disableContentBlock($("#user-about-form"));
@@ -714,6 +767,7 @@
 
 
         $scope.bindEditableEvents = function () {
+    
             var editables = $(".editable")
             editables.each(function (index) {
                 var element = $(this);
@@ -798,9 +852,15 @@
                 // If it is the first time that the user is accessing the site using this account
                 //  we need to update the information in the server and then load the basic data. 
                 $scope.updateUserFirstLogin();
+                
+                
+                setTimeout(function () {
+                    $scope.bindEditableEvents();
+                    $scope.initiateContentBlocks();
+                }, 500);
 
             } else {
-
+                
                 if ($scope.params && $scope.params.id) {
                     console.log("ROUTE PARAMS ID ");
                     console.log($scope.params.id);
@@ -816,7 +876,7 @@
                     setTimeout(function () {
                         $scope.bindEditableEvents();
                         $scope.initiateContentBlocks();
-                    }, 1000);
+                    }, 500);
 
                 }
             }
