@@ -38,18 +38,19 @@
         $scope.selectLocation = function () {
             console.log($scope.userCurrentLocation);
             if($scope.userCurrentLocation){
-                $scope.profile.location = $scope.userCurrentLocation; 
+                $scope.profile.location = $scope.userCurrentLocation.description; 
+                
             }
         };
-        $scope.selectOriginallyFrom = function () {
-            console.log($scope.userOriginallyFrom);
-            if($scope.userOriginallyFrom){
-                $scope.profile.originallyFrom = $scope.userOriginallyFrom; 
-            }
-        };
+//        $scope.selectOriginallyFrom = function () {
+//            console.log($scope.userOriginallyFrom);
+//            if($scope.userOriginallyFrom){
+//                $scope.profile.originallyFrom = $scope.userOriginallyFrom; 
+//            }
+//        };
 
         $scope.$watch('userCurrentLocation', $scope.selectLocation);
-        $scope.$watch('userOriginallyFrom', $scope.selectOriginallyFrom);
+        //$scope.$watch('userOriginallyFrom', $scope.selectOriginallyFrom);
         
         $scope.typeButtonPressed = function (buttonName) {
             
@@ -467,12 +468,12 @@
 
         };
 
-        $scope.updateLocation = function (location) {
+        $scope.updateLocation = function (location, lon, lat) {
 
             $scope.clearEditablesActive();
             //$scope.clearField($("#user-location-form"));
             if (typeof (location) != "undefined" && location != "" && location != initialData.location) {
-                $users.updateLocation(location).success(function (data) {
+                $users.updateLocation(location, lon, lat).success(function (data) {
                     $scope.profile.location = location;
                     initialData.location = location;
                     $scope.calculatePercentage();

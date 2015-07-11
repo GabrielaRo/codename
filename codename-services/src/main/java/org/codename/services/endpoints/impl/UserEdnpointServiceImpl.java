@@ -266,8 +266,8 @@ public class UserEdnpointServiceImpl implements UserEndpointService {
     }
 
     @Override
-    public Response updateLocation(Long user_id, String location) throws ServiceException {
-        usersService.updateLocation(user_id, location);
+    public Response updateLocation(Long user_id, String location, Double lon, Double lat) throws ServiceException {
+        usersService.updateLocation(user_id, location, lon, lat);
         return Response.ok().build();
     }
 

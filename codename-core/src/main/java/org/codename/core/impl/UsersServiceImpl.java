@@ -168,12 +168,14 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void updateLocation(Long user_id, String location) throws ServiceException {
+    public void updateLocation(Long user_id, String location, Double lon, Double lat) throws ServiceException {
         User u = em.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setLocation(location);
+        u.setLongitude(lon);
+        u.setLatitude(lat);
         em.merge(u);
     }
 
@@ -187,16 +189,6 @@ public class UsersServiceImpl implements UsersService {
         em.merge(u);
     }
 
-    @Override
-    public void updateLocation(Long user_id, Double lon, Double lat) throws ServiceException {
-        User u = em.find(User.class, user_id);
-        if (u == null) {
-            throw new ServiceException("User doesn't exist: " + user_id);
-        }
-        u.setLongitude(lon);
-        u.setLatitude(lat);
-        em.merge(u);
-    }
 
     @Override
     public Coordinates getLocation(Long user_id) throws ServiceException {

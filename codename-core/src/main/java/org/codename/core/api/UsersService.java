@@ -47,7 +47,7 @@ public interface UsersService {
 
     void updateBio(Long user_id, String bio) throws ServiceException;
 
-    void updateLocation(Long user_id, String location) throws ServiceException;
+    void updateLocation(Long user_id, String location, Double lon, Double lat) throws ServiceException;
 
     void updateTitle(Long user_id, String title) throws ServiceException;
 
@@ -67,7 +67,6 @@ public interface UsersService {
     
     List<User> getAllLive();
 
-    void updateLocation(Long user_id, Double lon, Double lat) throws ServiceException;
 
     Coordinates getLocation(Long user_id) throws ServiceException;
 

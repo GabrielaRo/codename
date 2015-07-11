@@ -138,7 +138,7 @@ public interface UserEndpointService extends Serializable {
     @POST
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON})
-    Response updateLocation(@NotNull @PathParam("id") Long user_id, @FormParam("location") String location ) throws ServiceException;
+    Response updateLocation(@NotNull @PathParam("id") Long user_id, @FormParam("location") String location , Double lon, Double lat) throws ServiceException;
     
     @Path("{id}/originallyfrom/update")
     @POST

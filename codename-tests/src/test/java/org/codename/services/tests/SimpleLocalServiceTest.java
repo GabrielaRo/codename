@@ -105,7 +105,7 @@ public class SimpleLocalServiceTest {
         ut.commit();
 
         ut.begin();
-        usersService.updateLocation(newUser, 51.5004232, -0.2588513);
+        usersService.updateLocation(newUser, "W41DA", 51.5004232, -0.2588513);
         ut.commit();
 
         Double lon = 51.4987702;
