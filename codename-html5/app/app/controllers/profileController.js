@@ -14,7 +14,7 @@
             firstname: "",
             lastname: "",
             nickname: "",
-            location: "",
+            location: {description: ""},
             originallyFrom: "",
             bio: "",
             longbio: "",
@@ -38,7 +38,7 @@
         $scope.selectLocation = function () {
             console.log($scope.userCurrentLocation);
             if($scope.userCurrentLocation){
-                $scope.profile.location = $scope.userCurrentLocation.description; 
+                $scope.profile.location.description = $scope.userCurrentLocation.description; 
                 
             }
         };
@@ -84,7 +84,7 @@
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
                         $scope.profile.nickname = data.nickname;
-                        $scope.profile.location = data.location;
+                        $scope.profile.location.description = data.location;
                         $scope.profile.originallyFrom = data.originallyFrom;
                         $scope.profile.bio = data.bio;
                         $scope.profile.longbio = data.longbio;
@@ -303,7 +303,7 @@
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
                         $scope.profile.nickname = data.lastname;
-                        $scope.profile.location = data.location;
+                        $scope.profile.location.description = data.location;
                         $scope.profile.originallyFrom = data.originallyFrom;
                         $scope.profile.bio = data.bio;
                         $scope.profile.longbio = data.longbio;
@@ -522,13 +522,19 @@
         };
 
         $scope.updateLocation = function (location, lon, lat) {
-
+            console.log("Location: "+ location);
+            console.log("Longitde: "+ lon);
+            console.log("Latitude: "+ lat);
             $scope.clearEditablesActive();
             //$scope.clearField($("#user-location-form"));
-            if (typeof (location) != "undefined" && location != "" && location != initialData.location) {
+            if (typeof (location) != "undefined" && location != "" 
+                    && location != initialData.location) {
                 $users.updateLocation(location, lon, lat).success(function (data) {
-                    $scope.profile.location = location;
-                    initialData.location = location;
+                    
+                    $scope.profile.location.description = location;
+                    console.log("desc: "+$scope.profile.location.description);    
+                    console.log("loc: "+location);    
+                    initialData.location.description = location;
                     $scope.calculatePercentage();
                     $rootScope.$broadcast("quickNotification", "Location Updated Successfully");
                 }).error(function (data) {
@@ -717,7 +723,7 @@
                 $scope.profile.percentage += 10;
                 console.log("> + 10 title = " + $scope.profile.title);
             }
-            if ($scope.profile.location != "undefined" && $scope.profile.location != "") {
+            if ($scope.profile.location.description != "undefined" && $scope.profile.location.description != "") {
                 $scope.profile.percentage += 10;
                 console.log("> + 10 location");
             }

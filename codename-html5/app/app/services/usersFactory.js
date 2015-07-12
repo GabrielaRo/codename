@@ -251,13 +251,13 @@
 
 
         //UPDATE User Location
-        factory.updateLocation = function (location) {
+        factory.updateLocation = function (location, lon, lat) {
             return $http({
                 method: 'POST',
                 url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/location/update',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
-                data: {location: location},
+                data: {location: location, lon: lon, lat: lat},
             });
         };
 

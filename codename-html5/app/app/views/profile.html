@@ -80,8 +80,9 @@
                         
                         <div id="profile-user-location">
                             <div class="editable">
-                               <span class="editable-placeholder" ng-show="profile.location == ''"> Where are you currently based? </span>
-                               <span class="editable-placeholder" ng-show="profile.location != ''"> {{profile.location.description}}</span>
+                                {{profile.location.description}}
+                               <span class="editable-placeholder" ng-show="profile.location.description == ''"> Where are you currently based? </span>
+                               <span class="editable-placeholder" ng-show="profile.location.description != ''"> {{profile.location.description}}</span>
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
@@ -100,7 +101,7 @@
                                             </div>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="button primary" ng-click="">Save</button> 
+                                            <button class="button primary" ng-click="updateLocation(userCurrentLocation.description, userCurrentLocation.longitude, userCurrentLocation.latitude)">Save</button> 
                                             <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                         </div>
                                     </div>

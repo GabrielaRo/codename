@@ -65,7 +65,12 @@
     <build>
           
         <finalName>${project.artifactId}</finalName>
- 
+        <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
         <plugins>
               
             <plugin>
@@ -106,10 +111,10 @@
           <logDate>default</logDate>
           <verbose>true</verbose>
 
-          <!-- KIE Images. -->
+          
           <images>
 
-            <!-- KIE Server latest SNAPSHOT & Wildfly 8.1.0.Final. -->
+           
             <image>
               <name>codename/codename:${project.version}</name>
               <alias>codename</alias>
