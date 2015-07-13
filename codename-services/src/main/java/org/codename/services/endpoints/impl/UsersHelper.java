@@ -25,10 +25,15 @@ public class UsersHelper {
         jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
         jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
         jsonObjBuilder.add("nickname", (u.getNickname() == null) ? "" : u.getNickname());
-        jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
+        jsonObjBuilder.add("title", (u.getJobTitle() == null) ? "" : u.getJobTitle());
         jsonObjBuilder.add("website", (u.getWebsite() == null) ? "" : u.getWebsite());
         jsonObjBuilder.add("twitter", (u.getTwitter() == null) ? "" : u.getTwitter());
         jsonObjBuilder.add("linkedin", (u.getLinkedin() == null) ? "" : u.getLinkedin());
+        jsonObjBuilder.add("advice", (u.getAdviceMessage() == null) ? "" : u.getAdviceMessage());
+        jsonObjBuilder.add("hobbies", (u.getHobbiesMessage() == null) ? "" : u.getHobbiesMessage());
+        jsonObjBuilder.add("resources", (u.getResourcesMessage() == null) ? "" : u.getResourcesMessage());
+        jsonObjBuilder.add("share", (u.getShareMessage() == null) ? "" : u.getShareMessage());
+        jsonObjBuilder.add("messageme", (u.getMessageMeMessage() == null) ? "" : u.getMessageMeMessage());
         jsonObjBuilder.add("live", u.isLive());
         jsonObjBuilder.add("hascover", u.getCoverFileName() != null && !u.getCoverFileName().equals(""));
         jsonObjBuilder.add("hasavatar", u.getAvatarFileName() != null && !u.getAvatarFileName().equals(""));
@@ -55,17 +60,15 @@ public class UsersHelper {
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
         jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
-        jsonObjBuilder.add("longbio", (u.getLongBio() == null) ? "" : u.getLongBio());
         jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
-        jsonObjBuilder.add("originallyFrom", (u.getOriginallyFrom() == null) ? "" : u.getOriginallyFrom());
+        
         jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
         jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
-        jsonObjBuilder.add("title", (u.getTitle() == null) ? "" : u.getTitle());
-        jsonObjBuilder.add("website", (u.getWebsite() == null) ? "" : u.getWebsite());
+        jsonObjBuilder.add("title", (u.getJobTitle() == null) ? "" : u.getJobTitle());
+        
         jsonObjBuilder.add("nickname", (u.getNickname() == null) ? "" : u.getNickname());
-        //jsonObjBuilder.add("twitter", (u.getTwitter() == null) ? "" : u.getTwitter());
-        //jsonObjBuilder.add("linkedin", (u.getLinkedin() == null) ? "" : u.getLinkedin());
-        //jsonObjBuilder.add("live", u.isLive());
+        jsonObjBuilder.add("messageme", (u.getMessageMeMessage() == null) ? "" : u.getMessageMeMessage());
+        
         jsonObjBuilder.add("hascover", u.getCoverFileName() != null && !u.getCoverFileName().equals(""));
         jsonObjBuilder.add("hasavatar", u.getAvatarFileName() != null && !u.getAvatarFileName().equals(""));
         JsonArrayBuilder interestsJsonArrayBuilder = Json.createArrayBuilder();

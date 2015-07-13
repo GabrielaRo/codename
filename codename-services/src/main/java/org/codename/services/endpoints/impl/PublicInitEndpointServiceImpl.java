@@ -50,7 +50,6 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
     private Long createGrogDJ() throws ServiceException {
         Long grogdjId = usersService.newUser(new User("grogdj@gmail.com", "asdasd"));
         usersService.updateBothNames(grogdjId, "Grog", "DJ");
-        usersService.updateTitle(grogdjId, "Developer");
         
         usersService.updateLocation(grogdjId, "77 Fielding Road, London, United Kingdom", -0.2570034000000305, 51.50042680000001);
         //usersService.updateLookingFor(grogdjId, null);
@@ -95,7 +94,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
     private Long createEze() throws ServiceException {
         Long ezeId = usersService.newUser(new User("eze@asd.asd", "123123"));
         usersService.updateBothNames(ezeId, "Eze", "Sala");
-        usersService.updateTitle(ezeId, "Web Developer");
+        
         usersService.updateLocation(ezeId, "Capellades, Barcelona, Spain", 1.6951309999999467, 41.521535);
         //usersService.updateLookingFor(grogdjId, null);
         usersService.updateBio(ezeId, "This is esala dj bio");
@@ -139,7 +138,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
     private Long createGenericUser(String username, String password, String imagesNro, String location, Double lon, Double lat) throws ServiceException {
         Long userId = usersService.newUser(new User(username, password));
         usersService.updateBothNames(userId, username.split("@")[0], "username Lastname");
-        usersService.updateTitle(userId, "Sometitle");
+        
         
         usersService.updateLocation(userId, location, lon, lat);
         usersService.updateBio(userId, "This is "+username+" bio");

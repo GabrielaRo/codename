@@ -74,7 +74,7 @@ public class User implements Serializable {
 
     private String avatarFileName;
 
-    private String title;
+    private String jobTitle;
 
     private String nickname;
 
@@ -129,6 +129,16 @@ public class User implements Serializable {
     private UserProvider provider = UserProvider.FHELLOW;
 
     private String providerId = "";
+    
+    private String adviceMessage;
+    
+    private String hobbiesMessage;
+    
+    private String resourcesMessage;
+    
+    private String shareMessage;
+    
+    private String messageMeMessage;
 
     public User() {
     }
@@ -191,14 +201,6 @@ public class User implements Serializable {
 
     public void setAvatarFileName(String avatarFileName) {
         this.avatarFileName = avatarFileName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public byte[] getAvatarContent() {
@@ -384,6 +386,55 @@ public class User implements Serializable {
     public void setProviderId(String providerId) {
         this.providerId = providerId;
     }
+
+    public String getAdviceMessage() {
+        return adviceMessage;
+    }
+
+    public void setAdviceMessage(String adviceMessage) {
+        this.adviceMessage = adviceMessage;
+    }
+
+    public String getHobbiesMessage() {
+        return hobbiesMessage;
+    }
+
+    public void setHobbiesMessage(String hobbiesMessage) {
+        this.hobbiesMessage = hobbiesMessage;
+    }
+
+    public String getResourcesMessage() {
+        return resourcesMessage;
+    }
+
+    public void setResourcesMessage(String resourcesMessage) {
+        this.resourcesMessage = resourcesMessage;
+    }
+
+    public String getShareMessage() {
+        return shareMessage;
+    }
+
+    public void setShareMessage(String shareMessage) {
+        this.shareMessage = shareMessage;
+    }
+
+    public String getMessageMeMessage() {
+        return messageMeMessage;
+    }
+
+    public void setMessageMeMessage(String messageMeMessage) {
+        this.messageMeMessage = messageMeMessage;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+    
 
     @Override
     public String toString() {

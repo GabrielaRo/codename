@@ -1,6 +1,4 @@
 
-   
-
    <div id="profile">
     <form novalidate name="profileForm" ng-init="">
         <div id="profile-cover-image" style="background-image:url('{{profile.coverUrl}}')">
@@ -80,7 +78,6 @@
                         
                         <div id="profile-user-location">
                             <div class="editable">
-                                {{profile.location.description}}
                                <span class="editable-placeholder" ng-show="profile.location.description == ''"> Where are you currently based? </span>
                                <span class="editable-placeholder" ng-show="profile.location.description != ''"> {{profile.location.description}}</span>
                                 <div class="editable-mark">
@@ -109,24 +106,7 @@
                                 
                             </div>
                         </div>
-                        <!--
-                        <div id="profile-user-job-title" >
-                            <div class="editable">
-                                {{profile.title}} <span class="editable-placeholder" ng-show="profile.title == ''">Job Title</span>
-                                <div class="floatform" id="user-job-form">
-                                    <div class="form-content">
-                                        <div class="form-fields">
-                                            <div class="control">
-                                                <input type="text" ng-model="profile.title" placeholder="Job Title">
-                                            </div>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button class="button primary" ng-click="updateTitle(profile.title)">Save</button> <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
+                        
                         <div id="profile-user-looking-to" >
 
                             <div class="editable">
@@ -194,7 +174,7 @@
                                             </div>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="button primary" ng-click="updateLookingFors(profile.lookingFor)">Save</button> <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                                            <button class="button primary" ng-click="updateLookingForsAndIams(profile.lookingFor, profile.iam)">Save</button> <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -407,7 +387,7 @@
                         </div>
                         
                          <div class="sub-block" id="user-advise-form">
-                            <div class="block-label" ng-click="toggleBlock('#user-advise-form', 'advise')">
+                            <div class="block-label" ng-click="toggleBlock('#user-advise-form', 'advice')">
                                What advice would you give a Fhellow a few years behind you?
                                <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
@@ -417,8 +397,8 @@
                                </div>
                             </div>
                             <div class="textarea" ng-switch="edit" >
-                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.advise" placeholder="What do you wish someone had told you?" ></textarea>
-                                    <div class="textarea-text" ng-switch-when="false"> {{profile.advise}} </div>
+                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.advice" placeholder="What do you wish someone had told you?" ></textarea>
+                                    <div class="textarea-text" ng-switch-when="false"> {{profile.advice}} </div>
                             </div>
                         </div>
                         
@@ -440,7 +420,7 @@
                         </div>
                         
                         <div class="sub-block" id="user-books-form">
-                            <div class="block-label" ng-click="toggleBlock('#user-books-form', 'books')">
+                            <div class="block-label" ng-click="toggleBlock('#user-books-form', 'resources')">
                                What books, blogs or resources would you recomend to other Fhellows?
                                <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
@@ -450,8 +430,8 @@
                                </div>
                             </div>
                             <div class="textarea" ng-switch="edit" >
-                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.books" placeholder="Any books that inspired an ephphany, blogs you follow or articels you’ve bookmaked?" ></textarea>
-                                    <div class="textarea-text" ng-switch-when="false"> {{profile.books}} </div>
+                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.resources" placeholder="Any books that inspired an ephphany, blogs you follow or articels you’ve bookmaked?" ></textarea>
+                                    <div class="textarea-text" ng-switch-when="false"> {{profile.resources}} </div>
                             </div>
                         </div>
                         
@@ -473,7 +453,7 @@
                         
                         
                         <div class="sub-block" id="user-message-form">
-                            <div class="block-label" ng-click="toggleBlock('#user-message-form', 'message')">
+                            <div class="block-label" ng-click="toggleBlock('#user-message-form', 'messageme')">
                                Message me if...
                                <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
@@ -483,8 +463,8 @@
                                </div>
                             </div>
                             <div class="textarea" ng-switch="edit" >
-                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.message" placeholder="Fancy a coffee, want to brainstorm, are going to be in Madrid in July?" ></textarea>
-                                    <div class="textarea-text" ng-switch-when="false"> {{profile.message}} </div>
+                                    <textarea ng-switch-when="true" class="block-content" ng-model="profile.messageme" placeholder="Fancy a coffee, want to brainstorm, are going to be in Madrid in July?" ></textarea>
+                                    <div class="textarea-text" ng-switch-when="false"> {{profile.messageme}} </div>
                             </div>
                         </div>
                         

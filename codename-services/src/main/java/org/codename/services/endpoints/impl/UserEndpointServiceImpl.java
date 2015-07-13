@@ -46,20 +46,18 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
  * @author grogdj
  */
 @Stateless
-public class UserEdnpointServiceImpl implements UserEndpointService {
+public class UserEndpointServiceImpl implements UserEndpointService {
 
     @Inject
     private UsersService usersService;
 
-    private final static Logger log = Logger.getLogger(UserEdnpointServiceImpl.class.getName());
+    private final static Logger log = Logger.getLogger(UserEndpointServiceImpl.class.getName());
 
     private final String UPLOADED_FILE_PARAMETER_NAME = "file";
 
-    public UserEdnpointServiceImpl() {
+    public UserEndpointServiceImpl() {
 
     }
-
-    
 
     @Override
     public Response get(@PathParam("id") Long user_id) throws ServiceException {
@@ -71,8 +69,7 @@ public class UserEdnpointServiceImpl implements UserEndpointService {
         JsonObject jsonObj = jsonUserObjectBuilder.build();
         return Response.ok(jsonObj.toString()).build();
     }
-    
-    
+
     @Override
     public Response getAll() throws ServiceException {
         List<User> users = usersService.getAll();
@@ -96,24 +93,13 @@ public class UserEdnpointServiceImpl implements UserEndpointService {
         }
         return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
-    
+
     @Override
     public Response exist(@NotNull @FormParam("user_id") Long user_id) throws ServiceException {
         return Response.ok(usersService.exist(user_id)).build();
     }
 
     @Override
-    public Response update(@NotNull @PathParam("user_id") Long user_id,
-            @FormParam("firstname") String firstname,
-            @FormParam("lastname") String lastname,
-            @FormParam("location") String location,
-            @FormParam("bio") String bio,
-            @FormParam("title") String title) throws ServiceException {
-        usersService.update(user_id, firstname, lastname, location, bio, title);
-        return Response.ok().build();
-
-    }
-
     public Response updateInterests(@NotNull @PathParam("user_id") Long user_id, @FormParam("interests") String interests) throws ServiceException {
         log.info("Storing from the database: (" + user_id + ") " + interests);
         if (interests != null) {
@@ -278,16 +264,12 @@ public class UserEdnpointServiceImpl implements UserEndpointService {
     }
 
     @Override
-    public Response updateTitle(Long user_id, String title) throws ServiceException {
-        usersService.updateTitle(user_id, title);
-        return Response.ok().build();
-    }
-
     public Response updateBothNames(Long user_id, String firstname, String lastname) throws ServiceException {
         usersService.updateBothNames(user_id, firstname, lastname);
         return Response.ok().build();
     }
-    
+
+    @Override
     public Response updateBioLongBioIams(Long user_id, String bio, String longbio, String iams) throws ServiceException {
         List<String> iAmsList = null;
         if (iams != null) {
@@ -301,7 +283,7 @@ public class UserEdnpointServiceImpl implements UserEndpointService {
                     log.info("I am [" + i + "]: " + array.getString(i));
                     iAmsList.add(array.getString(i));
                 }
-                
+
             }
 
         }
@@ -309,12 +291,14 @@ public class UserEdnpointServiceImpl implements UserEndpointService {
         return Response.ok().build();
     }
 
+    @Override
     public Response updateOriginallyFrom(Long user_id, String originallyfrom) throws ServiceException {
         usersService.updateOriginallyFrom(user_id, originallyfrom);
         return Response.ok().build();
     }
 
-    public Response updateLookingFor(Long user_id, String lookingfor) throws ServiceException {
+    @Override
+    public Response updateLookingForAndIams(Long user_id, String lookingfor, String iams) throws ServiceException {
         log.info("Storing from the database: (" + user_id + ") " + lookingfor);
         System.out.println("Looking Fors here: " + lookingfor);
         if (lookingfor != null) {
@@ -332,10 +316,25 @@ public class UserEdnpointServiceImpl implements UserEndpointService {
             }
 
         }
+        if (iams != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(iams.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
 
+            if (array != null) {
+                List<String> iAmsList = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("I am [" + i + "]: " + array.getString(i));
+                    iAmsList.add(array.getString(i));
+                }
+                usersService.updateIams(user_id, iAmsList);
+            }
+
+        }
         return Response.ok().build();
     }
 
+    @Override
     public Response updateCategories(Long user_id, String categories) throws ServiceException {
         log.info("Storing from the database: (" + user_id + ") " + categories);
         if (categories != null) {
@@ -357,53 +356,73 @@ public class UserEdnpointServiceImpl implements UserEndpointService {
         return Response.ok().build();
     }
 
+    @Override
     public Response updateLongBio(Long user_id, String longbio) throws ServiceException {
         usersService.updateLongBio(user_id, longbio);
         return Response.ok().build();
     }
 
+    @Override
     public Response updateLive(Long user_id, String live) throws ServiceException {
-        System.out.println("Updating profile live? "+ live);
+        System.out.println("Updating profile live? " + live);
         usersService.updateLive(user_id, live);
         return Response.ok().build();
     }
 
-    public Response updateIam(Long user_id, String iams) throws ServiceException {
-        log.info("Storing from the database: (" + user_id + ") " + iams);
-        if (iams != null) {
-            JsonReader reader = Json.createReader(new ByteArrayInputStream(iams.getBytes()));
-            JsonArray array = reader.readArray();
-            reader.close();
-
-            if (array != null) {
-                List<String> iAmsList = new ArrayList<String>(array.size());
-                for (int i = 0; i < array.size(); i++) {
-                    log.info("I am [" + i + "]: " + array.getString(i));
-                    iAmsList.add(array.getString(i));
-                }
-                usersService.updateIams(user_id, iAmsList);
-            }
-
-        }
-
-        return Response.ok().build();
-    }
-
+    @Override
     public Response updateTwitter(Long user_id, String twitter) throws ServiceException {
         usersService.updateTwitter(user_id, twitter);
         return Response.ok().build();
     }
 
+    @Override
     public Response updateWebsite(Long user_id, String website) throws ServiceException {
         usersService.updateWebsite(user_id, website);
         return Response.ok().build();
     }
 
+    @Override
     public Response updateLinkedin(Long user_id, String linkedin) throws ServiceException {
         usersService.updateLinkedin(user_id, linkedin);
         return Response.ok().build();
     }
-    
-    
 
+    @Override
+    public Response updateAdvice(Long user_id, String advice) throws ServiceException {
+        usersService.updateAdvice(user_id, advice);
+        return Response.ok().build();
+    }
+
+    @Override
+    public Response updateHobbies(Long user_id, String hobbies) throws ServiceException {
+        usersService.updateHobbies(user_id, hobbies);
+        return Response.ok().build();
+    }
+
+    @Override
+    public Response updateResources(Long user_id, String resources) throws ServiceException {
+        usersService.updateResources(user_id, resources);
+        return Response.ok().build();
+    }
+    
+    @Override
+    public Response updateShare(Long user_id, String share) throws ServiceException {
+        usersService.updateShare(user_id, share);
+        return Response.ok().build();
+    }
+
+    @Override
+    public Response updateMessageMe(Long user_id, String messageme) throws ServiceException {
+        usersService.updateMessageMe(user_id, messageme);
+        return Response.ok().build();
+    }
+
+    @Override
+    public Response updateJobTitle(Long user_id, String jobtitle) throws ServiceException {
+        usersService.updateJobTitle(user_id, jobtitle);
+        return Response.ok().build();
+    }
+
+    
+    
 }

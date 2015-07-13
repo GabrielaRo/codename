@@ -80,6 +80,7 @@
         $scope.loadUserData = function () {
             $users.getUserData()
                     .success(function (data) {
+                        console.log(data);
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
@@ -89,6 +90,11 @@
                         $scope.profile.bio = data.bio;
                         $scope.profile.longbio = data.longbio;
                         $scope.profile.title = data.title;
+                        $scope.profile.advice = data.advice;
+                        $scope.profile.messageme = data.messageme;
+                        $scope.profile.share = data.share;
+                        $scope.profile.resources = data.resources;
+                        $scope.profile.hobbies = data.hobbies;
                         $scope.profile.lookingFor = data.lookingFor;
                         $scope.profile.interests = data.interests;
                         $scope.profile.iam = data.iams;
@@ -146,7 +152,7 @@
             
             var block = $(blockToEdit);
             var content = block.find(".block-content").val(); 
-            console.log("TOGGLE THIS BLOCK WITH CONTENT" + content);
+            console.log("TOGGLE THIS BLOCK ("+blockName+") WITH CONTENT" + content);
             
             if( block.hasClass("active")){
                 block.removeClass("active");
@@ -164,11 +170,26 @@
             switch (blockToSave)
                 {
                     case "originallyFrom":
-                        $scope.updateOriginallyFrom(blockContent)
+                        $scope.updateOriginallyFrom(blockContent);
                         break;
                     case "title":
-                        $scope.updateTitle(blockContent)
+                        $scope.updateJobTitle(blockContent);
                         break;
+                    case "advice":
+                        $scope.updateAdvice(blockContent);
+                        break;    
+                    case "resources":
+                        $scope.updateResources(blockContent);
+                        break;
+                    case "hobbies":
+                        $scope.updateHobbies(blockContent);
+                        break;
+                    case "share":
+                        $scope.updateShare(blockContent);
+                        break; 
+                    case "messageme":
+                        $scope.updateMessageMe(blockContent);
+                        break; 
                 }           
         }
 
@@ -312,7 +333,10 @@
                         $scope.profile.interests = data.interests;
                         $scope.profile.iam = data.iams;
                         $scope.profile.website = data.website;
-
+                        $scope.profile.advice = data.advice;
+                        $scope.profile.messageme = data.messageme;
+                        $scope.profile.share = data.share;
+                        $scope.profile.resources = data.resources;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
                         $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/avatar",
@@ -460,13 +484,16 @@
 
 
 
-        $scope.updateLookingFors = function (lookingFors) {
+        $scope.updateLookingForsAndIams = function (lookingFors, iams) {
             $scope.clearEditablesActive();
             if (typeof (lookingFors) != "undefined"
-                    && lookingFors != initialData.lookingFor) {
-                $users.updateLookingFor(lookingFors).success(function (data) {
+                    && lookingFors != initialData.lookingFor && typeof (iams) != "undefined"
+                    && iams != initialData.iam) {
+                $users.updateLookingForAndIams(lookingFors, iams).success(function (data) {
                     $scope.profile.lookingFor = lookingFors;
                     initialData.lookingFor = lookingFors;
+                    $scope.profile.iam = iams;
+                    initialData.iam = iams;
                     $rootScope.$broadcast("quickNotification", "LookingFor Updated Successfully");
                 }).error(function (data) {
                     console.log("Error: " + data);
@@ -602,11 +629,11 @@
         };
 
 
-        $scope.updateTitle = function (title) {
+        $scope.updateJobTitle = function (title) {
             $scope.clearEditablesActive();
             //$scope.clearField($("#user-job-form"));
             if (typeof (title) != "undefined" && title != "" && title != initialData.title) {
-                $users.updateTitle(title).success(function (data) {
+                $users.updateJobTitle(title).success(function (data) {
                     $scope.profile.title = title;
                     initialData.title = title;
                     $scope.calculatePercentage();
@@ -641,7 +668,107 @@
             }
 
         };
+        
+        $scope.updateAdvice = function (advice) {
+            $scope.clearEditablesActive();
+            //$scope.clearField($("#user-job-form"));
+            if (typeof (advice) != "undefined" && advice != "" && advice != initialData.advice) {
+                $users.updateAdvice(advice).success(function (data) {
+                    $scope.profile.advice = advice;
+                    initialData.advice = advice;
+                    $scope.calculatePercentage();
+                    $rootScope.$broadcast("quickNotification", "advice Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating advice!" + data);
+                });
+            } else {
+                $scope.resetData();
 
+            }
+
+        };
+        
+        $scope.updateHobbies = function (hobbies) {
+            $scope.clearEditablesActive();
+            //$scope.clearField($("#user-job-form"));
+            if (typeof (hobbies) != "undefined" && hobbies != "" && hobbies != initialData.hobbies) {
+                $users.updateHobbies(hobbies).success(function (data) {
+                    $scope.profile.hobbies = hobbies;
+                    initialData.hobbies = hobbies;
+                    $scope.calculatePercentage();
+                    $rootScope.$broadcast("quickNotification", "hobbies Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating hobbies!" + data);
+                });
+            } else {
+                $scope.resetData();
+
+            }
+
+        };
+
+        $scope.updateResources = function (resources) {
+            $scope.clearEditablesActive();
+            //$scope.clearField($("#user-job-form"));
+            if (typeof (resources) != "undefined" && resources != "" && resources != initialData.resources) {
+                $users.updateResources(resources).success(function (data) {
+                    $scope.profile.resources = resources;
+                    initialData.resources = resources;
+                    $scope.calculatePercentage();
+                    $rootScope.$broadcast("quickNotification", "resources Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating resources!" + data);
+                });
+            } else {
+                $scope.resetData();
+
+            }
+
+        };
+        
+        $scope.updateShare = function (share) {
+            $scope.clearEditablesActive();
+            //$scope.clearField($("#user-job-form"));
+            if (typeof (share) != "undefined" && share != "" && share != initialData.share) {
+                $users.updateShare(share).success(function (data) {
+                    $scope.profile.share = share;
+                    initialData.share = share;
+                    $scope.calculatePercentage();
+                    $rootScope.$broadcast("quickNotification", "share Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating share!" + data);
+                });
+            } else {
+                $scope.resetData();
+
+            }
+
+        };
+        
+        $scope.updateMessageMe = function (messageme) {
+            $scope.clearEditablesActive();
+            //$scope.clearField($("#user-job-form"));
+            if (typeof (messageme) != "undefined" && messageme != "" && messageme != initialData.messageme) {
+                $users.updateMessageMe(messageme).success(function (data) {
+                    $scope.profile.messageme = messageme;
+                    initialData.messageme = messageme;
+                    $scope.calculatePercentage();
+                    $rootScope.$broadcast("quickNotification", "messageme Updated Successfully");
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating messageme!" + data);
+                });
+            } else {
+                $scope.resetData();
+
+            }
+
+        };
+        
         $scope.updateWebsite = function (website) {
             $scope.clearEditablesActive();
             //$scope.clearField($("#user-job-form"));

@@ -34,9 +34,6 @@ public interface UsersService {
 
     User getById(Long user_id);
 
-    void update(Long user_id, String username, String lastname,
-            String location, String bio, String title) throws ServiceException;
-
     void updateInterests(Long user_id, List<String> interests) throws ServiceException;
 
     void updateFirstLogin(Long user_id) throws ServiceException;
@@ -48,8 +45,6 @@ public interface UsersService {
     void updateBio(Long user_id, String bio) throws ServiceException;
 
     void updateLocation(Long user_id, String location, Double lon, Double lat) throws ServiceException;
-
-    void updateTitle(Long user_id, String title) throws ServiceException;
 
     void updateAvatar(Long user_id, String fileName, byte[] content) throws ServiceException;
 
@@ -93,6 +88,18 @@ public interface UsersService {
     void updateBioLongBioIams(Long user_id, String bio, String longbio, List<String> iams) throws ServiceException;
 
     void updateNickName(Long user_id, String nickname) throws ServiceException;
+
+    public void updateAdvice(Long user_id, String advice) throws ServiceException;
+
+    public void updateHobbies(Long user_id, String hobbies) throws ServiceException;
+
+    public void updateResources(Long user_id, String resources) throws ServiceException;
+
+    public void updateShare(Long user_id, String share) throws ServiceException;
+
+    public void updateMessageMe(Long user_id, String messageme) throws ServiceException;
+
+    public void updateJobTitle(Long user_id, String jobtitle) throws ServiceException;
 
    
 

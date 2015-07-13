@@ -147,11 +147,11 @@ public interface UserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response updateOriginallyFrom(@NotNull @PathParam("id") Long user_id, @FormParam("originallyfrom") String originallyfrom) throws ServiceException;
 
-    @Path("{id}/lookingfor/update")
+    @Path("{id}/lookingforandiams/update")
     @POST
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON})
-    Response updateLookingFor(@NotNull @PathParam("id") Long user_id, @FormParam("lookingfor") String lookingfor) throws ServiceException;
+    Response updateLookingForAndIams(@NotNull @PathParam("id") Long user_id, @FormParam("lookingfor") String lookingfor, @FormParam("iams") String iams) throws ServiceException;
 
     @Path("{id}/categories/update")
     @POST
@@ -159,11 +159,6 @@ public interface UserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response updateCategories(@NotNull @PathParam("id") Long user_id, @FormParam("categories") String categories) throws ServiceException;
 
-    @Path("{id}/iam/update")
-    @POST
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-    @Produces({MediaType.APPLICATION_JSON})
-    Response updateIam(@NotNull @PathParam("id") Long user_id, @FormParam("iams") String iams) throws ServiceException;
 
     @Path("{id}/bio/update")
     @POST
@@ -177,19 +172,6 @@ public interface UserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response updateLongBio(@NotNull @PathParam("id") Long user_id, @FormParam("longbio") String longbio) throws ServiceException;
 
-    @Path("{id}/title/update")
-    @POST
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-    @Produces({MediaType.APPLICATION_JSON})
-    Response updateTitle(@NotNull @PathParam("id") Long user_id, @FormParam("title") String title) throws ServiceException;
-
-    @Path("{id}/update")
-    @POST
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-    @Produces({MediaType.APPLICATION_JSON})
-    Response update(@NotNull @PathParam("id") Long user_id, @FormParam("firstname") String username,
-            @FormParam("lastname") String lastname,
-            @FormParam("location") String location, @FormParam("bio") String bio, @FormParam("title") String title) throws ServiceException;
 
     @Path("{id}/interests/update")
     @POST
@@ -197,4 +179,40 @@ public interface UserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response updateInterests(@NotNull @PathParam("id") Long user_id, @FormParam("interests") String interests) throws ServiceException;
 
+    
+    @Path("{id}/advice/update")
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON})
+    Response updateAdvice(@NotNull @PathParam("id") Long user_id, @FormParam("advice") String advice) throws ServiceException;
+    
+    @Path("{id}/hobbies/update")
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON})
+    Response updateHobbies(@NotNull @PathParam("id") Long user_id, @FormParam("hobbies") String hobbies) throws ServiceException;
+    
+    @Path("{id}/resources/update")
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON})
+    Response updateResources(@NotNull @PathParam("id") Long user_id, @FormParam("resources") String resources) throws ServiceException;
+    
+    @Path("{id}/share/update")
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON})
+    Response updateShare(@NotNull @PathParam("id") Long user_id, @FormParam("share") String share) throws ServiceException;
+    
+    @Path("{id}/messageme/update")
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON})
+    Response updateMessageMe(@NotNull @PathParam("id") Long user_id, @FormParam("messageme") String messageme) throws ServiceException;
+    
+    @Path("{id}/jobtitle/update")
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON})
+    Response updateJobTitle(@NotNull @PathParam("id") Long user_id, @FormParam("jobtitle") String jobtitle) throws ServiceException;
 }
