@@ -5,6 +5,7 @@
  */
 package org.codename.services.endpoints.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -17,7 +18,6 @@ import javax.ws.rs.core.Response;
 import org.codename.core.api.UsersQueryService;
 
 import org.codename.model.User;
-
 
 import org.codename.services.endpoints.api.UserQueryEndpointService;
 import static org.codename.services.endpoints.impl.UsersHelper.createFullJsonUser;
@@ -35,14 +35,22 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
     private final static Logger log = Logger.getLogger(UserQueryEndpointServiceImpl.class.getName());
 
-   
-
     public UserQueryEndpointServiceImpl() {
 
     }
 
+    public Response getAll() throws ServiceException {
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        List<User> allUsers = usersQueryService.getAll();
+        for (User u : allUsers) {
+            JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+            jsonArrayBuilder.add(jsonUserObjectBuilder);
+        }
+        return Response.ok(jsonArrayBuilder.build().toString()).build();
+    }
+
     @Override
-    public Response getAll(@PathParam("lon") Double lon, @PathParam("lat")Double lat) throws ServiceException {
+    public Response getAllByLocation(@PathParam("lon") Double lon, @PathParam("lat") Double lat) throws ServiceException {
 //        List<String> interestsList = null;
 //        if (interests != null) {
 //            JsonReader reader = Json.createReader(new ByteArrayInputStream(interests.getBytes()));
@@ -97,17 +105,34 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 //
 //            }
 //        }
-        List<User> users = usersQueryService.getAll(lon, lat);
-        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
-        for (User u : users) {
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        List<User> usersInRange1 = usersQueryService.getUserByRange(lon, lat, 1.0);
+        for (User u : usersInRange1) {
+            System.out.println("User in Range 1: "+ u);
             JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+            jsonUserObjectBuilder.add("range", "1");
             jsonArrayBuilder.add(jsonUserObjectBuilder);
+        }
+        List<User> usersInRange2 = usersQueryService.getUserByRange(lon, lat, 3.0);
+        for (User u : usersInRange2) {
+            if (!usersInRange1.contains(u)) {
+                System.out.println("User in Range 2: "+ u);
+                JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+                jsonUserObjectBuilder.add("range", "2");
+                jsonArrayBuilder.add(jsonUserObjectBuilder);
+            }
+        }
+        List<User> usersInRange3 = usersQueryService.getUserByRange(lon, lat, 10.0);
+        for (User u : usersInRange3) {
+            if (!usersInRange2.contains(u) && !usersInRange1.contains(u)) {
+                System.out.println("User in Range 3: "+ u);
+                JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+                jsonUserObjectBuilder.add("range", "3");
+                jsonArrayBuilder.add(jsonUserObjectBuilder);
+            }
         }
         return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
-
-    
-   
 
 }

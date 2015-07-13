@@ -14,7 +14,7 @@
             console.log($scope.lookedUpLocation);
             if($scope.lookedUpLocation){
                 $scope.selectedLocation = $scope.lookedUpLocation;
-                $scope.loadFhellows($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, [], [], []);
+                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, [], [], []);
             }
         };
 
@@ -48,12 +48,14 @@
             }
         }
 
-        $scope.loadFhellows = function (lon, lat, interests, lookingFor, categories) {
+        $scope.loadFhellowsByLocation = function (lon, lat) {
             console.log("lon = "+ lon);
             console.log("lat = "+ lat);
 
-            $queries.getByLocation(lon, lat, interests, lookingFor, categories).success(function (data) {
+            $queries.getByLocation(lon, lat).success(function (data) {
                 //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
+                console.log("Fhellows: ");
+                console.log(data);
                 $scope.fhellowsList = data;
                 console.log($scope.fhellowsList);
             }).error(function (data) {
@@ -65,9 +67,24 @@
         };
 
 
+        $scope.loadFhellows = function () {
+           
 
+            $queries.getAll().success(function (data) {
+                //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
+                console.log("Fhellows: ");
+                console.log(data);
+                $scope.fhellowsList = data;
+                console.log($scope.fhellowsList);
+            }).error(function (data) {
+                console.log("Error: ");
+                console.log(data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
+            });
 
+        };
 
+        $scope.loadFhellows();
 
        
 

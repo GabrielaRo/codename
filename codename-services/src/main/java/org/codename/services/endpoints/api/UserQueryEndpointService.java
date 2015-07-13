@@ -25,9 +25,14 @@ import org.codename.core.exceptions.ServiceException;
 public interface UserQueryEndpointService extends Serializable {
 
     @GET
-    @Path("all/lon/{lon}/lat/{lat}")
+    @Path("allbylocation/lon/{lon}/lat/{lat}")
     @Produces({MediaType.APPLICATION_JSON})
-    Response getAll(@NotNull @PathParam("lon") Double lon, @NotNull @PathParam("lat") Double lat) throws ServiceException;
+    Response getAllByLocation(@NotNull @PathParam("lon") Double lon, @NotNull @PathParam("lat") Double lat) throws ServiceException;
+    
+    @GET
+    @Path("all")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response getAll() throws ServiceException;
     
    
 

@@ -37,9 +37,9 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
 
             createEze();
             
-            createGenericUser("eldo@gmail.com", "asdasd", "2", "Hammersmith, London, United Kingdom",-0.22373149999998532, 51.4911875);
+            createGenericUser("eldo@gmail.com", "asdasd", "2", "Kings Mall, 1 Kings Street, London W6 0PZ, United Kingdom",-0.22539040000003752, 51.4927488);
             
-            createGenericUser("bot@gmail.com", "asdasd", "1", "Piccadilly Circus, London, United Kingdom", 51.5101355, -0.1350680000000466);
+            createGenericUser("bot@gmail.com", "asdasd", "1", "13 Southfield Rd, London W4 1AG, UK", -0.2532988000000387, 51.5013335);
 
         } catch (Exception ex) {
             Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,7 +52,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         usersService.updateBothNames(grogdjId, "Grog", "DJ");
         usersService.updateTitle(grogdjId, "Developer");
         
-        usersService.updateLocation(grogdjId, "77 Fielding Road, London, United Kingdom", -0.0969611000000441, 51.484853);
+        usersService.updateLocation(grogdjId, "77 Fielding Road, London, United Kingdom", -0.2570034000000305, 51.50042680000001);
         //usersService.updateLookingFor(grogdjId, null);
         usersService.updateBio(grogdjId, "This is grog dj bio");
         usersService.updateLongBio(grogdjId, "XXXXXXXXXXXXXXXXXXXXXX This is grog dj longbio");

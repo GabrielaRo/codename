@@ -385,4 +385,11 @@ public class User implements Serializable {
         this.providerId = providerId;
     }
 
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", email=" + email + ", isFirstLogin=" + isFirstLogin + ", location=" + location + ", nickname=" + nickname + ", firstname=" + firstname + ", lastname=" + lastname + ", latitude=" + latitude + ", longitude=" + longitude + '}';
+    }
+    
+    
+
 }
