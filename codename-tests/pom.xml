@@ -58,24 +58,7 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-compiler</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-            <version>${kie.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>2.5.0</version>
-            
-        </dependency>
+        
 
         
         <dependency>
@@ -89,7 +72,12 @@
             <scope>test</scope>
         </dependency>
      
-      
+      <dependency>  
+            <groupId>javax</groupId>    
+            <artifactId>javaee-web-api</artifactId>    
+            <version>7.0</version>  
+            <scope>test</scope>
+        </dependency> 
         
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -127,6 +115,7 @@
                 </exclusion>
              
             </exclusions>
+            <scope>provided</scope>
         </dependency>
         
         <dependency>

@@ -35,7 +35,7 @@
             console.log("LOAD PUBLIC DATA USER: " + userId);
             $users.getPublicUserData(userId)
                     .success(function (data) {
-
+                        console.log(data);
 
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
@@ -53,6 +53,7 @@
                         $scope.profile.advice = data.advice;
                         $scope.profile.messageme = data.messageme;
                         $scope.profile.share = data.share;
+                        $scope.profile.hobbies = data.hobbies;
                         $scope.profile.resources = data.resources;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
