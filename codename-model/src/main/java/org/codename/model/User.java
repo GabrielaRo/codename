@@ -18,7 +18,9 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
+import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.DateBridge;
+import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Latitude;
@@ -99,20 +101,25 @@ public class User implements Serializable {
 
     @IndexedEmbedded
     @ElementCollection
+    @Field(analyze = Analyze.NO)
     private List<String> interests;
 
     @IndexedEmbedded
     @ElementCollection
+    @Field(analyze = Analyze.NO)
     private List<String> categories;
 
     @IndexedEmbedded
     @ElementCollection
+    @Field(analyze = Analyze.NO)
     private List<String> lookingFor;
 
     @IndexedEmbedded
     @ElementCollection
+    @Field(analyze = Analyze.NO)
     private List<String> iAms;
 
+    @Field(analyze = Analyze.NO)
     private boolean live;
 
     @DateBridge(resolution = Resolution.DAY)

@@ -5,15 +5,18 @@
  */
 package org.codename.services.endpoints.impl;
 
-import java.math.BigDecimal;
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
-import javax.ws.rs.PathParam;
+import javax.json.JsonReader;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.codename.core.api.UsersQueryService;
 
@@ -50,7 +53,8 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
     }
 
     @Override
-    public Response getAllByLocation(@PathParam("lon") Double lon, @PathParam("lat") Double lat) throws ServiceException {
+    public Response getAllByLocation(@QueryParam("lon") Double lon, @QueryParam("lat") Double lat, 
+            @QueryParam("lookingFors") String lookingFors, @QueryParam("categories") String categories) throws ServiceException {
 //        List<String> interestsList = null;
 //        if (interests != null) {
 //            JsonReader reader = Json.createReader(new ByteArrayInputStream(interests.getBytes()));
@@ -69,52 +73,53 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 //
 //            }
 //        }
-//        List<String> categoriesList = null;
-//         if (categories != null) {
-//            JsonReader reader = Json.createReader(new ByteArrayInputStream(categories.getBytes()));
-//            JsonArray array = reader.readArray();
-//            reader.close();
-//
-//            
-//
-//            if (array != null) {
-//                categoriesList = new ArrayList<String>(array.size());
-//                for (int i = 0; i < array.size(); i++) {
-//                    log.info("Category[" + i + "]: " + array.getString(i));
-//
-//                    categoriesList.add(array.getString(i));
-//                }
-//
-//            }
-//        }
-//         List<String> lookingForList = null;
-//         if (lookingFor != null) {
-//            JsonReader reader = Json.createReader(new ByteArrayInputStream(lookingFor.getBytes()));
-//            JsonArray array = reader.readArray();
-//            reader.close();
-//
-//            
-//
-//            if (array != null) {
-//                lookingForList = new ArrayList<String>(array.size());
-//                for (int i = 0; i < array.size(); i++) {
-//                    log.info("Looking For[" + i + "]: " + array.getString(i));
-//
-//                    lookingForList.add(array.getString(i));
-//                }
-//
-//            }
-//        }
+        List<String> categoriesList = null;
+         if (categories != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(categories.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
 
+            
+
+            if (array != null) {
+                categoriesList = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("Category[" + i + "]: " + array.getString(i));
+
+                    categoriesList.add(array.getString(i));
+                }
+
+            }
+        }
+         List<String> lookingForList = null;
+         if (lookingFors != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(lookingFors.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
+
+            
+
+            if (array != null) {
+                lookingForList = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("Looking For[" + i + "]: " + array.getString(i));
+
+                    lookingForList.add(array.getString(i));
+                }
+
+            }
+        }
+        System.out.println("Looking Fors: "+ lookingForList);
+        System.out.println("Categories categories: "+ categoriesList);
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        List<User> usersInRange1 = usersQueryService.getUserByRange(lon, lat, 1.0);
+        List<User> usersInRange1 = usersQueryService.getUserByRange(lon, lat, 1.0, lookingForList, categoriesList);
         for (User u : usersInRange1) {
             System.out.println("User in Range 1: "+ u);
             JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
             jsonUserObjectBuilder.add("range", "1");
             jsonArrayBuilder.add(jsonUserObjectBuilder);
         }
-        List<User> usersInRange2 = usersQueryService.getUserByRange(lon, lat, 3.0);
+        List<User> usersInRange2 = usersQueryService.getUserByRange(lon, lat, 3.0, lookingForList, categoriesList);
         for (User u : usersInRange2) {
             if (!usersInRange1.contains(u)) {
                 System.out.println("User in Range 2: "+ u);
@@ -123,7 +128,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
                 jsonArrayBuilder.add(jsonUserObjectBuilder);
             }
         }
-        List<User> usersInRange3 = usersQueryService.getUserByRange(lon, lat, 10.0);
+        List<User> usersInRange3 = usersQueryService.getUserByRange(lon, lat, 10.0, lookingForList, categoriesList);
         for (User u : usersInRange3) {
             if (!usersInRange2.contains(u) && !usersInRange1.contains(u)) {
                 System.out.println("User in Range 3: "+ u);

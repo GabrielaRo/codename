@@ -29,6 +29,10 @@
     
     <name>CodeName HTML5</name>
 
+    <properties>
+        <server.address>'http://localhost:8080/'</server.address>
+        <server.context>'codename-server/'</server.context>
+    </properties>
     
    
     <dependencies>
@@ -41,11 +45,6 @@
         <dependency>
             <groupId>org.codename</groupId>
             <artifactId>codename-services</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-         <dependency>
-            <groupId>org.codename</groupId>
-            <artifactId>codename-rules</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -65,12 +64,24 @@
     <build>
           
         <finalName>${project.artifactId}</finalName>
-        <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
+         <resources>
+      
+        <resource>
+            <directory>app/</directory>
+            <filtering>true</filtering>
+            <includes>
+                <include>**/*.js</include>
+            </includes>
+        </resource>
+        <resource>
+            <directory>app/</directory>
+            <filtering>false</filtering>
+            <excludes>
+                <exclude>**/*.js</exclude>
+            </excludes>
+        </resource>
     </resources>
+    
         <plugins>
               
             <plugin>
@@ -168,6 +179,7 @@
       </plugin> 
             
         </plugins>
+       
     </build>
  
 
@@ -206,7 +218,7 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
+    
  
     
 </project>

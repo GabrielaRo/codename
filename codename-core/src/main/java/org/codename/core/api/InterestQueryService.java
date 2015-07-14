@@ -5,13 +5,13 @@
  */
 package org.codename.core.api;
 
+import java.util.List;
+import org.codename.core.exceptions.ServiceException;
+
 /**
  *
  * @author grogdj
  */
-public interface RulesService {
-    int insert(Object o);
-    void retract(Object o);
-    int update(Object o);
-    void reset();
+public interface InterestQueryService {
+    List<String> getAll() throws ServiceException;
 }

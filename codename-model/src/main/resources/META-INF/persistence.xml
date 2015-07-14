@@ -24,13 +24,11 @@
     <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
     <mapping-file>META-INF/users.xml</mapping-file>
     <mapping-file>META-INF/servicekey.xml</mapping-file>
-    <mapping-file>META-INF/comments.xml</mapping-file>
-    
+
     <mapping-file>META-INF/notifications.xml</mapping-file>
     <class>org.codename.model.User</class>
     <class>org.codename.model.ServiceKey</class>
     
-    <class>org.codename.model.Comment</class>
     <class>org.codename.model.Notification</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>

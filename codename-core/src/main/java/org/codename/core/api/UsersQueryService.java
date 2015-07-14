@@ -17,6 +17,6 @@ public interface UsersQueryService {
 
     List<User> getAll() throws ServiceException;
 
-    List<User> getUserByRange(Double lon, Double lat, Double range) throws ServiceException;
+    List<User> getUserByRange(Double lon, Double lat, Double range, List<String> lookingFors, List<String> categories) throws ServiceException;
 
 }

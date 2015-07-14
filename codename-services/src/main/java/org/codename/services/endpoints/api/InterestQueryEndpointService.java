@@ -7,11 +7,9 @@ package org.codename.services.endpoints.api;
 
 import java.io.Serializable;
 import javax.ejb.Local;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.codename.core.exceptions.ServiceException;
@@ -21,17 +19,8 @@ import org.codename.core.exceptions.ServiceException;
  * @author grogdj
  */
 @Local
-@Path("/query")
-public interface UserQueryEndpointService extends Serializable {
-
-    @GET
-    @Path("allbylocation")
-    @Produces({MediaType.APPLICATION_JSON})
-    Response getAllByLocation(@NotNull @QueryParam("lon") Double lon, 
-                              @NotNull @QueryParam("lat") Double lat, 
-                              @QueryParam("lookingFors") String lookingFors,
-                              @QueryParam("categories") String categories) 
-                                throws ServiceException;
+@Path("/interest/query")
+public interface InterestQueryEndpointService extends Serializable {
     
     @GET
     @Path("all")

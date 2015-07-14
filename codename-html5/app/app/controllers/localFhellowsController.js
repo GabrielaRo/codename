@@ -1,5 +1,5 @@
 (function () {
-    var localFhellowsController = function ($scope, $rootScope, $queries, location, appConstants) {
+    var localFhellowsController = function ($scope, $rootScope, $queries, $interests, location, appConstants) {
         $scope.imagePath = "static/img/public-images/";
         $scope.filters = {location: '', proximity: 200, type: "", search: ""};
         $scope.filtersType = [];
@@ -14,7 +14,7 @@
             console.log($scope.lookedUpLocation);
             if($scope.lookedUpLocation){
                 $scope.selectedLocation = $scope.lookedUpLocation;
-                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, [], [], []);
+                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.filtersLookingTo, $scope.filtersType);
             }
         };
 
@@ -23,14 +23,24 @@
         $scope.tags = [];
 
         $scope.loadInterests = function ($query) {
-            return [
-                {text: 'design'},
-                {text: 'development'},
-                {text: 'other'}
-            ];
+            return $scope.interests;
         }
 
-
+        $scope.loadInterestOnInit = function(){
+            $interests.getAll().success(function (data) {
+                //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
+                console.log("Interests loaded: ");
+                
+                $scope.interests = data;
+                console.log($scope.interests);
+            }).error(function (data) {
+                console.log("Error: ");
+                console.log(data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong loading the interests!" + data);
+            });
+            
+        }
+        $scope.loadInterestOnInit();
         $scope.typeButtonPressed = function (buttonName) {
             
             if($scope.filtersType.indexOf(buttonName) == -1){
@@ -38,21 +48,26 @@
             }else {
                 $scope.filtersType.splice ($scope.filtersType.indexOf(buttonName), 1);   
             }
-           
+           console.log($scope.filtersType);
         }
         $scope.lookingToButtonPressed = function (buttonName) {
+            
             if($scope.filtersLookingTo.indexOf(buttonName) == -1){
                 $scope.filtersLookingTo.push(buttonName);
             }else {
                 $scope.filtersLookingTo.splice ($scope.filtersLookingTo.indexOf(buttonName), 1);   
             }
+            console.log($scope.filtersLookingTo);
         }
 
-        $scope.loadFhellowsByLocation = function (lon, lat) {
+        $scope.loadFhellowsByLocation = function (lon, lat, lookingFors, categories ) {
             console.log("lon = "+ lon);
             console.log("lat = "+ lat);
-
-            $queries.getByLocation(lon, lat).success(function (data) {
+            console.log("lookingFors = ");
+            console.log(lookingFors);
+            console.log("categories = ");
+            console.log(categories);
+            $queries.getByLocation(lon, lat, lookingFors, categories).success(function (data) {
                 //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
                 console.log("Fhellows: ");
                 console.log(data);
@@ -103,7 +118,7 @@
 
     };
 
-    localFhellowsController.$inject = ['$scope', '$rootScope', '$queries', 'location', 'appConstants'];
+    localFhellowsController.$inject = ['$scope', '$rootScope', '$queries', '$interests','location', 'appConstants'];
     angular.module("codename").controller("localFhellowsController", localFhellowsController);
 
 }());

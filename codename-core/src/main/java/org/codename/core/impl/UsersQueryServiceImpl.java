@@ -48,24 +48,28 @@ public class UsersQueryServiceImpl implements UsersQueryService {
 
         FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(em);
         QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
-        Query query = qb.all().createQuery();
+        Query query = qb.bool().must(qb.keyword().onField("live").matching("true").createQuery()).createQuery();
         FullTextQuery fullTextQuery = fullTextEm.createFullTextQuery(query, User.class);
         fullTextQuery.setSort(org.apache.lucene.search.Sort.RELEVANCE);
         System.out.println("ALL Results Size = " + fullTextQuery.getResultSize());
         List resultList = fullTextQuery.getResultList();
-        
+
         return resultList;
     }
 
     @Override
-    public List<User> getUserByRange(Double lon, Double lat, Double range) throws ServiceException {
+    public List<User> getUserByRange(Double lon, Double lat, Double range, List<String> lookingFors, List<String> categories) throws ServiceException {
         FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(em);
         QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
-        Query query = qb.spatial().onDefaultCoordinates()
-                .within(range, Unit.KM)
-                .ofLatitude(lat)
-                .andLongitude(lon)
-                .createQuery();
+        Query query = qb.bool().must(qb.keyword().onField("live").matching("true").createQuery())
+                               .must(qb.spatial().onDefaultCoordinates()
+                                        .within(range, Unit.KM)
+                                        .ofLatitude(lat)
+                                        .andLongitude(lon)
+                                        .createQuery())
+                               .should(qb.keyword().onField("lookingFor").matching(lookingFors).createQuery())
+                               .should(qb.keyword().onField("categories").matching(categories).createQuery())
+                                .createQuery();
 
         FullTextQuery fullTextQuery = fullTextEm.createFullTextQuery(query, User.class);
         //fullTextQuery.setSort(org.apache.lucene.search.Sort.RELEVANCE);
