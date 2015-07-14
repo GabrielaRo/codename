@@ -158,68 +158,67 @@
                         More about me
                     </div>
                     <div class="content-block-content">
-                        <div class="sub-block" id="user-originally-from-form" ng-if="profile.originallyFrom != ''">
-                            <div class="block-label">
+                        <div class="sub-block" id="user-originally-from-form" ng-if="profile.originallyFrom != '' && profile.originallyFrom != undefined">
+                            <strong>
                                Where are you originally from?                                
-                            </div>
+                            </strong>
                             <div class="textarea" >
                                 <div class="textarea-text" > {{profile.originallyFrom}} </div>
                             </div>
                         </div>
                         
                         
-                        <div class="sub-block" id="user-title-form" ng-if="profile.title != ''">
-                            <div class="block-label" >
+                        <div class="sub-block" id="user-title-form" ng-if="profile.title != '' && profile.title != undefined">
+                            <strong>
                                How do you make a living?
-                            </div>
+                            </strong>
                             <div class="textarea">
                                 <div class="textarea-text"> {{profile.title}} </div>
                             </div>
                         </div>
                         
-                         <div class="sub-block" id="user-advise-form" ng-if="profile.advice != ''">
-                            <div class="block-label" >
+                         <div class="sub-block" id="user-advice-form" ng-if="profile.advice != '' && profile.advice != undefined">
+                            <strong >
                                What advice would you give a Fhellow a few years behind you?
-                            </div>
+                            </strong>
                             <div class="textarea">
                                 <div class="textarea-text"> {{profile.advice}} </div>
                             </div>
                         </div>
                         
                         
-                        <div class="sub-block" id="user-hobbies-form" ng-if="profile.hobbies != ''">
-                            <div class="block-label">
+                        <div class="sub-block" id="user-hobbies-form" ng-if="profile.hobbies != '' && profile.hobbies != undefined">
+                            <strong>
                                What do you like to do when you’re not working?
-                               
-                            </div>
+                            </strong>
                             <div class="textarea">
                                 <div class="textarea-text" > {{profile.hobbies}} </div>
                             </div>
                         </div>
                         
-                        <div class="sub-block" id="user-books-form" ng-if="profile.resources != ''">
-                            <div class="block-label">
+                        <div class="sub-block" id="user-books-form" ng-if="profile.resources != '' && profile.resources != undefined">
+                            <strong>
                                What books, blogs or resources would you recomend to other Fhellows?
-                            </div>
+                            </strong>
                             <div class="textarea">
                                 <div class="textarea-text" > {{profile.resources}} </div>
                             </div>
                         </div>
                         
-                        <div class="sub-block" id="user-share-form" ng-if="profile.share != ''">
-                            <div class="block-label">
+                        <div class="sub-block" id="user-share-form" ng-if="profile.share != '' && profile.share != undefined">
+                            <strong>
                                Anything else you would like to share with Fhellows?
-                            </div>
+                             </strong>
                             <div class="textarea">
                                 <div class="textarea-text" > {{profile.share}} </div>
                             </div>
                         </div>
                         
                         
-                        <div class="sub-block" id="user-message-form" ng-if="profile.messageme != ''">
-                            <div class="block-label">
+                        <div class="sub-block" id="user-message-form" ng-if="profile.messageme != '' && profile.messageme != undefined">
+                            <strong>
                                Message me if...
-                            </div>
+                            </strong>
                             <div class="textarea">
                                     <div class="textarea-text"> {{profile.messageme}} </div>
                             </div>

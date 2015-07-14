@@ -223,19 +223,13 @@
                                         </div>
                                     </div>
                                     <div class="form-actions">
-                                        <button class="button primary" ng-click="saveBioBlock(profile.bio)">Save</button> 
+                                        <button class="button primary" ng-click="updateBio(profile.bio)">Save</button> 
                                         <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                     </div>
                                 </div>
                             </div>
                         
                         </div>
-                        <!--
-                        <div class="editable-title-options" >
-                            <i class="fa fa-pencil editable-child icon-button" ng-hide="bioStatus" ng-click="editBioBlock()"></i>
-                            <button class="button inverted" ng-show="bioStatus" ng-click="cancelBioBlock()">Cancel</button>
-                            <button class="button primary"  ng-show="bioStatus" ng-click="saveBioBlock(profile.bio)">Save</button>
-                        </div>-->
                         
                     </div>
                     
@@ -397,7 +391,7 @@
                                             </div>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="button primary" ng-click="saveOriginallyFromBlock(profile.originallyFrom)">Save</button> 
+                                            <button class="button primary" ng-click="updateOriginallyFrom(profile.originallyFrom)">Save</button> 
                                             <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                         </div>
                                     </div>
@@ -433,7 +427,7 @@
                                             </div>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="button primary" ng-click="saveTitleBlock(profile.title)">Save</button> 
+                                            <button class="button primary" ng-click="updateJobTitle(profile.title)">Save</button> 
                                             <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                         </div>
                                     </div>
@@ -450,25 +444,25 @@
                             
                         </div>
                         
-                         <div class="sub-block" id="user-advise-form">
+                         <div class="sub-block" id="user-advice-form">
                               <div class="editable">
                                 <strong class="editable-child">What advice would you give a Fhellow a few years behind you?</strong>   
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
 
-                                <div class="floatform" id="user-advise-float-form">
+                                <div class="floatform" id="user-advice-float-form">
                                     <div class="form-content">
                                         <div class="form-title">
-                                          Advise
+                                          Advice
                                         </div>
                                         <div class="form-fields">
                                             <div class="control full">
-                                                <textarea ng-model="profile.advise"></textarea>
+                                                <textarea ng-model="profile.advice"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="button primary" ng-click="saveAdviseBlock(profile.advise)">Save</button> 
+                                            <button class="button primary" ng-click="updateAdvice(profile.advice)">Save</button> 
                                             <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                         </div>
                                     </div>
@@ -478,8 +472,8 @@
                               
                             
                                 <div class="textarea">
-                                    {{profile.advise}}
-                                    <span class="content-block-placeholder" ng-show="profile.advise == '' || profile.advise == undefined"> What do you wish someone had told you? </span>
+                                    {{profile.advice}}
+                                    <span class="content-block-placeholder" ng-show="profile.advice == '' || profile.advice == undefined"> What do you wish someone had told you? </span>
                                 </div>
                             
                            
@@ -506,7 +500,7 @@
                                             </div>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="button primary" ng-click="saveHobbiesBlock(profile.hobbies)">Save</button> 
+                                            <button class="button primary" ng-click="updateHobbies(profile.hobbies)">Save</button> 
                                             <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                         </div>
                                     </div>
@@ -542,7 +536,7 @@
                                             </div>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="button primary" ng-click="saveResourcesBlock(profile.resources)">Save</button> 
+                                            <button class="button primary" ng-click="updateResources(profile.resources)">Save</button> 
                                             <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                         </div>
                                     </div>
@@ -575,7 +569,7 @@
                                             </div>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="button primary" ng-click="saveShareBlock(profile.share)">Save</button> 
+                                            <button class="button primary" ng-click="updateShare(profile.share)">Save</button> 
                                             <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                         </div>
                                     </div>
@@ -610,7 +604,7 @@
                                             </div>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="button primary" ng-click="saveMessageMeBlock(profile.messageme)">Save</button> 
+                                            <button class="button primary" ng-click="updateMessageMe(profile.messageme)">Save</button> 
                                             <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                         </div>
                                     </div>

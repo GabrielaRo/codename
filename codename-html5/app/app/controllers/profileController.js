@@ -42,12 +42,7 @@
                 
             }
         };
-//        $scope.selectOriginallyFrom = function () {
-//            console.log($scope.userOriginallyFrom);
-//            if($scope.userOriginallyFrom){
-//                $scope.profile.originallyFrom = $scope.userOriginallyFrom; 
-//            }
-//        };
+
 
         $scope.$watch('userCurrentLocation', $scope.selectLocation);
         //$scope.$watch('userOriginallyFrom', $scope.selectOriginallyFrom);
@@ -125,7 +120,7 @@
             $scope.calculatePercentage();
         }
         
-        //BIO EDITABLE BLOCK
+/* -------- BIO EDITABLE BLOCK
         $scope.bioStatus = false;
         $scope.editBioBlock = function () {
             $scope.editContentBlock($("#user-bio-form"));
@@ -146,89 +141,19 @@
             $scope.bioStatus = false;
             $scope.resetData();
         }
-        
-        //NEW TOGGLE BLOCKS
-        $scope.toggleBlock = function (blockToEdit, blockName) {
-            
-            var block = $(blockToEdit);
-            var content = block.find(".block-content").val(); 
-            console.log("TOGGLE THIS BLOCK ("+blockName+") WITH CONTENT" + content);
-            
-            if( block.hasClass("active")){
-                block.removeClass("active");
-                $scope.disableContentBlock(block);
-                $scope.saveBlock(blockName, content);
-                
-            }else {
-                $scope.editContentBlock(block);
-                block.addClass("active");
-            }
-        }
-        
-        //NEW SAVE FUNCTION
-        $scope.saveBlock = function(blockToSave, blockContent){
-            switch (blockToSave)
-                {
-                    case "originallyFrom":
-                        $scope.updateOriginallyFrom(blockContent);
-                        break;
-                    case "title":
-                        $scope.updateJobTitle(blockContent);
-                        break;
-                    case "advice":
-                        $scope.updateAdvice(blockContent);
-                        break;    
-                    case "resources":
-                        $scope.updateResources(blockContent);
-                        break;
-                    case "hobbies":
-                        $scope.updateHobbies(blockContent);
-                        break;
-                    case "share":
-                        $scope.updateShare(blockContent);
-                        break; 
-                    case "messageme":
-                        $scope.updateMessageMe(blockContent);
-                        break; 
-                }           
-        }
-
-        //ABOUT EDITABLE BLOCK
-        $scope.aboutStatus = false;
-        $scope.editAboutBlock = function () {
-            $scope.editContentBlock($("#user-about-form"));
-            $scope.aboutStatus = true;
-        }
-        
-        $scope.saveAboutBlock = function (iam, bio, longbio) {
-
-            $scope.disableContentBlock($("#user-about-form"));
-            $scope.updateBioLongBioIams(bio, longbio, iam);
-
-            $scope.aboutStatus = false;
-
-
-        }
-        $scope.cancelAboutBlock = function () {
-            $scope.disableContentBlock($("#user-about-form"));
-            $scope.aboutStatus = false;
-
-            $scope.resetData();
-
-        }
+*/
+    
 
         //INTEREST EDITABLE BLOCK
         $scope.interestStatus = false;
         $scope.editInterestBlock = function () {
 
-            // $scope.editContentBlock($("#user-about-form"));
             $scope.interestStatus = true;
         }
         $scope.saveInterestBlock = function (interests) {
 
-            // $scope.disableContentBlock($("#user-interests-form"));
+            
             $scope.updateInterests(interests);
-
             $scope.interestStatus = false;
 
 
@@ -530,7 +455,7 @@
         $scope.updateOriginallyFrom = function (originallyFrom) {
 
             $scope.clearEditablesActive();
-            // $scope.clearField($("#user-originally-from-form"));
+            //$scope.clearField($("#user-originally-from-float-form"));
             if (typeof (originallyFrom) != "undefined" && originallyFrom != ""
                     && originallyFrom != initialData.originallyFrom) {
                 $users.updateOriginallyFrom(originallyFrom).success(function (data) {
@@ -575,6 +500,7 @@
         };
 
         $scope.updateBioLongBioIams = function (bio, longbio, iams) {
+            
             // if (typeof (bio) != "undefined" && bio != "" && bio != initialData.bio) {
             $users.updateBioLongBioIams(bio, longbio, iams).success(function (data) {
 
@@ -596,6 +522,7 @@
         };
 
         $scope.updateBio = function (bio) {
+            $scope.clearEditablesActive();
             if (typeof (bio) != "undefined" && bio != "" && bio != initialData.bio) {
                 $users.updateBio(bio).success(function (data) {
                     $rootScope.$broadcast("quickNotification", "Bio Updated Successfully");
@@ -931,45 +858,7 @@
             $scope.resetData();
             $scope.calculatePercentage();
             var target = $(event.currentTarget);
-//            var currentform = target.closest(".floatform");
-
-//            var formFields =  currentform.find("input");
-//            formFields.each(function(index){
-//                 $(this).val('');
-//            }); 
         };
-
-//        $scope.clearField = function(form){
-//             var formFields = form.find("input");
-//            formFields.each(function(index){
-//                 $(this).val('');
-//            }); 
-//        };
-
-        $scope.initiateContentBlocks = function () {
-            var blockContents = $(".content-block-content");
-            blockContents.each(function (index) {
-
-                var textareas = $(this).find("textarea");
-                var checkboxes = $(this).find(".checkboxes").children().attr('disabled', 'disabled');
-
-                textareas.each(function (index) {
-                    $(this).attr('disabled', 'disabled');
-                });
-            });
-        };
-
-        $scope.editContentBlock = function (block) {
-            block.find("textarea").removeAttr('disabled');
-            block.find(".checkbox-label").removeClass('disabled');
-            block.find(".checkbox-label input").removeAttr('disabled');
-        }
-
-        $scope.disableContentBlock = function (block) {
-            block.find("textarea").attr('disabled', 'disabled');
-            block.find(".checkbox-label").addClass('disabled');
-            block.find(".checkbox-label input").attr('disabled', 'disabled');
-        }
 
 
         var firstLogin = $cookieStore.get('firstLogin');
@@ -993,24 +882,21 @@
                 }, 500);
 
             } else {
-                
+                /*
                 if ($scope.params && $scope.params.id) {
                     console.log("ROUTE PARAMS ID ");
                     console.log($scope.params.id);
-
                     $scope.loadPublicUserData($scope.params.id);
-                   // $("#profile").addClass("read-only");
                     $scope.edit = false;
-                    //$scope.initiateContentBlocks();
-                } else if ($scope.auth_token && $scope.auth_token !== "") {
+                    
+                } else */
+                if ($scope.auth_token && $scope.auth_token !== "") {
                     $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
                     $scope.edit = true;
 
                     setTimeout(function () {
                         $scope.bindEditableEvents();
-                    //    $scope.initiateContentBlocks();
                     }, 500);
-
                 }
             }
 
