@@ -61,7 +61,7 @@ public class UsersHelper {
         jsonObjBuilder.add("userId", (u.getId() == null) ? "" : u.getId().toString());
         jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
         jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
-        
+        jsonObjBuilder.add("originallyFrom", (u.getOriginallyFrom() == null) ? "" : u.getOriginallyFrom());
         jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
         jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
         jsonObjBuilder.add("title", (u.getJobTitle() == null) ? "" : u.getJobTitle());

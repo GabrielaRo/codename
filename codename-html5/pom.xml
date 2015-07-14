@@ -58,7 +58,10 @@
         </dependency>
        
     </dependencies>
- 
+    <properties>
+                <server.address>'http://localhost:8080/'</server.address>
+                <server.context>'codename-server/'</server.context>
+            </properties>
     <build>
           
         <finalName>${project.artifactId}</finalName>
@@ -83,6 +86,12 @@
                     <resource>
                       <!-- this is relative to the pom.xml directory -->
                       <directory>app</directory>
+                      <filtering>true</filtering>
+                                    
+                                    <includes>
+                                        <include>**/*.js</include>
+                                        <!-- include any other file types you want to filter -->
+                                    </includes>
                     </resource>
                   </webResources>
                 </configuration>
@@ -176,7 +185,7 @@
             <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
             <id>openshift</id>
             <properties>
-                <server.address>'http://localhost:8080/'</server.address>
+                <server.address>'http://fhellow-restprovider.rhcloud.com/'</server.address>
                 <server.context>'codename-server/'</server.context>
             </properties>
             
@@ -211,6 +220,16 @@
                         <artifactId>maven-war-plugin</artifactId>
                         <version>2.1.1</version>
                         <configuration>
+                            <webResources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>app</directory>
+                                    <includes>
+                                        <include>**/*.js</include>
+                                        <!-- include any other file types you want to filter -->
+                                    </includes>
+                                </resource>
+                            </webResources>
                             <outputDirectory>deployments</outputDirectory>
                             <warName>fhellow</warName>
                         </configuration>

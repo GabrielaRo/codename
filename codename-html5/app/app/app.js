@@ -2,16 +2,17 @@
 
     var codename = angular.module('codename', ['ngCookies', 'ngRoute',
         'ngAnimate', 'angular.filter', 'ngFileUpload',
-        'satellizer',  'ngTagsInput',  'locator']);
+        'satellizer', 'ngTagsInput', 'locator']);
 
     codename.constant("appConstants", {
-        server: "http://localhost:8080/",
         //server: ${server.address},
-        //server: "http://fhellow-restprovider.rhcloud.com/",
+         //server: "http://fhellow-restprovider.rhcloud.com/",
+        server: 'http://localhost:8080/',
         address: "localhost",
         port: "8080",
         //context: ${server.context}
-        context: "codename-server/"
+        context: 'codename-server/'
+
     })
             // configure our routes
             .config(function ($routeProvider, $authProvider) {
@@ -43,7 +44,7 @@
                             redirectto: '/'
                         });
                 $authProvider.google({
-                    url: '/'+ "codename-server/" + '/rest/auth/google',
+                    url: '/' + "codename-server/" + '/rest/auth/google',
                     redirectUri: window.location.protocol + '//' + window.location.host + '/' + "codename-server/",
                     clientId: '475121985833-g2ludjvano3pbgbt98nvt04h7ojmvpjv.apps.googleusercontent.com'
                 });
