@@ -1,5 +1,5 @@
 (function () {
-    var profileController = function ($rootScope, $scope, $timeout, $users, $sockets, $cookieStore, appConstants, $routeParams, $auth, location) {
+    var publicProfileController = function ($rootScope, $scope, $timeout, $users, $sockets, $cookieStore, appConstants, $routeParams, $auth, location) {
 
 
        
@@ -989,7 +989,7 @@
                 
                 setTimeout(function () {
                     $scope.bindEditableEvents();
-                  //  $scope.initiateContentBlocks();
+                    $scope.initiateContentBlocks();
                 }, 500);
 
             } else {
@@ -999,16 +999,16 @@
                     console.log($scope.params.id);
 
                     $scope.loadPublicUserData($scope.params.id);
-                   // $("#profile").addClass("read-only");
+                    $("#profile").addClass("read-only");
                     $scope.edit = false;
-                    //$scope.initiateContentBlocks();
+                    $scope.initiateContentBlocks();
                 } else if ($scope.auth_token && $scope.auth_token !== "") {
                     $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
                     $scope.edit = true;
 
                     setTimeout(function () {
                         $scope.bindEditableEvents();
-                    //    $scope.initiateContentBlocks();
+                        $scope.initiateContentBlocks();
                     }, 500);
 
                 }
@@ -1018,6 +1018,6 @@
 
     };
 
-    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$sockets", "$cookieStore", "appConstants", "$routeParams", "$auth", "location"];
-    angular.module("codename").controller("profileController", profileController);
+    publicProfileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$sockets", "$cookieStore", "appConstants", "$routeParams", "$auth", "location"];
+    angular.module("codename").controller("publicProfileController", publicProfileController);
 }());

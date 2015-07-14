@@ -35,8 +35,8 @@
                             controller: 'profileController'
                         })
                         .when('/profile/:id', {
-                            templateUrl: 'app/views/profile.html',
-                            controller: 'profileController'
+                            templateUrl: 'app/views/publicprofile.html',
+                            controller: 'publicProfileController'
                         })
 
                         .otherwise({
