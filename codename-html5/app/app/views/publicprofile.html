@@ -122,20 +122,20 @@
                         <div class="link" ng-show=" profile.twitter != ''">
                            <i class="fa fa-twitter profile-icon"></i> 
                             <span>
-                                {{profile.twitter}}
+                               <a href="http://{{profile.twitter}}">{{profile.twitter}}</a> 
                             </span>
                         </div>
                         
                         <div class="link" ng-show="profile.linkedin != ''">
                            <i class="fa fa-linkedin profile-icon"></i>
                             <span >
-                               {{profile.linkedin}}
+                               <a href="http://{{profile.linkedin}}">{{profile.linkedin}}</a>
                             </span>
                         </div>
                         <div class="link" ng-show="profile.website != ''">
                            <i class="fa fa-globe profile-icon"></i>
                             <span>
-                               {{profile.website}}
+                               <a href="http:// {{profile.website}}">{{profile.website}}</a>
                             </span>
                         </div>
                     </div>

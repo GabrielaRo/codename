@@ -1,5 +1,5 @@
 (function () {
-    var profileController = function ($rootScope, $scope, $timeout, $users, $sockets, $cookieStore, appConstants, $routeParams, $auth, location) {
+    var profileController = function ($rootScope, $scope, $timeout, $users, $sockets, $cookieStore, appConstants, $routeParams, $auth, location, $interests) {
 
 
        
@@ -39,7 +39,6 @@
             console.log($scope.userCurrentLocation);
             if($scope.userCurrentLocation){
                 $scope.profile.location.description = $scope.userCurrentLocation.description; 
-                
             }
         };
 
@@ -119,30 +118,38 @@
             $scope.profile = angular.copy(initialData);
             $scope.calculatePercentage();
         }
+        //INTERSTS TAGS FUNCTIONS
         
-/* -------- BIO EDITABLE BLOCK
-        $scope.bioStatus = false;
-        $scope.editBioBlock = function () {
-            $scope.editContentBlock($("#user-bio-form"));
-            $scope.bioStatus = true;
+        $scope.interestsTagAdded = function(tagClicked){
+            if($scope.profile.interests.indexOf(tagClicked) > -1){
+                $scope.profile.interests.push( tagClicked.text);
+            }
+        }
+        $scope.interestsTagDeleted = function(tagClicked){
+            $scope.profile.interests.splice( $scope.profile.interests.indexOf(tagClicked), 1);
         }
         
-        $scope.saveBioBlock = function (bio) {
-
-            $scope.disableContentBlock($("#user-bio-form"));
-            //$scope.updateBioLongBioIams(bio);
-
-            $scope.bioStatus = false;
-
-
+        //LOAD INTERESTS
+        
+        $scope.loadInterests = function ($query) {
+            return $scope.interests;
         }
-        $scope.cancelBioBlock = function () {
-            $scope.disableContentBlock($("#user-bio-form"));
-            $scope.bioStatus = false;
-            $scope.resetData();
+
+        $scope.loadInterestOnInit = function(){
+            $interests.getAll().success(function (data) {
+                //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
+                console.log("Interests loaded: ");
+                
+                $scope.interests = data;
+                console.log($scope.interests);
+            }).error(function (data) {
+                console.log("Error: ");
+                console.log(data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong loading the interests!" + data);
+            });
+            
         }
-*/
-    
+        $scope.loadInterestOnInit();
 
         //INTEREST EDITABLE BLOCK
         $scope.interestStatus = false;
@@ -152,10 +159,8 @@
         }
         $scope.saveInterestBlock = function (interests) {
 
-            
             $scope.updateInterests(interests);
             $scope.interestStatus = false;
-
 
         }
         $scope.cancelInterestBlock = function () {
@@ -904,6 +909,6 @@
 
     };
 
-    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$sockets", "$cookieStore", "appConstants", "$routeParams", "$auth", "location"];
+    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$sockets", "$cookieStore", "appConstants", "$routeParams", "$auth", "location", "$interests"];
     angular.module("codename").controller("profileController", profileController);
 }());

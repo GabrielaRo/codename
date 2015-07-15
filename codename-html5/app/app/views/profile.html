@@ -257,28 +257,33 @@
                         </div>
                     </div>
                     <div class="content-block-content">
-                        <div ng-show="!interestStatus">
+                       
+                        <div class="control full"  ng-show="interestStatus" >
+                            <tags-input  ng-model="tags"  class="no-list"                
+                                placeholder="What are you in to?" 
+                                replace-spaces-with-dashes="false"
+                                add-from-autocomplete-only="true" 
+                                on-tag-added="interestsTagAdded($tag)"
+                                >
+                                <auto-complete source="loadInterests($query)" load-on-empty="true"  >
+
+                                </auto-complete>
+                            </tags-input>
+                        </div>
+                        
+                        <div >
+                            
                             <div ng-show="profile.interests == ''">Share your interests with Fhellows</div>
                             
-                            <div class="interest" ng-repeat="interst in profile.interests">
+                            <div class="interest" ng-class="{editing : interestStatus }" ng-repeat="interst in profile.interests">
+                                 <a class="delete" data-type="{{interst}}" ng-show="interestStatus" ng-click="interestsTagDeleted(interst)">x</a>
                                 {{interst}}
                             </div>
                             
-                            
-                            
                         </div>
                         
-                        <div ng-show="interestStatus" class="control">
-                            <div class="checkboxes two-cols">
-                                <label ng-repeat="interest in interestsList" class="checkbox-label " >
-                                    <input type="checkbox" name="selectedInterests[]" value="{{interest}}" 
-                                           ng-checked="profile.interests.indexOf(interest) > -1" 
-                                           ng-click="toggleInterstsSelection(interest)"
-                                           > {{interest}}
-
-                                </label>
-                            </div>
-                        </div>
+                        
+                       
                         
                     </div>
                     <div class="content-block-actions left" ng-show="interestStatus">
@@ -296,8 +301,10 @@
                            <i class="fa fa-twitter profile-icon"></i> 
                             <span class="editable"  >
                                 
-                                {{profile.twitter}}<span class="editable-placeholder" ng-show="profile.twitter == ''">Add Twitter Link</span>
-                                
+                                {{profile.twitter}} <span class="editable-placeholder" ng-show="profile.twitter == ''">Add Twitter Link</span>
+                                <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                                </div>
                                 <div class="floatform" id="user-twitter-form">
                                     <div class="form-content">
                                         <div class="form-fields">
@@ -318,7 +325,11 @@
                         <div class="link" >
                            <i class="fa fa-linkedin profile-icon"></i>
                             <span class="editable">
-                                 {{profile.linkedin}}<span class="editable-placeholder" ng-show="profile.linkedin == ''">Add Linkedin Link</span>
+                                 {{profile.linkedin}}
+                                 <span class="editable-placeholder" ng-show="profile.linkedin == ''">Add Linkedin Link</span>
+                                <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                                </div>
                                 <div class="floatform" id="user-linkedin-form">
                                     <div class="form-content">
                                         <div class="form-fields">
@@ -338,6 +349,9 @@
                            <i class="fa fa-globe profile-icon"></i>
                             <span class="editable">
                                {{profile.website}}<span class="editable-placeholder" ng-show="profile.website == ''">Add Website</span>
+                                <div class="editable-mark">
+                                    <i class="fa fa-pencil editable-child"></i>
+                                </div>
                                 <div class="floatform" id="user-website-form">
                                     <div class="form-content">
                                         <div class="form-fields">
