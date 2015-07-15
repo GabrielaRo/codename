@@ -31,9 +31,9 @@
    
            
 
-        $scope.loadPublicUserData = function (userId) {
-            console.log("LOAD PUBLIC DATA USER: " + userId);
-            $users.getPublicUserData(userId)
+        $scope.loadPublicUserData = function (nickname) {
+            console.log("LOAD PUBLIC DATA USER: " + nickname);
+            $users.getPublicUserData(nickname)
                     .success(function (data) {
                         console.log(data);
 
@@ -82,11 +82,11 @@
             console.log("THe USER EMAIL HERE IS: "+ $scope.email);
      
                 
-                if ($scope.params && $scope.params.id) {
-                    console.log("ROUTE PARAMS ID ");
-                    console.log($scope.params.id);
+                if ($scope.params && $scope.params.nickname) {
+                    console.log("ROUTE PARAMS NIckname ");
+                    console.log($scope.params.nickname);
 
-                    $scope.loadPublicUserData($scope.params.id);
+                    $scope.loadPublicUserData($scope.params.nickname);
                   
                 }
               

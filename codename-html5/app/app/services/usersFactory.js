@@ -112,10 +112,10 @@
         
         
         //GET Public PROFILE
-        factory.getPublicUserData = function (userId) {
+        factory.getPublicUserData = function (nickname) {
             return $http({
                 method: 'GET',
-                url: appConstants.server + appConstants.context + 'rest/public/users/' + userId,
+                url: appConstants.server + appConstants.context + 'rest/public/users/' + nickname,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {}

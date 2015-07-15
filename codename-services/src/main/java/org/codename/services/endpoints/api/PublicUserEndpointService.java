@@ -42,10 +42,7 @@ public interface PublicUserEndpointService extends Serializable {
     @Produces({MediaType.MEDIA_TYPE_WILDCARD})
     Response getCover(@NotNull @PathParam("id") Long user_id) throws ServiceException;
     
-    @GET
-    @Path("{id}")
-    @Produces({MediaType.APPLICATION_JSON})
-    Response get(@PathParam("id") Long user_id) throws ServiceException;
+   
     
     @GET
     @Path("{nickname}")

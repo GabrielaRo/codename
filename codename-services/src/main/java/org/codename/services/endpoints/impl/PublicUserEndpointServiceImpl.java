@@ -60,15 +60,6 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
         return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
 
-    @Override
-    public Response get(@PathParam("id") Long user_id) throws ServiceException {
-        User u = usersService.getById(user_id);
-        if (u == null) {
-            throw new ServiceException("User  " + user_id + " doesn't exists");
-        }
-        JsonObjectBuilder jsonObjBuilder = createPublicJsonUser(u);
-        return Response.ok(jsonObjBuilder.build().toString()).build();
-    }
 
     @Override
     public Response getByNickName(String nickname) throws ServiceException {

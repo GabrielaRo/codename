@@ -58,15 +58,10 @@
         </dependency>
        
     </dependencies>
-    <properties>
-                <server.address>'http://localhost:8080/'</server.address>
-                <server.context>'codename-server/'</server.context>
-            </properties>
+    
     <build>
           
         <finalName>${project.artifactId}</finalName>
-         
-    
         <plugins>
               
             <plugin>
@@ -86,12 +81,7 @@
                     <resource>
                       <!-- this is relative to the pom.xml directory -->
                       <directory>app</directory>
-                      <filtering>true</filtering>
-                                    
-                                    <includes>
-                                        <include>**/*.js</include>
-                                        <!-- include any other file types you want to filter -->
-                                    </includes>
+                     
                     </resource>
                   </webResources>
                 </configuration>
@@ -184,28 +174,10 @@
             <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
             <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
             <id>openshift</id>
-            <properties>
-                <server.address>'http://fhellow-restprovider.rhcloud.com/'</server.address>
-                <server.context>'codename-server/'</server.context>
-            </properties>
+            
             
             <build>
-                <resources>
-                    <resource>
-                        <directory>app/</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                            <include>**/*.js</include>
-                        </includes>
-                    </resource>
-                    <resource>
-                        <directory>app/</directory>
-                        <filtering>false</filtering>
-                        <excludes>
-                            <exclude>**/*.js</exclude>
-                        </excludes>
-                    </resource>
-                </resources>
+                
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -221,12 +193,20 @@
                         <version>2.1.1</version>
                         <configuration>
                             <webResources>
+                               
                                 <resource>
-                                    <filtering>true</filtering>
+                                    <!-- this is relative to the pom.xml directory -->
                                     <directory>app</directory>
+                                    <excludes>
+                                        <exclude>app/app.js</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <!-- this is relative to the pom.xml directory -->
+                                    <directory>app/openshift</directory>
+                                    <targetPath>app/</targetPath>
                                     <includes>
-                                        <include>**/*.js</include>
-                                        <!-- include any other file types you want to filter -->
+                                        <include>app.js</include>
                                     </includes>
                                 </resource>
                             </webResources>
@@ -252,8 +232,6 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-    
- 
     
 </project>
 

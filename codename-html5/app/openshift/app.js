@@ -5,12 +5,10 @@
         'satellizer', 'ngTagsInput', 'locator']);
 
     codename.constant("appConstants", {
-        //server: ${server.address},
-         //server: "http://fhellow-restprovider.rhcloud.com/",
-        server: 'http://localhost:8080/',
-        address: "localhost",
-        port: "8080",
-        //context: ${server.context}
+       
+        server: "http://fhellow-restprovider.rhcloud.com/",
+        address: "fhellow-restprovider.rhcloud.com",
+        port: "80",
         context: 'codename-server/'
 
     })
@@ -35,7 +33,7 @@
                             templateUrl: 'app/views/profile.html',
                             controller: 'profileController'
                         })
-                        .when('/profile/:nickname', {
+                        .when('/profile/:id', {
                             templateUrl: 'app/views/publicprofile.html',
                             controller: 'publicProfileController'
                         })
