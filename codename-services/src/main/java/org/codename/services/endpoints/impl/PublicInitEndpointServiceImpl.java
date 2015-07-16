@@ -32,7 +32,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
     private static String serverUrl;
 
     public PublicInitEndpointServiceImpl() {
-        serverUrl = System.getProperty("server.url");
+        serverUrl = System.getProperty("SERVERURL");
         if(serverUrl == null || serverUrl.equals("")){
             serverUrl = "localhost:8080/codename-server/";
         }
