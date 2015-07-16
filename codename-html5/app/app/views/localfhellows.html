@@ -8,16 +8,18 @@
             
         </h1>
         <h1>
-            who are intested in  
+            who are interested in  
             <tags-input class="header" ng-model="tags"                 
                 placeholder="+" 
                 replace-spaces-with-dashes="false"
-                 add-from-autocomplete-only="true" >
-                  <auto-complete source="loadInterests($query)"
+                 add-from-autocomplete-only="true"
+                 on-tag-added="interestsTagAdded($tag)"
+                 on-tag-removed="interestsTagRemoved($tag)">
+                <auto-complete source="loadInterests($query)"
                                  min-length="0"
                                  load-on-focus="true"
                                  load-on-empty="true"
-                                 max-results-to-show="32" >
+                                 max-results-to-show="32">
                                 
                  </auto-complete>
             </tags-input>

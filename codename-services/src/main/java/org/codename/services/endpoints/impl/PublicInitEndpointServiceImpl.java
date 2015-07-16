@@ -28,14 +28,15 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
 
     @Inject
     private UsersService usersService;
-
+    //rhc set-env SERVERURL="http://fhellow-restprovider.rhcloud.com/" -a fhellow
     private static String serverUrl;
 
     public PublicInitEndpointServiceImpl() {
         serverUrl = System.getProperty("SERVERURL");
         if(serverUrl == null || serverUrl.equals("")){
-            serverUrl = "localhost:8080/codename-server/";
+            serverUrl = "localhost:8080/";
         }
+        serverUrl = serverUrl + "codename-server/";
     }
     
     
@@ -100,8 +101,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         usersService.updateCover(grogdjId, coverPic, bytes);
 
         List<String> interests = new ArrayList<String>();
-        interests.add("Design");
-        interests.add("Architecture");
+        interests.add("Software");
         usersService.updateInterests(grogdjId, interests);
         return grogdjId;
     }
@@ -151,7 +151,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
 
         List<String> interests = new ArrayList<String>();
         interests.add("Design");
-        interests.add("Architecture");
+        interests.add("Web");
         usersService.updateInterests(ezeId, interests);
         return ezeId;
     }
@@ -201,8 +201,8 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         usersService.updateCover(userId, coverPic, bytes);
 
         List<String> interests = new ArrayList<String>();
-        interests.add("Design");
-        interests.add("Architecture");
+        interests.add("Fashion");
+        interests.add("Gaming");
         usersService.updateInterests(userId, interests);
         return userId;
     }

@@ -28,7 +28,8 @@ public interface UserQueryEndpointService extends Serializable {
     @Path("allbylocation")
     @Produces({MediaType.APPLICATION_JSON})
     Response getAllByLocation(@NotNull @QueryParam("lon") Double lon, 
-                              @NotNull @QueryParam("lat") Double lat, 
+                              @NotNull @QueryParam("lat") Double lat,
+                              @QueryParam("interests") String interests,
                               @QueryParam("lookingFors") String lookingFors,
                               @QueryParam("categories") String categories) 
                                 throws ServiceException;
@@ -36,7 +37,9 @@ public interface UserQueryEndpointService extends Serializable {
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
-    Response getAll(@QueryParam("lookingFors") String lookingFors, @QueryParam("categories") String categories) throws ServiceException;
+    Response getAll(@QueryParam("interests") String interests,
+                    @QueryParam("lookingFors") String lookingFors, 
+                    @QueryParam("categories") String categories) throws ServiceException;
     
    
 

@@ -109,14 +109,14 @@ public class SimpleLocalServiceTest {
      @Test
     public void newUserFilteredSearchTest3() throws ServiceException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
 
-        List<User> all = queryService.getAll(null, null);
+        List<User> all = queryService.getAll(null, null, null);
         Assert.assertTrue(!all.isEmpty());
     }
 
     @Test
     public void newUserFilteredSearchTest2() throws ServiceException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
 
-        List<User> all = queryService.getAll(new ArrayList<String>(), new ArrayList<String>());
+        List<User> all = queryService.getAll(new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
         Assert.assertTrue(!all.isEmpty());
     }
 
@@ -173,20 +173,20 @@ public class SimpleLocalServiceTest {
 
     @Test
     public void newUserFilteredSearchTest() throws ServiceException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+        
+        //User 1 : Is: freelancer, Digital Nomad, Entrepreneur
+        //         Looking For Socialise, Collaborate, Mentor
+        //         Interest: Design, Architecture
         ut.begin();
         Long newUser = usersService.newUser(new User("grogdj2@gmail.com", "asdasd"));
         usersService.updateLive(newUser, "true");
 
-        Long newUser2 = usersService.newUser(new User("grogdj3@gmail.com", "asdasd"));
-        usersService.updateLive(newUser2, "true");
-
-        Long newUser3 = usersService.newUser(new User("grogdj4@gmail.com", "asdasd"));
-        usersService.updateLive(newUser3, "true");
+        
 
         List<String> iAms = new ArrayList<String>(3);
-        iAms.add("Freelancer");
+        iAms.add("Freelance");
         iAms.add("Digital Nomad");
-        iAms.add("Entrepenuers");
+        iAms.add("Entrepenuer");
 
         usersService.updateIams(newUser, iAms);
 
@@ -196,19 +196,83 @@ public class SimpleLocalServiceTest {
         lookingFor.add("Mentor");
 
         usersService.updateLookingFor(newUser, lookingFor);
+        List<String> interests = new ArrayList<String>();
+        interests.add("Design");
+        interests.add("Architecture");
+        
+        usersService.updateInterests(newUser, interests);
 
-        iAms = new ArrayList<String>(2);
-        iAms.add("Freelancer");
-        iAms.add("Digital Nomad");
+       
 
-        usersService.updateIams(newUser2, iAms);
-        iAms = new ArrayList<String>(1);
-        iAms.add("Freelancer");
-        usersService.updateIams(newUser3, iAms);
+        
+        
         ut.commit();
-
-        List<User> all = queryService.getAll(lookingFor, iAms);
-        Assert.assertTrue(!all.isEmpty());
+        // User 2: is: Freelance, Digital Nomad
+        //         LookingFor: Mentor
+        //         Interest: Design, Architecture
+        ut.begin();
+        Long newUser2 = usersService.newUser(new User("grogdj3@gmail.com", "asdasd"));
+        usersService.updateLive(newUser2, "true");
+        iAms = new ArrayList<String>(2);
+        iAms.add("Freelance");
+        iAms.add("Digital Nomad");
+        
+        usersService.updateIams(newUser2, iAms);
+        lookingFor = new ArrayList<String>(3);
+        lookingFor.add("Mentor");
+        usersService.updateLookingFor(newUser2, lookingFor);
+        
+        interests = new ArrayList<String>();
+        interests.add("Design");
+        interests.add("Architecture");
+        usersService.updateInterests(newUser2, interests);
+        
+        
+        ut.commit();
+        
+        //User 3: is: Freelance
+        //        Looking For: Collaborate
+        //        Interest: Software
+        ut.begin();
+        Long newUser3 = usersService.newUser(new User("grogdj4@gmail.com", "asdasd"));
+        usersService.updateLive(newUser3, "true");
+        iAms = new ArrayList<String>(1);
+        iAms.add("Freelance");
+        lookingFor = new ArrayList<String>(3);
+        lookingFor.add("Collaborate");
+        usersService.updateLookingFor(newUser3, lookingFor);
+        usersService.updateIams(newUser3, iAms);
+        interests = new ArrayList<String>();
+        interests.add("Software");
+        
+        usersService.updateInterests(newUser3, interests);
+        ut.commit();
+        
+        //Search 1: 
+        
+        iAms = new ArrayList<String>(1);
+        iAms.add("Freelance");
+        lookingFor = new ArrayList<String>(3);
+        lookingFor.add("Collaborate");
+        interests = new ArrayList<String>();
+        interests.add("Software");
+        List<User> all = queryService.getAll(interests, lookingFor, iAms);
+        
+        Assert.assertTrue(all.size() == 1);
+        Assert.assertTrue(all.get(0).getEmail().equals("grogdj4@gmail.com"));
+        
+         //Search 2: 
+        
+        iAms = new ArrayList<String>(1);
+        iAms.add("Freelance");
+        lookingFor = new ArrayList<String>();
+        
+        interests = new ArrayList<String>();
+        
+        all = queryService.getAll(interests, lookingFor, iAms);
+        
+        Assert.assertTrue(all.size() == 3);
+        
     }
 
 }

@@ -3,20 +3,20 @@
         var factory = {};
 
         //GET ALL
-        factory.getByLocation = function (lon,lat, lookingFors, categories) {
+        factory.getByLocation = function (lon,lat, interests,lookingFors, categories) {
             return $http({
                 method: 'GET',
-                url: appConstants.server + appConstants.context + 'rest/query/allbylocation?lon='+lon+'&lat='+lat+'&lookingFors='+JSON.stringify(lookingFors)+'&categories='+JSON.stringify(categories),
+                url: appConstants.server + appConstants.context + 'rest/query/allbylocation?lon='+lon+'&lat='+lat+'&interests='+JSON.stringify(interests)+'&lookingFors='+JSON.stringify(lookingFors)+'&categories='+JSON.stringify(categories),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 
             });
         };
 
         //GET ALL
-        factory.getAll = function (lookingFors, categories) {
+        factory.getAll = function (interests, lookingFors, categories) {
             return $http({
                 method: 'GET',
-                url: appConstants.server + appConstants.context + 'rest/query/all?lookingFors=' +JSON.stringify(lookingFors) +' &categories=' + JSON.stringify(categories),
+                url: appConstants.server + appConstants.context + 'rest/query/all?interests='+JSON.stringify(interests) +'&lookingFors=' +JSON.stringify(lookingFors) +'&categories=' + JSON.stringify(categories),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 
             });

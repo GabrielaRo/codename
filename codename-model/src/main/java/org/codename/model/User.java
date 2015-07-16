@@ -102,8 +102,8 @@ public class User implements Serializable {
     @Longitude
     private Double longitude;
 
-    @IndexedEmbedded
     @ElementCollection
+    @IndexedEmbedded
     @Field(analyze = Analyze.NO, store = Store.YES)
     private List<String> interests = new ArrayList<String>();
 

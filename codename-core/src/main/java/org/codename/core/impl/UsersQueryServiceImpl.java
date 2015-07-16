@@ -50,11 +50,20 @@ public class UsersQueryServiceImpl implements UsersQueryService {
     }
 
     @Override
-    public List<User> getAll(List<String> lookingFors, List<String> categories) throws ServiceException {
+    public List<User> getAll(List<String> interests, List<String> lookingFors, List<String> categories) throws ServiceException {
 
         FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(em);
         QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
 
+        FacetingRequest interestsFacetingRequest = qb.facet()
+                .name("interestsFacetingRequest")
+                .onField("interests")
+                .discrete()
+                .orderedBy(FacetSortOrder.COUNT_DESC)
+                .includeZeroCounts(true)
+                .maxFacetCount(3)
+                .createFacetingRequest();
+        
         FacetingRequest lookingForsFacetingRequest = qb.facet()
                 .name("lookingForsFacetRequest")
                 .onField("lookingFor")
@@ -80,6 +89,22 @@ public class UsersQueryServiceImpl implements UsersQueryService {
 
         // retrieve facet manager and apply faceting request
         FacetManager facetManager = fullTextQuery.getFacetManager();
+        List<Facet> interestsSelectedFacets = new ArrayList<Facet>();
+        if (interests != null && !interests.isEmpty()) {
+            facetManager.enableFaceting(interestsFacetingRequest);
+            List<Facet> interestsFacets = facetManager.getFacets("interestsFacetingRequest");
+            System.out.println("Interests Facets!!! size = " + interestsFacets.size());
+
+            for (Facet f : interestsFacets) {
+                System.out.println("Interests ("+interests+" - contains?  "+ f.getValue() + "- "+interests.contains(f.getValue()));
+                System.out.println("Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
+                if (interests.contains(f.getValue())) {
+                    
+                    interestsSelectedFacets.add(f);
+                }
+                
+            }
+        }
         List<Facet> lookingForSelectedFacets = new ArrayList<Facet>();
         if (lookingFors != null && !lookingFors.isEmpty()) {
             facetManager.enableFaceting(lookingForsFacetingRequest);
@@ -117,6 +142,10 @@ public class UsersQueryServiceImpl implements UsersQueryService {
         System.out.println("Result List before faceting: " + resultList);
 
         // apply first facet as additional search criteria
+        if (!interestsSelectedFacets.isEmpty()) {
+            FacetSelection interestsFacetSelection = facetManager.getFacetGroup("interestsFacetingRequest");
+            interestsFacetSelection.selectFacets(interestsSelectedFacets.toArray(new Facet[interestsSelectedFacets.size()]));
+        }
         if (!lookingForSelectedFacets.isEmpty()) {
             FacetSelection lookingForFacetSelection = facetManager.getFacetGroup("lookingForsFacetRequest");
             lookingForFacetSelection.selectFacets(lookingForSelectedFacets.toArray(new Facet[lookingForSelectedFacets.size()]));
@@ -131,7 +160,7 @@ public class UsersQueryServiceImpl implements UsersQueryService {
     }
 
     @Override
-    public List<User> getUserByRange(Double lon, Double lat, Double range, List<String> lookingFors, List<String> categories) throws ServiceException {
+    public List<User> getUserByRange(Double lon, Double lat, Double range, List<String> interests, List<String> lookingFors, List<String> categories) throws ServiceException {
         FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(em);
         QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
         Query query = qb.bool().must(qb.keyword().onField("live").matching("true").createQuery())
@@ -147,6 +176,16 @@ public class UsersQueryServiceImpl implements UsersQueryService {
         Sort distanceSort = new Sort(
                 new DistanceSortField(lat, lon, "default"));
         fullTextQuery.setSort(distanceSort);
+        
+        FacetingRequest interestsFacetingRequest = qb.facet()
+                .name("interestsFacetingRequest")
+                .onField("interests")
+                .discrete()
+                .orderedBy(FacetSortOrder.COUNT_DESC)
+                .includeZeroCounts(true)
+                .maxFacetCount(3)
+                .createFacetingRequest();
+        
         FacetingRequest lookingForsFacetingRequest = qb.facet()
                 .name("lookingForsFacetRequest")
                 .onField("lookingFor")
@@ -169,37 +208,66 @@ public class UsersQueryServiceImpl implements UsersQueryService {
 
         // retrieve facet manager and apply faceting request
         FacetManager facetManager = fullTextQuery.getFacetManager();
-        if (lookingFors != null && !lookingFors.isEmpty()) {
-            facetManager.enableFaceting(lookingForsFacetingRequest);
-        }
-        if (categories != null && !categories.isEmpty()) {
-            facetManager.enableFaceting(iAmsFacetingRequest);
-        }
+        
 
         System.out.println("ALL Results Size = " + fullTextQuery.getResultSize());
         List resultList = null;//fullTextQuery.getResultList();
         System.out.println("Result List before faceting: " + resultList);
-        List<Facet> lookingForFacets = facetManager.getFacets("lookingForsFacetRequest");
-        System.out.println("Facets!!! size = " + lookingForFacets.size());
-        List<Facet> lookingForSelectedFacets = new ArrayList<Facet>();
-        for (Facet f : lookingForFacets) {
-            if (lookingFors != null && lookingFors.contains(f.getValue())) {
-                lookingForSelectedFacets.add(f);
-            }
-            System.out.println("Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
-        }
-        List<Facet> iAmsForFacets = facetManager.getFacets("iAmsFacetingRequest");
-        List<Facet> iAmsSelectedFacets = new ArrayList<Facet>();
-        System.out.println("Facets!!! size = " + iAmsForFacets.size());
-        for (Facet f : iAmsForFacets) {
-            if (categories != null && categories.contains(f.getValue())) {
-                iAmsSelectedFacets.add(f);
+        
+        List<Facet> interestsSelectedFacets = new ArrayList<Facet>();
+        if (interests != null && !interests.isEmpty()) {
+            facetManager.enableFaceting(interestsFacetingRequest);
+            List<Facet> interestsFacets = facetManager.getFacets("interestsFacetingRequest");
+            System.out.println("Interests Facets!!! size = " + interestsFacets.size());
+
+            for (Facet f : interestsFacets) {
+                System.out.println("Interests ("+interests+" - contains?  "+ f.getValue() + "- "+interests.contains(f.getValue()));
                 System.out.println("Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
+                if (interests.contains(f.getValue())) {
+                    
+                    interestsSelectedFacets.add(f);
+                }
+                
+            }
+        }
+        List<Facet> lookingForSelectedFacets = new ArrayList<Facet>();
+        if (lookingFors != null && !lookingFors.isEmpty()) {
+            facetManager.enableFaceting(lookingForsFacetingRequest);
+            List<Facet> lookingForFacets = facetManager.getFacets("lookingForsFacetRequest");
+            System.out.println("Looking For Facets!!! size = " + lookingForFacets.size());
+
+            for (Facet f : lookingForFacets) {
+                System.out.println("Looking fors ("+lookingFors+" - contains?  "+ f.getValue() + "- "+lookingFors.contains(f.getValue()));
+                System.out.println("Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
+                if (lookingFors.contains(f.getValue())) {
+                    
+                    lookingForSelectedFacets.add(f);
+                }
+                
+            }
+        }
+        List<Facet> iAmsSelectedFacets = new ArrayList<Facet>();
+        if (categories != null && !categories.isEmpty()) {
+            facetManager.enableFaceting(iAmsFacetingRequest);
+            List<Facet> iAmsForFacets = facetManager.getFacets("iAmsFacetingRequest");
+
+            System.out.println("Iam s Facets!!! size = " + iAmsForFacets.size());
+            for (Facet f : iAmsForFacets) {
+                System.out.println("Categories ("+categories+" - contains?  "+ f.getValue() + "- "+categories.contains(f.getValue()));
+                System.out.println("Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
+                if (categories.contains(f.getValue())) {
+                    iAmsSelectedFacets.add(f);
+                    
+                }
             }
         }
 
         // apply first facet as additional search criteria
         // apply first facet as additional search criteria
+         if (!interestsSelectedFacets.isEmpty()) {
+            FacetSelection interestsFacetSelection = facetManager.getFacetGroup("interestsFacetingRequest");
+            interestsFacetSelection.selectFacets(interestsSelectedFacets.toArray(new Facet[interestsSelectedFacets.size()]));
+        }
         if (!lookingForSelectedFacets.isEmpty()) {
             FacetSelection lookingForFacetSelection = facetManager.getFacetGroup("lookingForsFacetRequest");
             lookingForFacetSelection.selectFacets(lookingForSelectedFacets.toArray(new Facet[lookingForSelectedFacets.size()]));

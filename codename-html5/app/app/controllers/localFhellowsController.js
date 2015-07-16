@@ -4,33 +4,64 @@
         $scope.filters = {location: '', proximity: 200, type: "", search: ""};
         $scope.filtersType = [];
         $scope.filtersLookingTo = [];
-
+        $scope.tags = [];
+        $scope.tagsText = [];
         $scope.serverUrlFull = appConstants.server + appConstants.context;
 
         location.get(angular.noop, angular.noop);
-        
+
 
         $scope.selectAddress = function () {
             console.log($scope.lookedUpLocation);
-            if($scope.lookedUpLocation){
+            if ($scope.lookedUpLocation) {
                 $scope.selectedLocation = $scope.lookedUpLocation;
-                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.filtersLookingTo, $scope.filtersType);
+                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
+                        $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+            }
+        };
+
+        $scope.interestsTagAdded = function ($tag) {
+
+            $scope.tagsText.push($tag.text);
+
+
+            if ($scope.lookedUpLocation) {
+                $scope.loadFhellowsByLocation($scope.tagsText, $scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.filtersLookingTo, $scope.filtersType);
+            } else {
+                $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+
+            }
+        };
+        $scope.interestsTagRemoved = function ($tag) {
+
+            $scope.tagsText.splice($scope.tagsText.indexOf($tag.text), 1);
+
+            if ($scope.lookedUpLocation) {
+                $scope.loadFhellowsByLocation($scope.tagsText, $scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.filtersLookingTo, $scope.filtersType);
+            } else {
+                $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+
             }
         };
 
         $scope.$watch('lookedUpLocation', $scope.selectAddress);
 
-        $scope.tags = [];
+
+
+
 
         $scope.loadInterests = function ($query) {
-            return $scope.interests;
+            return $scope.interests.filter(function (interest) {
+                return interest.text.toLowerCase().indexOf($query.toLowerCase()) != -1;
+            });
+
         }
 
-        $scope.loadInterestOnInit = function(){
+        $scope.loadInterestOnInit = function () {
             $interests.getAll().success(function (data) {
                 //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
                 console.log("Interests loaded: ");
-                
+
                 $scope.interests = data;
                 console.log($scope.interests);
             }).error(function (data) {
@@ -38,49 +69,50 @@
                 console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong loading the interests!" + data);
             });
-            
+
         }
         $scope.loadInterestOnInit();
         $scope.typeButtonPressed = function (buttonName) {
-            
-            if($scope.filtersType.indexOf(buttonName) == -1){
+
+            if ($scope.filtersType.indexOf(buttonName) == -1) {
                 $scope.filtersType.push(buttonName);
-            }else {
-                $scope.filtersType.splice ($scope.filtersType.indexOf(buttonName), 1);   
+            } else {
+                $scope.filtersType.splice($scope.filtersType.indexOf(buttonName), 1);
             }
-           console.log($scope.filtersType);
-           if($scope.lookedUpLocation){
-                
-                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.filtersLookingTo, $scope.filtersType);
-            }else{
-                $scope.loadFhellows( $scope.filtersLookingTo, $scope.filtersType);
-                
+            console.log($scope.filtersType);
+            if ($scope.lookedUpLocation) {
+
+                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+            } else {
+                $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+
             }
         }
         $scope.lookingToButtonPressed = function (buttonName) {
-            
-            if($scope.filtersLookingTo.indexOf(buttonName) == -1){
+
+            if ($scope.filtersLookingTo.indexOf(buttonName) == -1) {
                 $scope.filtersLookingTo.push(buttonName);
-            }else {
-                $scope.filtersLookingTo.splice ($scope.filtersLookingTo.indexOf(buttonName), 1);   
+            } else {
+                $scope.filtersLookingTo.splice($scope.filtersLookingTo.indexOf(buttonName), 1);
             }
             console.log($scope.filtersLookingTo);
-            if($scope.lookedUpLocation){
-                
-                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.filtersLookingTo, $scope.filtersType);
-            }else{
-                $scope.loadFhellows( $scope.filtersLookingTo, $scope.filtersType);
+            if ($scope.lookedUpLocation) {
+
+                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
+                        $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+            } else {
+                $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
             }
         }
 
-        $scope.loadFhellowsByLocation = function (lon, lat, lookingFors, categories ) {
-            console.log("lon = "+ lon);
-            console.log("lat = "+ lat);
+        $scope.loadFhellowsByLocation = function (lon, lat, tags, lookingFors, categories) {
+            console.log("lon = " + lon);
+            console.log("lat = " + lat);
             console.log("lookingFors = ");
             console.log(lookingFors);
             console.log("categories = ");
             console.log(categories);
-            $queries.getByLocation(lon, lat, lookingFors, categories).success(function (data) {
+            $queries.getByLocation(lon, lat, tags, lookingFors, categories).success(function (data) {
                 //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
                 console.log("Fhellows: ");
                 console.log(data);
@@ -95,10 +127,10 @@
         };
 
 
-        $scope.loadFhellows = function (lookingFors, categories) {
-           
+        $scope.loadFhellows = function (tags, lookingFors, categories) {
 
-            $queries.getAll(lookingFors, categories).success(function (data) {
+
+            $queries.getAll(tags, lookingFors, categories).success(function (data) {
                 //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
                 console.log("Fhellows: ");
                 console.log(data);
@@ -112,9 +144,9 @@
 
         };
 
-        $scope.loadFhellows( $scope.filtersLookingTo, $scope.filtersType);
+        $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
 
-       
+
 
 
 
@@ -131,7 +163,7 @@
 
     };
 
-    localFhellowsController.$inject = ['$scope', '$rootScope', '$queries', '$interests','location', 'appConstants'];
+    localFhellowsController.$inject = ['$scope', '$rootScope', '$queries', '$interests', 'location', 'appConstants'];
     angular.module("codename").controller("localFhellowsController", localFhellowsController);
 
 }());

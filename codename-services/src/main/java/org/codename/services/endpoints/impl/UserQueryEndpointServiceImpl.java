@@ -42,14 +42,30 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
     }
 
-    public Response getAll(@QueryParam("lookingFors") String lookingFors, @QueryParam("categories") String categories) throws ServiceException {
-        List<String> categoriesList = null;
-         if (categories != null) {
-            JsonReader reader = Json.createReader(new ByteArrayInputStream(categories.getBytes()));
+    public Response getAll(@QueryParam("interests") String interests, 
+            @QueryParam("lookingFors") String lookingFors,
+            @QueryParam("categories") String categories) throws ServiceException {
+        List<String> interestsList = null;
+        if (interests != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(interests.getBytes()));
             JsonArray array = reader.readArray();
             reader.close();
 
-            
+            if (array != null) {
+                interestsList = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("Interest[" + i + "]: " + array.getString(i));
+
+                    interestsList.add(array.getString(i));
+                }
+
+            }
+        }
+        List<String> categoriesList = null;
+        if (categories != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(categories.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
 
             if (array != null) {
                 categoriesList = new ArrayList<String>(array.size());
@@ -61,13 +77,11 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
             }
         }
-         List<String> lookingForList = null;
-         if (lookingFors != null) {
+        List<String> lookingForList = null;
+        if (lookingFors != null) {
             JsonReader reader = Json.createReader(new ByteArrayInputStream(lookingFors.getBytes()));
             JsonArray array = reader.readArray();
             reader.close();
-
-            
 
             if (array != null) {
                 lookingForList = new ArrayList<String>(array.size());
@@ -79,10 +93,10 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
             }
         }
-        System.out.println("Looking Fors: "+ lookingForList);
-        System.out.println("Categories categories: "+ categoriesList);
+        System.out.println("Looking Fors: " + lookingForList);
+        System.out.println("Categories categories: " + categoriesList);
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        List<User> allUsers = usersQueryService.getAll(lookingForList, categoriesList);
+        List<User> allUsers = usersQueryService.getAll(interestsList, lookingForList, categoriesList);
         for (User u : allUsers) {
             JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
             jsonArrayBuilder.add(jsonUserObjectBuilder);
@@ -91,33 +105,31 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
     }
 
     @Override
-    public Response getAllByLocation(@QueryParam("lon") Double lon, @QueryParam("lat") Double lat, 
-            @QueryParam("lookingFors") String lookingFors, @QueryParam("categories") String categories) throws ServiceException {
-//        List<String> interestsList = null;
-//        if (interests != null) {
-//            JsonReader reader = Json.createReader(new ByteArrayInputStream(interests.getBytes()));
-//            JsonArray array = reader.readArray();
-//            reader.close();
-//
-//            interestsList = new ArrayList<String>(array.size());
-//
-//            if (array != null) {
-//
-//                for (int i = 0; i < array.size(); i++) {
-//                    log.info("Interest[" + i + "]: " + array.getString(i));
-//
-//                    interestsList.add(array.getString(i));
-//                }
-//
-//            }
-//        }
-        List<String> categoriesList = null;
-         if (categories != null) {
-            JsonReader reader = Json.createReader(new ByteArrayInputStream(categories.getBytes()));
+    public Response getAllByLocation( @QueryParam("lon") Double lon, @QueryParam("lat") Double lat, 
+            @QueryParam("interests") String interests,
+            @QueryParam("lookingFors") String lookingFors, 
+            @QueryParam("categories") String categories) throws ServiceException {
+        List<String> interestsList = null;
+        if (interests != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(interests.getBytes()));
             JsonArray array = reader.readArray();
             reader.close();
 
-            
+            if (array != null) {
+                interestsList = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("Interest[" + i + "]: " + array.getString(i));
+
+                    interestsList.add(array.getString(i));
+                }
+
+            }
+        }
+        List<String> categoriesList = null;
+        if (categories != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(categories.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
 
             if (array != null) {
                 categoriesList = new ArrayList<String>(array.size());
@@ -129,13 +141,11 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
             }
         }
-         List<String> lookingForList = null;
-         if (lookingFors != null) {
+        List<String> lookingForList = null;
+        if (lookingFors != null) {
             JsonReader reader = Json.createReader(new ByteArrayInputStream(lookingFors.getBytes()));
             JsonArray array = reader.readArray();
             reader.close();
-
-            
 
             if (array != null) {
                 lookingForList = new ArrayList<String>(array.size());
@@ -147,29 +157,29 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
             }
         }
-        System.out.println("Looking Fors: "+ lookingForList);
-        System.out.println("Categories categories: "+ categoriesList);
+        System.out.println("Looking Fors: " + lookingForList);
+        System.out.println("Categories categories: " + categoriesList);
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        List<User> usersInRange1 = usersQueryService.getUserByRange(lon, lat, 1.0, lookingForList, categoriesList);
+        List<User> usersInRange1 = usersQueryService.getUserByRange(lon, lat, 1.0, interestsList, lookingForList, categoriesList);
         for (User u : usersInRange1) {
-            System.out.println("User in Range 1: "+ u);
+            System.out.println("User in Range 1: " + u);
             JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
             jsonUserObjectBuilder.add("range", "1");
             jsonArrayBuilder.add(jsonUserObjectBuilder);
         }
-        List<User> usersInRange2 = usersQueryService.getUserByRange(lon, lat, 3.0, lookingForList, categoriesList);
+        List<User> usersInRange2 = usersQueryService.getUserByRange(lon, lat, 3.0, interestsList, lookingForList, categoriesList);
         for (User u : usersInRange2) {
             if (!usersInRange1.contains(u)) {
-                System.out.println("User in Range 2: "+ u);
+                System.out.println("User in Range 2: " + u);
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", "2");
                 jsonArrayBuilder.add(jsonUserObjectBuilder);
             }
         }
-        List<User> usersInRange3 = usersQueryService.getUserByRange(lon, lat, 10.0, lookingForList, categoriesList);
+        List<User> usersInRange3 = usersQueryService.getUserByRange(lon, lat, 10.0, interestsList, lookingForList, categoriesList);
         for (User u : usersInRange3) {
             if (!usersInRange2.contains(u) && !usersInRange1.contains(u)) {
-                System.out.println("User in Range 3: "+ u);
+                System.out.println("User in Range 3: " + u);
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", "3");
                 jsonArrayBuilder.add(jsonUserObjectBuilder);

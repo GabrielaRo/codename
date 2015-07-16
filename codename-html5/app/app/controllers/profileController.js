@@ -74,7 +74,7 @@
         $scope.loadUserData = function () {
             $users.getUserData()
                     .success(function (data) {
-                        console.log(data);
+                        //console.log(data);
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
@@ -132,7 +132,10 @@
         //LOAD INTERESTS
         
         $scope.loadInterests = function ($query) {
-            return $scope.interests;
+            return $scope.interests.filter(function (interest) {
+                console.log(interest);
+                return interest.text.toLowerCase().indexOf($query.toLowerCase()) != -1;
+            });
         }
 
         $scope.loadInterestOnInit = function(){

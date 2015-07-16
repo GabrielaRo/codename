@@ -38,12 +38,16 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     @Inject
     private UsersService usersService;
 
-    private final static String serverUrl = "localhost:8080/codename-server/";
+    private  static String serverUrl;
 
     private final static Logger log = Logger.getLogger(PublicUserEndpointServiceImpl.class.getName());
   
     public PublicUserEndpointServiceImpl() {
-
+        serverUrl = System.getProperty("SERVERURL");
+        if(serverUrl == null || serverUrl.equals("")){
+            serverUrl = "localhost:8080/";
+        }
+        serverUrl = serverUrl + "codename-server/";
     }
 
     @Override
