@@ -121,7 +121,7 @@
         //INTERSTS TAGS FUNCTIONS
         
         $scope.interestsTagAdded = function(tagClicked){
-            if($scope.profile.interests.indexOf(tagClicked) > -1){
+            if($scope.profile.interests.indexOf(tagClicked.text) == -1){
                 $scope.profile.interests.push( tagClicked.text);
             }
         }
