@@ -6,6 +6,7 @@
 package org.codename.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
+
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.DateBridge;
 import org.hibernate.search.annotations.Field;
@@ -28,6 +30,7 @@ import org.hibernate.search.annotations.Longitude;
 import org.hibernate.search.annotations.Resolution;
 import org.hibernate.search.annotations.Spatial;
 import org.hibernate.search.annotations.SpatialMode;
+import org.hibernate.search.annotations.Store;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -101,23 +104,23 @@ public class User implements Serializable {
 
     @IndexedEmbedded
     @ElementCollection
-    @Field(analyze = Analyze.NO)
-    private List<String> interests;
+    @Field(analyze = Analyze.NO, store = Store.YES)
+    private List<String> interests = new ArrayList<String>();
 
-    @IndexedEmbedded
     @ElementCollection
-    @Field(analyze = Analyze.NO)
-    private List<String> categories;
+    @IndexedEmbedded
+    @Field(analyze = Analyze.NO, store = Store.YES)
+    private List<String> categories = new ArrayList<String>();
 
-    @IndexedEmbedded
     @ElementCollection
-    @Field(analyze = Analyze.NO)
-    private List<String> lookingFor;
+    @IndexedEmbedded
+    @Field(analyze = Analyze.NO, store = Store.YES)
+    private List<String> lookingFor = new ArrayList<String>();
 
-    @IndexedEmbedded
     @ElementCollection
-    @Field(analyze = Analyze.NO)
-    private List<String> iAms;
+    @IndexedEmbedded
+    @Field(analyze = Analyze.NO, store = Store.YES)
+    private List<String> iAms = new ArrayList<String>();
 
     @Field(analyze = Analyze.NO)
     private boolean live;
@@ -136,15 +139,15 @@ public class User implements Serializable {
     private UserProvider provider = UserProvider.FHELLOW;
 
     private String providerId = "";
-    
+
     private String adviceMessage;
-    
+
     private String hobbiesMessage;
-    
+
     private String resourcesMessage;
-    
+
     private String shareMessage;
-    
+
     private String messageMeMessage;
 
     public User() {
@@ -441,13 +444,10 @@ public class User implements Serializable {
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
-    
 
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", email=" + email + ", isFirstLogin=" + isFirstLogin + ", location=" + location + ", nickname=" + nickname + ", firstname=" + firstname + ", lastname=" + lastname + ", latitude=" + latitude + ", longitude=" + longitude + '}';
     }
-    
-    
 
 }

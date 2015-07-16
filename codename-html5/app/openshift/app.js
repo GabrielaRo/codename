@@ -33,7 +33,7 @@
                             templateUrl: 'app/views/profile.html',
                             controller: 'profileController'
                         })
-                        .when('/profile/:id', {
+                        .when('/profile/:nickname', {
                             templateUrl: 'app/views/publicprofile.html',
                             controller: 'publicProfileController'
                         })

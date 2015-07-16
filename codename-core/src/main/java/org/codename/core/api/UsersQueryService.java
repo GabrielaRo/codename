@@ -15,7 +15,7 @@ import org.codename.model.User;
  */
 public interface UsersQueryService {
 
-    List<User> getAll() throws ServiceException;
+    List<User> getAll(List<String> lookingFors, List<String> categories) throws ServiceException;
 
     List<User> getUserByRange(Double lon, Double lat, Double range, List<String> lookingFors, List<String> categories) throws ServiceException;
 

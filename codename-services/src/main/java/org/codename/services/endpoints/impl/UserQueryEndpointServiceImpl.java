@@ -42,9 +42,47 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
     }
 
-    public Response getAll() throws ServiceException {
+    public Response getAll(@QueryParam("lookingFors") String lookingFors, @QueryParam("categories") String categories) throws ServiceException {
+        List<String> categoriesList = null;
+         if (categories != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(categories.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
+
+            
+
+            if (array != null) {
+                categoriesList = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("Category[" + i + "]: " + array.getString(i));
+
+                    categoriesList.add(array.getString(i));
+                }
+
+            }
+        }
+         List<String> lookingForList = null;
+         if (lookingFors != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(lookingFors.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
+
+            
+
+            if (array != null) {
+                lookingForList = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("Looking For[" + i + "]: " + array.getString(i));
+
+                    lookingForList.add(array.getString(i));
+                }
+
+            }
+        }
+        System.out.println("Looking Fors: "+ lookingForList);
+        System.out.println("Categories categories: "+ categoriesList);
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        List<User> allUsers = usersQueryService.getAll();
+        List<User> allUsers = usersQueryService.getAll(lookingForList, categoriesList);
         for (User u : allUsers) {
             JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
             jsonArrayBuilder.add(jsonUserObjectBuilder);

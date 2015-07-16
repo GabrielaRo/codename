@@ -6,6 +6,7 @@
 package org.codename.services.tests;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import org.apache.lucene.search.Query;
+import org.codename.core.api.UsersQueryService;
 import org.codename.model.User;
 
 import org.codename.core.api.UsersService;
@@ -40,6 +42,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -58,9 +61,12 @@ public class SimpleLocalServiceTest {
                 .workOffline()
                 .withMavenCentralRepo(false)
                 .withClassPathResolution(true)
-                .loadPomFromFile("pom.xml").importRuntimeDependencies().resolve("org.drools:drools-compiler",
-                        "com.google.protobuf:protobuf-java")
-                .withTransitivity().asFile();
+                .loadPomFromFile("pom.xml")
+                .importRuntimeDependencies().resolve()
+                //                .resolve("org.drools:drools-compiler",
+                //                       "com.google.protobuf:protobuf-java")
+                .withTransitivity()
+                .asFile();
 
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addAsLibraries(libs)
@@ -79,6 +85,9 @@ public class SimpleLocalServiceTest {
     private UsersService usersService;
 
     @Inject
+    private UsersQueryService queryService;
+
+    @Inject
     private UserTransaction ut;
 
     @BeforeClass
@@ -95,6 +104,20 @@ public class SimpleLocalServiceTest {
 
     @After
     public void tearDown() {
+    }
+    
+     @Test
+    public void newUserFilteredSearchTest3() throws ServiceException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+
+        List<User> all = queryService.getAll(null, null);
+        Assert.assertTrue(!all.isEmpty());
+    }
+
+    @Test
+    public void newUserFilteredSearchTest2() throws ServiceException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+
+        List<User> all = queryService.getAll(new ArrayList<String>(), new ArrayList<String>());
+        Assert.assertTrue(!all.isEmpty());
     }
 
     @Test
@@ -146,6 +169,46 @@ public class SimpleLocalServiceTest {
         resultList = fullTextQuery.getResultList();
 
         Assert.assertEquals(0, resultList.size());
+    }
+
+    @Test
+    public void newUserFilteredSearchTest() throws ServiceException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+        ut.begin();
+        Long newUser = usersService.newUser(new User("grogdj2@gmail.com", "asdasd"));
+        usersService.updateLive(newUser, "true");
+
+        Long newUser2 = usersService.newUser(new User("grogdj3@gmail.com", "asdasd"));
+        usersService.updateLive(newUser2, "true");
+
+        Long newUser3 = usersService.newUser(new User("grogdj4@gmail.com", "asdasd"));
+        usersService.updateLive(newUser3, "true");
+
+        List<String> iAms = new ArrayList<String>(3);
+        iAms.add("Freelancer");
+        iAms.add("Digital Nomad");
+        iAms.add("Entrepenuers");
+
+        usersService.updateIams(newUser, iAms);
+
+        List<String> lookingFor = new ArrayList<String>(3);
+        lookingFor.add("Socialise");
+        lookingFor.add("Collaborate");
+        lookingFor.add("Mentor");
+
+        usersService.updateLookingFor(newUser, lookingFor);
+
+        iAms = new ArrayList<String>(2);
+        iAms.add("Freelancer");
+        iAms.add("Digital Nomad");
+
+        usersService.updateIams(newUser2, iAms);
+        iAms = new ArrayList<String>(1);
+        iAms.add("Freelancer");
+        usersService.updateIams(newUser3, iAms);
+        ut.commit();
+
+        List<User> all = queryService.getAll(lookingFor, iAms);
+        Assert.assertTrue(!all.isEmpty());
     }
 
 }

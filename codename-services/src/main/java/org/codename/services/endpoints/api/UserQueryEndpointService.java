@@ -36,7 +36,7 @@ public interface UserQueryEndpointService extends Serializable {
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
-    Response getAll() throws ServiceException;
+    Response getAll(@QueryParam("lookingFors") String lookingFors, @QueryParam("categories") String categories) throws ServiceException;
     
    
 

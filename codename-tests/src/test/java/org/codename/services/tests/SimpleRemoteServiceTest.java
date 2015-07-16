@@ -52,8 +52,10 @@ public class SimpleRemoteServiceTest {
                 .workOffline()
                 .withMavenCentralRepo(false)
                 .withClassPathResolution(true)
-                .loadPomFromFile("pom.xml").importRuntimeDependencies().resolve("org.drools:drools-compiler",
-                        "com.google.protobuf:protobuf-java")
+                .loadPomFromFile("pom.xml").importRuntimeDependencies()
+//                .resolve("org.drools:drools-compiler",
+//                        "com.google.protobuf:protobuf-java")
+                .resolve()
                 .withTransitivity().asFile();
 
         return ShrinkWrap.create(WebArchive.class, "test.war")

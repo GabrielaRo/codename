@@ -28,8 +28,8 @@
             avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
         };
-   
-           
+
+
 
         $scope.loadPublicUserData = function (nickname) {
             console.log("LOAD PUBLIC DATA USER: " + nickname);
@@ -60,7 +60,7 @@
                         $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/avatar",
                                 $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/cover"
                         initialData = angular.copy($scope.profile)
-                       // $scope.calculatePercentage();
+                        // $scope.calculatePercentage();
                     }).error(function (data) {
                 console.log("Error: " + data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with getting the user data" + data);
@@ -71,27 +71,27 @@
         // Does this browser support the FILEAPI ?
         $scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
 
-      
 
-         /*
+
+        /*
          * This code is executed everytime that we access to the profile page
          */
 
-        angular.element(document).ready(function () {
-            console.log("THe USER ID HERE IS: "+ $scope.user_id);
-            console.log("THe USER EMAIL HERE IS: "+ $scope.email);
-     
-                
-                if ($scope.params && $scope.params.nickname) {
-                    console.log("ROUTE PARAMS NIckname ");
-                    console.log($scope.params.nickname);
 
-                    $scope.loadPublicUserData($scope.params.nickname);
-                  
-                }
-              
+        console.log("THe USER ID HERE IS: " + $scope.user_id);
+        console.log("THe USER EMAIL HERE IS: " + $scope.email);
 
-        });
+
+        if ($scope.params && $scope.params.nickname) {
+            console.log("ROUTE PARAMS NIckname ");
+            console.log($scope.params.nickname);
+
+            $scope.loadPublicUserData($scope.params.nickname);
+
+        }
+
+
+
 
     };
 

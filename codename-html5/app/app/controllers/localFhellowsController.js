@@ -49,6 +49,13 @@
                 $scope.filtersType.splice ($scope.filtersType.indexOf(buttonName), 1);   
             }
            console.log($scope.filtersType);
+           if($scope.lookedUpLocation){
+                
+                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.filtersLookingTo, $scope.filtersType);
+            }else{
+                $scope.loadFhellows( $scope.filtersLookingTo, $scope.filtersType);
+                
+            }
         }
         $scope.lookingToButtonPressed = function (buttonName) {
             
@@ -58,6 +65,12 @@
                 $scope.filtersLookingTo.splice ($scope.filtersLookingTo.indexOf(buttonName), 1);   
             }
             console.log($scope.filtersLookingTo);
+            if($scope.lookedUpLocation){
+                
+                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.filtersLookingTo, $scope.filtersType);
+            }else{
+                $scope.loadFhellows( $scope.filtersLookingTo, $scope.filtersType);
+            }
         }
 
         $scope.loadFhellowsByLocation = function (lon, lat, lookingFors, categories ) {
@@ -82,10 +95,10 @@
         };
 
 
-        $scope.loadFhellows = function () {
+        $scope.loadFhellows = function (lookingFors, categories) {
            
 
-            $queries.getAll().success(function (data) {
+            $queries.getAll(lookingFors, categories).success(function (data) {
                 //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
                 console.log("Fhellows: ");
                 console.log(data);
@@ -99,7 +112,7 @@
 
         };
 
-        $scope.loadFhellows();
+        $scope.loadFhellows( $scope.filtersLookingTo, $scope.filtersType);
 
        
 

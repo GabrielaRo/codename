@@ -29,7 +29,16 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
     @Inject
     private UsersService usersService;
 
-    private final static String serverUrl = "localhost:8080/codename-server/";
+    private static String serverUrl;
+
+    public PublicInitEndpointServiceImpl() {
+        serverUrl = System.getProperty("server.url");
+        if(serverUrl == null || serverUrl.equals("")){
+            serverUrl = "localhost:8080/codename-server/";
+        }
+    }
+    
+    
 
     public Response initApplication() throws ServiceException {
         try {
@@ -59,6 +68,12 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         usersService.updateLinkedin(grogdjId, "linked in here");
         usersService.updateLive(grogdjId, "true");
         usersService.updateFirstLogin(grogdjId);
+        List<String> lookingFor = new ArrayList<String>();
+        lookingFor.add("Mentor");
+        List<String> iAms = new ArrayList<String>();
+        iAms.add("Digital Nomad");
+        usersService.updateLookingFor(grogdjId, lookingFor);
+        usersService.updateIams(grogdjId, iAms);
 
         byte[] bytes = null;
         String profilePic = "http://" + serverUrl + "/static/img/public-images/1profile.jpg";
@@ -103,6 +118,12 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         usersService.updateLinkedin(ezeId, "linked in here");
         usersService.updateLive(ezeId, "true");
         usersService.updateFirstLogin(ezeId);
+        List<String> lookingFor = new ArrayList<String>();
+        lookingFor.add("Collaborate");
+        List<String> iAms = new ArrayList<String>();
+        iAms.add("Freelance");
+        usersService.updateLookingFor(ezeId, lookingFor);
+        usersService.updateIams(ezeId, iAms);
         
         byte[] bytes = null;
         String profilePic = "http://" + serverUrl + "/static/img/public-images/2profile.jpg";
@@ -147,7 +168,14 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         usersService.updateLinkedin(userId, username+" linked in here");
         usersService.updateLive(userId, "true");
         usersService.updateFirstLogin(userId);
-        
+        List<String> lookingFor = new ArrayList<String>();
+        lookingFor.add("Collaborate");
+        lookingFor.add("Socialise");
+        List<String> iAms = new ArrayList<String>();
+        iAms.add("Freelance");
+        iAms.add("Entrepreneur");
+        usersService.updateLookingFor(userId, lookingFor);
+        usersService.updateIams(userId, iAms);
         byte[] bytes = null;
         String profilePic = "http://" + serverUrl + "/static/img/public-images/"+imagesNro+"profile.jpg";
         try {
