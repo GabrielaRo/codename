@@ -2,7 +2,7 @@
 
     var codename = angular.module('codename', ['ngCookies', 'ngRoute',
         'ngAnimate', 'angular.filter', 'ngFileUpload',
-        'satellizer', 'ngTagsInput', 'locator']);
+        'satellizer', 'ngTagsInput', 'locator', 'angular-growl']);
 
     codename.constant("appConstants", {
         //server: ${server.address},

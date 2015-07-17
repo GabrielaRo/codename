@@ -28,7 +28,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
 
     @Inject
     private UsersService usersService;
-    //rhc set-env SERVERURL="http://fhellow-restprovider.rhcloud.com/" -a fhellow
+    //rhc env set JAVA_OPTS_EXT=-DSERVERURL="http://fhellow-restprovider.rhcloud.com/" -a fhellow
     private String serverUrl;
 
     public PublicInitEndpointServiceImpl() {
@@ -36,13 +36,13 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
     }
 
     private String getServerUrl() {
+
+        serverUrl = System.getProperty("SERVERURL");
         if (serverUrl == null || serverUrl.equals("")) {
-            serverUrl = System.getProperty("SERVERURL");
-            if (serverUrl == null || serverUrl.equals("")) {
-                serverUrl = "http://localhost:8080/";
-            }
-            serverUrl = serverUrl + "codename-server/";
+            serverUrl = "http://localhost:8080/";
         }
+        serverUrl = serverUrl + "codename-server/";
+
         System.out.println("Server URL : " + serverUrl);
         return serverUrl;
     }

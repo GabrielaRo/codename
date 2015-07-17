@@ -1,5 +1,5 @@
 
-   <div id="profile">
+<div id="profile">
     <form novalidate name="profileForm" ng-init="">
         <div id="profile-cover-image" style="background-image:url('{{profile.coverUrl}}')">
             <div id="profile-cover-options-wrapper">
@@ -9,8 +9,8 @@
                         <h3>Complete your profile and start finding Fhellows around you.<br/>Your profile must be at least 50% complete in order to start.</h3>
                     </div>
                 </div>
-                
-                
+
+
                 <div id="profile-cover-options">
 
                     <button class="button inverted" ngf-select ng-model="picCoverFile" name="file" ngf-change="generateCoverThumb(picCoverFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false"><i class="fa fa-camera"></i> <span ng-hide="!profile.hascover">Change</span> <span ng-hide="profile.hascover">Upload</span> Cover Image</button>
@@ -69,21 +69,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div id="profile-user-location">
                             <div class="editable">
-                               <span class="editable-placeholder" ng-show="profile.location.description == ''"> Where are you currently based? </span>
-                               <span class="editable-placeholder" ng-show="profile.location.description != ''"> {{profile.location.description}}</span>
+                                <span class="editable-placeholder" ng-show="profile.location.description == ''"> Where are you currently based? </span>
+                                <span class="editable-placeholder" ng-show="profile.location.description != ''"> {{profile.location.description}}</span>
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
-                                
+
                                 <div class="floatform" id="user-location-form">
                                     <div class="form-content">
                                         <div class="form-title">
@@ -103,19 +103,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
-                        
+
                         <div id="profile-user-looking-to" >
 
                             <div class="editable">
-                                <span class="editable-placeholder" ng-hide="profile.lookingFor.length > 0 || profile.iam.length > 0 " >What type of Fhellow are you? And what are you looking to do?</span>
-                                
+                                <span class="editable-placeholder" ng-hide="profile.lookingFor.length > 0 || profile.iam.length > 0" >What type of Fhellow are you? And what are you looking to do?</span>
+
                                 <span class="iams editable-child" ng-repeat="item in profile.iam" class="editable-child">{{item}}<span ng-hide="$index == (profile.iam.length - 1)">, </span></span>
-                                
+
                                 <span ng-repeat="item in profile.lookingFor" class="editable-child looking-fors">
-                                    
+
                                     <span class="editable-child icon" ng-show="item == 'Socialise'">
                                         <i class="fa fa-coffee editable-child"></i>
                                     </span>
@@ -126,8 +126,8 @@
                                         <i class="fa fa-graduation-cap editable-child"></i>
                                     </span>
                                 </span>    
-                                
-                                 <div class="editable-mark">
+
+                                <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
 
@@ -135,42 +135,42 @@
                                     <div class="form-content">
                                         <div class="form-column">
                                             <div class="form-title">
-                                               I’m a:
+                                                I’m a:
                                             </div>
                                             <div class="form-fields vertical">
 
                                                 <div class="control full">
-                                                      <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Freelance') > -1}" ng-click="typeButtonPressed('Freelance')">Freelance</button>
+                                                    <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Freelance') > -1}" ng-click="typeButtonPressed('Freelance')">Freelance</button>
                                                 </div>
-                                                
+
                                                 <div class="control full">
-                                                      <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Entrepreneur') > -1}" ng-click="typeButtonPressed('Entrepreneur')">Entrepreneur</button>
+                                                    <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Entrepreneur') > -1}" ng-click="typeButtonPressed('Entrepreneur')">Entrepreneur</button>
                                                 </div>
-                                                
-                                                 <div class="control full">
-                                                      <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Digital Nomad') > -1}" ng-click="typeButtonPressed('Digital Nomad')">Digital Nomad</button>
+
+                                                <div class="control full">
+                                                    <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Digital Nomad') > -1}" ng-click="typeButtonPressed('Digital Nomad')">Digital Nomad</button>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="form-column">
                                             <div class="form-title">
-                                               Looking to:
+                                                Looking to:
                                             </div>
                                             <div class="form-fields vertical">
 
                                                 <div class="control full">
-                                                      <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Socialise') > -1}" ng-click="lookingForButtonPressed('Socialise')"> <i class="fa fa-coffee"></i> Socialise</button>
+                                                    <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Socialise') > -1}" ng-click="lookingForButtonPressed('Socialise')"> <i class="fa fa-coffee"></i> Socialise</button>
                                                 </div>
-                                                
+
                                                 <div class="control full">
-                                                      <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Collaborate') > -1}" ng-click="lookingForButtonPressed('Collaborate')"> <i class="fa fa-pencil"></i> Collaborate</button>
+                                                    <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Collaborate') > -1}" ng-click="lookingForButtonPressed('Collaborate')"> <i class="fa fa-pencil"></i> Collaborate</button>
                                                 </div>
-                                                
-                                                 <div class="control full">
-                                                      <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Mentor') > -1}" ng-click="lookingForButtonPressed('Mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
+
+                                                <div class="control full">
+                                                    <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Mentor') > -1}" ng-click="lookingForButtonPressed('Mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="form-actions">
@@ -186,10 +186,10 @@
                             Profile completeness
                             <div id="profile-progress-bar">
                                 <div class="profile-progress" style="width: {{profile.percentage}}%">
-                                    
+
                                 </div>
                             </div>
-                           
+
                         </div>
                         <div id="profile-status-publish">
 
@@ -206,7 +206,7 @@
             <div class="right-col ">
                 <div class="content-block" id="user-bio-form" >
                     <div class="content-block-title">
-                       <div class="editable">
+                        <div class="editable">
                             Allow me to introduce myself...   
                             <div class="editable-mark">
                                 <i class="fa fa-pencil editable-child"></i>
@@ -215,7 +215,7 @@
                             <div class="floatform" id="user-location-form">
                                 <div class="form-content">
                                     <div class="form-title">
-                                       Bio:
+                                        Bio:
                                     </div>
                                     <div class="form-fields">
                                         <div class="control full">
@@ -228,19 +228,19 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
                         </div>
-                        
+
                     </div>
-                    
+
                     <div class="content-block-content">
                         <div class="textarea">
                             {{profile.bio}}
                             <span class="content-block-placeholder" ng-show="profile.bio == ''"> What do y￼ou do? What are you up to these days? </span>
                         </div>
                     </div>
-                    
-                    
+
+
                 </div>
             </div>
         </div>
@@ -253,43 +253,47 @@
                         My Interests
                         <div class="editable-title-options" >
                             <i class="fa fa-pencil editable-child icon-button" ng-hide="interestStatus" ng-click="editInterestBlock()"></i>
-                            
+
                         </div>
                     </div>
                     <div class="content-block-content">
-                       
+
                         <div class="control full"  ng-show="interestStatus" >
                             <tags-input  ng-model="tags"  class="no-list"                
-                                placeholder="What are you in to?" 
-                                replace-spaces-with-dashes="false"
-                                add-from-autocomplete-only="true" 
-                                on-tag-added="interestsTagAdded($tag)"
-                                >
-                                <auto-complete source="loadInterests($query)" load-on-empty="true"  
-                                               template="autocomplete-template">
+                                         placeholder="What are you in to?" 
+                                         replace-spaces-with-dashes="false"
+                                         add-from-autocomplete-only="true" 
+                                         on-tag-added="interestsTagAdded($tag)"
+                                         >
+                                <auto-complete source="loadInterests($query)" 
+                                               min-length="0"
+                                               load-on-focus="true"
+                                               load-on-empty="true"
+                                               max-results-to-show="3"
+                                               >
 
                                 </auto-complete>
                             </tags-input>
                         </div>
-                        
+
                         <div >
-                            
+
                             <div ng-show="profile.interests == ''">Share your interests with Fhellows</div>
-                            
+
                             <div class="interest" ng-class="{editing : interestStatus }" ng-repeat="interst in profile.interests">
-                                 <a class="delete" data-type="{{interst}}" ng-show="interestStatus" ng-click="interestsTagDeleted(interst)">x</a>
+                                <a class="delete" data-type="{{interst}}" ng-show="interestStatus" ng-click="interestsTagDeleted(interst)">x</a>
                                 {{interst}}
                             </div>
-                            
+
                         </div>
-                        
-                        
-                       
-                        
+
+
+
+
                     </div>
                     <div class="content-block-actions left" ng-show="interestStatus">
-                           <button class="button inverted"  ng-click="cancelInterestBlock()">Cancel</button>
-                           <button class="button primary"  ng-click="saveInterestBlock(profile.interests)">Save</button>
+                        <button class="button inverted"  ng-click="cancelInterestBlock()">Cancel</button>
+                        <button class="button primary"  ng-click="saveInterestBlock(profile.interests)">Save</button>
                     </div>
 
                 </div>
@@ -299,9 +303,9 @@
                     </div>
                     <div class="content-block-content">
                         <div class="link" >
-                           <i class="fa fa-twitter profile-icon"></i> 
+                            <i class="fa fa-twitter profile-icon"></i> 
                             <span class="editable"  >
-                                
+
                                 {{profile.twitter}} <span class="editable-placeholder" ng-show="profile.twitter == ''">Add Twitter Link</span>
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
@@ -319,15 +323,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </span>
                         </div>
-                        
+
                         <div class="link" >
-                           <i class="fa fa-linkedin profile-icon"></i>
+                            <i class="fa fa-linkedin profile-icon"></i>
                             <span class="editable">
-                                 {{profile.linkedin}}
-                                 <span class="editable-placeholder" ng-show="profile.linkedin == ''">Add Linkedin Link</span>
+                                {{profile.linkedin}}
+                                <span class="editable-placeholder" ng-show="profile.linkedin == ''">Add Linkedin Link</span>
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
@@ -347,9 +351,9 @@
                             </span>
                         </div>
                         <div class="link">
-                           <i class="fa fa-globe profile-icon"></i>
+                            <i class="fa fa-globe profile-icon"></i>
                             <span class="editable">
-                               {{profile.website}}<span class="editable-placeholder" ng-show="profile.website == ''">Add Website</span>
+                                {{profile.website}}<span class="editable-placeholder" ng-show="profile.website == ''">Add Website</span>
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
@@ -375,7 +379,7 @@
                         My work playlist
                     </div>
                 </div>
-                
+
                 <div class="content-block">
                     <div class="content-block-title ">
                         I like to work at
@@ -398,7 +402,7 @@
                                 <div class="floatform" id="user-originally-from-float-form">
                                     <div class="form-content">
                                         <div class="form-title">
-                                           Originally from  
+                                            Originally from  
                                         </div>
                                         <div class="form-fields">
                                             <div class="control full">
@@ -412,20 +416,20 @@
                                     </div>
                                 </div>
 
-                           </div>
-                              
-                           
+                            </div>
+
+
                             <div class="textarea">
                                 {{profile.originallyFrom}}
                                 <span class="content-block-placeholder" ng-show="profile.originallyFrom == ''"> London, New York, Paris, Timbuktu, etc...</span>
                             </div>
-                           
+
                         </div>
-                        
-                        
+
+
                         <div class="sub-block" id="user-title-form">
-  
-                           <div class="editable">
+
+                            <div class="editable">
                                 <strong class="editable-child">How do you make a living?</strong>   
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
@@ -434,7 +438,7 @@
                                 <div class="floatform" id="user-title-float-form">
                                     <div class="form-content">
                                         <div class="form-title">
-                                           Job 
+                                            Job 
                                         </div>
                                         <div class="form-fields">
                                             <div class="control full">
@@ -448,19 +452,19 @@
                                     </div>
                                 </div>
 
-                           </div>
-                              
-                           
+                            </div>
+
+
                             <div class="textarea">
                                 {{profile.title}}
                                 <span class="content-block-placeholder" ng-show="profile.title == ''"> Designer, developer, candle stick maker... </span>
                             </div>
-                            
-                            
+
+
                         </div>
-                        
-                         <div class="sub-block" id="user-advice-form">
-                              <div class="editable">
+
+                        <div class="sub-block" id="user-advice-form">
+                            <div class="editable">
                                 <strong class="editable-child">What advice would you give a Fhellow a few years behind you?</strong>   
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
@@ -469,7 +473,7 @@
                                 <div class="floatform" id="user-advice-float-form">
                                     <div class="form-content">
                                         <div class="form-title">
-                                          Advice
+                                            Advice
                                         </div>
                                         <div class="form-fields">
                                             <div class="control full">
@@ -483,21 +487,21 @@
                                     </div>
                                 </div>
 
-                           </div>
-                              
-                            
-                                <div class="textarea">
-                                    {{profile.advice}}
-                                    <span class="content-block-placeholder" ng-show="profile.advice == '' || profile.advice == undefined"> What do you wish someone had told you? </span>
-                                </div>
-                            
-                           
-                           
+                            </div>
+
+
+                            <div class="textarea">
+                                {{profile.advice}}
+                                <span class="content-block-placeholder" ng-show="profile.advice == '' || profile.advice == undefined"> What do you wish someone had told you? </span>
+                            </div>
+
+
+
                         </div>
-                        
-                        
+
+
                         <div class="sub-block" id="user-hobbies-form">
-                           
+
                             <div class="editable">
                                 <strong class="editable-child">What do you like to do when you’re not working?</strong>   
                                 <div class="editable-mark">
@@ -507,7 +511,7 @@
                                 <div class="floatform" id="user-hobbies-float-form">
                                     <div class="form-content">
                                         <div class="form-title">
-                                         Hobbies
+                                            Hobbies
                                         </div>
                                         <div class="form-fields">
                                             <div class="control full">
@@ -521,18 +525,18 @@
                                     </div>
                                 </div>
 
-                           </div>
-                              
-                           
-                                <div class="textarea">
-                                    {{profile.hobbies}}
-                                    <span class="content-block-placeholder" ng-show="profile.hobbies == '' || profile.hobbies == undefined"> What keeps you balanced? Are you in band, paint, surf, yoga... </span>
-                                </div>
-                          
-                           
-                         
+                            </div>
+
+
+                            <div class="textarea">
+                                {{profile.hobbies}}
+                                <span class="content-block-placeholder" ng-show="profile.hobbies == '' || profile.hobbies == undefined"> What keeps you balanced? Are you in band, paint, surf, yoga... </span>
+                            </div>
+
+
+
                         </div>
-                        
+
                         <div class="sub-block" id="user-resources-form">
                             <div class="editable">
                                 <strong class="editable-child">What books, blogs or resources would you recomend to other Fhellows?</strong>   
@@ -543,7 +547,7 @@
                                 <div class="floatform" id="user-resources-float-form">
                                     <div class="form-content">
                                         <div class="form-title">
-                                          Resources
+                                            Resources
                                         </div>
                                         <div class="form-fields">
                                             <div class="control full">
@@ -565,7 +569,7 @@
                                 <span class="content-block-placeholder" ng-show="profile.resources == '' || profile.resources == undefined"> Any books that inspired an ephphany, blogs you follow or articels you’ve bookmaked? </span>
                             </div>
                         </div>
-                        
+
                         <div class="sub-block" id="user-share-form">
                             <div class="editable">
                                 <strong class="editable-child">Anything else you would like to share with Fhellows?</strong>   
@@ -576,7 +580,7 @@
                                 <div class="floatform" id="user-share-float-form">
                                     <div class="form-content">
                                         <div class="form-title">
-                                          Share
+                                            Share
                                         </div>
                                         <div class="form-fields">
                                             <div class="control full">
@@ -597,10 +601,10 @@
                                 {{profile.share}}
                                 <span class="content-block-placeholder" ng-show="profile.share == '' || profile.share == undefined"> A project your working on, your favourite quote, a vaulable lesson you learnt? </span>
                             </div>
-                           
+
                         </div>
-                        
-                        
+
+
                         <div class="sub-block" id="user-message-form">
                             <div class="editable">
                                 <strong class="editable-child"> Message me if...</strong>   
@@ -632,9 +636,9 @@
                                 {{profile.messageme}}
                                 <span class="content-block-placeholder" ng-show="profile.messageme == '' || profile.messageme == undefined"> Fancy a coffee, want to brainstorm, are going to be in Madrid in July?</span>
                             </div>  
-                        
+
                         </div>
-                        
+
                     </div>
 
                 </div>
@@ -642,7 +646,7 @@
             </div>
         </div>
         <div class="clear-bottom">
-            
+
         </div>
     </form>
 </div>

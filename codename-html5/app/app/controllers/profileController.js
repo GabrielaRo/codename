@@ -10,6 +10,7 @@
          */
         $scope.params = $routeParams;
         $scope.edit = true;
+        $scope.interests  = [];
         $scope.profile = {
             firstname: "",
             lastname: "",

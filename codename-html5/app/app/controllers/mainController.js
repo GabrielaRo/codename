@@ -3,13 +3,13 @@
 
     angular.module('codename');
 
-    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, $sockets, appConstants, $route, $routeParams) {
+    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, $sockets, appConstants, $route, $routeParams, growl) {
         $scope.auth_token = $cookieStore.get('auth_token');
         $scope.email = $cookieStore.get('email');
         $scope.user_id = $cookieStore.get('user_id');
         $scope.firstLogin = $cookieStore.get('firstLogin');
         $scope.index = 0;
-        $scope.memberships = [];
+        $scope.notifications = [];
 
         $scope.avatarStyle = "";
         $scope.websocket = {};
@@ -27,27 +27,27 @@
                 return;
             }
 
-            //i = $scope.index++;
-            //$scope.invalidNotification = false;
-            //$scope.notifications[i] = data;
-            //console.log("notification " + data);
+            i = $scope.index++;
+            $scope.invalidNotification = false;
+            $scope.notifications[i] = data;
+            console.log("notification " + data);
 
-//            switch (type) {
-//                case "success":
-//                    growl.success(data, config);
-//                    break;
-//                case "info":
-//                    growl.info(data, config);
-//                    break;
-//                case "warning":
-//                    growl.warning(data, config);
-//                    break;
-//                case "error":
-//                    growl.error(data, config);
-//                    break;
-//                default:
-//                    growl.error(data, config);
-//            }
+            switch (type) {
+                case "success":
+                    growl.success(data, config);
+                    break;
+                case "info":
+                    growl.info(data, config);
+                    break;
+                case "warning":
+                    growl.warning(data, config);
+                    break;
+                case "error":
+                    growl.error(data, config);
+                    break;
+                default:
+                    growl.error(data, config);
+            }
 
 
 
@@ -163,7 +163,7 @@
     };
 
 
-    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$auth', '$sockets', 'appConstants', '$route', '$routeParams'];
+    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$auth', '$sockets', 'appConstants', '$route', '$routeParams', 'growl'];
     angular.module("codename").controller("MainCtrl", MainCtrl);
 }());
 

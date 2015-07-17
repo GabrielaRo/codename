@@ -277,7 +277,7 @@ public class UsersQueryServiceImpl implements UsersQueryService {
             iAmsFacetSelection.selectFacets(iAmsSelectedFacets.toArray(new Facet[iAmsSelectedFacets.size()]));
         }
         resultList = fullTextQuery.getResultList();
-        System.out.println("Result List after faceting: " + resultList);
+        
         return resultList;
     }
 

@@ -38,26 +38,26 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     @Inject
     private UsersService usersService;
 
-    private  static String serverUrl;
+    private static String serverUrl;
 
     private final static Logger log = Logger.getLogger(PublicUserEndpointServiceImpl.class.getName());
-  
+
     public PublicUserEndpointServiceImpl() {
-        
+
     }
 
     private String getServerUrl() {
+
+        serverUrl = System.getProperty("SERVERURL");
         if (serverUrl == null || serverUrl.equals("")) {
-            serverUrl = System.getProperty("SERVERURL");
-            if (serverUrl == null || serverUrl.equals("")) {
-                serverUrl = "http://localhost:8080/";
-            }
-            serverUrl = serverUrl + "codename-server/";
+            serverUrl = "http://localhost:8080/";
         }
+        serverUrl = serverUrl + "codename-server/";
+
         System.out.println("Server URL : " + serverUrl);
         return serverUrl;
     }
-    
+
     @Override
     public Response getAll() throws ServiceException {
         List<User> users = usersService.getAll();
@@ -71,7 +71,6 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
         }
         return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
-
 
     @Override
     public Response getByNickName(String nickname) throws ServiceException {
@@ -143,5 +142,4 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
 
     }
 
-    
 }
