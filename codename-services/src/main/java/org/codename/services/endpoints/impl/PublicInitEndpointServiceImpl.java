@@ -29,26 +29,32 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
     @Inject
     private UsersService usersService;
     //rhc set-env SERVERURL="http://fhellow-restprovider.rhcloud.com/" -a fhellow
-    private static String serverUrl;
+    private String serverUrl;
 
     public PublicInitEndpointServiceImpl() {
-        serverUrl = System.getProperty("SERVERURL");
-        if(serverUrl == null || serverUrl.equals("")){
-            serverUrl = "localhost:8080/";
-        }
-        serverUrl = serverUrl + "codename-server/";
+
     }
-    
-    
+
+    private String getServerUrl() {
+        if (serverUrl == null || serverUrl.equals("")) {
+            serverUrl = System.getProperty("SERVERURL");
+            if (serverUrl == null || serverUrl.equals("")) {
+                serverUrl = "http://localhost:8080/";
+            }
+            serverUrl = serverUrl + "codename-server/";
+        }
+        System.out.println("Server URL : " + serverUrl);
+        return serverUrl;
+    }
 
     public Response initApplication() throws ServiceException {
         try {
             createGrogDJ();
 
             createEze();
-            
-            createGenericUser("eldo@gmail.com", "asdasd", "2", "Kings Mall, 1 Kings Street, London W6 0PZ, United Kingdom",-0.22539040000003752, 51.4927488);
-            
+
+            createGenericUser("eldo@gmail.com", "asdasd", "2", "Kings Mall, 1 Kings Street, London W6 0PZ, United Kingdom", -0.22539040000003752, 51.4927488);
+
             createGenericUser("bot@gmail.com", "asdasd", "1", "13 Southfield Rd, London W4 1AG, UK", -0.2532988000000387, 51.5013335);
 
         } catch (Exception ex) {
@@ -60,7 +66,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
     private Long createGrogDJ() throws ServiceException {
         Long grogdjId = usersService.newUser(new User("grogdj@gmail.com", "asdasd"));
         usersService.updateBothNames(grogdjId, "Grog", "DJ");
-        
+
         usersService.updateLocation(grogdjId, "77 Fielding Road, London, United Kingdom", -0.2570034000000305, 51.50042680000001);
         //usersService.updateLookingFor(grogdjId, null);
         usersService.updateBio(grogdjId, "This is grog dj bio");
@@ -77,7 +83,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         usersService.updateIams(grogdjId, iAms);
 
         byte[] bytes = null;
-        String profilePic = "http://" + serverUrl + "/static/img/public-images/1profile.jpg";
+        String profilePic = getServerUrl() + "static/img/public-images/1profile.jpg";
         try {
             InputStream inputStream = new URL(profilePic).openStream();
 
@@ -89,7 +95,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
 
         usersService.updateAvatar(grogdjId, profilePic, bytes);
 
-        String coverPic = "http://" + serverUrl + "/static/img/public-images/1cover.jpg";
+        String coverPic = getServerUrl() + "/static/img/public-images/1cover.jpg";
         try {
             InputStream inputStream = new URL(coverPic).openStream();
 
@@ -109,7 +115,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
     private Long createEze() throws ServiceException {
         Long ezeId = usersService.newUser(new User("eze@asd.asd", "123123"));
         usersService.updateBothNames(ezeId, "Eze", "Sala");
-        
+
         usersService.updateLocation(ezeId, "Capellades, Barcelona, Spain", 1.6951309999999467, 41.521535);
         //usersService.updateLookingFor(grogdjId, null);
         usersService.updateBio(ezeId, "This is esala dj bio");
@@ -124,9 +130,9 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         iAms.add("Freelance");
         usersService.updateLookingFor(ezeId, lookingFor);
         usersService.updateIams(ezeId, iAms);
-        
+
         byte[] bytes = null;
-        String profilePic = "http://" + serverUrl + "/static/img/public-images/2profile.jpg";
+        String profilePic = getServerUrl() + "static/img/public-images/2profile.jpg";
         try {
             InputStream inputStream = new URL(profilePic).openStream();
 
@@ -138,7 +144,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
 
         usersService.updateAvatar(ezeId, profilePic, bytes);
 
-        String coverPic = "http://" + serverUrl + "/static/img/public-images/2cover.jpg";
+        String coverPic = getServerUrl() + "static/img/public-images/2cover.jpg";
         try {
             InputStream inputStream = new URL(coverPic).openStream();
 
@@ -155,17 +161,16 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         usersService.updateInterests(ezeId, interests);
         return ezeId;
     }
-    
+
     private Long createGenericUser(String username, String password, String imagesNro, String location, Double lon, Double lat) throws ServiceException {
         Long userId = usersService.newUser(new User(username, password));
         usersService.updateBothNames(userId, username.split("@")[0], "username Lastname");
-        
-        
+
         usersService.updateLocation(userId, location, lon, lat);
-        usersService.updateBio(userId, "This is "+username+" bio");
-        usersService.updateLongBio(userId, "XXXXXXXXXXXXXXXXXXXXXX This "+username+"  longbio");
-        usersService.updateWebsite(userId, username+".tumbrl.com");
-        usersService.updateLinkedin(userId, username+" linked in here");
+        usersService.updateBio(userId, "This is " + username + " bio");
+        usersService.updateLongBio(userId, "XXXXXXXXXXXXXXXXXXXXXX This " + username + "  longbio");
+        usersService.updateWebsite(userId, username + ".tumbrl.com");
+        usersService.updateLinkedin(userId, username + " linked in here");
         usersService.updateLive(userId, "true");
         usersService.updateFirstLogin(userId);
         List<String> lookingFor = new ArrayList<String>();
@@ -177,7 +182,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         usersService.updateLookingFor(userId, lookingFor);
         usersService.updateIams(userId, iAms);
         byte[] bytes = null;
-        String profilePic = "http://" + serverUrl + "/static/img/public-images/"+imagesNro+"profile.jpg";
+        String profilePic = getServerUrl() + "static/img/public-images/" + imagesNro + "profile.jpg";
         try {
             InputStream inputStream = new URL(profilePic).openStream();
 
@@ -189,7 +194,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
 
         usersService.updateAvatar(userId, profilePic, bytes);
 
-        String coverPic = "http://" + serverUrl + "/static/img/public-images/"+imagesNro+"cover.jpg";
+        String coverPic = getServerUrl() + "static/img/public-images/" + imagesNro + "cover.jpg";
         try {
             InputStream inputStream = new URL(coverPic).openStream();
 
@@ -206,6 +211,5 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         usersService.updateInterests(userId, interests);
         return userId;
     }
-
 
 }

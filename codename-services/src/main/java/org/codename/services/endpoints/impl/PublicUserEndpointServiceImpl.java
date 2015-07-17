@@ -43,13 +43,21 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     private final static Logger log = Logger.getLogger(PublicUserEndpointServiceImpl.class.getName());
   
     public PublicUserEndpointServiceImpl() {
-        serverUrl = System.getProperty("SERVERURL");
-        if(serverUrl == null || serverUrl.equals("")){
-            serverUrl = "localhost:8080/";
-        }
-        serverUrl = serverUrl + "codename-server/";
+        
     }
 
+    private String getServerUrl() {
+        if (serverUrl == null || serverUrl.equals("")) {
+            serverUrl = System.getProperty("SERVERURL");
+            if (serverUrl == null || serverUrl.equals("")) {
+                serverUrl = "http://localhost:8080/";
+            }
+            serverUrl = serverUrl + "codename-server/";
+        }
+        System.out.println("Server URL : " + serverUrl);
+        return serverUrl;
+    }
+    
     @Override
     public Response getAll() throws ServiceException {
         List<User> users = usersService.getAll();
@@ -94,7 +102,7 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
         } else {
             try {
                 log.info("avatar not found");
-                return Response.temporaryRedirect(new URI("http://" + serverUrl + "/static/img/public-images/default-avatar.png")).build();
+                return Response.temporaryRedirect(new URI(getServerUrl() + "static/img/public-images/default-avatar.png")).build();
             } catch (URISyntaxException ex) {
                 Logger.getLogger(PublicUserEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -124,7 +132,7 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
         } else {
             try {
                 log.info("cover not found");
-                return Response.temporaryRedirect(new URI("http://" + serverUrl + "/static/img/public-images/default-cover.png")).build();
+                return Response.temporaryRedirect(new URI(getServerUrl() + "/static/img/public-images/default-cover.png")).build();
             } catch (URISyntaxException ex) {
                 Logger.getLogger(PublicUserEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
