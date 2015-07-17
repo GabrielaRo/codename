@@ -6,7 +6,25 @@
     .boxShadow();
     .card();
     .six-col();
-
+    .fhellow-location-range {
+        position: absolute;
+        top: (@padding/2);
+        right: (@padding/2);
+        background-color: @cardBgr;
+        width: 14px;
+        height: 14px;
+        border-radius: 7px;
+        border: 3px solid @cardBgr;
+        &.range-1 {
+            background-color: @green;
+        }
+        &.range-2 {
+            background-color: @blue;
+        }
+        &.range-3 {
+            background-color: @red;
+        }
+    }
     .fhellow-cover-image {
         height: 132px;
          background-color: #000;

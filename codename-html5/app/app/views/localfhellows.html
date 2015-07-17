@@ -90,6 +90,7 @@
                
                
                 <div class="fhellow-item" ng-repeat="fhellow in fhellowsList  | filter:filters.search">
+                    <div class="fhellow-location-range range-{{fhellow.range}}" ng-show="fhellow.range != undefined"> </div>
                     <div class="fhellow-cover-image" style="background-image:url('{{serverUrlFull+ 'rest/public/users/' + fhellow.userId + '/cover'}}')"> </div>
                     <div class="fhellow-profile">
                         <div class="fhellow-profile-image hexagon">
