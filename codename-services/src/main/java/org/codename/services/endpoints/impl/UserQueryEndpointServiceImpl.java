@@ -94,7 +94,8 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
             }
         }
         System.out.println("Looking Fors: " + lookingForList);
-        System.out.println("Categories categories: " + categoriesList);
+        System.out.println("I am : " + categoriesList);
+        System.out.println("Interests : " + interestsList);
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         List<User> allUsers = usersQueryService.getAll(interestsList, lookingForList, categoriesList);
         for (User u : allUsers) {
@@ -158,7 +159,8 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
             }
         }
         System.out.println("Looking Fors: " + lookingForList);
-        System.out.println("Categories categories: " + categoriesList);
+        System.out.println("I am : " + categoriesList);
+        System.out.println("Interests : " + interestsList);
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         List<User> usersInRange1 = usersQueryService.getUserByRange(lon, lat, 1.0, interestsList, lookingForList, categoriesList);
         for (User u : usersInRange1) {

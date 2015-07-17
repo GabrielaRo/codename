@@ -101,7 +101,7 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
         } else {
             try {
                 log.info("avatar not found");
-                return Response.temporaryRedirect(new URI(getServerUrl() + "static/img/public-images/default-avatar.png")).build();
+                return Response.temporaryRedirect(new URI(getServerUrl() + "static/img/public-images/default-avatar.jpg")).build();
             } catch (URISyntaxException ex) {
                 Logger.getLogger(PublicUserEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -131,7 +131,7 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
         } else {
             try {
                 log.info("cover not found");
-                return Response.temporaryRedirect(new URI(getServerUrl() + "/static/img/public-images/default-cover.png")).build();
+                return Response.temporaryRedirect(new URI(getServerUrl() + "/static/img/public-images/default-cover.jpg")).build();
             } catch (URISyntaxException ex) {
                 Logger.getLogger(PublicUserEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }

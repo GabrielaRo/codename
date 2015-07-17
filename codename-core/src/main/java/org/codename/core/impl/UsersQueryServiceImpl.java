@@ -93,11 +93,11 @@ public class UsersQueryServiceImpl implements UsersQueryService {
         if (interests != null && !interests.isEmpty()) {
             facetManager.enableFaceting(interestsFacetingRequest);
             List<Facet> interestsFacets = facetManager.getFacets("interestsFacetingRequest");
-            System.out.println("Interests Facets!!! size = " + interestsFacets.size());
+            
 
             for (Facet f : interestsFacets) {
-                System.out.println("Interests ("+interests+" - contains?  "+ f.getValue() + "- "+interests.contains(f.getValue()));
-                System.out.println("Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
+            
+                System.out.println("Interest Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
                 if (interests.contains(f.getValue())) {
                     
                     interestsSelectedFacets.add(f);
@@ -109,11 +109,11 @@ public class UsersQueryServiceImpl implements UsersQueryService {
         if (lookingFors != null && !lookingFors.isEmpty()) {
             facetManager.enableFaceting(lookingForsFacetingRequest);
             List<Facet> lookingForFacets = facetManager.getFacets("lookingForsFacetRequest");
-            System.out.println("Looking For Facets!!! size = " + lookingForFacets.size());
+            
 
             for (Facet f : lookingForFacets) {
-                System.out.println("Looking fors ("+lookingFors+" - contains?  "+ f.getValue() + "- "+lookingFors.contains(f.getValue()));
-                System.out.println("Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
+            
+                System.out.println("Looking For Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
                 if (lookingFors.contains(f.getValue())) {
                     
                     lookingForSelectedFacets.add(f);
@@ -126,10 +126,10 @@ public class UsersQueryServiceImpl implements UsersQueryService {
             facetManager.enableFaceting(iAmsFacetingRequest);
             List<Facet> iAmsForFacets = facetManager.getFacets("iAmsFacetingRequest");
 
-            System.out.println("Iam s Facets!!! size = " + iAmsForFacets.size());
+           
             for (Facet f : iAmsForFacets) {
-                System.out.println("Categories ("+categories+" - contains?  "+ f.getValue() + "- "+categories.contains(f.getValue()));
-                System.out.println("Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
+           
+                System.out.println("I Am Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
                 if (categories.contains(f.getValue())) {
                     iAmsSelectedFacets.add(f);
                     
@@ -137,25 +137,28 @@ public class UsersQueryServiceImpl implements UsersQueryService {
             }
         }
 
-        //System.out.println("ALL Results Size = " + fullTextQuery.getResultSize());
-        List resultList = null;// fullTextQuery.getResultList();
-        System.out.println("Result List before faceting: " + resultList);
+        System.out.println("> All Users = " + fullTextQuery.getResultSize());
+        List resultList = null;
+        
 
         // apply first facet as additional search criteria
         if (!interestsSelectedFacets.isEmpty()) {
+            System.out.println("Applying Interst Facet");
             FacetSelection interestsFacetSelection = facetManager.getFacetGroup("interestsFacetingRequest");
             interestsFacetSelection.selectFacets(interestsSelectedFacets.toArray(new Facet[interestsSelectedFacets.size()]));
         }
         if (!lookingForSelectedFacets.isEmpty()) {
+            System.out.println("Applying Looking For Facet");
             FacetSelection lookingForFacetSelection = facetManager.getFacetGroup("lookingForsFacetRequest");
             lookingForFacetSelection.selectFacets(lookingForSelectedFacets.toArray(new Facet[lookingForSelectedFacets.size()]));
         }
         if (!iAmsSelectedFacets.isEmpty()) {
+            System.out.println("Applying I Am Facet");
             FacetSelection iAmsFacetSelection = facetManager.getFacetGroup("iAmsFacetingRequest");
             iAmsFacetSelection.selectFacets(iAmsSelectedFacets.toArray(new Facet[iAmsSelectedFacets.size()]));
         }
         resultList = fullTextQuery.getResultList();
-        System.out.println("Result List after faceting: " + resultList);
+        System.out.println("> All Users Result (Faceted)= " + fullTextQuery.getResultSize());
         return resultList;
     }
 
@@ -210,19 +213,19 @@ public class UsersQueryServiceImpl implements UsersQueryService {
         FacetManager facetManager = fullTextQuery.getFacetManager();
         
 
-        System.out.println("ALL Results Size = " + fullTextQuery.getResultSize());
-        List resultList = null;//fullTextQuery.getResultList();
-        System.out.println("Result List before faceting: " + resultList);
+        System.out.println("> All Users By Range = " + fullTextQuery.getResultSize());
+        List resultList = null;
+        
         
         List<Facet> interestsSelectedFacets = new ArrayList<Facet>();
         if (interests != null && !interests.isEmpty()) {
             facetManager.enableFaceting(interestsFacetingRequest);
             List<Facet> interestsFacets = facetManager.getFacets("interestsFacetingRequest");
-            System.out.println("Interests Facets!!! size = " + interestsFacets.size());
+           
 
             for (Facet f : interestsFacets) {
-                System.out.println("Interests ("+interests+" - contains?  "+ f.getValue() + "- "+interests.contains(f.getValue()));
-                System.out.println("Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
+                
+                System.out.println("> Interest Facet : " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
                 if (interests.contains(f.getValue())) {
                     
                     interestsSelectedFacets.add(f);
@@ -234,11 +237,11 @@ public class UsersQueryServiceImpl implements UsersQueryService {
         if (lookingFors != null && !lookingFors.isEmpty()) {
             facetManager.enableFaceting(lookingForsFacetingRequest);
             List<Facet> lookingForFacets = facetManager.getFacets("lookingForsFacetRequest");
-            System.out.println("Looking For Facets!!! size = " + lookingForFacets.size());
+            
 
             for (Facet f : lookingForFacets) {
-                System.out.println("Looking fors ("+lookingFors+" - contains?  "+ f.getValue() + "- "+lookingFors.contains(f.getValue()));
-                System.out.println("Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
+                
+                System.out.println("> Looking For Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
                 if (lookingFors.contains(f.getValue())) {
                     
                     lookingForSelectedFacets.add(f);
@@ -251,10 +254,10 @@ public class UsersQueryServiceImpl implements UsersQueryService {
             facetManager.enableFaceting(iAmsFacetingRequest);
             List<Facet> iAmsForFacets = facetManager.getFacets("iAmsFacetingRequest");
 
-            System.out.println("Iam s Facets!!! size = " + iAmsForFacets.size());
+            
             for (Facet f : iAmsForFacets) {
-                System.out.println("Categories ("+categories+" - contains?  "+ f.getValue() + "- "+categories.contains(f.getValue()));
-                System.out.println("Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
+                
+                System.out.println("> I Am Facet: " + f.getFacetingName() + " - " + f.getFieldName() + " - " + f.getValue() + "- " + f.getCount());
                 if (categories.contains(f.getValue())) {
                     iAmsSelectedFacets.add(f);
                     
@@ -265,19 +268,22 @@ public class UsersQueryServiceImpl implements UsersQueryService {
         // apply first facet as additional search criteria
         // apply first facet as additional search criteria
          if (!interestsSelectedFacets.isEmpty()) {
+             System.out.println("Applying Interest For Facet");
             FacetSelection interestsFacetSelection = facetManager.getFacetGroup("interestsFacetingRequest");
             interestsFacetSelection.selectFacets(interestsSelectedFacets.toArray(new Facet[interestsSelectedFacets.size()]));
         }
         if (!lookingForSelectedFacets.isEmpty()) {
+            System.out.println("Applying Looking For For Facet");
             FacetSelection lookingForFacetSelection = facetManager.getFacetGroup("lookingForsFacetRequest");
             lookingForFacetSelection.selectFacets(lookingForSelectedFacets.toArray(new Facet[lookingForSelectedFacets.size()]));
         }
         if (!iAmsSelectedFacets.isEmpty()) {
+            System.out.println("Applying I am For Facet");
             FacetSelection iAmsFacetSelection = facetManager.getFacetGroup("iAmsFacetingRequest");
             iAmsFacetSelection.selectFacets(iAmsSelectedFacets.toArray(new Facet[iAmsSelectedFacets.size()]));
         }
         resultList = fullTextQuery.getResultList();
-        
+        System.out.println("> All Users Result (Faceted)= " + fullTextQuery.getResultSize());
         return resultList;
     }
 

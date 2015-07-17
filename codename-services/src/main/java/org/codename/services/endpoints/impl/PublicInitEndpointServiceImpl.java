@@ -54,7 +54,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             createEze();
 
             createGenericUser("eldo@gmail.com", "asdasd", "2", "Kings Mall, 1 Kings Street, London W6 0PZ, United Kingdom", -0.22539040000003752, 51.4927488);
-
+           
             createGenericUser("bot@gmail.com", "asdasd", "1", "13 Southfield Rd, London W4 1AG, UK", -0.2532988000000387, 51.5013335);
 
         } catch (Exception ex) {
@@ -63,6 +63,17 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         return Response.ok().build();
     }
 
+    private Long createUser(String email, String password, String firstname, String lastname, String location, Double lon, Double lat) throws ServiceException{
+        User user = new User(email, password);
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        user.setLocation(location);
+        user.setLongitude(lon);
+        user.setLatitude(lat);
+        Long userId = usersService.newUser(user);
+        return userId;
+    }
+    
     private Long createGrogDJ() throws ServiceException {
         Long grogdjId = usersService.newUser(new User("grogdj@gmail.com", "asdasd"));
         usersService.updateBothNames(grogdjId, "Grog", "DJ");
