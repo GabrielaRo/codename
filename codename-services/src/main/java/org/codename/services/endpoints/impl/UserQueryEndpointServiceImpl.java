@@ -42,7 +42,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
     }
 
-    public Response getAll(@QueryParam("interests") String interests, 
+    public Response getAll(@QueryParam("interests") String interests,
             @QueryParam("lookingFors") String lookingFors,
             @QueryParam("categories") String categories) throws ServiceException {
         List<String> interestsList = null;
@@ -106,9 +106,9 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
     }
 
     @Override
-    public Response getAllByLocation( @QueryParam("lon") Double lon, @QueryParam("lat") Double lat, 
+    public Response getAllByLocation(@QueryParam("lon") Double lon, @QueryParam("lat") Double lat,
             @QueryParam("interests") String interests,
-            @QueryParam("lookingFors") String lookingFors, 
+            @QueryParam("lookingFors") String lookingFors,
             @QueryParam("categories") String categories) throws ServiceException {
         List<String> interestsList = null;
         if (interests != null) {
@@ -184,6 +184,24 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
                 System.out.println("User in Range 3: " + u);
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", "3");
+                jsonArrayBuilder.add(jsonUserObjectBuilder);
+            }
+        }
+        List<User> usersInRange4 = usersQueryService.getUserByRange(lon, lat, 50.0, interestsList, lookingForList, categoriesList);
+        for (User u : usersInRange4) {
+            if (!usersInRange3.contains(u) && !usersInRange2.contains(u) && !usersInRange1.contains(u)) {
+                System.out.println("User in Range 4: " + u);
+                JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+                jsonUserObjectBuilder.add("range", "4");
+                jsonArrayBuilder.add(jsonUserObjectBuilder);
+            }
+        }
+        List<User> usersInRange5 = usersQueryService.getUserByRange(lon, lat, 100.0, interestsList, lookingForList, categoriesList);
+        for (User u : usersInRange5) {
+            if (!usersInRange4.contains(u) && !usersInRange3.contains(u) && !usersInRange2.contains(u) && !usersInRange1.contains(u)) {
+                System.out.println("User in Range 5: " + u);
+                JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+                jsonUserObjectBuilder.add("range", "5");
                 jsonArrayBuilder.add(jsonUserObjectBuilder);
             }
         }

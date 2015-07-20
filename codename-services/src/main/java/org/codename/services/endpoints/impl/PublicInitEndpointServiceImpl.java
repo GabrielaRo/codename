@@ -31,6 +31,8 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
     //rhc env set JAVA_OPTS_EXT=-DSERVERURL="http://fhellow-restprovider.rhcloud.com/" -a fhellow
     private String serverUrl;
 
+    private static boolean mockUsersCreated = false;
+    
     public PublicInitEndpointServiceImpl() {
 
     }
@@ -47,15 +49,160 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         return serverUrl;
     }
 
+    public Response usersCreated() throws ServiceException {
+        return Response.ok(mockUsersCreated).build();
+    }
+    
+    
+
     public Response initApplication() throws ServiceException {
         try {
-            createGrogDJ();
-
-            createEze();
-
-            createGenericUser("eldo@gmail.com", "asdasd", "2", "Kings Mall, 1 Kings Street, London W6 0PZ, United Kingdom", -0.22539040000003752, 51.4927488);
+            List<String> interests = new ArrayList<String>();
+            List<String> lookingFor = new ArrayList<String>();
+            List<String> iAm = new ArrayList<String>();
+            
+            lookingFor.add("Mentor");
+            iAm.add("Digital Nomad");
+            interests.add("Software");
+            
+            createUser("grogdj@gmail.com", "asdasd","Grog", "DJ", "Chiswick, United Kingdom",-0.267173200000002, 51.4876272,   "This is grog dj bio", lookingFor, iAm, interests, "0_" );
+            
+            interests = new ArrayList<String>();
+            lookingFor = new ArrayList<String>();
+            iAm = new ArrayList<String>();
+            
+            lookingFor.add("Socialise");
+            lookingFor.add("Collabortate");
+            iAm.add("Freelance");
+            iAm.add("Entrepreneur");
+            interests.add("Design");
+            interests.add("Photography");
+            interests.add("Startups");
+            interests.add("Blogging");
+            
+            createUser("tom48734@gmail.com", "9832kjhs","Tom", "Campion", "Peckham, United Kingdom",-0.06913699999995515, 51.474191,   "I’m a nomadic designer, living and working from wherever the wind takes me. www.mynomadlife.com", 
+                    lookingFor, iAm, interests, "tom_" );
+            
+            
+            interests = new ArrayList<String>();
+            lookingFor = new ArrayList<String>();
+            iAm = new ArrayList<String>();
+            
+            lookingFor.add("Socialise");
+            lookingFor.add("Mentor");
+            iAm.add("Digital Nomad");
+            iAm.add("Entrepreneur");
+            interests.add("Business");
+            interests.add("Music");
+            interests.add("Education");
+            interests.add("Blogging");
+            
+            createUser("adamchengismyname@gmail.com", "jhsdkaus","Adam", "Cheng", "Shoreditch, United Kingdom",-0.08472800000004099, 51.52849,   "I'm an entrepreneur and recently sold my design agency. I am now spliiting my time bettwen London and Bali.", 
+                    lookingFor, iAm, interests, "adam_" );
+            
+            
+            interests = new ArrayList<String>();
+            lookingFor = new ArrayList<String>();
+            iAm = new ArrayList<String>();
+            
+            lookingFor.add("Socialise");
+            lookingFor.add("Collaborate");
+            iAm.add("Freelance");
+            
+            interests.add("Photography");
+            interests.add("Journalism");
+            interests.add("Blogging");
+            
+            createUser("amymaverson@gmail.com", "snlasas","Amy", "Mavorson", "Shoreditch, United Kingdom",-0.08472800000004099, 51.52849,   "I’ve been a freelance journalist for three years now. I’m a fan of Pinterest, cereal and 'inverted commas'.", 
+                    lookingFor, iAm, interests, "amy_" );
+            
+            interests = new ArrayList<String>();
+            lookingFor = new ArrayList<String>();
+            iAm = new ArrayList<String>();
+            
+            lookingFor.add("Socialise");
+            
+            iAm.add("Freelance");
+            iAm.add("Digital Nomad");
+            iAm.add("Entrepreneur");
+            
+            interests.add("Photography");
+            interests.add("Design");
+            
+            
+            createUser("charlottespencer@gmail.com", "kjas9fa","Charlotte", "Spencer", "Shoreditch, United Kingdom",-0.08472800000004099, 51.52849,   "Fashion illustrator and runner currently working in London for a month.", 
+                    lookingFor, iAm, interests, "charlotte_" );
+            
+            interests = new ArrayList<String>();
+            lookingFor = new ArrayList<String>();
+            iAm = new ArrayList<String>();
+            
+            lookingFor.add("Socialise");
+            
+            iAm.add("Freelance");
+            
+            interests.add("Photography");
+            interests.add("Design");
+            interests.add("Blogging");
+            interests.add("Startups");
+            interests.add("Sports");
+            interests.add("Business");
+            
+            
+            createUser("jonasapperly@gmail.com", "aksdhas","Jonas", "Apperly", "Hampstead, United Kingdom",-0.1762025000000449, 51.5556715,   "My girlfriend and I have been living semi-nomadic for a year now - we are currently in London and blogging as we go: thenomadcouple.com", 
+                    lookingFor, iAm, interests, "jonas_" );
+            
+            interests = new ArrayList<String>();
+            lookingFor = new ArrayList<String>();
+            iAm = new ArrayList<String>();
+            
+            lookingFor.add("Socialise");
+            
+            iAm.add("Freelance");
+            iAm.add("Digital Nomad");
+            
+            interests.add("Startups");
            
-            createGenericUser("bot@gmail.com", "asdasd", "1", "13 Southfield Rd, London W4 1AG, UK", -0.2532988000000387, 51.5013335);
+            
+            
+            createUser("clarajohnson@gmail.com", "723879","Clara", "Johnson", "Clapham, United Kingdom",-0.13856999999995878, 51.46231,   "I have just begun my digital nomad lifestyle in May from Vancouver, Canada. Stoked to begin a life like this!", 
+                    lookingFor, iAm, interests, "clara_" );
+            
+            interests = new ArrayList<String>();
+            lookingFor = new ArrayList<String>();
+            iAm = new ArrayList<String>();
+            
+            lookingFor.add("Socialise");
+            lookingFor.add("Collaborate");
+            iAm.add("Freelance");
+            iAm.add("Digital Nomad");
+            iAm.add("Entrepreneur");
+            interests.add("Startups");
+            interests.add("Design");
+            interests.add("Business");
+           
+            
+            
+            createUser("alisa.afkhami@gmail.com", "myprofile","Alisa", "Ay", "Wandsworth, United Kingdom",-0.20600100000001476, 51.45755,   "Hi, I'm Alisa a freelance designer from London. My goal is to work from anywhere in the world, preferably somewhere where the sun shines and the are waves to surf on.", 
+                    lookingFor, iAm, interests, "alisa_" );
+            
+            interests = new ArrayList<String>();
+            lookingFor = new ArrayList<String>();
+            iAm = new ArrayList<String>();
+            
+            lookingFor.add("Socialise");
+            lookingFor.add("Mentor");
+            
+            iAm.add("Digital Nomad");
+            
+            interests.add("Startups");
+            interests.add("Software");
+
+            
+            createUser("gdonald@gmail.com", "asdasd","George", "Donald", "Chiswick, United Kingdom",-0.267173200000002, 51.4876272,   "Hi, I'm George. I like to travel and work from anywhere. I only own what fits in my backpack. ", 
+                    lookingFor, iAm, interests, "george_" );
+            mockUsersCreated = true;
+            
 
         } catch (Exception ex) {
             Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -63,38 +210,28 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         return Response.ok().build();
     }
 
-    private Long createUser(String email, String password, String firstname, String lastname, String location, Double lon, Double lat) throws ServiceException{
+    private Long createUser(String email, String password, String firstname, String lastname, 
+            String location, Double lon, Double lat, String bio, 
+            List<String> lookingFor, List<String> iAms, List<String> interests, String profileId
+            ) throws ServiceException{
         User user = new User(email, password);
         user.setFirstname(firstname);
         user.setLastname(lastname);
         user.setLocation(location);
         user.setLongitude(lon);
         user.setLatitude(lat);
+        user.setBio(bio);
+        user.setLive(true);
+        user.setIsFirstLogin(false);
+        user.setLookingFor(lookingFor);
+        user.setiAms(iAms);
+        user.setInterests(interests);
+
         Long userId = usersService.newUser(user);
-        return userId;
-    }
-    
-    private Long createGrogDJ() throws ServiceException {
-        Long grogdjId = usersService.newUser(new User("grogdj@gmail.com", "asdasd"));
-        usersService.updateBothNames(grogdjId, "Grog", "DJ");
-
-        usersService.updateLocation(grogdjId, "77 Fielding Road, London, United Kingdom", -0.2570034000000305, 51.50042680000001);
-        //usersService.updateLookingFor(grogdjId, null);
-        usersService.updateBio(grogdjId, "This is grog dj bio");
-        usersService.updateLongBio(grogdjId, "XXXXXXXXXXXXXXXXXXXXXX This is grog dj longbio");
-        usersService.updateWebsite(grogdjId, "marylandsupreme.tumbrl.com");
-        usersService.updateLinkedin(grogdjId, "linked in here");
-        usersService.updateLive(grogdjId, "true");
-        usersService.updateFirstLogin(grogdjId);
-        List<String> lookingFor = new ArrayList<String>();
-        lookingFor.add("Mentor");
-        List<String> iAms = new ArrayList<String>();
-        iAms.add("Digital Nomad");
-        usersService.updateLookingFor(grogdjId, lookingFor);
-        usersService.updateIams(grogdjId, iAms);
-
+        
+        
         byte[] bytes = null;
-        String profilePic = getServerUrl() + "static/img/public-images/1profile.jpg";
+        String profilePic = getServerUrl() + "static/img/public-images/"+profileId+"pic.jpg";
         try {
             InputStream inputStream = new URL(profilePic).openStream();
 
@@ -104,9 +241,9 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        usersService.updateAvatar(grogdjId, profilePic, bytes);
+        usersService.updateAvatar(userId, profilePic, bytes);
 
-        String coverPic = getServerUrl() + "/static/img/public-images/1cover.jpg";
+        String coverPic = getServerUrl() + "/static/img/public-images/"+profileId+"cover.jpg";
         try {
             InputStream inputStream = new URL(coverPic).openStream();
 
@@ -115,13 +252,12 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         } catch (IOException ex) {
             Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        usersService.updateCover(grogdjId, coverPic, bytes);
-
-        List<String> interests = new ArrayList<String>();
-        interests.add("Software");
-        usersService.updateInterests(grogdjId, interests);
-        return grogdjId;
+        usersService.updateCover(userId, coverPic, bytes);
+        
+        return userId;
     }
+    
+    
 
     private Long createEze() throws ServiceException {
         Long ezeId = usersService.newUser(new User("eze@asd.asd", "123123"));
@@ -171,56 +307,6 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         interests.add("Web");
         usersService.updateInterests(ezeId, interests);
         return ezeId;
-    }
-
-    private Long createGenericUser(String username, String password, String imagesNro, String location, Double lon, Double lat) throws ServiceException {
-        Long userId = usersService.newUser(new User(username, password));
-        usersService.updateBothNames(userId, username.split("@")[0], "username Lastname");
-
-        usersService.updateLocation(userId, location, lon, lat);
-        usersService.updateBio(userId, "This is " + username + " bio");
-        usersService.updateLongBio(userId, "XXXXXXXXXXXXXXXXXXXXXX This " + username + "  longbio");
-        usersService.updateWebsite(userId, username + ".tumbrl.com");
-        usersService.updateLinkedin(userId, username + " linked in here");
-        usersService.updateLive(userId, "true");
-        usersService.updateFirstLogin(userId);
-        List<String> lookingFor = new ArrayList<String>();
-        lookingFor.add("Collaborate");
-        lookingFor.add("Socialise");
-        List<String> iAms = new ArrayList<String>();
-        iAms.add("Freelance");
-        iAms.add("Entrepreneur");
-        usersService.updateLookingFor(userId, lookingFor);
-        usersService.updateIams(userId, iAms);
-        byte[] bytes = null;
-        String profilePic = getServerUrl() + "static/img/public-images/" + imagesNro + "profile.jpg";
-        try {
-            InputStream inputStream = new URL(profilePic).openStream();
-
-            bytes = IOUtils.toByteArray(inputStream);
-            inputStream.close();
-        } catch (IOException ex) {
-            Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        usersService.updateAvatar(userId, profilePic, bytes);
-
-        String coverPic = getServerUrl() + "static/img/public-images/" + imagesNro + "cover.jpg";
-        try {
-            InputStream inputStream = new URL(coverPic).openStream();
-
-            bytes = IOUtils.toByteArray(inputStream);
-            inputStream.close();
-        } catch (IOException ex) {
-            Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        usersService.updateCover(userId, coverPic, bytes);
-
-        List<String> interests = new ArrayList<String>();
-        interests.add("Fashion");
-        interests.add("Gaming");
-        usersService.updateInterests(userId, interests);
-        return userId;
     }
 
 }

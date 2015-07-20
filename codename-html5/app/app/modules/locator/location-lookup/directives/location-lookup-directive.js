@@ -49,7 +49,7 @@ angular.module('locator')
               
               scope.clear();
               var el = angular.element(document.querySelectorAll("#myLocationText"));
-              el[0].value = locData.description;
+              el[0].value = locData.name;
             });
           });
         };

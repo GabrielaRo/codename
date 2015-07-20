@@ -26,7 +26,7 @@
 
 
             if ($scope.lookedUpLocation) {
-                $scope.loadFhellowsByLocation($scope.tagsText, $scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.filtersLookingTo, $scope.filtersType);
+                $scope.loadFhellowsByLocation( $scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
             } else {
                 $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
 
@@ -37,7 +37,7 @@
             $scope.tagsText.splice($scope.tagsText.indexOf($tag.text), 1);
 
             if ($scope.lookedUpLocation) {
-                $scope.loadFhellowsByLocation($scope.tagsText, $scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.filtersLookingTo, $scope.filtersType);
+                $scope.loadFhellowsByLocation( $scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
             } else {
                 $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
 

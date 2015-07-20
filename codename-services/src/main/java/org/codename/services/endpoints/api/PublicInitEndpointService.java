@@ -21,7 +21,12 @@ import org.codename.core.exceptions.ServiceException;
 public interface PublicInitEndpointService extends Serializable {
 
     @GET
-    @Path("/init")
+    @Path("/createusers")
     Response initApplication() throws ServiceException;
+    
+    @GET
+    @Path("/userscreated")
+    Response usersCreated() throws ServiceException;
+
 
 }

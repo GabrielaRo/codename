@@ -125,7 +125,17 @@
         factory.initMockUsers = function () {
             return $http({
                 method: 'GET',
-                url: appConstants.server + appConstants.context + 'rest/public/app/init',
+                url: appConstants.server + appConstants.context + 'rest/public/app/createusers',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: {}
+            });
+        };
+        
+        factory.mockUsersReady = function () {
+            return $http({
+                method: 'GET',
+                url: appConstants.server + appConstants.context + 'rest/public/app/userscreated',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {}
