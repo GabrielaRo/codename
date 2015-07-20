@@ -39,6 +39,11 @@
                             templateUrl: 'app/views/publicprofile.html',
                             controller: 'publicProfileController'
                         })
+                
+                        .when('/messages', {
+                            templateUrl: 'app/views/messages.html',
+                            controller: 'messagesController'
+                        })
 
                         .otherwise({
                             redirectto: '/'
