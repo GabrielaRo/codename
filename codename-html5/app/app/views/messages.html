@@ -16,7 +16,7 @@
                     <div id="user-messages-inbox">
                         <div class="inbox-message" ng-repeat="message in inbox" ng-click="selectUser(message.user)" ng-class="{active: selectedUser == message.user}">
                             <div class="user-avatar">
-                                  <div class="message-user-avatar hexagon">
+                              <div class="message-user-avatar hexagon">
                                    <div class="hexagon-inner-1">
                                        <div class="hexagon-inner-2 " >
 
@@ -30,6 +30,7 @@
                                        </div>
                                    </div>
                                </div>
+                               <div class="online-status" ng-if="message.onlineStatus"></div>
                             </div>
                             <div class="message-data">
                                 <div class="message-user-name">{{message.user}}</div>
@@ -49,10 +50,48 @@
                 </div>
                 <div class="content-block-content">
                     <div id="user-messages-chat">
-                        asd
+                        <div class="messages-history">
+                            <div class="messages-history-day" ng-repeat="day in messageHistory">
+                                <div class="day-name">
+                                    <span>
+                                        {{day.day}}
+                                    </span>
+                                </div>
+                                <div class="day-messages">
+                                    <div class="history-message" ng-repeat="message in day.messages">
+                                        <div class="user-avatar">
+                                            <div class="history-message-user-avatar hexagon">
+                                               <div class="hexagon-inner-1">
+                                                   <div class="hexagon-inner-2 " >
+
+                                                   </div>
+                                               </div>
+                                            </div>
+                                        </div>
+                                        <div class="message-body">
+                                           <div class="message-hour">
+                                                {{message.hour}}
+                                            </div>
+                                            <div class="message-user">
+                                                {{message.user}}
+                                            </div>
+                                            <div class="message-text">
+                                                {{message.text}}
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div id="user-messages-send">
-                        asd
+                        <div class="send-input">
+                            <textarea placeholder="Write your message here..."></textarea>
+                        </div>    
+                        <div class="send-actions">
+                            <button class="button primary">Send</button>
+                        </div>
                     </div>
                 </div>
             </div>

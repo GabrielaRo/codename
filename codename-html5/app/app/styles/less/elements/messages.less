@@ -39,6 +39,17 @@
                     background-color: #FFF;
                 }
             }
+            .online-status {
+                width: 14px;
+                height: 14px;
+                border: 2px solid #fff;
+                position: absolute;
+                z-index: 15;
+                border-radius: 7px;
+                background-color: @link;
+                top: 56px;
+                left: 43px;
+            }
             
         }
         
@@ -70,6 +81,7 @@
                 right: (@padding / 2);
                 top: (@padding / 2 + 5);
                 font-size: @dateFontSize;
+                
             }
        
         }
@@ -86,7 +98,87 @@
 
 #user-messages-chat {
     height: (@chatHeight - @sendHeight);
+    overflow-y: auto;
+    position: relative;
+    .messages-history {
+        position: relative;
+        padding: 0 (@padding/2) (@padding/2);
+        .messages-history-day {
+            .day-name {
+                text-align: center;
+                border-bottom: 1px solid @borders;
+                span {
+                    background-color: @bgrLight;
+                    padding: 0 10px;
+                    position: relative;
+                    top: 10px;
+                    color:  @borders;
+                    font-size: @dayFontSize;
+                }
+                margin: (@padding/2) 0 @padding;
+            }
+            .day-messages {
+                .history-message {
+                    padding-bottom: (@padding/2);
+                    position: relative;
+                    &:last-child {
+                        padding-bottom: 0;
+                    }
+                    .user-avatar {
+                        position: absolute;
+                        width: (@padding*1.5);
+                        top: 0;
+                        left: 0;
+                        .history-message-user-avatar {
+                            width: 42px;
+                            height: 60px;
+                            position: absolute;
+                            top: -12px;
+                            left: 0;
+                            z-index: 10;
+                            .hexagon-inner-2 {
+                                background-color: #000;
+                            }
+                        }
+                    }
+                    .message-body {
+                        padding-left:  (@padding*1.5);
+                        position: relative;
+                        .message-user {
+                            font-weight: @boldText;
+                        }
+                        .message-hour {
+                            position: absolute;
+                            right: (@padding/2);
+                            font-size: @dateFontSize;
+                            color: @textGrayLight;
+                        }
+                        .message-text {
+                            color: @textGrayLight;
+                            padding-right: (@padding*1.5);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 #user-messages-send {
     height: @sendHeight;
+    border-top: 1px solid @borders;
+    padding: (@padding/2);
+    
+    
+    .send-input {
+        textarea {
+            width: 100%;
+            border: 1px solid @borders;
+            height: 60px;
+            margin: 0;
+        }
+    }
+    .send-actions {
+        padding-top: (@padding/4);
+        text-align: right;
+    }
 }
