@@ -8,16 +8,52 @@
 <div id="messages">
     <div class="container">
         <div class="left-col">
-            <div class="content-block">
-               <div class="content-block-title">
-                Inbox (01)
+            <div class="content-block no-margin">
+                <div class="content-block-title">
+                    Inbox (01)
+                </div>
+                <div class="content-block-content">
+                    <div id="user-messages-inbox">
+                        <div class="inbox-message" ng-repeat="message in inbox" ng-click="selectUser(message.user)" ng-class="{active: selectedUser == message.user}">
+                            <div class="user-avatar">
+                                  <div class="message-user-avatar hexagon">
+                                   <div class="hexagon-inner-1">
+                                       <div class="hexagon-inner-2 " >
+
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="message-user-avatar-bgr hexagon">
+                                   <div class="hexagon-inner-1">
+                                       <div class="hexagon-inner-2" >
+
+                                       </div>
+                                   </div>
+                               </div>
+                            </div>
+                            <div class="message-data">
+                                <div class="message-user-name">{{message.user}}</div>
+                                <div class="message-excerpt">{{message.excerpt}}</div>
+                                <div class="message-date">{{message.date}}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
         </div>
         <div class="right-col">
-            <div class="content-block">
+            <div class="content-block no-margin">
                 <div class="content-block-title">
-                   James Vanderson
+                   {{selectedUser}}
+                </div>
+                <div class="content-block-content">
+                    <div id="user-messages-chat">
+                        asd
+                    </div>
+                    <div id="user-messages-send">
+                        asd
+                    </div>
                 </div>
             </div>
         </div>

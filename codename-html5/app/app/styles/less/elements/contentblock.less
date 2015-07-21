@@ -97,4 +97,18 @@
             text-align: left;
         }
     }
+    
+    
+    &.no-margin {
+        padding: @blockPadding 0 0;
+        margin-bottom: @colMargin;
+        .content-block-title {
+            padding-left: @blockPadding;
+            padding-right: @blockPadding;
+            margin-bottom: 0;
+        }
+        .content-block-content {
+            padding-top: 0;
+        }
+    }
 }

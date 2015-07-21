@@ -1,0 +1,92 @@
+#user-messages-inbox {
+    height: @inboxHeight;
+    overflow-y: auto;
+    cursor: pointer;
+    .inbox-message {
+        height: @inboxMessageHeight;
+        position: relative;
+        border-bottom: 1px solid @borders;
+        
+        .user-avatar {
+          
+            height: @inboxMessageHeight;
+            width: (@inboxMessageHeight - 5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            
+
+            .message-user-avatar {
+                width: 42px;
+                height: 60px;
+                position: absolute;
+                top: 15px;
+                left: 18px;
+                z-index: 10;
+                .hexagon-inner-2 {
+                    background-color: #000;
+                }
+            }
+            .message-user-avatar-bgr {
+                width: 44px;
+                height: 70px;
+                position: absolute;
+                top: 10px;
+                left: 17px;
+                z-index: 5;
+                .hexagon-inner-2 {
+                    background-color: #FFF;
+                }
+            }
+            
+        }
+        
+        .message-data {
+            height: @inboxMessageHeight;
+            width: 100%;
+            padding-left: (@inboxMessageHeight - 5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            
+            .message-user-name {
+                font-weight: @boldText;
+                padding-top: (@padding / 2 + 5);
+                padding-right: (@padding * 1.5);
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+             .message-excerpt {
+                
+                padding-right: (@padding/2);
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .message-date {
+                position: absolute;
+                right: (@padding / 2);
+                top: (@padding / 2 + 5);
+                font-size: @dateFontSize;
+            }
+       
+        }
+        
+        &:hover {
+            background-color: lighten(@link,50%);
+        }
+        &.active {
+            background-color: @link;
+            color: @textLight;
+        }
+    }
+}
+
+#user-messages-chat {
+    height: (@chatHeight - @sendHeight);
+}
+#user-messages-send {
+    height: @sendHeight;
+}
