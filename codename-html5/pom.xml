@@ -142,13 +142,13 @@
                 
                 <executions>
 
-                    <execution>
+<!--                    <execution>
                         <id>ui-build</id>
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
-                    </execution>
+                    </execution>-->
 
                     <!--                    <execution>
                         <id>ui-start</id>
