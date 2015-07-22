@@ -12,7 +12,9 @@
         padding-bottom: (@padding/2);
         margin-bottom: (@padding/4);
         display: block;
-         &:hover {
+        position: relative;
+        
+        &:hover {
             &:before {
                 display: none;
             }
@@ -25,6 +27,11 @@
                 opacity: 1;
                 color: @link;
             }
+        }
+        .content-block-title-options {
+            position: absolute;
+            right: (@padding/2);
+            top: 0;
         }
     }
     .content-block-content {

@@ -2,6 +2,8 @@
     
     var NavigationController = function($scope, $location, $rootScope){
         
+        $scope.newMessages = 3;
+        
         $scope.isActive = function (route) {
             return route === $location.path();
         };

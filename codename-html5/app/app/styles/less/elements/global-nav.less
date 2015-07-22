@@ -41,17 +41,24 @@
 
             .nav-item {
                 border-left: 1px solid rgba(255,255,255,.3);
+                position: relative;
                 
                 
                 &.messages {
                     width: 82px;
-
-                    svg{
-                        width: 40px;
-                        height: 40px;
-                        position: absolute;
-                        top: 12px;
-
+                    i {
+                        font-size: 22px;
+                        position: relative;
+                        top: 7px;
+                        left: 9px;
+                        color: @textLight;
+ 
+                    }
+                    &.active {
+                        background-color: @navHoverBackground;
+                        i {
+                            color: @link;
+                        }
                     }
                 }
 

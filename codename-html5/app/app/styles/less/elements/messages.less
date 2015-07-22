@@ -1,3 +1,136 @@
+.new-messages-badge {
+    position: absolute;
+    background-color: @link;
+    color: @textLight;
+    font-size: @badgeFontSize;
+    min-width:  @badgeFontSize;
+    height:  @badgeFontSize;
+    top: (@padding/3);
+    right: (@padding/3);
+    line-height:  @badgeFontSize;
+    text-align: center;
+    padding: ( @badgeFontSize/6) ( @badgeFontSize/3) ( @badgeFontSize/6 + 1);
+    display: inline-block;
+    box-sizing: content-box;
+    border-radius: ( @badgeFontSize/2);
+    
+}
+#user-messages-dropdown-title {
+    height: (@inboxMessageHeight - 10);
+    line-height: (@inboxMessageHeight - 10);
+    border-bottom: 1px solid @borders;
+    padding: 0 (@padding / 2 );
+    position: relative;
+    
+    h3 {
+        margin: 0;
+        padding: 0;
+        font-weight: @lightText;
+        height: (@inboxMessageHeight - 10);
+        line-height: (@inboxMessageHeight - 10);
+        font-size: @titleFontSize;
+    }
+    .title-options {
+        position: absolute;
+        right: (@padding / 2 );
+        top: 0;
+        line-height: (@inboxMessageHeight - 4);
+    }
+}
+#user-messages-dropdown-inbox {
+    font-size: @fontSize;
+    max-height: @inboxDropDownHeight;
+    overflow-y: auto;
+    cursor: pointer;
+    .inbox-message {
+        height: @inboxMessageHeight;
+        position: relative;
+        border-bottom: 1px solid @borders;
+        
+        .user-avatar {
+          
+            height: @inboxMessageHeight;
+            width: (@inboxMessageHeight - 5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            
+
+            .message-user-avatar {
+                width: 42px;
+                height: 60px;
+                position: absolute;
+                top: 15px;
+                left: 18px;
+                z-index: 10;
+                .hexagon-inner-2 {
+                    background-color: #000;
+                }
+            }
+            .message-user-avatar-bgr {
+                width: 44px;
+                height: 70px;
+                position: absolute;
+                top: 10px;
+                left: 17px;
+                z-index: 5;
+                .hexagon-inner-2 {
+                    background-color: #FFF;
+                }
+            }
+            .online-status {
+                width: 14px;
+                height: 14px;
+                border: 2px solid #fff;
+                position: absolute;
+                z-index: 15;
+                border-radius: 7px;
+                background-color: @link;
+                top: 56px;
+                left: 43px;
+            }
+            
+        }
+        
+        .message-data {
+            height: @inboxMessageHeight;
+            width: 100%;
+            padding-left: (@inboxMessageHeight - 5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            
+            .message-user-name {
+                font-weight: @boldText;
+                padding-top: (@padding / 2 + 5);
+                padding-right: (@padding * 1.5);
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+             .message-excerpt {
+                
+                padding-right: (@padding/2);
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .message-date {
+                position: absolute;
+                right: (@padding / 2);
+                top: (@padding / 2 + 5);
+                font-size: @dateFontSize;
+                
+            }
+       
+        }
+        
+        &:hover {
+            background-color: lighten(@link,50%);
+        }
+    }
+}
 #user-messages-inbox {
     height: @inboxHeight;
     overflow-y: auto;

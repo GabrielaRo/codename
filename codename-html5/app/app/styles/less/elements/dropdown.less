@@ -46,6 +46,13 @@
                 color: @borders ;     
             }
         }
+        
+        &.inbox-messages {
+            max-height: (@inboxDropDownHeight + (@inboxMessageHeight - 10) + 60);
+            height: auto;
+            font-size: @fontSize;
+            line-height: @lineHeight;
+        }
     }
     
 }
@@ -55,5 +62,29 @@ li:hover {
         opacity: 1;
         max-height: 1000px;
         transition: opacity .25s ease-in-out .1s, max-height 0.01s linear 0.01s;
+    }
+}
+
+.option-button {
+    .dropdown {
+        z-index: 50;
+        border: 1px solid @borders;
+        box-shadow: none;
+        min-width: 150px;
+        width: auto;
+        .dropdown-item {
+            border-bottom: none;
+            height: @optButtonItemHeight;
+            .dropdown-link {
+                height: @optButtonItemHeight;
+                line-height: @optButtonItemHeight;
+                padding: 0 @padding 0 (@padding/2);
+                white-space: nowrap;
+                &:hover {
+                    color: @textGray;
+                    background-color: @bgr;
+                }
+            }
+        }
     }
 }
