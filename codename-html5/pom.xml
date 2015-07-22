@@ -16,7 +16,7 @@
     limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.codename</groupId>
@@ -35,10 +35,10 @@
     <dependencies>
         <dependency>  
             <groupId>javax</groupId>    
-             <artifactId>javaee-web-api</artifactId>    
-             <version>7.0</version>  
-             <scope>provided</scope>
-         </dependency> 
+            <artifactId>javaee-web-api</artifactId>    
+            <version>7.0</version>  
+            <scope>provided</scope>
+        </dependency> 
         
         <dependency>
             <groupId>org.codename</groupId>
@@ -72,90 +72,91 @@
                     <jvmArgs>-Xms2048m -Xmx4024m -XX:MaxPermSize=2024M -XX:PermSize=1512M -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y</jvmArgs>
                 </configuration-->
             </plugin>
-             <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                  <webResources>
-                    <resource>
-                      <!-- this is relative to the pom.xml directory -->
-                      <directory>app</directory>
-                     
-                    </resource>
-                  </webResources>
+                    <webResources>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>app</directory>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
             <plugin>
-        <groupId>org.jolokia</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <version>0.11.3</version>
-        <configuration>
-          <!-- Global configuration. -->
-          <dockerHost>http://192.168.59.103:2376</dockerHost>
+                <groupId>org.jolokia</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.13.2</version>
+                <configuration>
+                    <!-- Global configuration. -->
+                    <dockerHost>tcp://192.168.59.103:2376</dockerHost>
+                    
+                    <!-- Although no authentication on registry, set empty values. If not, plugin push goal fails. -->
+                    <watchInterval>1000</watchInterval>
           
-          <!-- Although no authentication on registry, set empty values. If not, plugin push goal fails. -->
-          <authConfig>
-            <username></username>
-            <password></password>
-          </authConfig>
-          <useColor>true</useColor>
-          <logDate>default</logDate>
-          <verbose>true</verbose>
-
-          
-          <images>
+                    <useColor>true</useColor>
+                    <logDate>default</logDate>
+                    <verbose>true</verbose>
+                    <tag>test</tag>
+                    <images>
 
            
-            <image>
-              <name>codename/codename:${project.version}</name>
-              <alias>codename</alias>
-              <build>
-                <assembly>
-                  <dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
-                  <descriptor>${project.basedir}/src/main/assembly/docker-assembly.xml</descriptor>
-                </assembly>
-              </build>
-              <run>
-                <namingStrategy>alias</namingStrategy>
-                <env>
-                  
-                </env>
-                <ports>
-                  <port>codename.wf8.http.port:8080</port>
-                </ports>
+                        <image>
+                            <name>grogdj/codename:${project.version}</name>
+                            <alias>codename-${project.version}</alias>
+                            
+                            <build>
+                                <assembly>
+                                    <dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
+                                    <descriptor>${project.basedir}/src/main/assembly/docker-assembly.xml</descriptor>
+                                </assembly>
+                            </build>
+                            <run>
+                                
+                                <namingStrategy>none</namingStrategy>
+                                <env>
+                                
+                                </env>
+                                <ports>
+                                    <port>jolokia.port:8080</port>
+                                </ports>
                
-                <log>
-                  <prefix>DEMO</prefix>
-                  <date>ISO8601</date>
-                  <color>blue</color>
-                </log>
-              </run>
-            </image>
+                                <log>
+                                    <prefix>DEMO</prefix>
+                                    <date>ISO8601</date>
+                                    <color>blue</color>
+                                </log>
+                                
+                            </run>
+                            
+                        </image>
 
            
-          </images>
-        </configuration>
+                    </images>
+                    
+                </configuration>
+                
+                <executions>
 
-        <!--executions>
+<!--                    <execution>
+                        <id>ui-build</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>-->
 
-          <execution>
-            <id>ui-build</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>build</goal>
-            </goals>
-          </execution>
+                    <!--                    <execution>
+                        <id>ui-start</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>-->
 
-          <execution>
-            <id>ui-start</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>start</goal>
-            </goals>
-          </execution>
-
-                </executions-->
+                </executions>
 
             </plugin> 
             

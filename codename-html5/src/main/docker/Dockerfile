@@ -1,9 +1,5 @@
-
-
-####### BASE ############
 FROM jboss/wildfly:8.2.0.Final
 
-####### MAINTAINER ############
 MAINTAINER "grogdj" "grogdj@gmail.com"
 
 ####### ENVIRONMENT ############
@@ -21,6 +17,6 @@ RUN chown jboss:jboss $JBOSS_HOME/standalone/deployments/*
 USER jboss
 
 
-####### RUNNING JBPM-WB ############
+####### RUNNING WILDFLY ############
 WORKDIR $JBOSS_HOME/bin/
 CMD ["./standalone.sh", "-b", "0.0.0.0"]
