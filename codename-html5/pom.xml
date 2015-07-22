@@ -91,7 +91,7 @@
                 <version>0.13.2</version>
                 <configuration>
                     <!-- Global configuration. -->
-                    <dockerHost>tcp://192.168.59.103:2376</dockerHost>
+                    
                     
                     <!-- Although no authentication on registry, set empty values. If not, plugin push goal fails. -->
                     <watchInterval>1000</watchInterval>
@@ -99,12 +99,14 @@
                     <useColor>true</useColor>
                     <logDate>default</logDate>
                     <verbose>true</verbose>
-                    <tag>test</tag>
+                    <tags> 
+                        <tag>test</tag> 
+                    </tags>
                     <images>
 
            
                         <image>
-                            <name>grogdj/codename:${project.version}</name>
+                            <name>grogdj/codename:test</name>
                             <alias>codename-${project.version}</alias>
                             
                             <build>
@@ -140,13 +142,13 @@
                 
                 <executions>
 
-<!--                    <execution>
+                    <execution>
                         <id>ui-build</id>
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
-                    </execution>-->
+                    </execution>
 
                     <!--                    <execution>
                         <id>ui-start</id>

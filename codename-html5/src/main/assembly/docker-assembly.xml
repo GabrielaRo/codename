@@ -9,7 +9,7 @@
         <include>org.codename:codename-html5:war</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>codename.war</outputFileNameMapping>
+      <outputFileNameMapping>ROOT.war</outputFileNameMapping>
     </dependencySet>
   </dependencySets>
  

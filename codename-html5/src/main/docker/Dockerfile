@@ -6,7 +6,7 @@ MAINTAINER "grogdj" "grogdj@gmail.com"
 
 USER root
 
-ADD maven/codename.war /opt/jboss/wildfly/standalone/deployments/
+ADD maven/ROOT.war /opt/jboss/wildfly/standalone/deployments/
 
 
 ####### INTER WAR DEPENDENCY DESCRIPTOR FOR WILDFLY8 ############
