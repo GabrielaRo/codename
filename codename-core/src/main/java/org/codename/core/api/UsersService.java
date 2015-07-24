@@ -101,6 +101,7 @@ public interface UsersService {
 
     public void updateJobTitle(Long user_id, String jobtitle) throws ServiceException;
 
+    public void removeUser(Long user_id) throws ServiceException;
    
 
 }

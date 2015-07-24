@@ -8,24 +8,23 @@ package org.codename.services.tests;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+
 import org.apache.lucene.search.Query;
 import org.codename.core.api.UsersQueryService;
 import org.codename.model.User;
-
 import org.codename.core.api.UsersService;
 import org.codename.core.exceptions.ServiceException;
-
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -273,6 +272,20 @@ public class SimpleLocalServiceTest {
         
         Assert.assertTrue(all.size() == 3);
         
+    }
+    
+    @Test
+    public void removeUserTest() throws ServiceException, NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+    	ut.begin();
+    	User u = new User("gabriela.rogelova@gmail.com", "123456");
+    	Long newUser = usersService.newUser(u);
+    	usersService.updateLive(newUser, "true");
+    	ut.commit();
+    	ut.begin();
+    	usersService.removeUser(newUser);
+    	ut.commit();
+    	User byId = usersService.getById(newUser);
+    	Assert.assertTrue(byId == null);
     }
 
 }
