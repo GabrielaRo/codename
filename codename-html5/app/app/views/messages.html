@@ -106,10 +106,10 @@
                     </div>
                     <div id="user-messages-send">
                         <div class="send-input">
-                            <textarea placeholder="Write your message here..."></textarea>
+                            <textarea ng-model="newMessage" placeholder="Write your message here..."></textarea>
                         </div>    
                         <div class="send-actions">
-                            <button class="button primary">Send</button>
+                            <button class="button primary" ng-click="sendMessage('grogdj', 'this is my first meessage here.....')">Send</button>
                         </div>
                     </div>
                 </div>

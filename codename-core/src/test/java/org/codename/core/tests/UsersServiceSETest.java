@@ -8,13 +8,7 @@ package org.codename.core.tests;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
+import javax.persistence.Persistence;
 
 import org.codename.core.api.UsersService;
 import org.codename.core.exceptions.ServiceException;
@@ -36,21 +30,12 @@ import org.junit.runner.RunWith;
  *
  * @author gabi
  */
-
 @RunWith(Arquillian.class)
-public class SimpleLocalServiceTest {
-
-   
-
-    @PersistenceContext(name = "primary")
-    @Produces
-    EntityManager em;
+public class UsersServiceSETest {
 
     @Inject
     private UsersService usersService;
-
-    @Inject
-    private UserTransaction ut;
+ 
 
     @BeforeClass
     public static void setUpClass() {
@@ -67,28 +52,40 @@ public class SimpleLocalServiceTest {
     @After
     public void tearDown() {
     }
-    
+
     @Deployment
     public static JavaArchive createDeployment() {
- 
+
         return ShrinkWrap.create(JavaArchive.class)
-        		.addPackages(true, "org.codename")
+                .addPackages(true, "org.codename")
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
+                .addAsManifestResource("META-INF/users.xml", "users.xml")
+                .addAsManifestResource("META-INF/servicekey.xml", "servicekey.xml")
+                .addAsManifestResource("META-INF/notifications.xml", "notifications.xml")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }	
-    
+    }
+
+    @Produces
+    public EntityManager getEntityManager() {
+        return Persistence.createEntityManagerFactory("primary").createEntityManager();
+    }
+
     @Test
-    public void removeUserTest() throws ServiceException, NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
-    	ut.begin();
-    	User u = new User("gabriela.rogelova@gmail.com", "123456");
-    	Long newUser = usersService.newUser(u);
-    	usersService.updateLive(newUser, "true");
-    	ut.commit();
-    	ut.begin();
-    	usersService.removeUser(newUser);
-    	ut.commit();
-    	User byId = usersService.getById(newUser);
-    	Assert.assertTrue(byId == null);
+    public void removeUserTest() throws ServiceException, Exception {
+
+        User u = new User("gabriela.rogelova@gmail.com", "123456");
+        
+        Long newUserId = usersService.newUser(u);
+        
+        Assert.assertNotNull(newUserId);
+        
+        usersService.updateLive(newUserId, "true");
+        
+        usersService.removeUser(newUserId);
+        
+        
+        User byId = usersService.getById(newUserId);
+        Assert.assertTrue(byId == null);
     }
 
 }

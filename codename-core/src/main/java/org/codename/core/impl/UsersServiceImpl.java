@@ -1,7 +1,7 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this tpmplate file, choose Tools | Tpmplates
+ * and open the tpmplate in the editor.
  */
 package org.codename.core.impl;
 
@@ -10,14 +10,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import org.codename.core.api.UsersService;
 import org.codename.model.Coordinates;
 import org.codename.model.ServiceKey;
 import org.codename.model.User;
-import org.codename.core.api.UsersService;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.core.util.CodenameUtil;
+import org.codename.core.util.PersistenceManager;
 
 /**
  *
@@ -27,7 +27,7 @@ import org.codename.core.util.CodenameUtil;
 public class UsersServiceImpl implements UsersService {
 
     @Inject
-    private EntityManager em;
+    private PersistenceManager pm;
 
     private final static Logger log = Logger.getLogger(UsersServiceImpl.class.getName());
 
@@ -40,7 +40,9 @@ public class UsersServiceImpl implements UsersService {
             throw new ServiceException("User already registered with email: " + user.getEmail(), false);
         }
         user.setPassword(CodenameUtil.hash(user.getPassword()));
-        em.persist(user);
+        
+        pm.persist(user);
+        
         String key = generateWebKey(user.getEmail());
         log.log(Level.INFO, "User {0} registered. Service Key: {1}", new Object[]{user.getEmail(), key});
         return user.getId();
@@ -59,7 +61,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public User getByEmail(String email) {
         try {
-            return em.createNamedQuery("User.getByEmail", User.class).setParameter("email", email).getSingleResult();
+            return pm.createNamedQuery("User.getByEmail", User.class).setParameter("email", email).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
@@ -68,30 +70,26 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public User getByProviderId(String providerId) {
-         try {
-            return em.createNamedQuery("User.getByProviderId", User.class).setParameter("providerId", providerId).getSingleResult();
+        try {
+            return pm.createNamedQuery("User.getByProviderId", User.class).setParameter("providerId", providerId).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
     }
-    
-    
 
     @Override
     public User getByNickName(String nickname) throws ServiceException {
-         try {
-            return em.createNamedQuery("User.getByNickName", User.class).setParameter("nickname", nickname).getSingleResult();
+        try {
+            return pm.createNamedQuery("User.getByNickName", User.class).setParameter("nickname", nickname).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
     }
-    
-    
 
     @Override
     public User getById(Long user_id) {
         try {
-            return em.find(User.class, user_id);
+            return pm.find(User.class, user_id);
         } catch (NoResultException e) {
             return null;
         }
@@ -101,14 +99,14 @@ public class UsersServiceImpl implements UsersService {
     private String generateWebKey(String email) {
         String key = "webkey:" + email;
         log.log(Level.INFO, "Generating Key: {0}", key);
-        em.persist(new ServiceKey(key, email));
+        pm.persist(new ServiceKey(key, email));
         return key;
     }
 
     @Override
     public String getKey(String serviceKey) {
         try {
-            ServiceKey singleResult = em.createNamedQuery("ServiceKey.getByKey", ServiceKey.class).setParameter("key", serviceKey).getSingleResult();
+            ServiceKey singleResult = pm.createNamedQuery("ServiceKey.getByKey", ServiceKey.class).setParameter("key", serviceKey).getSingleResult();
             if (singleResult != null) {
                 return singleResult.getEmail();
             }
@@ -120,59 +118,54 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public boolean existKey(String serviceKey) {
-        return (em.createNamedQuery("ServiceKey.getByKey", ServiceKey.class).setParameter("key", serviceKey).getResultList().size() > 0);
+        return (pm.createNamedQuery("ServiceKey.getByKey", ServiceKey.class).setParameter("key", serviceKey).getResultList().size() > 0);
     }
-
-   
 
     @Override
     public void updateFirstName(Long user_id, String firstname) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setFirstname(firstname);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateLastName(Long user_id, String lastname) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setLastname(lastname);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateBio(Long user_id, String bio) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setBio(bio);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateLocation(Long user_id, String location, Double lon, Double lat) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setLocation(location);
         u.setLongitude(lon);
         u.setLatitude(lat);
-        em.merge(u);
+        pm.merge(u);
     }
-
-   
-
 
     @Override
     public Coordinates getLocation(Long user_id) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User  doesn't exist: " + user_id);
         }
@@ -181,52 +174,52 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void updateInterests(Long user_id, List<String> interests) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         log.info("Storing to the database: " + interests);
         u.setInterests(interests);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateFirstLogin(Long user_id) throws ServiceException {
 
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setIsFirstLogin(false);
-        em.merge(u);
+        pm.merge(u);
 
     }
 
     @Override
     public void updateAvatar(Long user_id, String fileName, byte[] content) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setAvatarFileName(fileName);
         u.setAvatarContent(content);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateCover(Long user_id, String fileName, byte[] content) throws ServiceException {
-        User find = em.find(User.class, user_id);
+        User find = pm.find(User.class, user_id);
         if (find == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         find.setCoverFileName(fileName);
         find.setCoverContent(content);
-        em.merge(find);
+        pm.merge(find);
     }
 
     @Override
     public byte[] getAvatar(Long user_id) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             return null;
         }
@@ -235,7 +228,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public byte[] getCover(Long user_id) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             return null;
         }
@@ -244,229 +237,236 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void removeAvatar(Long user_id) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setAvatarFileName("");
         u.setAvatarContent(null);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void removeCover(Long user_id) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setCoverFileName("");
         u.setCoverContent(null);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public List<User> getAll() {
-        return em.createNamedQuery("User.getAll", User.class).getResultList();
+        return pm.createNamedQuery("User.getAll", User.class).getResultList();
     }
-    
+
     @Override
     public List<User> getAllLive() {
-        return em.createNamedQuery("User.getAllLive", User.class).getResultList();
+        return pm.createNamedQuery("User.getAllLive", User.class).getResultList();
     }
 
     @Override
     public void updateBothNames(Long user_id, String firstname, String lastname) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setFirstname(firstname);
         u.setLastname(lastname);
-        em.merge(u);
+        pm.merge(u);
     }
-    
+
     @Override
     public void updateBioLongBioIams(Long user_id, String bio, String longbio, List<String> iAmsList) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setBio(bio);
         u.setLongBio(longbio);
         u.setiAms(iAmsList);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateOriginallyFrom(Long user_id, String originallyfrom) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setOriginallyFrom(originallyfrom);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateLookingFor(Long user_id, List<String> lookingForList) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setLookingFor(lookingForList);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateCategories(Long user_id, List<String> categoriesList) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setCategories(categoriesList);
-        em.merge(u);
+        pm.merge(u);
     }
 
     public void updateLongBio(Long user_id, String longbio) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setLongBio(longbio);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateLive(Long user_id, String live) throws ServiceException {
         Boolean liveBoolean = Boolean.valueOf(live);
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
-        System.out.println("LiveBoolean is: "+liveBoolean);
         u.setLive(liveBoolean);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateIams(Long user_id, List<String> iAmsList) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setiAms(iAmsList);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateTwitter(Long user_id, String twitter) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setTwitter(twitter);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateNickName(Long user_id, String nickname) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setNickname(nickname);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateWebsite(Long user_id, String website) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setWebsite(website);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateLinkedin(Long user_id, String linkedin) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setLinkedin(linkedin);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateAdvice(Long user_id, String advice) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setAdviceMessage(advice);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateHobbies(Long user_id, String hobbies) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setHobbiesMessage(hobbies);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateResources(Long user_id, String resources) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setResourcesMessage(resources);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
     public void updateShare(Long user_id, String share) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setShareMessage(share);
-        em.merge(u);
+        pm.merge(u);
     }
 
     @Override
-    public void updateMessageMe(Long user_id, String messageme) throws ServiceException {
-        User u = em.find(User.class, user_id);
+    public void updateMessageMe(Long user_id, String messagpme) throws ServiceException {
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
-        u.setMessageMeMessage(messageme);
-        em.merge(u);
+        u.setMessageMeMessage(messagpme);
+        pm.merge(u);
     }
 
     @Override
     public void updateJobTitle(Long user_id, String jobtitle) throws ServiceException {
-        User u = em.find(User.class, user_id);
+        User u = pm.find(User.class, user_id);
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         u.setJobTitle(jobtitle);
-        em.merge(u);
+        pm.merge(u);
     }
-    
+
+    @Override
     public void removeUser(Long user_id) throws ServiceException {
-    	User u = em.find(User.class, user_id);
-    	if (u == null) {
+        User u = pm.find(User.class, user_id);
+        if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
-    	em.remove(u);
+        pm.remove(u);
     }
-    
-    
 
-    
+    @Override
+    public void updateChatToken(Long user_id, String chatToken) throws ServiceException {
+        User u = pm.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setChatToken(chatToken);
+        pm.merge(u);
+    }
+
 }

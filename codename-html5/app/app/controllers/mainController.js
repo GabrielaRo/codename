@@ -93,6 +93,7 @@
                     $scope.email = $cookieStore.get('email');
                     $scope.user_id = $cookieStore.get('user_id');
                     $scope.firstLogin = $cookieStore.get('firstLogin');
+                    
                     $scope.credentials = {};
                     $scope.submitted = false;
                     $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};

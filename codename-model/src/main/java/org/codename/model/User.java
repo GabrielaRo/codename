@@ -149,6 +149,8 @@ public class User implements Serializable {
     private String shareMessage;
 
     private String messageMeMessage;
+    
+    private String chatToken;
 
     public User() {
     }
@@ -444,6 +446,16 @@ public class User implements Serializable {
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
+
+    public String getChatToken() {
+        return chatToken;
+    }
+
+    public void setChatToken(String chatToken) {
+        this.chatToken = chatToken;
+    }
+    
+        
 
     @Override
     public String toString() {

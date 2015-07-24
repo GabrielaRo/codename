@@ -103,5 +103,7 @@ public interface UsersService {
 
     public void removeUser(Long user_id) throws ServiceException;
    
+    public void updateChatToken(Long id, String chatToken) throws ServiceException ;
+
 
 }

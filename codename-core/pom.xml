@@ -33,12 +33,35 @@
             <scope>test</scope>
         </dependency>
         <dependency>
- <groupId>org.jboss.arquillian.container</groupId>
- <artifactId>arquillian-weld-se-embedded-1.1</artifactId>
- <version>1.0.0.CR7</version>
- <scope>test</scope>
-</dependency>
-
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-weld-se-embedded-1.1</artifactId>
+            <version>1.0.0.CR7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-core</artifactId>
+            <version>1.1.5.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>  
+            <groupId>javax</groupId>    
+            <artifactId>javaee-web-api</artifactId>    
+            <version>7.0</version>  
+            <scope>test</scope>
+        </dependency> 
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.185</version>
+            <scope>test</scope>
+        </dependency>
         
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
@@ -53,10 +76,16 @@
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
+            
         </dependency>
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>

@@ -72,17 +72,12 @@
             <scope>test</scope>
         </dependency>
      
-      <dependency>  
+        <dependency>  
             <groupId>javax</groupId>    
             <artifactId>javaee-web-api</artifactId>    
             <version>7.0</version>  
             <scope>test</scope>
         </dependency> 
-        
-       
-    
-        
-      
         
         <dependency>
             <groupId>com.h2database</groupId>
@@ -130,15 +125,15 @@
     <build>
         <plugins>
             
-     <plugin>
-       <groupId>org.apache.maven.plugins</groupId>
-       <artifactId>maven-compiler-plugin</artifactId>
-       <version>3.3</version>
-       <configuration>
-         <source>1.8</source>
-         <target>1.8</target>
-       </configuration>
-     </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
    
             <!-- You need the maven dependency plugin to download locally a zip with the server, unless you provide your own, it will download under the /target directory -->
             <plugin>
