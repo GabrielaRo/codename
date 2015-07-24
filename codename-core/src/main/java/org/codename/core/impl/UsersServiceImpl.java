@@ -458,7 +458,13 @@ public class UsersServiceImpl implements UsersService {
         em.merge(u);
     }
     
-    
+    public void removeUser(Long user_id) throws ServiceException {
+    	User u = em.find(User.class, user_id);
+    	if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+    	em.remove(u);
+    }
     
     
 
