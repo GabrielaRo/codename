@@ -96,7 +96,7 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
             return Boolean.parseBoolean(CHAT_SERVER_ENABLED);
         }
 
-        return true;
+        return false;
     }
 
     private String getChatServerUrl() {
