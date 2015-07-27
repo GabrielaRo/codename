@@ -13,7 +13,9 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -34,9 +36,18 @@ public interface ChatEndpointService extends Serializable {
     public Response sendMessage(@NotNull @FormParam("userId") Long userId, @NotNull @NotEmpty @FormParam("to") String to,  @NotNull @NotEmpty @FormParam("message") String message) throws ServiceException;
     
     @GET
-    @Path("/messages")
+    @Path("/messages/{userId}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getMessages(@NotNull @FormParam("userId") Long userId) throws ServiceException;
+    public Response getMessages(@NotNull @PathParam("userId") Long userId, @QueryParam("other") String other) throws ServiceException;
+    
+    @GET
+    @Path("/conversations/{userId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getConversations(@NotNull @PathParam("userId") Long userId) throws ServiceException;
 
+    @GET
+    @Path("/connections/{userId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getConnections(@NotNull @PathParam("userId") Long userId) throws ServiceException;
    
 }

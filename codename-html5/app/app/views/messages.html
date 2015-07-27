@@ -14,7 +14,7 @@
                 </div>
                 <div class="content-block-content">
                     <div id="user-messages-inbox">
-                        <div class="inbox-message" ng-repeat="message in inbox" ng-click="selectUser(message.user)" ng-class="{active: selectedUser == message.user}">
+                        <div class="inbox-message" ng-repeat="message in inbox" ng-click="selectUser(message.participant_nickname)" ng-class="{active: selectedUser == message.participant_nickname}">
                             <div class="user-avatar">
                               <div class="message-user-avatar hexagon">
                                    <div class="hexagon-inner-1">
@@ -33,9 +33,9 @@
                                <div class="online-status" ng-if="message.onlineStatus"></div>
                             </div>
                             <div class="message-data">
-                                <div class="message-user-name">{{message.user}}</div>
+                                <div class="message-user-name">{{message.participant_nickname}}</div>
                                 <div class="message-excerpt">{{message.excerpt}}</div>
-                                <div class="message-date">{{message.date}}</div>
+                                <div class="message-date">{{message.time}}</div>
                             </div>
                         </div>
                     </div>
@@ -89,10 +89,10 @@
                                         </div>
                                         <div class="message-body">
                                            <div class="message-hour">
-                                                {{message.hour}}
+                                                {{message.time}}
                                             </div>
                                             <div class="message-user">
-                                                {{message.user}}
+                                                {{message.owner_nickname}}
                                             </div>
                                             <div class="message-text">
                                                 {{message.text}}
@@ -109,7 +109,7 @@
                             <textarea ng-model="newMessage" placeholder="Write your message here..."></textarea>
                         </div>    
                         <div class="send-actions">
-                            <button class="button primary" ng-click="sendMessage('grogdj', 'this is my first meessage here.....')">Send</button>
+                            <button class="button primary" ng-click="sendMessage(selectedUser, newMessage)">Send</button>
                         </div>
                     </div>
                 </div>

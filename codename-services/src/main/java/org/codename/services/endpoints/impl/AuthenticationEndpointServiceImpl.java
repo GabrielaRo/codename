@@ -197,7 +197,7 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
                     Logger.getLogger(AuthenticationEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.out.println("User Info: " + userInfo);
-                System.out.println("response: " + response.getStatus() + " - " + response.getStatusInfo());
+                
                 String chatToken = (String) userInfo.get("token");
                 userService.updateChatToken(authUser.getId(), chatToken);
 
