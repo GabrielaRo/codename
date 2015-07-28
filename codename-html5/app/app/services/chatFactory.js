@@ -3,21 +3,33 @@
         var factory = {};
 
         //send message
-        factory.sendMessage = function (to, message) {
+        factory.sendMessage = function (conversationId, message) {
             return $http({
                 method: 'POST',
                 url: appConstants.server + appConstants.context + 'rest/chat/messages',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
-                data: {userId: $cookieStore.get('user_id'), to: to, message: message}
+                data: {userId: $cookieStore.get('user_id'), conversationId: conversationId, message: message}
+            });
+        };
+        
+        
+        // new  conversation
+        factory.newConversation = function (selectedUser) {
+            return $http({
+                method: 'POST',
+                url: appConstants.server + appConstants.context + 'rest/chat/conversations/'+$cookieStore.get('user_id')+'/create',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: {other: selectedUser}
             });
         };
         
         //get message
-        factory.getMessages = function (selectedUser) {
+        factory.getMessages = function (conversationId) {
             return $http({
                 method: 'GET',
-                url: appConstants.server + appConstants.context + 'rest/chat/messages/'+$cookieStore.get('user_id')+"?other="+selectedUser,
+                url: appConstants.server + appConstants.context + 'rest/chat/messages/'+$cookieStore.get('user_id')+"?conversationId="+conversationId,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded',service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 
             });

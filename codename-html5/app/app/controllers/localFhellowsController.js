@@ -1,5 +1,5 @@
 (function () {
-    var localFhellowsController = function ($scope, $rootScope, $queries, $interests, location, appConstants) {
+    var localFhellowsController = function ($scope, $rootScope, $queries, $interests, $chat, location, appConstants) {
         $scope.imagePath = "static/img/public-images/";
         $scope.filters = {location: '', proximity: 200, type: "", search: ""};
         $scope.filtersType = [];
@@ -46,7 +46,22 @@
 
         $scope.$watch('lookedUpLocation', $scope.selectAddress);
 
+        $scope.newConversation = function (selectedUser) {
+            console.log("About to create New conversation for "+selectedUser);
+            $chat.newConversation(selectedUser).success(function (data) {
+                
+                console.log("New conversation created ");
+                console.log(data);
+                $rootScope.$broadcast('goTo', "/messages/"+data);
+                
+                
+            }).error(function (data) {
+                console.log("Error: ");
+                console.log(data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong creating a new conversations!" + data);
+            });
 
+        }
 
 
 
@@ -163,7 +178,7 @@
 
     };
 
-    localFhellowsController.$inject = ['$scope', '$rootScope', '$queries', '$interests', 'location', 'appConstants'];
+    localFhellowsController.$inject = ['$scope', '$rootScope', '$queries', '$interests', '$chat','location', 'appConstants'];
     angular.module("codename").controller("localFhellowsController", localFhellowsController);
 
 }());

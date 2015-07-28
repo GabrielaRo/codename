@@ -877,8 +877,7 @@
          */
 
         angular.element(document).ready(function () {
-            console.log("THe USER ID HERE IS: "+ $scope.user_id);
-            console.log("THe USER EMAIL HERE IS: "+ $scope.email);
+            
             if (firstLogin && $scope.auth_token && $scope.auth_token !== "") {
                 // If it is the first time that the user is accessing the site using this account
                 //  we need to update the information in the server and then load the basic data. 

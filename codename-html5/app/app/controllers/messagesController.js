@@ -1,6 +1,6 @@
 (function () {
 
-    var messagesController = function ($scope, $chat, $cookieStore, $rootScope) {
+    var messagesController = function ($scope, $chat, $cookieStore,$routeParams, $rootScope) {
 //        $scope.inbox = [{user: "Salaboy", nickname: "salaboy", excerpt: "Sounds good see you then", date: "10:09", onlineStatus: false}, {user: "Grog DJ", nickname:"grogdj" , excerpt: "Thanks for the link - really interesting", date: "Tue", onlineStatus: true}, 
 //            {user: "Lee Jackson", nickname:"ttt9" ,excerpt: "Awesome!!!!!", date: "Sun", onlineStatus: false}, 
 //            {user: "Amy Jones",nickname:"ttt10" , excerpt: "Hey Natalie, i’m heading", date: "11 Jun", onlineStatus: false}, 
@@ -21,21 +21,21 @@
 //            },
 //            {day: "Today", messages: [{user: "You", text: "On my way!", hour: "12:08"}]}
 //        ];
-        $scope.selectedUser = {};
+        $scope.selectedConversationId;
         $scope.inbox = [];
         $scope.messageHistory = [];
-        $scope.selectUser = function (user) {
-            console.log(user);
-            $scope.selectedUser = user;
-            $scope.getMessages($scope.selectedUser);
+        $scope.selectConversation = function (conversationId) {
+            console.log(conversationId);
+            $scope.selectedConversationId = conversationId;
+            $scope.getMessages($scope.selectedConversationId);
         }
 
-        $scope.sendMessage = function (to, message) {
-            console.log("Sending message to: " + to + " - " + message);
-            $chat.sendMessage(to, message).success(function (data) {
+        $scope.sendMessage = function (conversationId, message) {
+            console.log("Sending message to: " + conversationId + " - " + message);
+            $chat.sendMessage(conversationId, message).success(function (data) {
                 console.log("OK Data: " + data);
                 $rootScope.$broadcast("quickNotification", "Message: " + message + " Sent!");
-                $scope.getMessages($scope.selectedUser);
+                $scope.getMessages($scope.selectedConversationId);
 
             }).error(function (data) {
 
@@ -45,9 +45,9 @@
             });
         }
 
-        $scope.getMessages = function (selectedUser) {
+        $scope.getMessages = function (selectedConversationId) {
 
-            $chat.getMessages(selectedUser).success(function (data) {
+            $chat.getMessages(selectedConversationId).success(function (data) {
                 $scope.messageHistory = data;
 
                 console.log("OK Data: ");
@@ -83,8 +83,12 @@
 
             $chat.getConversations().success(function (data) {
                 $scope.inbox = data;
-                if($scope.inbox[0]){
-                    $scope.selectedUser = $scope.inbox[0].participant_nickname;
+                console.log("Routes Param selectedConversation: "+$routeParams.selectedConversation);
+                if($routeParams.selectedConversation){
+                    $scope.selectedConversationId = $routeParams.selectedConversation;
+                }else if($scope.inbox[0] && !$routeParams.selectedConversation){
+                    $scope.selectedConversationId = $scope.inbox[0].conversation_id;
+                    $scope.getMessages($scope.selectedConversationId);
                 }
                 console.log("OK Inbox Data: ");
                 console.log(data);
@@ -101,12 +105,12 @@
         }
 
         $scope.getConversations();
-        $scope.getMessages($scope.selectedUser);
-        $scope.getConnections();
+        
+       // $scope.getConnections();
 
     };
 
-    messagesController.$inject = ['$scope', '$chat', '$cookieStore', '$rootScope'];
+    messagesController.$inject = ['$scope', '$chat', '$cookieStore','$routeParams', '$rootScope'];
     angular.module("codename").controller("messagesController", messagesController);
 
 }());

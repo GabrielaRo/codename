@@ -33,21 +33,31 @@ public interface ChatEndpointService extends Serializable {
     @POST
     @Path("/messages")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response sendMessage(@NotNull @FormParam("userId") Long userId, @NotNull @NotEmpty @FormParam("to") String to,  @NotNull @NotEmpty @FormParam("message") String message) throws ServiceException;
+    public Response sendMessage(@NotNull @FormParam("userId") Long userId, @NotNull @NotEmpty @FormParam("conversationId") String conversationId,  @NotNull @NotEmpty @FormParam("message") String message) throws ServiceException;
     
     @GET
     @Path("/messages/{userId}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getMessages(@NotNull @PathParam("userId") Long userId, @QueryParam("other") String other) throws ServiceException;
+    public Response getMessages(@NotNull @PathParam("userId") Long userId, @QueryParam("conversationId") String conversationId) throws ServiceException;
     
-    @GET
-    @Path("/conversations/{userId}")
+//    @GET
+//    @Path("/conversations/{userId}")
+//    @Produces({MediaType.APPLICATION_JSON})
+//    public Response getConversations(@NotNull @PathParam("userId") Long userId) throws ServiceException;
+    
+    @POST
+    @Path("/conversations/{userId}/create")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getConversations(@NotNull @PathParam("userId") Long userId) throws ServiceException;
+    public Response createConversation(@NotNull @PathParam("userId") Long userId, @FormParam("other") String other) throws ServiceException;
 
     @GET
     @Path("/connections/{userId}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getConnections(@NotNull @PathParam("userId") Long userId) throws ServiceException;
+    
+    @GET
+    @Path("/conversations/{userId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response getRooms(@NotNull @PathParam("userId")Long userId) throws ServiceException ;
    
 }

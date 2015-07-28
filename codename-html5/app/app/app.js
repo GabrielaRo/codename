@@ -6,7 +6,7 @@
 
     codename.constant("appConstants", {
         //server: ${server.address},
-         //server: "http://fhellow-restprovider.rhcloud.com/",
+        //server: "http://fhellow-restprovider.rhcloud.com/",
         server: 'http://localhost:8080/',
         address: "localhost",
         port: "8080",
@@ -39,8 +39,12 @@
                             templateUrl: 'app/views/publicprofile.html',
                             controller: 'publicProfileController'
                         })
-                
+
                         .when('/messages', {
+                            templateUrl: 'app/views/messages.html',
+                            controller: 'messagesController'
+                        })
+                        .when('/messages/:selectedConversation', {
                             templateUrl: 'app/views/messages.html',
                             controller: 'messagesController'
                         })
