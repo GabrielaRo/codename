@@ -21,6 +21,9 @@
 //            },
 //            {day: "Today", messages: [{user: "You", text: "On my way!", hour: "12:08"}]}
 //        ];
+        
+        $("#user-messages-chat").animate({ scrollTop:  $("#user-messages-chat").height() }, 1000);
+        
         $scope.selectedConversationId;
         $scope.inbox = [];
         $scope.messageHistory = [];
@@ -28,6 +31,7 @@
             console.log(conversationId);
             $scope.selectedConversationId = conversationId;
             $scope.getMessages($scope.selectedConversationId);
+            $scope.selectedUserName = conversationId;
         }
 
         $scope.sendMessage = function (conversationId, message) {
@@ -36,13 +40,18 @@
                 console.log("OK Data: " + data);
                 $rootScope.$broadcast("quickNotification", "Message: " + message + " Sent!");
                 $scope.getMessages($scope.selectedConversationId);
+                $scope.newMessage = "";
+                $("#user-messages-chat").animate({ scrollTop:  $("#user-messages-chat").height() }, 1000);
 
             }).error(function (data) {
 
                 console.log("Error: " + data);
                 console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with sending the message!" + data);
+                 $scope.newMessage = "";
             });
+            
+           
         }
 
         $scope.getMessages = function (selectedConversationId) {
@@ -112,5 +121,11 @@
 
     messagesController.$inject = ['$scope', '$chat', '$cookieStore','$routeParams', '$rootScope'];
     angular.module("codename").controller("messagesController", messagesController);
+    
+    angular.module( "codename" ).filter('reverse', function() {
+      return function(items) {
+        return items.slice().reverse();
+      };
+    });
 
 }());

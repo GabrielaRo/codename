@@ -46,7 +46,7 @@
         <div class="right-col">
             <div class="content-block no-margin">
                 <div class="content-block-title">
-                   {{selectedUser}}
+                   {{selectedUserName}}
                    <div class="content-block-title-options">
                        <ul class="option-button">
                            <li>
@@ -70,6 +70,7 @@
                 <div class="content-block-content">
                     <div id="user-messages-chat">
                         <div class="messages-history">
+                           <!--
                             <div class="messages-history-day" ng-repeat="day in messageHistory">
                                 <div class="day-name">
                                     <span>
@@ -102,11 +103,43 @@
                                     </div>
                                 </div>
                             </div>
+                            -->
+                            <div class="messages-history-day" >
+                                <div class="day-name">
+                                    <span>
+                                        All Messages
+                                    </span>
+                                </div>
+                                <div class="day-messages">
+                                    <div class="history-message" ng-repeat="message in messageHistory | reverse">
+                                        <div class="user-avatar">
+                                            <div class="history-message-user-avatar hexagon">
+                                               <div class="hexagon-inner-1">
+                                                   <div class="hexagon-inner-2 " >
+
+                                                   </div>
+                                               </div>
+                                            </div>
+                                        </div>
+                                        <div class="message-body">
+                                           <div class="message-hour">
+                                                {{message.time}}
+                                            </div>
+                                            <div class="message-user">
+                                                {{message.owner_nickname}}
+                                            </div>
+                                            <div class="message-text">
+                                                {{message.text}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="user-messages-send">
                         <div class="send-input">
-                            <textarea ng-model="newMessage" placeholder="Write your message here..."></textarea>
+                            <textarea ng-model="newMessage"  placeholder="Write your message here..."></textarea>
                         </div>    
                         <div class="send-actions">
                             <button class="button primary" ng-click="sendMessage(selectedConversationId, newMessage)">Send</button>
