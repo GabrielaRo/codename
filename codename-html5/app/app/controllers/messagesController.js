@@ -21,8 +21,7 @@
 //            },
 //            {day: "Today", messages: [{user: "You", text: "On my way!", hour: "12:08"}]}
 //        ];
-        
-        $("#user-messages-chat").animate({ scrollTop:  $("#user-messages-chat").height() }, 1000);
+       
         
         $scope.selectedConversationId;
         $scope.inbox = [];
@@ -41,7 +40,8 @@
                 $rootScope.$broadcast("quickNotification", "Message: " + message + " Sent!");
                 $scope.getMessages($scope.selectedConversationId);
                 $scope.newMessage = "";
-                $("#user-messages-chat").animate({ scrollTop:  $("#user-messages-chat").height() }, 1000);
+                var newListHeight =  $(".messages-history").height();
+                $("#user-messages-chat").animate({ scrollTop:  newListHeight }, 1000);
 
             }).error(function (data) {
 
@@ -63,6 +63,12 @@
                 console.log(data);
 
                 $rootScope.$broadcast("quickNotification", "messages retrieved!");
+                
+                var scrollDown = function(){
+                    var newListHeight =  $(".messages-history").height();
+                    $("#user-messages-chat").scrollTop( newListHeight );
+                };
+                setTimeout(scrollDown, 200);
 
 
             }).error(function (data) {
@@ -95,9 +101,11 @@
                 console.log("Routes Param selectedConversation: "+$routeParams.selectedConversation);
                 if($routeParams.selectedConversation){
                     $scope.selectedConversationId = $routeParams.selectedConversation;
+                    $scope.selectedUserName = $scope.selectedConversationId;
                 }else if($scope.inbox[0] && !$routeParams.selectedConversation){
                     $scope.selectedConversationId = $scope.inbox[0].conversation_id;
                     $scope.getMessages($scope.selectedConversationId);
+                    $scope.selectedUserName = $scope.selectedConversationId;
                 }
                 console.log("OK Inbox Data: ");
                 console.log(data);
@@ -114,6 +122,10 @@
         }
 
         $scope.getConversations();
+        
+        
+
+
         
        // $scope.getConnections();
 
