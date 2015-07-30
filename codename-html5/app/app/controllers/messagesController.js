@@ -1,41 +1,19 @@
 (function () {
 
     var messagesController = function ($scope, $chat, $cookieStore, $routeParams, $rootScope) {
-//        $scope.inbox = [{user: "Salaboy", nickname: "salaboy", excerpt: "Sounds good see you then", date: "10:09", onlineStatus: false}, {user: "Grog DJ", nickname:"grogdj" , excerpt: "Thanks for the link - really interesting", date: "Tue", onlineStatus: true}, 
-//            {user: "Lee Jackson", nickname:"ttt9" ,excerpt: "Awesome!!!!!", date: "Sun", onlineStatus: false}, 
-//            {user: "Amy Jones",nickname:"ttt10" , excerpt: "Hey Natalie, i’m heading", date: "11 Jun", onlineStatus: false}, 
-//            {user: "James Vanderson", nickname:"ttt11" ,excerpt: "Thanks", date: "23 May", onlineStatus: true}, 
-//            {user: "Sophie Taylor", nickname:"ttt12" ,excerpt: "Not sure will get back tomorrow", date: "19 May", onlineStatus: false}, 
-//            {user: "Alannah Ward Thomas",nickname:"ttt13" , excerpt: "Awesome", date: "2 Abr", onlineStatus: false}];
 
-
-//        $scope.messageHistory = [
-//            {day: "Sunday", messages: [
-//                    {user: "Other User", nickname:"ttt9", text: "Hey, im going to go work in the Hoxton tomorrow. Fancy joining?", hour: "16:58"},
-//                    {user: "You", nickname:"salaboy", text: "Hey James, yeah that would be good. I have a meeting at 11am in Soho but could head over afterwards. What time are you thinking?", hour: "17:04"},
-//                    {user: "Other User",nickname:"ttt9", text: "I’ll be there from 10am so come on over whenever your ready.", hour: "17:04"},
-//                    {user: "Other User",nickname:"ttt9", text: "Hey, im going to go work in the Hoxton tomorrow. Fancy joining?", hour: "16:58"},
-//                    {user: "You", nickname:"salaboy", text: "Hey James, yeah that would be good. I have a meeting at 11am in Soho but could head over afterwards. What time are you thinking?", hour: "17:04"},
-//                    {user: "Other User", nickname:"ttt9",text: "I’ll be there from 10am so come on over whenever your ready.", hour: "17:04"}
-//                ]
-//            },
-//            {day: "Today", messages: [{user: "You", text: "On my way!", hour: "12:08"}]}
-//        ];
        
         
         $scope.selectedConversationId;
+        $scope.selectedUserName;
         $scope.inbox = [];
         $scope.messageHistory = [];
 
-        $scope.selectConversation = function (conversationId) {
+        $scope.selectConversation = function (conversationId, userName) {
             console.log(conversationId);
             $scope.selectedConversationId = conversationId;
-//            mySocket.emit('rooms:join', {roomId: conversationId}, function (data) {
-//                    console.log("ws data 2: ");
-//                    console.log(data);
-//                });
             $scope.getMessages($scope.selectedConversationId);
-            $scope.selectedUserName = conversationId;
+            $scope.selectedUserName = userName;
         }
 
 
@@ -96,12 +74,13 @@
                 console.log("Routes Param selectedConversation: " + $routeParams.selectedConversation);
                 console.log($scope.inbox);
                 if ($routeParams.selectedConversation) {
-                    $scope.selectedConversationId = $routeParams.selectedConversation;
-                    $scope.selectedUserName = $scope.selectedConversationId;
+                    
+                    $scope.selectConversation($routeParams.selectedConversation)
+                    
                 }else if($scope.inbox[0] && !$routeParams.selectedConversation){
                     $scope.selectedConversationId = $scope.inbox[0].conversation_id;
                     $scope.getMessages($scope.selectedConversationId);
-                    $scope.selectedUserName = $scope.selectedConversationId;
+                    $scope.selectedUserName = $scope.inbox[0].description;
                 }
 //                mySocket.emit('rooms:join', {roomId: $scope.selectedConversationId}, function (data) {
 //                    console.log("ws data: ");
@@ -129,10 +108,5 @@
     messagesController.$inject = ['$scope', '$chat', '$cookieStore', '$routeParams', '$rootScope'];
     angular.module("codename").controller("messagesController", messagesController);
     
-    angular.module( "codename" ).filter('reverse', function() {
-      return function(items) {
-        return items.slice().reverse();
-      };
-    });
-
+    
 }());

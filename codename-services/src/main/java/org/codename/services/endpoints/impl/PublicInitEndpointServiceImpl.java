@@ -81,7 +81,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             interests.add("Virtual Reality");
             
             
-            createUser("eze@gmail.com", "123123","Ezequiel", "Salatno", "Capellades, Barcelona",1.6859230000000025, 41.5309648, "I’m Ezequiel, a graphic and web designer from Mendoza, Argentina.", 
+            createUser("eze@gmail.com", "123123","Ezequiel", "Salatino", "Capellades, Barcelona",1.6859230000000025, 41.5309648, "I’m Ezequiel, a graphic and web designer from Mendoza, Argentina.", 
                     lookingFor, iAm, interests, "eze_" );
  
             interests = new ArrayList<String>();

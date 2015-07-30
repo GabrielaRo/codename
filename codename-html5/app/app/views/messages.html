@@ -14,7 +14,7 @@
                 </div>
                 <div class="content-block-content">
                     <div id="user-messages-inbox">
-                        <div class="inbox-message" ng-repeat="conversation in inbox" ng-click="selectConversation(conversation.conversation_id)" ng-class="{active: selectedUserName == conversation.conversation_id}">
+                        <div class="inbox-message" ng-repeat="conversation in inbox" ng-click="selectConversation(conversation.conversation_id, conversation.description)" ng-class="{active: selectedUserName == conversation.description}">
                             <div class="user-avatar">
                               <div class="message-user-avatar hexagon">
                                    <div class="hexagon-inner-1">
@@ -33,8 +33,8 @@
                                <div class="online-status" ng-if="conversation.onlineStatus"></div>
                             </div>
                             <div class="message-data">
-                                <div class="message-user-name">{{conversation.conversation_id}}</div>
-                                <div class="message-excerpt">{{conversation.description}}</div>
+                                <div class="message-user-name">{{conversation.description}}</div>
+                                <div class="message-excerpt">{{conversation.excerpt}}</div>
                                 <div class="message-date">{{conversation.time}}</div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                                     </span>
                                 </div>
                                 <div class="day-messages">
-                                    <div class="history-message" ng-repeat="message in messageHistory | reverse">
+                                    <div class="history-message" ng-repeat="message in messageHistory">
                                         <div class="user-avatar">
                                             <div class="history-message-user-avatar hexagon">
                                                <div class="hexagon-inner-1">

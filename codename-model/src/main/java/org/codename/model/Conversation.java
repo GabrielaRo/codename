@@ -26,6 +26,8 @@ public class Conversation implements Serializable {
     private Long id;
     private String userA;
     private String userB;
+    private String userAFullName;
+    private String userBFullName;
     private String excerpt = "(New Conversation)";
     private Date timestamp;
     private boolean blocked = false;
@@ -86,5 +88,23 @@ public class Conversation implements Serializable {
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
     }
+
+    public String getUserAFullName() {
+        return userAFullName;
+    }
+
+    public void setUserAFullName(String userAFullName) {
+        this.userAFullName = userAFullName;
+    }
+
+    public String getUserBFullName() {
+        return userBFullName;
+    }
+
+    public void setUserBFullName(String userBFullName) {
+        this.userBFullName = userBFullName;
+    }
+
+  
 
 }

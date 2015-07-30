@@ -5,15 +5,18 @@
  */
 package org.codename.core.impl;
 
+import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import org.codename.core.api.ChatService;
+import org.codename.core.api.UsersService;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.core.util.PersistenceManager;
 import org.codename.model.Conversation;
 import org.codename.model.Message;
+import org.codename.model.User;
 
 /**
  *
@@ -24,6 +27,9 @@ public class ChatServiceImpl implements ChatService {
 
     @Inject
     private PersistenceManager pm;
+    
+    @Inject
+    private UsersService usersService;
 
     @Override
     public Long sendMessage(Long conversationId, String sender, String text) throws ServiceException {
@@ -31,6 +37,9 @@ public class ChatServiceImpl implements ChatService {
         if (conv != null && !conv.isBlocked()) {
             Message message = new Message(conversationId, sender, text);
             pm.persist(message);
+            conv.setExcerpt(text);
+            conv.setTimestamp(new Date());
+            pm.merge(conv);
             return message.getId();
         } else {
             throw new ServiceException("Conversation not found or conversation blocked");
@@ -48,18 +57,30 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Long createConversation(String userA, String userB) throws ServiceException {
+    public Long createConversation(String initiator, String otherFhellow) throws ServiceException {
         try {
             Conversation conv = pm.createNamedQuery("Conversations.byParticipants", Conversation.class)
-                    .setParameter("participantA", userA)
-                    .setParameter("participantB", userB).getSingleResult();
+                    .setParameter("participantA", initiator)
+                    .setParameter("participantB", otherFhellow).getSingleResult();
 
             return conv.getId();
 
         } catch (NoResultException nre) {
             // Do nothing just create the conversation            
         }
-        Conversation conversation = new Conversation(userA, userB);
+        
+        Conversation conversation = new Conversation(initiator, otherFhellow);
+        User initiatorUser = usersService.getByNickName(initiator);
+        if(initiatorUser == null){
+            throw new ServiceException("Other fhellow: "+initiator + " not found!");
+        }
+        User otherFhellowUser = usersService.getByNickName(otherFhellow);
+        
+        if(otherFhellowUser == null){
+            throw new ServiceException("Other fhellow: "+otherFhellow + " not found!");
+        }
+        conversation.setUserAFullName(initiatorUser.getFirstname() + " " + initiatorUser.getLastname());
+        conversation.setUserBFullName(otherFhellowUser.getFirstname() + " " + otherFhellowUser.getLastname());
         pm.persist(conversation);
         return conversation.getId();
     }

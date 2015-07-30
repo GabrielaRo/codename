@@ -30,6 +30,8 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
 
     @Inject
     private ChatService chatService;
+    
+    
 
     public ChatEndpointServiceImpl() {
 
@@ -42,8 +44,8 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
     }
 
     @Override
-    public Response createConversation(String initiator, String other) throws ServiceException {
-        Long conversationId = chatService.createConversation(initiator, other);
+    public Response createConversation(String initiator, String otherFhellow) throws ServiceException {
+        Long conversationId = chatService.createConversation(initiator, otherFhellow);
 
         return Response.ok(conversationId).build();
     }
@@ -55,7 +57,7 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
 
         for (Conversation c : conversations) {
 
-            JsonObjectBuilder jsonUserObjectBuilder = createJsonConversation(c);
+            JsonObjectBuilder jsonUserObjectBuilder = createJsonConversation(c, user);
             jsonArrayBuilder.add(jsonUserObjectBuilder);
 
         }
@@ -69,7 +71,6 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
         for (Message m : messages) {
-
             JsonObjectBuilder jsonUserObjectBuilder = createJsonMessage(m);
             jsonArrayBuilder.add(jsonUserObjectBuilder);
         }
@@ -88,10 +89,16 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
         return jsonObjBuilder;
     }
 
-    private JsonObjectBuilder createJsonConversation(Conversation c) {
+    private JsonObjectBuilder createJsonConversation(Conversation c, String user) {
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("conversation_id", c.getId());
-        jsonObjBuilder.add("description", c.getUserB());
+        if(c.getUserA().equals(user)){
+            jsonObjBuilder.add("description", c.getUserBFullName());
+        }else{
+            jsonObjBuilder.add("description", c.getUserAFullName());
+        }
+        jsonObjBuilder.add("excerpt", c.getExcerpt());
+        jsonObjBuilder.add("time", c.getTimestamp().toString());
 
         return jsonObjBuilder;
     }
