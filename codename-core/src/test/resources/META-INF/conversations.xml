@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+        http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd" version="2.1">
+	
+
+
+    <named-query name="Conversations.byUser">
+        <query>
+            SELECT
+            _converstaion
+            FROM
+            Conversation _converstaion					
+            WHERE
+            _converstaion.userA = :userId or _converstaion.userB = :userId and _converstaion.blocked = 'false'
+        </query>
+    </named-query>
+        
+    <named-query name="Conversations.byUserBlocked">
+        <query>
+            SELECT
+            _converstaion
+            FROM
+            Conversation _converstaion					
+            WHERE
+            _converstaion.userA = :userId or _converstaion.userB = :userId and _converstaion.blocked = 'true'
+        </query>
+    </named-query>
+        
+    <named-query name="Conversations.byParticipants">
+        <query>
+            SELECT
+            _converstaion
+            FROM
+            Conversation _converstaion					
+            WHERE
+            (_converstaion.userA = :participantA and _converstaion.userB = :participantB) or 
+            (_converstaion.userA = :participantB and _converstaion.userB = :participantA)
+        </query>
+    </named-query>
+        
+        
+	
+</entity-mappings>
