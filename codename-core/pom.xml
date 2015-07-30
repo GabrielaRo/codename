@@ -53,8 +53,9 @@
         <dependency>  
             <groupId>javax</groupId>    
             <artifactId>javaee-web-api</artifactId>    
-            <version>7.0</version>  
-            <scope>test</scope>
+            <version>7.0</version>
+            <type>jar</type>
+            <scope>provided</scope>
         </dependency> 
         <dependency>
             <groupId>com.h2database</groupId>

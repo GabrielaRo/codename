@@ -3,7 +3,7 @@
 
     angular.module('codename');
 
-    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, appConstants, $route, $routeParams, growl) {
+    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, appConstants, $sockets,  $routeParams, growl) {
         $scope.auth_token = $cookieStore.get('auth_token');
         $scope.email = $cookieStore.get('email');
         $scope.user_id = $cookieStore.get('user_id');
@@ -69,7 +69,7 @@
                 $cookieStore.remove('user_id');
                 $cookieStore.remove('user_nick');
                 $scope.avatarStyle = "";
-//                $sockets.closeWebSocket();
+                $sockets.closeWebSocket();
                 $rootScope.$broadcast('goTo', "/");
                 $rootScope.$broadcast("quickNotification", "You have been logged out.", 'info');
             }).error(function (data) {
@@ -102,7 +102,7 @@
                     $scope.credentials = {};
                     $scope.submitted = false;
                     $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
-//                    $sockets.initWebSocket();
+                    $sockets.initWebSocket();
                     if ($scope.firstLogin) {
                         $rootScope.$broadcast('goTo', "/profile");
                     } else {
@@ -137,7 +137,7 @@
                                 $scope.credentials = {};
                                 $scope.submitted = false;
                                 $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
-//                                $sockets.initWebSocket();
+                                $sockets.initWebSocket();
                                 if ($scope.firstLogin) {
                                     $rootScope.$broadcast('goTo', "/profile");
                                 } else {
@@ -171,7 +171,7 @@
     };
 
 
-    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$auth', 'appConstants', '$route', '$routeParams', 'growl'];
+    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$auth', 'appConstants', '$sockets', '$routeParams', 'growl'];
     angular.module("codename").controller("MainCtrl", MainCtrl);
 }());
 

@@ -126,8 +126,6 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
 
         String authToken = authenticator.login(email, password);
 
-        notificationService.addNewSession(authToken);
-
         boolean firstLogin = authUser.isIsFirstLogin();
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("email", email);

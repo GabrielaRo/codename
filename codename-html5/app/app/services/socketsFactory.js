@@ -5,10 +5,10 @@
         factory.initWebSocket = function () {
             //var wsUri = "ws://" + "grog-restprovider.rhcloud.com:8000" + "/grogshop-server/" + "shop";
             var wsUri = "ws://" + appConstants.address + ":" + appConstants.port + "/" + appConstants.context 
-                    + "fhellow?email=" + $cookieStore.get('email');
-            //var wsUri = "ws://" + document.location.hostname + ":" + document.location.port + "/grogshop-server/" + "shop";
+                    + "fhellow?nickname=" + $cookieStore.get('user_nick');
+            
             $rootScope.websocket = new WebSocket(wsUri);
-            console.log("Init websocket for: " + $cookieStore.get('email'));
+            console.log("Init websocket for: " + $cookieStore.get('user_nick'));
             $rootScope.websocket.onopen = function (evt) {
                 console.log("onOpen client side");
 

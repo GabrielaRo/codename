@@ -5,14 +5,14 @@
  */
 package org.codename.services.websocket;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import org.codename.core.api.NotificationsService;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.services.websocket.decoders.NotificationDecoder;
 import org.codename.services.websocket.encoders.NotificationEncoder;
@@ -27,12 +27,17 @@ import org.codename.services.websocket.encoders.NotificationEncoder;
 )
 public class NotificationsWSEndpoint {
 
-    Map<String, Session> sessions = new HashMap<String, Session>();
+    
+    
+    @Inject
+    NotificationsService notificationService;
+
     @OnOpen
     public void onOpen(Session client) {
-        List<String> emails = client.getRequestParameterMap().get("email");
-        System.out.println("OnOpen  Web Socket: " + emails.get(0));
-        sessions.put(emails.get(0), client);
+        List<String> nicks = client.getRequestParameterMap().get("nickname");
+        System.out.println("OnOpen  Web Socket: " + nicks.get(0));
+        
+        notificationService.addNewSession(nicks.get(0), client);
     }
 
     @OnMessage
@@ -42,12 +47,7 @@ public class NotificationsWSEndpoint {
 
     @OnClose
     public void onClose(Session client) throws ServiceException {
-        System.out.println("OnClose  Web Socket: ");
-        for(String s : sessions.keySet()){
-            if(sessions.get(s).equals(client)){
-                sessions.remove(s);
-            }
-        }
+        notificationService.removeSession(client);
     }
 
 }

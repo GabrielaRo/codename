@@ -14,6 +14,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.core.Response;
 import org.codename.core.api.ChatService;
+import org.codename.core.api.NotificationsService;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.model.Conversation;
 import org.codename.model.Message;
@@ -31,7 +32,6 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
     @Inject
     private ChatService chatService;
     
-    
 
     public ChatEndpointServiceImpl() {
 
@@ -40,6 +40,7 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
     @Override
     public Response sendMessage(Long conversationId, String sender, String message) throws ServiceException {
         chatService.sendMessage(conversationId, sender, message);
+        
         return Response.ok().build();
     }
 

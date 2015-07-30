@@ -12,7 +12,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 @ApplicationScoped
 public class TestProducers {

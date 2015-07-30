@@ -11,6 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import org.codename.core.api.ChatService;
+import org.codename.core.api.NotificationsService;
 import org.codename.core.api.UsersService;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.core.util.PersistenceManager;
@@ -20,7 +21,7 @@ import org.codename.model.User;
 
 /**
  *
- * @author salaboy
+ * @author grogdj
  */
 @ApplicationScoped
 public class ChatServiceImpl implements ChatService {
@@ -30,6 +31,9 @@ public class ChatServiceImpl implements ChatService {
     
     @Inject
     private UsersService usersService;
+    
+    @Inject
+    private NotificationsService notificationService;
 
     @Override
     public Long sendMessage(Long conversationId, String sender, String text) throws ServiceException {
@@ -40,6 +44,12 @@ public class ChatServiceImpl implements ChatService {
             conv.setExcerpt(text);
             conv.setTimestamp(new Date());
             pm.merge(conv);
+            if(conv.getUserA().equals(sender)){
+                notificationService.newNotification(conv.getUserB(), text, "", "");
+            }else{
+                notificationService.newNotification(conv.getUserA(), text, "", "");
+            }
+            
             return message.getId();
         } else {
             throw new ServiceException("Conversation not found or conversation blocked");
