@@ -36,10 +36,22 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
     public ChatEndpointServiceImpl() {
 
     }
-
+    
     @Override
     public Response sendMessage(Long conversationId, String sender, String message) throws ServiceException {
         chatService.sendMessage(conversationId, sender, message);
+        return Response.ok().build();
+    }
+
+    @Override
+    public Response blockConversation(Long conversationId) throws ServiceException {
+        chatService.blockConversation(conversationId);
+        return Response.ok().build();
+    }
+    
+    @Override
+    public Response unblockConversation(Long conversationId) throws ServiceException {
+        chatService.unblockConversation(conversationId);
         return Response.ok().build();
     }
 
@@ -84,7 +96,7 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
         jsonObjBuilder.add("id", m.getId());
         jsonObjBuilder.add("text", m.getText());
         jsonObjBuilder.add("owner_nickname", m.getSender());
-        jsonObjBuilder.add("time", m.getTimestamp().toString());
+        jsonObjBuilder.add("time", m.getTimestamp().getTime());
 
         return jsonObjBuilder;
     }
@@ -93,12 +105,15 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("conversation_id", c.getId());
         if(c.getUserA().equals(user)){
+            jsonObjBuilder.add("other_nickname", c.getUserB());
             jsonObjBuilder.add("description", c.getUserBFullName());
         }else{
+            jsonObjBuilder.add("other_nickname", c.getUserA());
             jsonObjBuilder.add("description", c.getUserAFullName());
         }
         jsonObjBuilder.add("excerpt", c.getExcerpt());
-        jsonObjBuilder.add("time", c.getTimestamp().toString());
+        jsonObjBuilder.add("time", c.getTimestamp().getTime());
+        jsonObjBuilder.add("blocked", c.isBlocked());
 
         return jsonObjBuilder;
     }

@@ -226,8 +226,9 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
         System.out.println("userInfo.get(\"sub\") = " + userInfo.get("sub"));
         User byEmail = userService.getByEmail((String) userInfo.get("email"));
         if (byEmail == null) {
-            Long newUser = userService.newUser(new User((String) userInfo.get("email"), userInfo.get("sub").toString(),
-                    User.UserProvider.GOOGLE, userInfo.get("sub").toString()));
+            User user = new User((String) userInfo.get("email"), userInfo.get("sub").toString(),
+                    User.UserProvider.GOOGLE, userInfo.get("sub").toString());
+            Long newUser = userService.newUser(user);
 
             userService.updateBothNames(newUser, (String) userInfo.get("given_name"), (String) userInfo.get("family_name"));
             byte[] bytes = null;
@@ -240,7 +241,7 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
             } catch (IOException ex) {
                 Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-            userService.updateAvatar(newUser, profilePic, bytes);
+            userService.updateAvatar(user.getNickname(), profilePic, bytes);
 
         }
 

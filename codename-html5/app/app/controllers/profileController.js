@@ -30,8 +30,8 @@
             live: "false",
             hasavatar: "false",
             hascover: "false",
-            avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar",
-            coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
+            avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar",
+            coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/cover"
         };
         
         location.get(angular.noop, angular.noop);
@@ -57,7 +57,7 @@
            
         }
         $scope.lookingForButtonPressed = function (buttonName) {
-            console.log($scope.profile.lookingFor);
+            
             if($scope.profile.lookingFor.indexOf(buttonName) == -1){
                 $scope.profile.lookingFor.push(buttonName);
             }else {
@@ -99,8 +99,8 @@
                         $scope.profile.live = data.live;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
-                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/avatar",
-                                $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/cover"
+                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar",
+                                $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover"
                         initialData = angular.copy($scope.profile)
                         $scope.calculatePercentage();
                     }).error(function (data) {
@@ -257,7 +257,7 @@
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
-                        $scope.profile.nickname = data.lastname;
+                        $scope.profile.nickname = data.nickname;
                         $scope.profile.location.description = data.location;
                         $scope.profile.originallyFrom = data.originallyFrom;
                         $scope.profile.bio = data.bio;
@@ -273,8 +273,8 @@
                         $scope.profile.resources = data.resources;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
-                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/avatar",
-                                $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/cover"
+                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar",
+                                $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover"
                         initialData = angular.copy($scope.profile)
                         $scope.calculatePercentage();
                     }).error(function (data) {
@@ -306,7 +306,7 @@
                 //console.log('file ' + file.name + 'is uploaded successfully. Response: ' + data);
                 $scope.uploadAvatarPercentage = false;
                 $scope.profile.avatarUrl = "";
-                $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar" + '?' + new Date().getTime();
+                $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar" + '?' + new Date().getTime();
                 $scope.profile.hasavatar = true;
                 $scope.calculatePercentage();
                 $rootScope.$broadcast("updateUser", {token: $scope.auth_token, userId: $scope.user_id});
@@ -334,7 +334,7 @@
                 console.log('file ' + file.name + 'is uploaded successfully. Response: ' + data);
                 $scope.uploadingCover = false;
                 $scope.profile.coverUrl = "";
-                $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover" + '?' + new Date().getTime();
+                $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/cover" + '?' + new Date().getTime();
                 $scope.profile.hascover = true;
                 $scope.calculatePercentage();
                 $rootScope.$broadcast("updateUserCover");

@@ -83,9 +83,9 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     }
 
     @Override
-    public Response getAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException {
+    public Response getAvatar(@NotNull @PathParam("nickname") String nickname) throws ServiceException {
 
-        byte[] tmp = usersService.getAvatar(user_id);
+        byte[] tmp = usersService.getAvatar(nickname);
         final byte[] avatar;
         if (tmp != null && tmp.length > 0) {
             log.info("avatar found");
@@ -113,9 +113,9 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     }
 
     @Override
-    public Response getCover(@NotNull @PathParam("id") Long user_id) throws ServiceException {
+    public Response getCover(@NotNull @PathParam("nickname") String nickname) throws ServiceException {
 
-        byte[] tmp = usersService.getCover(user_id);
+        byte[] tmp = usersService.getCover(nickname);
         final byte[] avatar;
         if (tmp != null && tmp.length > 0) {
             log.info("cover found");

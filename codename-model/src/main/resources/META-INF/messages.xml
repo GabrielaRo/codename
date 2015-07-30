@@ -14,7 +14,7 @@
 				Message _message					
 			WHERE
 				_message.conversationId = :conversationId
-                    ORDER BY _message.timestamp desc
+                    ORDER BY _message.timestamp asc
 		</query>
 	</named-query>
         

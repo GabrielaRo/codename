@@ -30,6 +30,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 public interface ChatEndpointService extends Serializable {
 
     @POST
+    @Path("/conversations/{conversationId}/block")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response blockConversation(@NotNull @PathParam("conversationId") Long conversationId) throws ServiceException;
+    
+    @POST
+    @Path("/conversations/{conversationId}/unblock")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response unblockConversation(@NotNull @PathParam("conversationId") Long conversationId) throws ServiceException;
+    
+    @POST
     @Path("/conversations/{conversationId}/message")
     @Produces({MediaType.APPLICATION_JSON})
     public Response sendMessage(@NotNull @PathParam("conversationId") Long conversationId,

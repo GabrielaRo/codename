@@ -31,5 +31,7 @@ public interface ChatService {
     public boolean blockConversation(String userA, String userB) throws ServiceException;
     
     public boolean blockConversation(Long conversationId) throws ServiceException;
+    
+    public boolean unblockConversation(Long conversationId) throws ServiceException;
 
 }

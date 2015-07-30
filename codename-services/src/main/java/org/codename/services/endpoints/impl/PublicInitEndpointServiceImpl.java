@@ -259,7 +259,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        usersService.updateAvatar(userId, profilePic, bytes);
+        usersService.updateAvatar(user.getNickname(), profilePic, bytes);
 
         String coverPic = getServerUrl() + "/static/img/public-images/"+profileId+"cover.jpg";
         try {
@@ -270,61 +270,13 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         } catch (IOException ex) {
             Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        usersService.updateCover(userId, coverPic, bytes);
+        usersService.updateCover(user.getNickname(), coverPic, bytes);
         
         return userId;
     }
     
     
 
-    private Long createEze() throws ServiceException {
-        Long ezeId = usersService.newUser(new User("eze@asd.asd", "123123"));
-        usersService.updateBothNames(ezeId, "Eze", "Sala");
-
-        usersService.updateLocation(ezeId, "Capellades, Barcelona, Spain", 1.6951309999999467, 41.521535);
-        //usersService.updateLookingFor(grogdjId, null);
-        usersService.updateBio(ezeId, "This is esala dj bio");
-        usersService.updateLongBio(ezeId, "XXXXXXXXXXXXXXXXXXXXXX This is esala  longbio");
-        usersService.updateWebsite(ezeId, "esala.tumbrl.com");
-        usersService.updateLinkedin(ezeId, "linked in here");
-        usersService.updateLive(ezeId, "true");
-        usersService.updateFirstLogin(ezeId);
-        List<String> lookingFor = new ArrayList<String>();
-        lookingFor.add("Collaborate");
-        List<String> iAms = new ArrayList<String>();
-        iAms.add("Freelance");
-        usersService.updateLookingFor(ezeId, lookingFor);
-        usersService.updateIams(ezeId, iAms);
-
-        byte[] bytes = null;
-        String profilePic = getServerUrl() + "static/img/public-images/2profile.jpg";
-        try {
-            InputStream inputStream = new URL(profilePic).openStream();
-
-            bytes = IOUtils.toByteArray(inputStream);
-            inputStream.close();
-        } catch (IOException ex) {
-            Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        usersService.updateAvatar(ezeId, profilePic, bytes);
-
-        String coverPic = getServerUrl() + "static/img/public-images/2cover.jpg";
-        try {
-            InputStream inputStream = new URL(coverPic).openStream();
-
-            bytes = IOUtils.toByteArray(inputStream);
-            inputStream.close();
-        } catch (IOException ex) {
-            Logger.getLogger(PublicInitEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        usersService.updateCover(ezeId, coverPic, bytes);
-
-        List<String> interests = new ArrayList<String>();
-        interests.add("Design");
-        interests.add("Web");
-        usersService.updateInterests(ezeId, interests);
-        return ezeId;
-    }
+   
 
 }

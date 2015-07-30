@@ -139,5 +139,18 @@ public class ChatServiceImpl implements ChatService {
             return false;
         }
     }
+    
+    @Override
+    public boolean unblockConversation(Long conversationId) throws ServiceException {
+        try {
+            Conversation conv = pm.find(Conversation.class, conversationId);
+            conv.setBlocked(false);
+            pm.merge(conv);
+            return true;
+        } catch (NoResultException nre) {
+            //throw new ServiceException("No conversation found for " + userA + " and " + userB);
+            return false;
+        }
+    }
 
 }

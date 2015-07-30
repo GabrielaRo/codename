@@ -126,8 +126,8 @@ public class UserEndpointServiceImpl implements UserEndpointService {
     }
 
     @Override
-    public Response uploadAvatar(@NotNull @PathParam("id") Long user_id, MultipartFormDataInput input) throws ServiceException {
-        log.info(">>>> sit back - starting file upload for user_id..." + user_id);
+    public Response uploadAvatar(@NotNull @PathParam("String") String nickname, MultipartFormDataInput input) throws ServiceException {
+        log.info(">>>> sit back - starting file upload for user_id..." + nickname);
 
         Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
         List<InputPart> inputParts = uploadForm.get(UPLOADED_FILE_PARAMETER_NAME);
@@ -142,7 +142,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
                 byte[] bytes = IOUtils.toByteArray(inputStream);
 
                 log.log(Level.INFO, ">>> File '''{'{0}'}''' has been read, size: #'{'{1}'}' bytes", new Object[]{filename, bytes.length});
-                usersService.updateAvatar(user_id, filename, bytes);
+                usersService.updateAvatar(nickname, filename, bytes);
 
             } catch (IOException e) {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -152,8 +152,8 @@ public class UserEndpointServiceImpl implements UserEndpointService {
     }
 
     @Override
-    public Response uploadCover(@NotNull @PathParam("id") Long user_id, MultipartFormDataInput input) throws ServiceException {
-        log.info(">>>> sit back - starting file upload for user_id..." + user_id);
+    public Response uploadCover(@NotNull @PathParam("nickname") String nickname, MultipartFormDataInput input) throws ServiceException {
+        log.info(">>>> sit back - starting file upload for user_id..." + nickname);
 
         Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
         List<InputPart> inputParts = uploadForm.get(UPLOADED_FILE_PARAMETER_NAME);
@@ -168,7 +168,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
                 byte[] bytes = IOUtils.toByteArray(inputStream);
 
                 log.log(Level.INFO, ">>> File '''{'{0}'}''' has been read, size: #'{'{1}'}' bytes", new Object[]{filename, bytes.length});
-                usersService.updateCover(user_id, filename, bytes);
+                usersService.updateCover(nickname, filename, bytes);
 
             } catch (IOException e) {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -178,20 +178,20 @@ public class UserEndpointServiceImpl implements UserEndpointService {
     }
 
     @Override
-    public Response removeAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException {
-        usersService.removeAvatar(user_id);
+    public Response removeAvatar(@NotNull @PathParam("nickname") String nickname) throws ServiceException {
+        usersService.removeAvatar(nickname);
         return Response.ok().build();
     }
 
     @Override
-    public Response removeCover(@NotNull @PathParam("id") Long user_id) throws ServiceException {
-        usersService.removeCover(user_id);
+    public Response removeCover(@NotNull @PathParam("nickname") String nickname) throws ServiceException {
+        usersService.removeCover(nickname);
         return Response.ok().build();
     }
 
     @Override
-    public Response getAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException {
-        final byte[] avatar = usersService.getAvatar(user_id);
+    public Response getAvatar(@NotNull @PathParam("nickname") String nickname) throws ServiceException {
+        final byte[] avatar = usersService.getAvatar(nickname);
         return Response.ok().entity(new StreamingOutput() {
             @Override
             public void write(OutputStream output)
@@ -404,7 +404,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
         usersService.updateResources(user_id, resources);
         return Response.ok().build();
     }
-    
+
     @Override
     public Response updateShare(Long user_id, String share) throws ServiceException {
         usersService.updateShare(user_id, share);
@@ -423,6 +423,4 @@ public class UserEndpointServiceImpl implements UserEndpointService {
         return Response.ok().build();
     }
 
-    
-    
 }

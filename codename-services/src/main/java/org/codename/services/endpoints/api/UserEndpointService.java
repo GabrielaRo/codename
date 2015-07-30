@@ -38,28 +38,28 @@ public interface UserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response getAllLive() throws ServiceException;
 
-    @Path("{id}/avatar/upload")
+    @Path("{nickname}/avatar/upload")
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})
-    Response uploadAvatar(@NotNull @PathParam("id") Long user_id, MultipartFormDataInput input) throws ServiceException;
+    Response uploadAvatar(@NotNull @PathParam("nickname") String nickname, MultipartFormDataInput input) throws ServiceException;
 
-    @Path("{id}/cover/upload")
+    @Path("{nickname}/cover/upload")
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})
-    Response uploadCover(@NotNull @PathParam("id") Long user_id, MultipartFormDataInput input) throws ServiceException;
+    Response uploadCover(@NotNull @PathParam("nickname") String nickname, MultipartFormDataInput input) throws ServiceException;
 
-    @Path("{id}/avatar")
+    @Path("{nickname}/avatar")
     @GET
     @Produces({MediaType.APPLICATION_OCTET_STREAM})
-    Response getAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException;
+    Response getAvatar(@NotNull @PathParam("nickname") String nickname) throws ServiceException;
 
-    @Path("{id}/avatar/remove")
+    @Path("{nickname}/avatar/remove")
     @POST
-    Response removeAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException;
+    Response removeAvatar(@NotNull @PathParam("nickname") String nickname) throws ServiceException;
 
-    @Path("{id}/cover/remove")
+    @Path("{nickname}/cover/remove")
     @POST
-    Response removeCover(@NotNull @PathParam("id") Long user_id) throws ServiceException;
+    Response removeCover(@NotNull @PathParam("nickname") String nickname) throws ServiceException;
 
     @Path("{id}/exist")
     @GET

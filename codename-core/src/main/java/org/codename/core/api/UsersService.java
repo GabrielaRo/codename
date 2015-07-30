@@ -46,17 +46,17 @@ public interface UsersService {
 
     void updateLocation(Long user_id, String location, Double lon, Double lat) throws ServiceException;
 
-    void updateAvatar(Long user_id, String fileName, byte[] content) throws ServiceException;
+    void updateAvatar(String nickname, String fileName, byte[] content) throws ServiceException;
 
-    void updateCover(Long user_id, String fileName, byte[] content) throws ServiceException;
+    void updateCover(String nickname, String fileName, byte[] content) throws ServiceException;
 
-    byte[] getAvatar(Long user_id) throws ServiceException;
+    byte[] getAvatar(String nickname) throws ServiceException;
 
-    byte[] getCover(Long user_id) throws ServiceException;
+    byte[] getCover(String nickname) throws ServiceException;
 
-    void removeAvatar(Long user_id) throws ServiceException;
+    void removeAvatar(String nickname) throws ServiceException;
 
-    void removeCover(Long user_id) throws ServiceException;
+    void removeCover(String nickname) throws ServiceException;
 
     List<User> getAll();
     

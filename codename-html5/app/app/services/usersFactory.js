@@ -350,7 +350,7 @@
         //UPLOAD AVATAR
         factory.uploadAvatar = function (file) {
             return Upload.upload({
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/avatar/upload',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_nick') + '/avatar/upload',
                 method: 'POST',
                 headers: {'Content-Type': 'multipart/form-data', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 file: file
@@ -360,7 +360,7 @@
         //UPLOAD COVER
         factory.uploadCover = function (file) {
             return Upload.upload({
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/cover/upload',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_nick') + '/cover/upload',
                 method: 'POST',
                 headers: {'Content-Type': 'multipart/form-data', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 file: file,

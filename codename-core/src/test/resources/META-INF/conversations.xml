@@ -14,6 +14,7 @@
             Conversation _converstaion					
             WHERE
             _converstaion.userA = :userId or _converstaion.userB = :userId and _converstaion.blocked = 'false'
+            ORDER BY _converstaion.timestamp desc
         </query>
     </named-query>
         
@@ -25,6 +26,7 @@
             Conversation _converstaion					
             WHERE
             _converstaion.userA = :userId or _converstaion.userB = :userId and _converstaion.blocked = 'true'
+            ORDER BY _converstaion.timestamp desc
         </query>
     </named-query>
         
@@ -37,6 +39,7 @@
             WHERE
             (_converstaion.userA = :participantA and _converstaion.userB = :participantB) or 
             (_converstaion.userA = :participantB and _converstaion.userB = :participantA)
+            ORDER BY _converstaion.timestamp desc
         </query>
     </named-query>
         

@@ -196,10 +196,10 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void updateAvatar(Long user_id, String fileName, byte[] content) throws ServiceException {
-        User u = pm.find(User.class, user_id);
+    public void updateAvatar(String nickname, String fileName, byte[] content) throws ServiceException {
+        User u = getByNickName(nickname);
         if (u == null) {
-            throw new ServiceException("User doesn't exist: " + user_id);
+            throw new ServiceException("User doesn't exist: " + nickname);
         }
         u.setAvatarFileName(fileName);
         u.setAvatarContent(content);
@@ -207,19 +207,19 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void updateCover(Long user_id, String fileName, byte[] content) throws ServiceException {
-        User find = pm.find(User.class, user_id);
-        if (find == null) {
-            throw new ServiceException("User doesn't exist: " + user_id);
+    public void updateCover(String nickname, String fileName, byte[] content) throws ServiceException {
+        User u = getByNickName(nickname);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + nickname);
         }
-        find.setCoverFileName(fileName);
-        find.setCoverContent(content);
-        pm.merge(find);
+        u.setCoverFileName(fileName);
+        u.setCoverContent(content);
+        pm.merge(u);
     }
 
     @Override
-    public byte[] getAvatar(Long user_id) throws ServiceException {
-        User u = pm.find(User.class, user_id);
+    public byte[] getAvatar(String nickname) throws ServiceException {
+        User u = getByNickName(nickname);
         if (u == null) {
             return null;
         }
@@ -227,8 +227,8 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public byte[] getCover(Long user_id) throws ServiceException {
-        User u = pm.find(User.class, user_id);
+    public byte[] getCover(String nickname) throws ServiceException {
+        User u = getByNickName(nickname);
         if (u == null) {
             return null;
         }
@@ -236,10 +236,10 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void removeAvatar(Long user_id) throws ServiceException {
-        User u = pm.find(User.class, user_id);
+    public void removeAvatar(String nickname) throws ServiceException {
+        User u = getByNickName(nickname);
         if (u == null) {
-            throw new ServiceException("User doesn't exist: " + user_id);
+            throw new ServiceException("User doesn't exist: " + nickname);
         }
         u.setAvatarFileName("");
         u.setAvatarContent(null);
@@ -247,10 +247,10 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void removeCover(Long user_id) throws ServiceException {
-        User u = pm.find(User.class, user_id);
+    public void removeCover(String nickname) throws ServiceException {
+        User u = getByNickName(nickname);
         if (u == null) {
-            throw new ServiceException("User doesn't exist: " + user_id);
+            throw new ServiceException("User doesn't exist: " + nickname);
         }
         u.setCoverFileName("");
         u.setCoverContent(null);
@@ -458,6 +458,5 @@ public class UsersServiceImpl implements UsersService {
         }
         pm.remove(u);
     }
-
 
 }

@@ -96,12 +96,12 @@
                     $scope.auth_token = $cookieStore.get('auth_token');
                     $scope.email = $cookieStore.get('email');
                     $scope.user_id = $cookieStore.get('user_id');
-                    $scope.user_id = $cookieStore.get('user_nick');
+                    $scope.user_nick = $cookieStore.get('user_nick');
                     $scope.firstLogin = $cookieStore.get('firstLogin');
 
                     $scope.credentials = {};
                     $scope.submitted = false;
-                    $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
+                    $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
 //                    $sockets.initWebSocket();
                     if ($scope.firstLogin) {
                         $rootScope.$broadcast('goTo', "/profile");
@@ -136,7 +136,7 @@
                                 $scope.firstLogin = $cookieStore.get('firstLogin');
                                 $scope.credentials = {};
                                 $scope.submitted = false;
-                                $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
+                                $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
 //                                $sockets.initWebSocket();
                                 if ($scope.firstLogin) {
                                     $rootScope.$broadcast('goTo', "/profile");
@@ -160,12 +160,12 @@
 
         if ($scope.auth_token && $scope.auth_token !== "") {
 
-            $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
+            $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
 //            $sockets.initWebSocket();
         }
 
         $rootScope.$on("updateUser", function (data) {
-            $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
+            $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
 
         });
     };

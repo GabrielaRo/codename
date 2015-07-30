@@ -2,42 +2,81 @@
 
     var messagesController = function ($scope, $chat, $cookieStore, $routeParams, $rootScope) {
 
-       
-        
+
+
         $scope.selectedConversationId;
         $scope.selectedUserName;
         $scope.inbox = [];
         $scope.messageHistory = [];
 
-        $scope.selectConversation = function (conversationId, userName) {
-            console.log(conversationId);
-            $scope.selectedConversationId = conversationId;
+        $scope.selectConversation = function (conversation) {
+            
+            $scope.selectedConversationId = conversation.conversation_id;
             $scope.getMessages($scope.selectedConversationId);
-            $scope.selectedUserName = userName;
+            if (conversation) {
+                $scope.selectedUserName = conversation.description;
+            } else {
+                $scope.selectedUserName = "Select a Conversation ...";
+            }
+        }
+        
+        $scope.blockConversation = function (conversationId) {
+            $chat.blockConversation(conversationId).success(function (data) {
+                $rootScope.$broadcast("quickNotification", "Conversation Blocked !" + data);
+                
+
+            }).error(function (data) {
+
+                console.log("Error: " + data);
+                console.log(data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong with blocking the conversation !" + data);
+                
+            });
+
+
+        }
+        $scope.unblockConversation = function (conversationId) {
+            $chat.unblockConversation(conversationId).success(function (data) {
+                $rootScope.$broadcast("quickNotification", "Conversation UnBlocked !" + data);
+                
+
+            }).error(function (data) {
+
+                console.log("Error: " + data);
+                console.log(data);
+                $rootScope.$broadcast("quickNotification", "Something went wrong with unblocking the conversation !" + data);
+                
+            });
+
+
         }
 
 
-
-       
         $scope.sendMessage = function (conversationId, message) {
-            console.log("Sending message to: " + conversationId + " - " + message);
+            
+            $scope.messageHistory.push({owner_nickname: $cookieStore.get("user_nick"), text: message, time:  Date.now()});
+            for(var i = 0; i < $scope.inbox.length; i++){
+                if($scope.inbox[i].conversation_id == conversationId){
+                    $scope.inbox[i].excerpt = message;
+                    $scope.inbox[i].time = Date.now();
+                }
+                
+            }
             $chat.sendMessage(conversationId, message).success(function (data) {
-                console.log("OK Data: " + data);
-                $rootScope.$broadcast("quickNotification", "Message: " + message + " Sent!");
-                $scope.getMessages($scope.selectedConversationId);
+
                 $scope.newMessage = "";
-                var newListHeight =  $(".messages-history").height();
-                $("#user-messages-chat").animate({ scrollTop:  newListHeight }, 1000);
+                var newListHeight = $(".messages-history").height();
+                $("#user-messages-chat").animate({scrollTop: newListHeight}, 1000);
 
             }).error(function (data) {
 
                 console.log("Error: " + data);
                 console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with sending the message!" + data);
-                 $scope.newMessage = "";
+                $scope.newMessage = "";
             });
-            
-           
+
+
         }
 
         $scope.getMessages = function (selectedConversationId) {
@@ -49,10 +88,10 @@
                 console.log(data);
 
                 $rootScope.$broadcast("quickNotification", "messages retrieved!");
-                
-                var scrollDown = function(){
-                    var newListHeight =  $(".messages-history").height();
-                    $("#user-messages-chat").scrollTop( newListHeight );
+
+                var scrollDown = function () {
+                    var newListHeight = $(".messages-history").height();
+                    $("#user-messages-chat").scrollTop(newListHeight);
                 };
                 setTimeout(scrollDown, 200);
 
@@ -65,19 +104,23 @@
             });
         }
 
-       
+
 
         $scope.getConversations = function () {
 
             $chat.getConversations().success(function (data) {
                 $scope.inbox = data;
                 console.log("Routes Param selectedConversation: " + $routeParams.selectedConversation);
-                console.log($scope.inbox);
                 if ($routeParams.selectedConversation) {
                     
-                    $scope.selectConversation($routeParams.selectedConversation)
-                    
-                }else if($scope.inbox[0] && !$routeParams.selectedConversation){
+                    for(var i = 0; i < $scope.inbox.length; i++){
+                        if($scope.inbox[i].conversation_id == $routeParams.selectedConversation){
+                            $scope.selectConversation($scope.inbox[i]);
+                        }
+                    }
+
+
+                } else if ($scope.inbox[0] && !$routeParams.selectedConversation) {
                     $scope.selectedConversationId = $scope.inbox[0].conversation_id;
                     $scope.getMessages($scope.selectedConversationId);
                     $scope.selectedUserName = $scope.inbox[0].description;
@@ -107,6 +150,6 @@
 
     messagesController.$inject = ['$scope', '$chat', '$cookieStore', '$routeParams', '$rootScope'];
     angular.module("codename").controller("messagesController", messagesController);
-    
-    
+
+
 }());

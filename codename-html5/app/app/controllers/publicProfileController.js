@@ -25,8 +25,8 @@
             live: "false",
             hasavatar: "false",
             hascover: "false",
-            avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/avatar",
-            coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_id + "/cover"
+            avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar",
+            coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/cover"
         };
 
 
@@ -40,7 +40,7 @@
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
-                        $scope.profile.nickname = data.lastname;
+                        $scope.profile.nickname = data.nickname;
                         $scope.profile.location.description = data.location;
                         $scope.profile.originallyFrom = data.originallyFrom;
                         $scope.profile.bio = data.bio;
@@ -57,8 +57,8 @@
                         $scope.profile.resources = data.resources;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
-                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/avatar",
-                                $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.userId + "/cover"
+                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar",
+                                $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover"
                         initialData = angular.copy($scope.profile)
                         // $scope.calculatePercentage();
                     }).error(function (data) {

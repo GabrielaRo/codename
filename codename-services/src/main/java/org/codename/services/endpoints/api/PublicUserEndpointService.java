@@ -30,17 +30,17 @@ public interface PublicUserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response getAll() throws ServiceException;
     
-    @Path("{id}/avatar")
+    @Path("{nickname}/avatar")
     @GET
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     @Produces({MediaType.MEDIA_TYPE_WILDCARD})
-    Response getAvatar(@NotNull @PathParam("id") Long user_id) throws ServiceException;
+    Response getAvatar(@NotNull @PathParam("nickname") String nickname) throws ServiceException;
     
-    @Path("{id}/cover")
+    @Path("{nickname}/cover")
     @GET
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     @Produces({MediaType.MEDIA_TYPE_WILDCARD})
-    Response getCover(@NotNull @PathParam("id") Long user_id) throws ServiceException;
+    Response getCover(@NotNull @PathParam("nickname") String nickname) throws ServiceException;
     
    
     
