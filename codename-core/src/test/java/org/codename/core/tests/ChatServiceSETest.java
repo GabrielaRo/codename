@@ -9,9 +9,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.codename.core.api.ChatService;
+import org.codename.core.api.UsersService;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.model.Conversation;
 import org.codename.model.Message;
+import org.codename.model.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -35,6 +37,12 @@ public class ChatServiceSETest {
     @Inject
     private ChatService chatService;
 
+    @Inject
+    private UsersService usersService;
+    
+    private User user = new User("marylandSup@gmail.com", "fakepassword");
+    private User user1 = new User("grogDj@gmail.com", "fakepassword");
+
     @BeforeClass
     public static void setUpClass() {
     }
@@ -44,11 +52,16 @@ public class ChatServiceSETest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws ServiceException {
+        
+        usersService.newUser(user);
+        usersService.newUser(user1);
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws ServiceException {
+        usersService.removeUser(user.getId());
+        usersService.removeUser(user1.getId());
     }
 
     @Deployment
@@ -65,6 +78,7 @@ public class ChatServiceSETest {
 
     @Test
     public void chatServiceInitialTest() throws ServiceException, Exception {
+
 
         Long conversationId = chatService.createConversation("marylandSup", "grogDj");
 
@@ -115,15 +129,11 @@ public class ChatServiceSETest {
 
         messages = chatService.getMessages(secondConverstaion);
         Assert.assertEquals(3, messages.size());
-        
+
         boolean removeConversation = chatService.removeConversation("marylandSup", "grogDj");
         Assert.assertTrue(removeConversation);
 
     }
-    
-    
-    // write test for conversation blocked
-    
-    
 
+    // write test for conversation blocked
 }
