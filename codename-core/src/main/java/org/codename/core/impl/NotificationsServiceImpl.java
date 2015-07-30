@@ -35,7 +35,8 @@ public class NotificationsServiceImpl implements NotificationsService {
     public void removeSession(Session client) throws ServiceException {
         String nickname = sessionToNickMap.get(client);
         if (nickname == null) {
-            throw new ServiceException("Removing session failed: session doesn't exist");
+            System.out.println(">>>>WARN: Removing session failed: session doesn't exist");
+            return;
         }
         sessionToNickMap.remove(client);
         nickToSessionMap.remove(nickname);

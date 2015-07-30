@@ -16,10 +16,11 @@
                     <div id="user-messages-inbox">
                         <div class="inbox-message" ng-repeat="conversation in inbox" ng-click="selectConversation(conversation)" ng-class="{active: selectedUserName == conversation.description, blocked: conversation.blocked}">
                             <div class="user-avatar">
+                                
                                 <div class="message-user-avatar hexagon">
                                     <div class="hexagon-inner-1">
 
-                                        <div class="hexagon-inner-2 avatar" ng-style="avatarStyle" style="background-image: url('{{serverUrlFull + 'rest/public/users/' + conversation.other_nickname + '/avatar'}}');">
+                                        <div class="hexagon-inner-2 avatar" style="background-image: url('{{serverUrlFull + 'rest/public/users/' + conversation.other_nickname + '/avatar'}}');">
 
 
                                         </div>
@@ -46,9 +47,9 @@
 
         </div>
         <div class="right-col">
-            <div class="content-block no-margin" ng-class="{blocked: selectedBlocked == true}">
+            <div class="content-block no-margin" ng-class="{blocked: selectedConversation.blocked == true}">
                 <div class="content-block-title">
-                    {{selectedUserName}} 
+                    {{selectedConversation.description}} 
                     <div class="content-block-title-options">
                         <ul class="option-button">
                             <li>
@@ -56,11 +57,11 @@
 
                                 <ul class="dropdown" >
                                    
-                                    <li ng-if="!selectedBlocked" class="dropdown-item">
-                                        <a href class="dropdown-link" ng-click="blockConversation(selectedConversationId)">Block user</a>
+                                    <li ng-if="!selectedConversation.blocked " class="dropdown-item">
+                                        <a href class="dropdown-link" ng-click="blockConversation(selectedConversation.conversation_id)">Block user</a>
                                     </li>
-                                    <li ng-if="selectedBlocked" class="dropdown-item">
-                                        <a href class="dropdown-link" ng-click="unblockConversation(selectedConversationId)">Unblock user</a>
+                                    <li ng-if="selectedConversation.blocked " class="dropdown-item">
+                                        <a href class="dropdown-link" ng-click="unblockConversation(selectedConversation.conversation_id)">Unblock user</a>
                                     </li>
                                    
                                 </ul>
@@ -72,10 +73,10 @@
                 <div class="content-block-content">
                     <div id="user-messages-chat">
                       
-                       <div class="blocked-message" ng-if="selectedBlocked">
+                       <div class="blocked-message" ng-if="selectedConversation.blocked ">
                            This user is blocked.
                        </div>
-                        <div class="messages-history" ng-if="!selectedBlocked">
+                        <div class="messages-history" ng-if="!selectedConversation.blocked">
                             <!--
                              <div class="messages-history-day" ng-repeat="day in messageHistory">
                                  <div class="day-name">
@@ -121,7 +122,7 @@
                                         <div class="user-avatar">
                                             <div class="history-message-user-avatar hexagon">
                                                 <div class="hexagon-inner-1">
-                                                    <div class="hexagon-inner-2 avatar" ng-style="avatarStyle" style="background-image: url('{{serverUrlFull + 'rest/public/users/' + message.owner_nickname + '/avatar'}}');">
+                                                    <div class="hexagon-inner-2 avatar" style="background-image: url('{{serverUrlFull + 'rest/public/users/' + message.owner_nickname + '/avatar'}}');">
 
                                                     </div>
                                                 </div>
@@ -145,10 +146,10 @@
                     </div>
                     <div id="user-messages-send">
                         <div class="send-input">
-                            <textarea ng-model="newMessage"  placeholder="Write your message here..." ng-disabled="selectedBlocked"></textarea>
+                            <textarea ng-model="newMessage"  placeholder="Write your message here..." ng-disabled="selectedConversation.blocked"></textarea>
                         </div>    
                         <div class="send-actions">
-                            <button class="button primary" ng-click="sendMessage(selectedConversationId, newMessage)" ng-disabled="selectedBlocked">Send</button>
+                            <button class="button primary" ng-click="sendMessage(selectedConversation.conversation_id, newMessage)" ng-disabled="selectedConversation.blocked">Send</button>
                         </div>
                     </div>
                 </div>
