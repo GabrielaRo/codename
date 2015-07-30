@@ -74,11 +74,29 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             lookingFor.add("Socialise");
             lookingFor.add("Collabortate");
             iAm.add("Freelance");
+            
+            interests.add("Design");
+            interests.add("Photography");
+            interests.add("Music");
+            interests.add("Virtual Reality");
+            
+            
+            createUser("eze@gmail.com", "123123","Ezequiel", "Salatno", "Capellades, Barcelona",1.6859230000000025, 41.5309648, "I’m Ezequiel, a graphic and web designer from Mendoza, Argentina.", 
+                    lookingFor, iAm, interests, "eze_" );
+ 
+            interests = new ArrayList<String>();
+            lookingFor = new ArrayList<String>();
+            iAm = new ArrayList<String>();
+            
+            lookingFor.add("Socialise");
+            lookingFor.add("Collabortate");
+            iAm.add("Freelance");
             iAm.add("Entrepreneur");
             interests.add("Design");
             interests.add("Photography");
             interests.add("Startups");
             interests.add("Blogging");
+            
             
             createUser("tom48734@gmail.com", "9832kjhs","Tom", "Campion", "Peckham, United Kingdom",-0.06913699999995515, 51.474191,   "I’m a nomadic designer, living and working from wherever the wind takes me. www.mynomadlife.com", 
                     lookingFor, iAm, interests, "tom_" );
