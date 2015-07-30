@@ -3,7 +3,7 @@
 
     angular.module('codename');
 
-    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, appConstants, $sockets,  $routeParams, growl) {
+    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, appConstants, $sockets, $routeParams, growl) {
         $scope.auth_token = $cookieStore.get('auth_token');
         $scope.email = $cookieStore.get('email');
         $scope.user_id = $cookieStore.get('user_id');
@@ -30,7 +30,8 @@
             i = $scope.index++;
             $scope.invalidNotification = false;
             $scope.notifications[i] = data;
-            console.log("notification " + data);
+            console.log("notification ");
+            console.log(data);
 
             switch (type) {
                 case "success":
@@ -161,7 +162,7 @@
         if ($scope.auth_token && $scope.auth_token !== "") {
 
             $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
-//            $sockets.initWebSocket();
+            $sockets.initWebSocket();
         }
 
         $rootScope.$on("updateUser", function (data) {

@@ -32,7 +32,9 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
     @Inject
     private ChatService chatService;
     
-
+    @Inject
+    private NotificationsService notificationService;
+    
     public ChatEndpointServiceImpl() {
 
     }
@@ -105,12 +107,15 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
     private JsonObjectBuilder createJsonConversation(Conversation c, String user) {
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("conversation_id", c.getId());
+        
         if(c.getUserA().equals(user)){
             jsonObjBuilder.add("other_nickname", c.getUserB());
             jsonObjBuilder.add("description", c.getUserBFullName());
+            jsonObjBuilder.add("onlineStatus", notificationService.isOnline(c.getUserB()));
         }else{
             jsonObjBuilder.add("other_nickname", c.getUserA());
             jsonObjBuilder.add("description", c.getUserAFullName());
+            jsonObjBuilder.add("onlineStatus", notificationService.isOnline(c.getUserA()));
         }
         jsonObjBuilder.add("excerpt", c.getExcerpt());
         jsonObjBuilder.add("time", c.getTimestamp().getTime());

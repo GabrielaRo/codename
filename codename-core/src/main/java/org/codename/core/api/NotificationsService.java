@@ -23,4 +23,6 @@ public interface NotificationsService {
     Long newNotification(String nickname, String message, String action, String type) throws ServiceException;
 
     List<Notification> getAllNotificationsByUser(String nickname);
+    
+    boolean isOnline(String nickname);
 }

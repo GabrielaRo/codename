@@ -4,9 +4,9 @@
         //init web socket for a client
         factory.initWebSocket = function () {
             //var wsUri = "ws://" + "grog-restprovider.rhcloud.com:8000" + "/grogshop-server/" + "shop";
-            var wsUri = "ws://" + appConstants.address + ":" + appConstants.port + "/" + appConstants.context 
+            var wsUri = "ws://" + appConstants.address + ":" + appConstants.port + "/" + appConstants.context
                     + "fhellow?nickname=" + $cookieStore.get('user_nick');
-            
+
             $rootScope.websocket = new WebSocket(wsUri);
             console.log("Init websocket for: " + $cookieStore.get('user_nick'));
             $rootScope.websocket.onopen = function (evt) {
@@ -14,9 +14,15 @@
 
             };
             $rootScope.websocket.onmessage = function (evt) {
-                console.log(">>> onMessage: " + evt.data);
-                $rootScope.$broadcast('quickNotification', evt.data, "success");
-                // $notifications.newMatchingsNotifications.push(evt.data);
+
+                var msg = JSON.parse(evt.data);
+                console.log(">>> onMessage: " );
+                console.log(msg);
+                $rootScope.$broadcast('quickNotification', msg, "success");
+                switch(msg.type){
+                    
+                    
+                }
             };
             $rootScope.websocket.onerror = function (evt) {
                 console.log("Error: " + evt.data);
@@ -29,8 +35,6 @@
         };
 
         factory.closeWebSocket = function () {
-            $rootScope.websocket.onclose = function () {
-            };
             $rootScope.websocket.close();
         };
 
