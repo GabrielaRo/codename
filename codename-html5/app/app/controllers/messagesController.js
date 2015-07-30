@@ -8,10 +8,14 @@
         $scope.selectedUserName;
         $scope.inbox = [];
         $scope.messageHistory = [];
+        $scope.selectedConversation = [];
+        $scope.selectedBlocked = false;
 
         $scope.selectConversation = function (conversation) {
             
             $scope.selectedConversationId = conversation.conversation_id;
+            $scope.selectedConversation = conversation;
+            $scope.selectedBlocked = conversation.blocked;
             $scope.getMessages($scope.selectedConversationId);
             if (conversation) {
                 $scope.selectedUserName = conversation.description;
@@ -23,8 +27,8 @@
         $scope.blockConversation = function (conversationId) {
             $chat.blockConversation(conversationId).success(function (data) {
                 $rootScope.$broadcast("quickNotification", "Conversation Blocked !" + data);
+                $scope.selectedBlocked = true;
                 
-
             }).error(function (data) {
 
                 console.log("Error: " + data);
@@ -37,9 +41,18 @@
         }
         $scope.unblockConversation = function (conversationId) {
             $chat.unblockConversation(conversationId).success(function (data) {
-                $rootScope.$broadcast("quickNotification", "Conversation UnBlocked !" + data);
+              
+                 
+                $rootScope.$broadcast("quickNotification", "Conversation UnBlocked !" + data );
+                $scope.selectedBlocked = false;
+                for(var i = 0; i < $scope.inbox.length; i++){
+                    if($scope.inbox[i].conversation_id == $scope.selectedConversationId){
+                        console.log("RESELECCIONA ESTO "+ i);
+                        $scope.selectConversation($scope.inbox[i]);
+                    }
+                }
+                 
                 
-
             }).error(function (data) {
 
                 console.log("Error: " + data);
@@ -83,7 +96,8 @@
 
             $chat.getMessages(selectedConversationId).success(function (data) {
                 $scope.messageHistory = data;
-
+                
+           
                 console.log("OK Data: ");
                 console.log(data);
 
@@ -124,6 +138,7 @@
                     $scope.selectedConversationId = $scope.inbox[0].conversation_id;
                     $scope.getMessages($scope.selectedConversationId);
                     $scope.selectedUserName = $scope.inbox[0].description;
+                    $scope.selectedConversation = $scope.inbox[0];
                 }
 //                mySocket.emit('rooms:join', {roomId: $scope.selectedConversationId}, function (data) {
 //                    console.log("ws data: ");

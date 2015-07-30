@@ -14,7 +14,7 @@
                 </div>
                 <div class="content-block-content">
                     <div id="user-messages-inbox">
-                        <div class="inbox-message" ng-repeat="conversation in inbox" ng-click="selectConversation(conversation)" ng-class="{active: selectedUserName == conversation.description}">
+                        <div class="inbox-message" ng-repeat="conversation in inbox" ng-click="selectConversation(conversation)" ng-class="{active: selectedUserName == conversation.description, blocked: conversation.blocked}">
                             <div class="user-avatar">
                                 <div class="message-user-avatar hexagon">
                                     <div class="hexagon-inner-1">
@@ -37,7 +37,7 @@
                             <div class="message-data">
                                 <div class="message-user-name">{{conversation.description}}</div>
                                 <div class="message-excerpt">{{conversation.excerpt}}</div>
-                                <div class="message-date">{{conversation.time| date:'EEE HH mm'}}</div>
+                                <div class="message-date">{{conversation.time| date:'EEE HH:mm'}}</div>
                             </div>
                         </div>
                     </div>
@@ -46,32 +46,36 @@
 
         </div>
         <div class="right-col">
-            <div class="content-block no-margin">
+            <div class="content-block no-margin" ng-class="{blocked: selectedBlocked == true}">
                 <div class="content-block-title">
-                    {{selectedUserName}}
+                    {{selectedUserName}} 
                     <div class="content-block-title-options">
                         <ul class="option-button">
                             <li>
                                 <div class="button-icon"><i class="fa fa-angle-down"></i></div>
 
-                                <ul class="dropdown">
-                                    <li class="dropdown-item">
-                                        <a href class="dropdown-link">Delete conversation</a>
+                                <ul class="dropdown" >
+                                   
+                                    <li ng-if="!selectedBlocked" class="dropdown-item">
+                                        <a href class="dropdown-link" ng-click="blockConversation(selectedConversationId)">Block user</a>
                                     </li>
-                                    <li class="dropdown-item">
-                                        <a href class="dropdown-link" ng-click="blockConversation()">Block user</a>
+                                    <li ng-if="selectedBlocked" class="dropdown-item">
+                                        <a href class="dropdown-link" ng-click="unblockConversation(selectedConversationId)">Unblock user</a>
                                     </li>
-                                    <li class="dropdown-item">
-                                        <a href class="dropdown-link">Report spam / abuse</a>
-                                    </li>
+                                   
                                 </ul>
                             </li>
                         </ul>
                     </div>
                 </div>
+              
                 <div class="content-block-content">
                     <div id="user-messages-chat">
-                        <div class="messages-history">
+                      
+                       <div class="blocked-message" ng-if="selectedBlocked">
+                           This user is blocked.
+                       </div>
+                        <div class="messages-history" ng-if="!selectedBlocked">
                             <!--
                              <div class="messages-history-day" ng-repeat="day in messageHistory">
                                  <div class="day-name">
@@ -125,7 +129,7 @@
                                         </div>
                                         <div class="message-body">
                                             <div class="message-hour">
-                                                {{message.time| date:'EEE HH mm'}}
+                                                {{message.time| date:'EEE HH:mm'}}
                                             </div>
                                             <div class="message-user">
                                                 {{message.owner_nickname}}
@@ -141,10 +145,10 @@
                     </div>
                     <div id="user-messages-send">
                         <div class="send-input">
-                            <textarea ng-model="newMessage"  placeholder="Write your message here..."></textarea>
+                            <textarea ng-model="newMessage"  placeholder="Write your message here..." ng-disabled="selectedBlocked"></textarea>
                         </div>    
                         <div class="send-actions">
-                            <button class="button primary" ng-click="sendMessage(selectedConversationId, newMessage)">Send</button>
+                            <button class="button primary" ng-click="sendMessage(selectedConversationId, newMessage)" ng-disabled="selectedBlocked">Send</button>
                         </div>
                     </div>
                 </div>

@@ -226,6 +226,17 @@
             background-color: @link;
             color: @textLight;
         }
+        
+        &.blocked {
+            .user-avatar {
+                opacity: .5;
+                filter: grayscale(100%);
+            }
+            .message-data { 
+                opacity: .5;
+            }
+          
+        }
     }
 }
 
@@ -233,6 +244,10 @@
     height: (@chatHeight - @sendHeight);
     overflow-y: auto;
     position: relative;
+    .blocked-message {
+        padding: @padding;
+        text-align: center;
+    }
     .messages-history {
         position: relative;
         padding: 0 (@padding/2) (@padding/2);

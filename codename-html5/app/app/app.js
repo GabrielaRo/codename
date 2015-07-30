@@ -83,6 +83,10 @@
 
     //END HISTORY
 
+    codename.config(['growlProvider', function(growlProvider) {
+        growlProvider.globalPosition('top-center');
+        growlProvider.globalTimeToLive(3000);
+    }]);
 
 }());
 
