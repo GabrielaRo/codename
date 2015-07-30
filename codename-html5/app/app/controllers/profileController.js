@@ -1,5 +1,5 @@
 (function () {
-    var profileController = function ($rootScope, $scope, $timeout, $users, $sockets, $cookieStore, appConstants, $routeParams, $auth, location, $interests) {
+    var profileController = function ($rootScope, $scope, $timeout, $users,  $cookieStore, appConstants, $routeParams, $auth, location, $interests) {
 
 
        
@@ -912,6 +912,6 @@
 
     };
 
-    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$sockets", "$cookieStore", "appConstants", "$routeParams", "$auth", "location", "$interests"];
+    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users",  "$cookieStore", "appConstants", "$routeParams", "$auth", "location", "$interests"];
     angular.module("codename").controller("profileController", profileController);
 }());

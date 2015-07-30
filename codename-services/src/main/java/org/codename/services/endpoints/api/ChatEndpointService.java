@@ -15,7 +15,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -31,33 +30,25 @@ import org.hibernate.validator.constraints.NotEmpty;
 public interface ChatEndpointService extends Serializable {
 
     @POST
-    @Path("/messages")
+    @Path("/conversations/{conversationId}/message")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response sendMessage(@NotNull @FormParam("userId") Long userId, @NotNull @NotEmpty @FormParam("conversationId") String conversationId,  @NotNull @NotEmpty @FormParam("message") String message) throws ServiceException;
-    
-    @GET
-    @Path("/messages/{userId}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response getMessages(@NotNull @PathParam("userId") Long userId, @QueryParam("conversationId") String conversationId) throws ServiceException;
-    
-//    @GET
-//    @Path("/conversations/{userId}")
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public Response getConversations(@NotNull @PathParam("userId") Long userId) throws ServiceException;
-    
-    @POST
-    @Path("/conversations/{userId}/create")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response createConversation(@NotNull @PathParam("userId") Long userId, @FormParam("other") String other) throws ServiceException;
+    public Response sendMessage(@NotNull @PathParam("conversationId") Long conversationId,
+            @NotNull @NotEmpty @FormParam("sender") String sender,
+            @NotNull @NotEmpty @FormParam("message") String message) throws ServiceException;
 
     @GET
-    @Path("/connections/{userId}")
+    @Path("/conversations/{conversationId}/messages")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getConnections(@NotNull @PathParam("userId") Long userId) throws ServiceException;
-    
+    public Response getMessages(@NotNull @PathParam("conversationId") Long conversationId) throws ServiceException;
+
+    @POST
+    @Path("/conversations/create")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response createConversation(@NotNull @NotEmpty @FormParam("initiator") String initiator, @NotNull @NotEmpty @FormParam("other") String other) throws ServiceException;
+
     @GET
-    @Path("/conversations/{userId}")
+    @Path("/conversations/{user}")
     @Produces({MediaType.APPLICATION_JSON})
-    Response getRooms(@NotNull @PathParam("userId")Long userId) throws ServiceException ;
-   
+    Response getConversations(@NotNull @NotEmpty @PathParam("user") String user) throws ServiceException;
+
 }

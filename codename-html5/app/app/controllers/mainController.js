@@ -3,18 +3,18 @@
 
     angular.module('codename');
 
-    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, $sockets, appConstants, $route, $routeParams, growl) {
+    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, appConstants, $route, $routeParams, growl) {
         $scope.auth_token = $cookieStore.get('auth_token');
         $scope.email = $cookieStore.get('email');
         $scope.user_id = $cookieStore.get('user_id');
+        $scope.user_nick = $cookieStore.get('user_nick');
         $scope.firstLogin = $cookieStore.get('firstLogin');
         $scope.index = 0;
         $scope.notifications = [];
 
         $scope.avatarStyle = "";
-        $scope.websocket = {};
+        $scope.socket = {};
         $scope.$routeParams = $routeParams;
-
 
 
 
@@ -58,15 +58,18 @@
             $scope.auth_token = "";
             $scope.email = "";
             $scope.user_id = "";
+            $scope.user_nick = "";
             $scope.firstLogin = "";
-            $scope.memberships = [];
+
 
             $users.logout().success(function (data) {
 
                 $cookieStore.remove('auth_token');
                 $cookieStore.remove('email');
+                $cookieStore.remove('user_id');
+                $cookieStore.remove('user_nick');
                 $scope.avatarStyle = "";
-                $sockets.closeWebSocket();
+//                $sockets.closeWebSocket();
                 $rootScope.$broadcast('goTo', "/");
                 $rootScope.$broadcast("quickNotification", "You have been logged out.", 'info');
             }).error(function (data) {
@@ -88,16 +91,18 @@
                     $cookieStore.put('auth_token', data.auth_token);
                     $cookieStore.put('email', data.email);
                     $cookieStore.put('user_id', data.user_id);
+                    $cookieStore.put('user_nick', data.user_nick);
                     $cookieStore.put('firstLogin', data.firstLogin);
                     $scope.auth_token = $cookieStore.get('auth_token');
                     $scope.email = $cookieStore.get('email');
                     $scope.user_id = $cookieStore.get('user_id');
+                    $scope.user_id = $cookieStore.get('user_nick');
                     $scope.firstLogin = $cookieStore.get('firstLogin');
-                    
+
                     $scope.credentials = {};
                     $scope.submitted = false;
                     $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
-                    $sockets.initWebSocket();
+//                    $sockets.initWebSocket();
                     if ($scope.firstLogin) {
                         $rootScope.$broadcast('goTo', "/profile");
                     } else {
@@ -122,15 +127,17 @@
                                 $cookieStore.put('auth_token', data.auth_token);
                                 $cookieStore.put('email', data.email);
                                 $cookieStore.put('user_id', data.user_id);
+                                $cookieStore.put('user_nick', data.user_nick);
                                 $cookieStore.put('firstLogin', data.firstLogin);
                                 $scope.auth_token = $cookieStore.get('auth_token');
                                 $scope.email = $cookieStore.get('email');
                                 $scope.user_id = $cookieStore.get('user_id');
+                                $scope.user_nick = $cookieStore.get('user_nick');
                                 $scope.firstLogin = $cookieStore.get('firstLogin');
                                 $scope.credentials = {};
                                 $scope.submitted = false;
                                 $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
-                                $sockets.initWebSocket();
+//                                $sockets.initWebSocket();
                                 if ($scope.firstLogin) {
                                     $rootScope.$broadcast('goTo', "/profile");
                                 } else {
@@ -154,7 +161,7 @@
         if ($scope.auth_token && $scope.auth_token !== "") {
 
             $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_id + '/avatar' + '?' + new Date().getTime() + ')'};
-            $sockets.initWebSocket();
+//            $sockets.initWebSocket();
         }
 
         $rootScope.$on("updateUser", function (data) {
@@ -164,7 +171,7 @@
     };
 
 
-    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$auth', '$sockets', 'appConstants', '$route', '$routeParams', 'growl'];
+    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$auth', 'appConstants', '$route', '$routeParams', 'growl'];
     angular.module("codename").controller("MainCtrl", MainCtrl);
 }());
 

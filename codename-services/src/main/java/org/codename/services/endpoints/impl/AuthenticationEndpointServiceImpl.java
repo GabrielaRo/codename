@@ -6,9 +6,7 @@
 package org.codename.services.endpoints.impl;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.util.Base64;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -36,11 +34,11 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import org.apache.commons.io.IOUtils;
+import org.codename.core.api.NotificationsService;
 import org.codename.model.User;
 import org.codename.core.api.UsersService;
 import org.codename.services.endpoints.api.AuthenticationEndpointService;
@@ -65,11 +63,10 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
     private UsersService userService;
 
     @Inject
+    private NotificationsService notificationService;
+
+    @Inject
     private GrogAuthenticator authenticator;
-
-    private String CHAT_SERVER_URL;
-
-    private String CHAT_SERVER_ENABLED;
 
     private final static Logger log = Logger.getLogger(AuthenticationEndpointServiceImpl.class.getName());
 
@@ -89,45 +86,10 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
         return ClientBuilder.newClient();
     }
 
-    private boolean isChatServerEnabled() {
-        CHAT_SERVER_ENABLED = System.getProperty("CHAT_SERVER_ENABLED");
-        System.out.println("CHAT_SERVER_ENABLED : " + CHAT_SERVER_ENABLED);
-        if (CHAT_SERVER_ENABLED != null && !CHAT_SERVER_ENABLED.equals("")) {
-            return Boolean.parseBoolean(CHAT_SERVER_ENABLED);
-        }
-
-        return false;
-    }
-
-    private String getChatServerUrl() {
-        CHAT_SERVER_URL = System.getProperty("CHAT_SERVER_URL");
-        if (CHAT_SERVER_URL == null || CHAT_SERVER_URL.equals("")) {
-            CHAT_SERVER_URL = "http://localhost:5000/";
-        }
-
-        System.out.println("CHAT_SERVER_URL : " + CHAT_SERVER_URL);
-        return CHAT_SERVER_URL;
-    }
-
     @Override
     public Response registerUser(@NotNull @Email @NotEmpty @FormParam("email") String email,
             @NotNull @NotEmpty @FormParam("password") String password) throws ServiceException {
         userService.newUser(new User(email, password));
-        //Now let's create a new chat users automatically
-        if (isChatServerEnabled()) {
-            String registerAccount = getChatServerUrl() + "account/register";
-            final MultivaluedMap<String, String> userData = new MultivaluedHashMap<String, String>();
-            userData.add("email", email);
-            userData.add("username", email.split("@")[0]);
-            userData.add("password", password);
-            userData.add("passwordConfirm", password);
-            userData.add("firstName", email);
-            userData.add("lastName", email);
-            userData.add("displayName", email.split("@")[0]);
-            System.out.println(">> Chat Target : " + registerAccount);
-            Response response = getClient().target(registerAccount).request().post(Entity.form(userData));
-            System.out.println("response: " + response.getStatus() + " - " + response.getStatusInfo());
-        }
         return Response.ok().build();
     }
 
@@ -164,52 +126,14 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
 
         String authToken = authenticator.login(email, password);
 
-         //Now let's create a new chat users automatically
-        if (isChatServerEnabled()) {
-            String loginAccount = getChatServerUrl() + "account/login";
-            final MultivaluedMap<String, String> userData = new MultivaluedHashMap<String, String>();
-
-            userData.add("username", authUser.getNickname());
-            userData.add("password", password);
-
-            System.out.println(">> Chat Target (Login) : " + loginAccount);
-            Response response = getClient().target(loginAccount).request().post(Entity.form(userData));
-            Map<String, Object> userInfo = null;
-            try {
-                userInfo = getResponseEntity(response);
-            } catch (JsonMappingException ex) {
-                Logger.getLogger(AuthenticationEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(AuthenticationEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (authUser.getChatToken() == null || authUser.getChatToken().equals("")) {
-                String generateToken = getChatServerUrl() + "account/token/generate";
-                System.out.println(">> Chat Target (generateToken) : " + generateToken);
-                System.out.println("Base: " + String.format("Basic %s", Base64.encode(authUser.getNickname() + ":" + password).toJSONString()));
-                response = getClient().target(generateToken).request(MediaType.APPLICATION_JSON).header(CodenameUtil.AUTH_HEADER_KEY,
-                        String.format("Basic %s", Base64.encode(authUser.getNickname() + ":" + password).toJSONString())).post(Entity.form(userData));
-                try {
-                    userInfo = getResponseEntity(response);
-                } catch (JsonMappingException ex) {
-                    Logger.getLogger(AuthenticationEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(AuthenticationEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                System.out.println("User Info: " + userInfo);
-                
-                String chatToken = (String) userInfo.get("token");
-                userService.updateChatToken(authUser.getId(), chatToken);
-
-            }
-
-        }
+        notificationService.addNewSession(authToken);
 
         boolean firstLogin = authUser.isIsFirstLogin();
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("email", email);
         jsonObjBuilder.add("auth_token", authToken);
         jsonObjBuilder.add("user_id", authUser.getId());
+        jsonObjBuilder.add("user_nick", authUser.getNickname());
         jsonObjBuilder.add("firstLogin", firstLogin);
 
         JsonObject jsonObj = jsonObjBuilder.build();
@@ -349,6 +273,7 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
             jsonObjBuilder.add("email", authUser.getEmail());
             jsonObjBuilder.add("auth_token", authToken);
             jsonObjBuilder.add("user_id", authUser.getId());
+            jsonObjBuilder.add("user_nick", authUser.getNickname());
             jsonObjBuilder.add("firstLogin", authUser.isIsFirstLogin());
             return Response.ok().entity(jsonObjBuilder.build()).build();
         } catch (ParseException ex) {

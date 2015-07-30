@@ -1,6 +1,6 @@
 (function () {
 
-    var messagesController = function ($scope, $chat, $cookieStore,$routeParams, $rootScope) {
+    var messagesController = function ($scope, $chat, $cookieStore, $routeParams, $rootScope) {
 //        $scope.inbox = [{user: "Salaboy", nickname: "salaboy", excerpt: "Sounds good see you then", date: "10:09", onlineStatus: false}, {user: "Grog DJ", nickname:"grogdj" , excerpt: "Thanks for the link - really interesting", date: "Tue", onlineStatus: true}, 
 //            {user: "Lee Jackson", nickname:"ttt9" ,excerpt: "Awesome!!!!!", date: "Sun", onlineStatus: false}, 
 //            {user: "Amy Jones",nickname:"ttt10" , excerpt: "Hey Natalie, i’m heading", date: "11 Jun", onlineStatus: false}, 
@@ -27,13 +27,21 @@
         $scope.selectedConversationId;
         $scope.inbox = [];
         $scope.messageHistory = [];
+
         $scope.selectConversation = function (conversationId) {
             console.log(conversationId);
             $scope.selectedConversationId = conversationId;
+//            mySocket.emit('rooms:join', {roomId: conversationId}, function (data) {
+//                    console.log("ws data 2: ");
+//                    console.log(data);
+//                });
             $scope.getMessages($scope.selectedConversationId);
             $scope.selectedUserName = conversationId;
         }
 
+
+
+       
         $scope.sendMessage = function (conversationId, message) {
             console.log("Sending message to: " + conversationId + " - " + message);
             $chat.sendMessage(conversationId, message).success(function (data) {
@@ -73,32 +81,24 @@
             });
         }
 
-        $scope.getConnections = function () {
-
-            $chat.getConnections().success(function (data) {
-                console.log("OK Data: " + data);
-                $rootScope.$broadcast("quickNotification", "connections retrieved!");
-
-
-            }).error(function (data) {
-
-                console.log("Error: " + data);
-                console.log(data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with getting all connections!" + data);
-            });
-        }
+       
 
         $scope.getConversations = function () {
 
             $chat.getConversations().success(function (data) {
                 $scope.inbox = data;
-                console.log("Routes Param selectedConversation: "+$routeParams.selectedConversation);
-                if($routeParams.selectedConversation){
+                console.log("Routes Param selectedConversation: " + $routeParams.selectedConversation);
+                console.log($scope.inbox);
+                if ($routeParams.selectedConversation) {
                     $scope.selectedConversationId = $routeParams.selectedConversation;
-                }else if($scope.inbox[0] && !$routeParams.selectedConversation){
+                } else if ($scope.inbox[0] && !$routeParams.selectedConversation) {
                     $scope.selectedConversationId = $scope.inbox[0].conversation_id;
                     $scope.getMessages($scope.selectedConversationId);
                 }
+//                mySocket.emit('rooms:join', {roomId: $scope.selectedConversationId}, function (data) {
+//                    console.log("ws data: ");
+//                    console.log(data);
+//                });
                 console.log("OK Inbox Data: ");
                 console.log(data);
 
@@ -114,12 +114,11 @@
         }
 
         $scope.getConversations();
-        
-       // $scope.getConnections();
+
 
     };
 
-    messagesController.$inject = ['$scope', '$chat', '$cookieStore','$routeParams', '$rootScope'];
+    messagesController.$inject = ['$scope', '$chat', '$cookieStore', '$routeParams', '$rootScope'];
     angular.module("codename").controller("messagesController", messagesController);
     
     angular.module( "codename" ).filter('reverse', function() {

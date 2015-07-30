@@ -70,6 +70,8 @@ public class SimpleLocalServiceTest {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addAsLibraries(libs)
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
+                .addAsManifestResource("META-INF/messages.xml", "messages.xml")
+                .addAsManifestResource("META-INF/conversations.xml", "conversations.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 

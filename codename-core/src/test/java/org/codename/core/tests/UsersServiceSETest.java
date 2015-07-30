@@ -65,10 +65,7 @@ public class UsersServiceSETest {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
-    @Produces
-    public EntityManager getEntityManager() {
-        return Persistence.createEntityManagerFactory("primary").createEntityManager();
-    }
+   
 
     @Test
     public void removeUserTest() throws ServiceException, Exception {

@@ -40,9 +40,9 @@ public class UsersServiceImpl implements UsersService {
             throw new ServiceException("User already registered with email: " + user.getEmail(), false);
         }
         user.setPassword(CodenameUtil.hash(user.getPassword()));
-        
+
         pm.persist(user);
-        
+
         String key = generateWebKey(user.getEmail());
         log.log(Level.INFO, "User {0} registered. Service Key: {1}", new Object[]{user.getEmail(), key});
         return user.getId();
@@ -459,14 +459,5 @@ public class UsersServiceImpl implements UsersService {
         pm.remove(u);
     }
 
-    @Override
-    public void updateChatToken(Long user_id, String chatToken) throws ServiceException {
-        User u = pm.find(User.class, user_id);
-        if (u == null) {
-            throw new ServiceException("User doesn't exist: " + user_id);
-        }
-        u.setChatToken(chatToken);
-        pm.merge(u);
-    }
 
 }
