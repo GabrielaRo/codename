@@ -8,10 +8,27 @@
     z-index: @navIndex;
     #fhellow-brand {
         display: inline-block;
-        padding-left:  @padding;
+        padding-left:  (@padding/4);
         font-weight: 300;
         line-height: @globalNavHeight;
         margin: 0;
+        a {
+            display: inline-block;
+            overflow: hidden;
+            background-image: url(/app/static/img/brand.svg);
+            width: 230px;
+            background-size: 230px auto;
+            text-indent: -9000px;
+        }
+    }
+    #invite-form {
+        display: inline-block;
+        position: absolute;
+        top: 10px;
+        padding-left: (@padding/4);
+        input[type="email"] {
+            width: 240px;
+        }
     }
     #nav-primary-wrapper {
         position: absolute;

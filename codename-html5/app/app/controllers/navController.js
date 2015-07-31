@@ -11,6 +11,7 @@
             $location.path(data);
         });
         
+
         //INVITE NAV
         $scope.animationRunning = false;
         
@@ -34,6 +35,8 @@
             }
             
         }
+        
+
         
         
     };

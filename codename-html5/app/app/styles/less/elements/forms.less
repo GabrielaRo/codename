@@ -31,6 +31,9 @@
     label + .control {
         margin-left: 0;
     }
+    &.no-space {
+        font-size: 0;
+    }
     
 }
 .control {
@@ -39,6 +42,10 @@
     padding-bottom: (@padding/4);
     margin-left: (@padding/4);
     font-size: @fontSize;
+    
+    &.no-margin {
+        margin-left: 0;
+    }
     
     .error-msg {
         font-size: 12px;
