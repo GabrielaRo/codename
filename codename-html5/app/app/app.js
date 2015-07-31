@@ -48,6 +48,11 @@
                             templateUrl: 'app/views/messages.html',
                             controller: 'messagesController'
                         })
+                
+                        .when('/invite', {
+                            templateUrl: 'app/views/invite.html',
+                            controller: 'inviteController'
+                        })
 
                         .otherwise({
                             redirectto: '/'
@@ -67,9 +72,11 @@
         $rootScope.navStatus = "show";
 
         $rootScope.$on('$routeChangeSuccess', function () {
-            if ($location.path() == "/") {
+            if ($location.path() == "/" ) {
                 $rootScope.navStatus = "hidden";
-            } else {
+            }else if ($location.path() == "/invite" ) {
+                $rootScope.navStatus = "hiddenFooter";
+            }else {
                 $rootScope.navStatus = "show";
             }
             history.push($location.$$path);

@@ -14,6 +14,25 @@
         font-size: @fontSize;
         white-space: normal;
     }
+    
+    &.big {
+        width: 1070px;
+        .three-col {
+            .col();
+            width: 33.3333%;
+            box-sizing: border-box;
+            padding: 0 (@colMargin);
+        }
+    }
+    
+    .row {
+        font-size: 0;
+        & > div {
+            font-size: @fontSize;
+            white-space: normal;
+        }
+    }
+    
 }
 
 .left-col {
@@ -36,6 +55,19 @@
     .col();
     width: 300px; 
 }
+
+.five-col {
+    .col();
+    width: 380px; 
+}
+
+.seven-col {
+    .col();
+    width: 540px; 
+}
+
+
+
 .two-col {
     .col();
     width: 140px; 
@@ -43,6 +75,9 @@
 
 .col-margin{
     margin-right: @colMargin;
+}
+.col-margin-left {
+    margin-left: @colMargin;
 }
 
 .right-offset-col(@cols) {

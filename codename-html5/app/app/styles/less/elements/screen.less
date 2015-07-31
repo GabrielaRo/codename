@@ -1,6 +1,7 @@
 .screen {
       padding-top: (@padding * 1.5);
       min-height: 98%;
+    overflow-y: auto;
     .sub-screen {
         height: 100%;
         &.vertical {
@@ -16,6 +17,11 @@
         &.dark {
             background-color: @darkBgr;
             color: @darkText;
+        }
+        
+        &.light {
+            background-color: @bgrLight;
+            color: @textDark;
         }
         
         &.auto-height {
