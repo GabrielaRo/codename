@@ -160,6 +160,16 @@
         }
 
         $scope.getConversations();
+        
+        $(document).ready(function(){
+            $('#sendMessageTextArea').keypress(function(e){
+              if(e.keyCode==13){
+                  if($scope.newMessage != "" && $scope.newMessage != undefined){
+                    $('#sendMessageButton').click();
+                  }
+              }
+            });
+        });
 
 
     };

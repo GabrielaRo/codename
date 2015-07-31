@@ -146,10 +146,10 @@
                     </div>
                     <div id="user-messages-send">
                         <div class="send-input">
-                            <textarea ng-model="newMessage"  placeholder="Write your message here..." ng-disabled="selectedConversation.blocked"></textarea>
+                            <textarea ng-model="newMessage" id="sendMessageTextArea"  placeholder="Write your message here..." ng-disabled="selectedConversation.blocked"></textarea>
                         </div>    
                         <div class="send-actions">
-                            <button class="button primary" ng-click="sendMessage(selectedConversation.conversation_id, newMessage)" ng-disabled="selectedConversation.blocked">Send</button>
+                            <button id="sendMessageButton" class="button primary" ng-click="sendMessage(selectedConversation.conversation_id, newMessage)" ng-disabled="selectedConversation.blocked">Send</button>
                         </div>
                     </div>
                 </div>
