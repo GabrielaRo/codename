@@ -220,7 +220,7 @@
         }
         
         &:hover {
-            background-color: lighten(@link,50%);
+            background-color: lighten(@borders,20%);
         }
         &.active {
             background-color: @link;
@@ -235,6 +235,10 @@
             .message-data { 
                 opacity: .5;
             }
+          
+        }
+        &.new {
+             background-color: lighten(@link,50%);
           
         }
     }

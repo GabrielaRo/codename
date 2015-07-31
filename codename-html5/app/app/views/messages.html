@@ -14,7 +14,7 @@
                 </div>
                 <div class="content-block-content">
                     <div id="user-messages-inbox">
-                        <div class="inbox-message" ng-repeat="conversation in inbox" ng-click="selectConversation(conversation)" ng-class="{active: selectedConversation.description == conversation.description, blocked: conversation.blocked}">
+                        <div class="inbox-message" ng-repeat="conversation in inbox" ng-click="selectConversation(conversation)" ng-class="{active: selectedConversation.description == conversation.description, blocked: conversation.blocked, new: conversation.newMessage == true}">
                             <div class="user-avatar">
                                 
                                 <div class="message-user-avatar hexagon">
@@ -37,7 +37,7 @@
                             </div>
                             <div class="message-data">
                                 <div class="message-user-name">{{conversation.description}}</div>
-                                <div class="message-excerpt">{{conversation.excerpt}}</div>
+                                <div class="message-excerpt"><span ng-if="conversation.lastIsMine"><i class="fa fa-reply"></i></span>{{conversation.excerpt}}</div>
                                 <div class="message-date">{{conversation.time| date:'EEE HH:mm'}}</div>
                             </div>
                         </div>
