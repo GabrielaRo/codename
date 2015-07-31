@@ -1,5 +1,5 @@
 (function () {
-    var $sockets = function ($rootScope, $cookieStore, appConstants) {
+    var $sockets = function ($rootScope, $cookieStore, $notifications, appConstants) {
         var factory = {};
         //init web socket for a client
         factory.initWebSocket = function () {
@@ -16,12 +16,16 @@
             $rootScope.websocket.onmessage = function (evt) {
 
                 var msg = JSON.parse(evt.data);
-                console.log(">>> onMessage: " );
-                console.log(msg);
-                $rootScope.$broadcast('quickNotification', msg, "success");
                 switch(msg.type){
-                    
-                    
+                    case 'online': 
+                        console.log("Hey there is a change of state in user : " + msg.user + " online status: "+ msg.online );
+                        break;
+                    case 'message':
+                        $notifications.newNotifications = $notifications.newNotifications + 1;
+                        
+                        $notifications.notifications.push({date:  Date.now(), message: 'text: '+msg.text });
+                        console.log("new Message here updating nav bar: " + $notifications.newNotifications);
+                        break;
                 }
             };
             $rootScope.websocket.onerror = function (evt) {
@@ -43,7 +47,7 @@
         return factory;
     };
 
-    $sockets.$inject = ['$rootScope', '$cookieStore', 'appConstants'];
+    $sockets.$inject = ['$rootScope', '$cookieStore','$notifications', 'appConstants'];
     angular.module("codename").factory("$sockets", $sockets);
 
 }());

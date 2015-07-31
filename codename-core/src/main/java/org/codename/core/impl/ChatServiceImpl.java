@@ -28,10 +28,10 @@ public class ChatServiceImpl implements ChatService {
 
     @Inject
     private PersistenceManager pm;
-    
+
     @Inject
     private UsersService usersService;
-    
+
     @Inject
     private NotificationsService notificationService;
 
@@ -44,12 +44,12 @@ public class ChatServiceImpl implements ChatService {
             conv.setExcerpt(text);
             conv.setTimestamp(new Date());
             pm.merge(conv);
-            if(conv.getUserA().equals(sender)){
-                notificationService.newNotification(conv.getUserB(), text, "", "");
-            }else{
-                notificationService.newNotification(conv.getUserA(), text, "", "");
+            if (conv.getUserA().equals(sender)) {
+                notificationService.newNotification(conv.getUserB(), conv.getUserA(), text, "", "");
+            } else {
+                notificationService.newNotification(conv.getUserA(), conv.getUserB(), text, "", "");
             }
-            
+
             return message.getId();
         } else {
             throw new ServiceException("Conversation not found or conversation blocked");
@@ -78,16 +78,16 @@ public class ChatServiceImpl implements ChatService {
         } catch (NoResultException nre) {
             // Do nothing just create the conversation            
         }
-        
+
         Conversation conversation = new Conversation(initiator, otherFhellow);
         User initiatorUser = usersService.getByNickName(initiator);
-        if(initiatorUser == null){
-            throw new ServiceException("Other fhellow: "+initiator + " not found!");
+        if (initiatorUser == null) {
+            throw new ServiceException("Other fhellow: " + initiator + " not found!");
         }
         User otherFhellowUser = usersService.getByNickName(otherFhellow);
-        
-        if(otherFhellowUser == null){
-            throw new ServiceException("Other fhellow: "+otherFhellow + " not found!");
+
+        if (otherFhellowUser == null) {
+            throw new ServiceException("Other fhellow: " + otherFhellow + " not found!");
         }
         conversation.setUserAFullName(initiatorUser.getFirstname() + " " + initiatorUser.getLastname());
         conversation.setUserBFullName(otherFhellowUser.getFirstname() + " " + otherFhellowUser.getLastname());
@@ -149,7 +149,7 @@ public class ChatServiceImpl implements ChatService {
             return false;
         }
     }
-    
+
     @Override
     public boolean unblockConversation(Long conversationId) throws ServiceException {
         try {

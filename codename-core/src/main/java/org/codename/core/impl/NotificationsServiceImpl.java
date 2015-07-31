@@ -46,9 +46,22 @@ public class NotificationsServiceImpl implements NotificationsService {
     }
 
     @Override
-    public Long newNotification(String nickname, String message, String action, String type) throws ServiceException {
-        pushNotification(nickname, message);
-        return 0L;
+    public void newNotification(String toNickname, String fromNickname, String message, String action, String type) throws ServiceException {
+        try {
+            System.out.println(">> Looking for Nickname in SessionMap: " + toNickname);
+            System.out.println(">> Session found: " + nickToSessionMap.get(toNickname));
+            Session session = nickToSessionMap.get(toNickname);
+            JsonObjectBuilder jsonUserObjectBuilder = Json.createObjectBuilder();
+            jsonUserObjectBuilder.add("type", "message");
+            jsonUserObjectBuilder.add("from", fromNickname);
+            jsonUserObjectBuilder.add("text", message);
+            if (session != null) {
+                session.getBasicRemote().sendText(jsonUserObjectBuilder.build().toString());
+            }
+        } catch (IOException ex) {
+            System.out.println("ERROR: Issue sending notification via ws remote sessio");
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -78,22 +91,5 @@ public class NotificationsServiceImpl implements NotificationsService {
         }
     }
 
-    private void pushNotification(String nickname, String message) {
-        try {
-            System.out.println(">> Looking for Nickname in SessionMap: " + nickname);
-            System.out.println(">> Session found: " + nickToSessionMap.get(nickname));
-            Session session = nickToSessionMap.get(nickname);
-            JsonObjectBuilder jsonUserObjectBuilder = Json.createObjectBuilder();
-            jsonUserObjectBuilder.add("type", "message");
-            jsonUserObjectBuilder.add("from", nickname);
-            jsonUserObjectBuilder.add("text", message);
-            if (session != null) {
-                session.getBasicRemote().sendText(jsonUserObjectBuilder.build().toString());
-            }
-        } catch (IOException ex) {
-            System.out.println("ERROR: Issue sending notification via ws remote sessio");
-            ex.printStackTrace();
-        }
-    }
 
 }

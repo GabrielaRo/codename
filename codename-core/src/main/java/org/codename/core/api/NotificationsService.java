@@ -20,7 +20,7 @@ public interface NotificationsService {
 
     void removeSession(Session client) throws ServiceException;
 
-    Long newNotification(String nickname, String message, String action, String type) throws ServiceException;
+    void newNotification(String toNickname, String fromNickname, String message, String action, String type) throws ServiceException;
 
     List<Notification> getAllNotificationsByUser(String nickname);
     

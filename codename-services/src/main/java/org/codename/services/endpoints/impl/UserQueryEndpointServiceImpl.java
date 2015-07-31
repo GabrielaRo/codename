@@ -18,6 +18,7 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import org.codename.core.api.NotificationsService;
 import org.codename.core.api.UsersQueryService;
 
 import org.codename.model.User;
@@ -35,6 +36,9 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
     @Inject
     private UsersQueryService usersQueryService;
+
+    @Inject
+    private NotificationsService notificationServices;
 
     private final static Logger log = Logger.getLogger(UserQueryEndpointServiceImpl.class.getName());
 
@@ -100,6 +104,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
         List<User> allUsers = usersQueryService.getAll(interestsList, lookingForList, categoriesList);
         for (User u : allUsers) {
             JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+            jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
             jsonArrayBuilder.add(jsonUserObjectBuilder);
         }
         return Response.ok(jsonArrayBuilder.build().toString()).build();
@@ -167,6 +172,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
             System.out.println("User in Range 1: " + u);
             JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
             jsonUserObjectBuilder.add("range", "1");
+            jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
             jsonArrayBuilder.add(jsonUserObjectBuilder);
         }
         List<User> usersInRange2 = usersQueryService.getUserByRange(lon, lat, 3.0, interestsList, lookingForList, categoriesList);
@@ -175,6 +181,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
                 System.out.println("User in Range 2: " + u);
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", "2");
+                jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
                 jsonArrayBuilder.add(jsonUserObjectBuilder);
             }
         }
@@ -184,6 +191,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
                 System.out.println("User in Range 3: " + u);
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", "3");
+                jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
                 jsonArrayBuilder.add(jsonUserObjectBuilder);
             }
         }
@@ -202,6 +210,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
                 System.out.println("User in Range 5: " + u);
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", "5");
+                jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
                 jsonArrayBuilder.add(jsonUserObjectBuilder);
             }
         }

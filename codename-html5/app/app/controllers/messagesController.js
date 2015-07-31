@@ -1,22 +1,37 @@
 (function () {
 
-    var messagesController = function ($scope, $chat, $cookieStore, $routeParams, $rootScope, appConstants) {
+    var messagesController = function ($scope, $chat, $cookieStore, $routeParams, $rootScope, $sockets, $notifications, appConstants) {
 
 
         $scope.serverUrlFull = appConstants.server + appConstants.context;
-        
+
         $scope.inbox = [];
         $scope.messageHistory = [];
         $scope.selectedConversation = [];
-        
+
+        $rootScope.websocket.onmessage = function (evt) {
+
+            var msg = JSON.parse(evt.data);
+            console.log(">>> onMessage: ");
+            console.log(msg);
+            $rootScope.$broadcast('quickNotification', msg, "success");
+            switch (msg.type) {
+                case 'message': 
+                    console.log("Hey there is a new message for you from : " + msg.from + " online status: "+ msg.text );
+                    $notifications.newNotifications = $notifications.newNotifications + 1;
+                    $notifications.notifications.push({date:  Date.now(), message: 'text: '+msg.text });
+                    console.log("new Message here updating nav bar: " + $notifications.newNotifications);
+                    break;
+
+            }
+        };
 
         $scope.selectConversation = function (conversation) {
 
-            
             $scope.selectedConversation = conversation;
-            
+
             $scope.getMessages(conversation.conversation_id);
-            
+
         }
 
         $scope.blockConversation = function (conversationId) {
@@ -42,7 +57,7 @@
 
         }
         $scope.unblockConversation = function (conversationId) {
-            
+
             $chat.unblockConversation(conversationId).success(function (data) {
 
 
@@ -54,7 +69,7 @@
                     }
 
                 }
-                
+
 
 
             }).error(function (data) {
@@ -174,7 +189,7 @@
 
     };
 
-    messagesController.$inject = ['$scope', '$chat', '$cookieStore', '$routeParams', '$rootScope', 'appConstants'];
+    messagesController.$inject = ['$scope', '$chat', '$cookieStore', '$routeParams', '$rootScope', '$sockets', '$notifications', 'appConstants'];
     angular.module("codename").controller("messagesController", messagesController);
 
 
