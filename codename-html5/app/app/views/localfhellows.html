@@ -149,6 +149,7 @@
                         </div>
                     </div>
                     <div class="fhellow-actions">
+                       <div class="online-status" ng-if="fhellow.onlineStatus"></div>
                        <a class="button icon-only small" href ng-click="newConversation(fhellow.nickname)"> <i class="fa fa-envelope"></i></a>
                        <a class="button small" href="#/profile/{{fhellow.nickname}}">View Profile</a>
                     </div>

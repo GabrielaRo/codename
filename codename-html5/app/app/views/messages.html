@@ -14,7 +14,7 @@
                 </div>
                 <div class="content-block-content">
                     <div id="user-messages-inbox">
-                        <div class="inbox-message" ng-repeat="conversation in inbox" ng-click="selectConversation(conversation)" ng-class="{active: selectedUserName == conversation.description, blocked: conversation.blocked}">
+                        <div class="inbox-message" ng-repeat="conversation in inbox" ng-click="selectConversation(conversation)" ng-class="{active: selectedConversation.description == conversation.description, blocked: conversation.blocked}">
                             <div class="user-avatar">
                                 
                                 <div class="message-user-avatar hexagon">
