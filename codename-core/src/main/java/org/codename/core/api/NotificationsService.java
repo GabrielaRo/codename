@@ -16,7 +16,7 @@ import org.codename.model.Notification;
  */
 public interface NotificationsService {
 
-    void addNewSession(String nickname, Session client);
+    void addNewSession(String nickname, Session client) throws ServiceException;
 
     void removeSession(Session client) throws ServiceException;
 

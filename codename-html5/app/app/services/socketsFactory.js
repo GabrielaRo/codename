@@ -22,9 +22,8 @@
                         break;
                     case 'message':
                         $notifications.newNotifications = $notifications.newNotifications + 1;
-                        
                         $notifications.notifications.push({date:  Date.now(), message: 'text: '+msg.text });
-                        console.log("new Message here updating nav bar: " + $notifications.newNotifications);
+                        console.log("Sockets factory >> new Message here updating nav bar: " + $notifications.newNotifications);
                         break;
                 }
             };

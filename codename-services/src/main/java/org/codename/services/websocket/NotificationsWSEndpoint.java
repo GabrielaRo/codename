@@ -6,6 +6,8 @@
 package org.codename.services.websocket;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -37,7 +39,12 @@ public class NotificationsWSEndpoint {
         List<String> nicks = client.getRequestParameterMap().get("nickname");
         System.out.println("OnOpen  Web Socket: " + nicks.get(0));
         
-        notificationService.addNewSession(nicks.get(0), client);
+        try {
+            notificationService.addNewSession(nicks.get(0), client);
+        } catch (ServiceException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(NotificationsWSEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @OnMessage
@@ -47,6 +54,7 @@ public class NotificationsWSEndpoint {
 
     @OnClose
     public void onClose(Session client) throws ServiceException {
+        System.out.println("On Close Web Socket");
         notificationService.removeSession(client);
     }
 
