@@ -7,7 +7,6 @@
         $scope.joinStatus = "home";
         $scope.tabClicked = function (tab, tabsForm) {
             var form = $("#" + tabsForm);
-            console.log(form);
             var formsTabs = form.find(".tab");
             var actualTab = $("#" + tab);
             if (tab == "sign-in") {
@@ -48,7 +47,6 @@
         }
 
         $scope.registerUser = function (isValid) {
-            // console.log("asd " + $scope.newUser.email + " / " + $scope.newUser.pass);
 
             $scope.joinSubmitted = true;
 
@@ -58,7 +56,6 @@
 
                     $rootScope.$broadcast("goTo", "/");
                     $scope.registerForm.$setPristine();
-                    console.log("Welcome to " + $scope.newUser.email + "!");
 
                     $scope.tabClicked("sign-in", 'home-tabs');
                     $scope.joinStatus = "home";
@@ -70,20 +67,10 @@
 
                 });
             } else {
-                console.log("Invalid Form");
+                console.log("Error : Invalid Form");
             }
         };
         
-//        if ($scope.auth_token && $scope.auth_token !== "") {
-//
-//            console.log("loading private clubs because: " + $scope.auth_token);
-//
-//            //
-//        } else {
-//            console.log("loading public clubs because: " + $scope.auth_token);
-//
-//
-//        }
 
 
 

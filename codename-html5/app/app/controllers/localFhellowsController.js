@@ -12,7 +12,6 @@
 
 
         $scope.selectAddress = function () {
-            console.log($scope.lookedUpLocation);
             if ($scope.lookedUpLocation) {
                 $scope.selectedLocation = $scope.lookedUpLocation;
                 $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
@@ -47,14 +46,10 @@
         $scope.$watch('lookedUpLocation', $scope.selectAddress);
 
         $scope.newConversation = function (selectedUser) {
-            console.log("About to create New conversation for "+selectedUser);
+            
             $chat.newConversation(selectedUser).success(function (data) {
-                
-                console.log("New conversation created ");
-                console.log(data);
                 $rootScope.$broadcast('goTo', "/messages/"+data);
-                
-                
+
             }).error(function (data) {
                 console.log("Error: ");
                 console.log(data);
@@ -74,11 +69,8 @@
 
         $scope.loadInterestOnInit = function () {
             $interests.getAll().success(function (data) {
-                //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
-                console.log("Interests loaded: ");
-
                 $scope.interests = data;
-                console.log($scope.interests);
+                
             }).error(function (data) {
                 console.log("Error: ");
                 console.log(data);
@@ -94,7 +86,6 @@
             } else {
                 $scope.filtersType.splice($scope.filtersType.indexOf(buttonName), 1);
             }
-            console.log($scope.filtersType);
             if ($scope.lookedUpLocation) {
 
                 $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
@@ -110,7 +101,6 @@
             } else {
                 $scope.filtersLookingTo.splice($scope.filtersLookingTo.indexOf(buttonName), 1);
             }
-            console.log($scope.filtersLookingTo);
             if ($scope.lookedUpLocation) {
 
                 $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
@@ -121,18 +111,14 @@
         }
 
         $scope.loadFhellowsByLocation = function (lon, lat, tags, lookingFors, categories) {
-            console.log("lon = " + lon);
-            console.log("lat = " + lat);
-            console.log("lookingFors = ");
-            console.log(lookingFors);
-            console.log("categories = ");
-            console.log(categories);
+//            console.log("lon = " + lon);
+//            console.log("lat = " + lat);
+//            console.log("lookingFors = ");
+//            console.log(lookingFors);
+//            console.log("categories = ");
+//            console.log(categories);
             $queries.getByLocation(lon, lat, tags, lookingFors, categories).success(function (data) {
-                //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
-                console.log("Fhellows: ");
-                console.log(data);
                 $scope.fhellowsList = data;
-                console.log($scope.fhellowsList);
             }).error(function (data) {
                 console.log("Error: ");
                 console.log(data);
@@ -146,11 +132,8 @@
 
 
             $queries.getAll(tags, lookingFors, categories).success(function (data) {
-                //$rootScope.$broadcast("quickNotification", "Clubs loaded!");
-                console.log("Fhellows: ");
-                console.log(data);
+
                 $scope.fhellowsList = data;
-                console.log($scope.fhellowsList);
             }).error(function (data) {
                 console.log("Error: ");
                 console.log(data);
@@ -160,12 +143,6 @@
         };
 
         $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
-
-
-
-
-
-
 
         $(window).scroll(function () {
 

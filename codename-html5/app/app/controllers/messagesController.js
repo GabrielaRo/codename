@@ -8,19 +8,34 @@
         $scope.inbox = [];
         $scope.messageHistory = [];
         $scope.selectedConversation = [];
+        
+        $scope.me = $cookieStore.get('user_nick');
 
         $rootScope.websocket.onmessage = function (evt) {
 
             var msg = JSON.parse(evt.data);
-            console.log(">>> onMessage: ");
-            console.log(msg);
+           
             $rootScope.$broadcast('quickNotification', msg, "success");
             switch (msg.type) {
                 case 'message': 
-                    console.log("Hey there is a new message for you from : " + msg.from + " online status: "+ msg.text );
+                    console.log(">>Message Controller: Hey there is a new message for you from : " 
+                            + msg.from + " online status: "+ msg.text + " - convId ="+msg.conversationId );
                     $notifications.newNotifications = $notifications.newNotifications + 1;
                     $notifications.notifications.push({date:  Date.now(), message: 'text: '+msg.text });
-                    console.log("new Message here updating nav bar: " + $notifications.newNotifications);
+                    if($scope.selectedConversation.conversation_id ==  msg.conversationId){
+                        $scope.messageHistory.push({owner_nickname: msg.from, text: msg.text, time: Date.now()});
+                    }
+                    for( var i = 0; i < $scope.inbox.length; i++){
+                        if($scope.inbox[i].conversation_id == msg.conversationId){
+                            $scope.inbox[i].excerpt = msg.text;
+                            $scope.inbox[i].time = Date.now();
+                            $scope.inbox[i].newMessage = true;
+                            $scope.inbox[i].from = msg.from;
+                            $scope.inbox[i].to = msg.to;
+                        }
+                    }
+                    
+                    
                     break;
 
             }
@@ -91,6 +106,7 @@
                 if ($scope.inbox[i].conversation_id == conversationId) {
                     $scope.inbox[i].excerpt = message;
                     $scope.inbox[i].time = Date.now();
+                    $scope.inbox[i].from = $scope.me;
                 }
 
             }

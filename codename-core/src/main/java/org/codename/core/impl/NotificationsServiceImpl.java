@@ -54,7 +54,10 @@ public class NotificationsServiceImpl implements NotificationsService {
             JsonObjectBuilder jsonUserObjectBuilder = Json.createObjectBuilder();
             jsonUserObjectBuilder.add("type", "message");
             jsonUserObjectBuilder.add("from", fromNickname);
+            jsonUserObjectBuilder.add("to", toNickname);
             jsonUserObjectBuilder.add("text", message);
+            jsonUserObjectBuilder.add("conversationId", type);
+            
             if (session != null) {
                 session.getBasicRemote().sendText(jsonUserObjectBuilder.build().toString());
             }

@@ -5,6 +5,7 @@
  */
 package org.codename.core.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -458,5 +459,17 @@ public class UsersServiceImpl implements UsersService {
         }
         pm.remove(u);
     }
+
+    @Override
+    public void updateLastLogin(Long user_id, Date date) throws ServiceException {
+        User u = pm.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        u.setLastLogin(date);
+        pm.merge(u);
+    }
+    
+    
 
 }

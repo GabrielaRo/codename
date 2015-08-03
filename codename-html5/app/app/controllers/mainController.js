@@ -30,7 +30,6 @@
             i = $scope.index++;
             $scope.invalidNotification = false;
             $scope.notifications[i] = data;
-            console.log("notification ");
             console.log(data);
 
             switch (type) {

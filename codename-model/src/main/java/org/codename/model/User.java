@@ -149,6 +149,8 @@ public class User implements Serializable {
     private String shareMessage;
 
     private String messageMeMessage;
+    
+    private Date lastLogin;
 
 
     public User() {
@@ -446,6 +448,14 @@ public class User implements Serializable {
         this.jobTitle = jobTitle;
     }
 
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+    
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", email=" + email + ", isFirstLogin=" + isFirstLogin + ", location=" + location + ", nickname=" + nickname + ", firstname=" + firstname + ", lastname=" + lastname + ", latitude=" + latitude + ", longitude=" + longitude + '}';

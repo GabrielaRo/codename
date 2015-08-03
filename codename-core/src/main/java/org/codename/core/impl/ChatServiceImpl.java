@@ -45,9 +45,9 @@ public class ChatServiceImpl implements ChatService {
             conv.setTimestamp(new Date());
             pm.merge(conv);
             if (conv.getUserA().equals(sender)) {
-                notificationService.newNotification(conv.getUserB(), conv.getUserA(), text, "", "");
+                notificationService.newNotification(conv.getUserB(), conv.getUserA(), text, "message", String.valueOf(conversationId));
             } else {
-                notificationService.newNotification(conv.getUserA(), conv.getUserB(), text, "", "");
+                notificationService.newNotification(conv.getUserA(), conv.getUserB(), text, "message", String.valueOf(conversationId));
             }
 
             return message.getId();

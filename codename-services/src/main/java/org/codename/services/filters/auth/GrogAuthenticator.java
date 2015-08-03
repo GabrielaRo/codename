@@ -5,6 +5,7 @@
  */
 package org.codename.services.filters.auth;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -67,7 +68,7 @@ public final class GrogAuthenticator {
                 String authToken = UUID.randomUUID().toString();
 
                 authorizationTokensStorage.put(authToken, email);
-
+                userService.updateLastLogin(user.getId(), new Date());
                 return authToken;
 
             }

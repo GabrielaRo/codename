@@ -5,6 +5,7 @@
  */
 package org.codename.core.api;
 
+import java.util.Date;
 import java.util.List;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.model.Coordinates;
@@ -102,6 +103,8 @@ public interface UsersService {
     public void updateJobTitle(Long user_id, String jobtitle) throws ServiceException;
 
     public void removeUser(Long user_id) throws ServiceException;
+
+    public void updateLastLogin(Long user_id, Date date) throws ServiceException;
    
 
 
