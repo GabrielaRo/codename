@@ -105,5 +105,6 @@ public interface UsersService {
    
     public void updateChatToken(Long id, String chatToken) throws ServiceException ;
 
+    int calculateUserProfilePercentage(User u) throws ServiceException;
 
 }
