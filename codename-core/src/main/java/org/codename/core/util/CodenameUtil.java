@@ -14,6 +14,7 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -34,8 +35,15 @@ public class CodenameUtil {
     public static String hash(String value) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            return new String(md.digest(value.getBytes()));
+            final byte[] array = md.digest(value.getBytes("UTF-8"));
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+            }
+            return sb.toString();
         } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(CodenameUtil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(CodenameUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";

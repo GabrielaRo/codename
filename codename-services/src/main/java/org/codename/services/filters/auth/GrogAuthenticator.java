@@ -43,6 +43,7 @@ public final class GrogAuthenticator {
 
         log.log(Level.INFO, "email: {0}", email);
         log.log(Level.INFO, "password: {0}", password);
+       
 
         if (userService.exist(email)) {
 
@@ -50,6 +51,7 @@ public final class GrogAuthenticator {
 
             String passwordMatch = user.getPassword();
             log.log(Level.INFO, "passwordMatch: {0}", passwordMatch);
+            log.log(Level.INFO, "CodenameUtil.hash(password): {0}", CodenameUtil.hash(password));
             if (passwordMatch.equals(CodenameUtil.hash(password))) {
 
                 /**

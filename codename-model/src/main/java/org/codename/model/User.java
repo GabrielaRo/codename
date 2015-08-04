@@ -56,7 +56,6 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Size(min = 6, max = 20, message = "An user's password must contain between 5 and 20 characters")
     @NotNull
     @NotEmpty
     private String password;
