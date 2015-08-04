@@ -11,12 +11,12 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.codename.model.User;
 import org.codename.core.api.UsersQueryService;
 import org.codename.core.exceptions.ServiceException;
+import org.codename.core.util.PersistenceManager;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -37,7 +37,7 @@ import org.hibernate.search.spatial.DistanceSortField;
 public class UsersQueryServiceImpl implements UsersQueryService {
 
     @Inject
-    private EntityManager em;
+    private PersistenceManager pm;
 
     private final static Logger log = Logger.getLogger(UsersQueryServiceImpl.class.getName());
 
@@ -46,13 +46,13 @@ public class UsersQueryServiceImpl implements UsersQueryService {
 
     @PostConstruct
     public void init() throws InterruptedException {
-        Search.getFullTextEntityManager(em).createIndexer().startAndWait();
+        Search.getFullTextEntityManager(pm.getEm()).createIndexer().startAndWait();
     }
 
     @Override
     public List<User> getAll(List<String> interests, List<String> lookingFors, List<String> categories) throws ServiceException {
 
-        FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(em);
+        FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(pm.getEm());
         QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
 
         FacetingRequest interestsFacetingRequest = qb.facet()
@@ -164,7 +164,7 @@ public class UsersQueryServiceImpl implements UsersQueryService {
 
     @Override
     public List<User> getUserByRange(Double lon, Double lat, Double range, List<String> interests, List<String> lookingFors, List<String> categories) throws ServiceException {
-        FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(em);
+        FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(pm.getEm());
         QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
         Query query = qb.bool().must(qb.keyword().onField("live").matching("true").createQuery())
                 .must(qb.spatial().onDefaultCoordinates()

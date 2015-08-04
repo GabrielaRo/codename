@@ -89,4 +89,10 @@ public class PersistenceManager {
         return em.find(type, o);
     }
 
+    public EntityManager getEm() {
+        return em;
+    }
+    
+    
+
 }

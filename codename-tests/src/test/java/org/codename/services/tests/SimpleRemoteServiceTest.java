@@ -7,6 +7,7 @@ package org.codename.services.tests;
 
 import java.io.File;
 import java.io.StringReader;
+import java.util.Set;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -25,6 +26,7 @@ import org.codename.core.exceptions.ServiceException;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.resteasy.specimpl.ResteasyHttpHeaders;
+import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -58,18 +60,29 @@ public class SimpleRemoteServiceTest {
                 .resolve()
                 .withTransitivity().asFile();
 
-        return ShrinkWrap.create(WebArchive.class, "test.war")
+        WebArchive webArc = ShrinkWrap.create(WebArchive.class, "test.war")
                 .addAsLibraries(libs)
-                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
+                .addAsManifestResource("persistence.xml", "persistence.xml")
+                .addAsWebInfResource("quickstart-ds.xml", "quickstart-ds.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+        Set<ArchivePath> keySet = webArc.getContent().keySet();
+        for(ArchivePath k : keySet){
+            System.out.println("> K : "+k.get());
+        }
+        return webArc;
     }
 
     public SimpleRemoteServiceTest() {
     }
 
+    @Inject
     @PersistenceContext(name = "primary")
+    private EntityManager em;
+
     @Produces
-    EntityManager em;
+    public EntityManager getEntityManager() {
+        return em;
+    }
 
     @Inject
     private AuthenticationEndpointService authService;

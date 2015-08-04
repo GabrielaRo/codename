@@ -6,10 +6,10 @@
 
     codename.constant("appConstants", {
        
-        server: "http://fhellow-restprovider.rhcloud.com/",
-        address: "fhellow-restprovider.rhcloud.com",
-        port: "80",
-        context: 'codename-server/'
+        server: "http://localhost:8080/",
+        address: "localhost",
+        port: "8080",
+        context: ''
 
     })
             // configure our routes

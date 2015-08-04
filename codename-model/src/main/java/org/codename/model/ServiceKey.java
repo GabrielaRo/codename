@@ -6,6 +6,7 @@
 package org.codename.model;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,7 @@ public class ServiceKey implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @Column(name = "servicekey")
     private String key;
     private String email;
 

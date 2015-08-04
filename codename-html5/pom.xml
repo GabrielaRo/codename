@@ -70,7 +70,7 @@
                 <version>1.0.2.Final</version>
                 <configuration>
                     <!--jvmArgs>-Xms2048m -Xmx4024m -XX:MaxPermSize=2024M -XX:PermSize=1512M -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y</jvmArgs-->
-                    <jvmArgs>-DCHAT_SERVER_ENABLED=true</jvmArgs>
+                    <jvmArgs>-DSERVERURL=http://localhost:8080/ -DSERVERCONTEXT=codename-server/</jvmArgs>
                 </configuration>
             </plugin>
             <plugin>
@@ -213,15 +213,85 @@
                                         <include>app.js</include>
                                     </includes>
                                 </resource>
+                                <resource>
+                                    <!-- this is relative to the pom.xml directory -->
+                                    <directory>app</directory>
+                                    <excludes>
+                                        <exclude>app/amazon</exclude>
+                                        <exclude>app/openshift</exclude>
+                                    </excludes>
+                                </resource>
                             </webResources>
                             <outputDirectory>deployments</outputDirectory>
-                            <warName>fhellow</warName>
+                            <warName>ROOT-openshift</warName>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
         </profile>
-
+        <profile>
+            <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
+            <!-- Use this profile for any OpenShift specific customization your app will need. -->
+            <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
+            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
+            <id>amazon</id>
+            
+            
+            <build>
+                
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>2.6</version>
+                        <configuration>
+                            <!-- specify UTF-8, ISO-8859-1 or any other file encoding -->
+                            <encoding>UTF-8</encoding>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.6</version>
+                        <configuration>
+                         
+                            <webResources>
+                                
+                                <resource>
+                                    <!-- this is relative to the pom.xml directory -->
+                                    <directory>app</directory>
+                                    <excludes>
+                                        <exclude>app/app.js</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <!-- this is relative to the pom.xml directory -->
+                                    <directory>app/amazon</directory>
+                                    <targetPath>app/</targetPath>
+                                    <includes>
+                                        <include>app.js</include>
+                                    </includes>
+                                </resource>
+                                
+                               
+                               
+                                
+                            </webResources>
+                            
+                            <packagingExcludes>
+                                openshift/, 
+                                amazon/,
+                                WEB-INF/classes/META-INF/persistence.xml
+                                WEB-INF/quickstart-ds.xml
+                            </packagingExcludes>
+                            
+                            
+                            <outputDirectory>deployments</outputDirectory>
+                            <warName>ROOT-amazon</warName>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
     <pluginRepositories>
         <pluginRepository>

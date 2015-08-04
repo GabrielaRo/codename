@@ -5,10 +5,7 @@
  */
 package org.codename.core.tests;
 
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 
 import org.codename.core.api.UsersService;
 import org.codename.core.exceptions.ServiceException;

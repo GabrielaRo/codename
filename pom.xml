@@ -16,8 +16,8 @@
         <module>codename-rules</module>
         <module>codename-services</module>
         <module>codename-html5</module>
-        <module>codename-tests</module>
         <module>codename-core</module>
+        <!--module>codename-tests</module-->
     </modules>
   
     <properties>
@@ -79,6 +79,13 @@
             </releases>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jboss</id>
+            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+    
     <build>
     <plugins>
         <plugin>

@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @ApplicationScoped
 public class ApplicationScopedProducers {
 
-    @PersistenceContext
+    @PersistenceContext(name = "primary")
     private EntityManager em;
 
     @Produces

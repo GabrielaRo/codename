@@ -63,17 +63,6 @@
     </dependencies>
   
   
-    <pluginRepositories>
-        <pluginRepository>
-            <id>jboss</id>
-            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
-    <repositories>
-        <repository>
-            <id>jboss</id>
-            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
+    
 
 </project>
