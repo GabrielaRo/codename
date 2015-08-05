@@ -14,6 +14,15 @@
 
         //INVITE NAV
         $scope.animationRunning = false;
+        $rootScope.inviteStatus = false;
+        
+        $scope.sendInvite = function(){
+            $rootScope.inviteStatus = true;
+            $rootScope.$broadcast("quickNotification", "Invitation Sended");
+            
+        }
+        
+        
         
         $scope.goToSubSection = function(target){
             

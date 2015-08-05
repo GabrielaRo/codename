@@ -2,14 +2,14 @@
             <h1 id="fhellow-brand">
                 <a href="#/">Fhellow</a>
             </h1>
-            <div id="invite-form" ng-show="!auth_token">
+            <div id="invite-form" ng-show="!auth_token && !inviteStatus">
                 <form>
                      <div class="control-group no-space">
                          <div class="control">
                              <input type="email" placeholder="Enter your email">
                          </div>
                          <div class="control no-margin">
-                             <button class="button primary">Request pre-launch access</button>
+                             <button class="button primary" ng-click="sendInvite()">Request pre-launch access</button>
                          </div>
                      </div>
                 </form>
