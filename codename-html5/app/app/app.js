@@ -133,7 +133,9 @@
 
     codename.config(['growlProvider', function (growlProvider) {
             growlProvider.globalPosition('top-center');
+            growlProvider.globalDisableIcons(true);
             growlProvider.globalTimeToLive(3000);
         }]);
 
 }());
+
