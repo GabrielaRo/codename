@@ -52,7 +52,6 @@
 
             }).error(function (data) {
                 console.log("Error: ");
-                console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong creating a new conversations!" + data);
             });
 
@@ -73,7 +72,6 @@
                 
             }).error(function (data) {
                 console.log("Error: ");
-                console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong loading the interests!" + data);
             });
 
@@ -120,8 +118,6 @@
             $queries.getByLocation(lon, lat, tags, lookingFors, categories).success(function (data) {
                 $scope.fhellowsList = data;
             }).error(function (data) {
-                console.log("Error: ");
-                console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
             });
 

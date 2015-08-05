@@ -5,14 +5,14 @@
         
         
        $scope.requestInvite = function (email) {
-            console.log("requesting invite for: " + email);
+            
             $invites.request(email).success(function (data) {
                 $scope.inviteStatus = true;
-                $rootScope.$broadcast("quickNotification", "Invitation Sended");
+                $rootScope.$broadcast("quickNotification", "Invitation Sent");
 
 
             }).error(function (data) {
-                console.log(data);
+                
                 $rootScope.$broadcast("quickNotification", "Something failed: " + data, 'error');
                 console.log("Error : " + data + "!");
 
@@ -37,16 +37,13 @@
            
            $scope.carouselItems.each(function(index){
                var itemPosition = 100 - ($scope.carouselPosition - index) * 100;
-                console.log(itemPosition);
                $(this).css( "left", itemPosition+"%" );
            });
             $scope.initCarousel();
        }
        
        $scope.initCarousel();
-        
-        
-        //
+
         var nounAudio = new Audio('/app/static/noun.mp3');
         $scope.playWord = function(){
             nounAudio.play();

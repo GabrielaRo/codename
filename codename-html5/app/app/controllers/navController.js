@@ -24,9 +24,6 @@
                 var targetPosition = (targetElement.position().top - 60) + $('#mainview').scrollTop();
 
                 $scope.animationRunning = true;
-                console.log(targetElement);
-                console.log(targetPosition);
-                console.log($('#mainview').scrollTop());
 
                 $('#mainview').animate({
                     'scrollTop': targetPosition

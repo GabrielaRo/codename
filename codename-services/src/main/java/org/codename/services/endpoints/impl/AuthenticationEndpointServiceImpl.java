@@ -210,7 +210,7 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
         Map<String, Object> userInfo = null;
         try {
             accessToken = (String) getResponseEntity(response).get("access_token");
-            System.out.println("accessToken = " + accessToken);
+            
             response
                     = client.target(peopleApiUrl).request("text/plain")
                     .header(CodenameUtil.AUTH_HEADER_KEY, String.format("Bearer %s", accessToken)).get();
@@ -223,7 +223,7 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
             ex.printStackTrace();
         }
 
-        System.out.println("userInfo.get(\"sub\") = " + userInfo.get("sub"));
+        
         User byEmail = userService.getByEmail((String) userInfo.get("email"));
         if (byEmail == null) {
             User user = new User((String) userInfo.get("email"), userInfo.get("sub").toString(),

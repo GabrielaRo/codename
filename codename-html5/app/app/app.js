@@ -91,15 +91,12 @@
         $rootScope.navStatus = "show";
         $rootScope.$on('$routeChangeStart', function (event, next) {
             var authorised;
-            console.log(next);
+            
             if (next.access !== undefined) {
-                console.log("Going to: ");
-                console.log(next);
                 authorised = $auth.authorize(next.access.requiresLogin, 
                         next.access.requiresProfile,
                         next.access.permissions,
                         next.access.permissionCheckType);
-                console.log("Result: " + authorised);
                 if (authorised === 'Authorized') {
                     $location.path(next.originalPath);
                 } else if (authorised === 'NotAuthorized') {

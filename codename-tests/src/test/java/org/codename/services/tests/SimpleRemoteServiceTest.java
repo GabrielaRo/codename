@@ -22,7 +22,6 @@ import javax.ws.rs.core.Response;
 import org.codename.services.endpoints.api.AuthenticationEndpointService;
 import org.codename.core.exceptions.ServiceException;
 
-
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.resteasy.specimpl.ResteasyHttpHeaders;
@@ -55,8 +54,8 @@ public class SimpleRemoteServiceTest {
                 .withMavenCentralRepo(false)
                 .withClassPathResolution(true)
                 .loadPomFromFile("pom.xml").importRuntimeDependencies()
-//                .resolve("org.drools:drools-compiler",
-//                        "com.google.protobuf:protobuf-java")
+                //                .resolve("org.drools:drools-compiler",
+                //                        "com.google.protobuf:protobuf-java")
                 .resolve()
                 .withTransitivity().asFile();
 
@@ -65,10 +64,7 @@ public class SimpleRemoteServiceTest {
                 .addAsManifestResource("persistence.xml", "persistence.xml")
                 .addAsWebInfResource("quickstart-ds.xml", "quickstart-ds.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-        Set<ArchivePath> keySet = webArc.getContent().keySet();
-        for(ArchivePath k : keySet){
-            System.out.println("> K : "+k.get());
-        }
+
         return webArc;
     }
 
@@ -86,8 +82,6 @@ public class SimpleRemoteServiceTest {
 
     @Inject
     private AuthenticationEndpointService authService;
-
- 
 
     @BeforeClass
     public static void setUpClass() {
@@ -125,7 +119,7 @@ public class SimpleRemoteServiceTest {
         Long userId = object.getJsonNumber("user_id").longValue();
         Assert.assertNotNull(authToken);
         Assert.assertEquals("grogdj@gmail.com", email);
-        
+
         Assert.assertNotSame(0, userId);
 
     }
@@ -168,5 +162,4 @@ public class SimpleRemoteServiceTest {
 //
 //        Assert.assertNotNull(allMembers);
 //    }
-
 }

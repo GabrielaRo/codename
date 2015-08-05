@@ -11,8 +11,7 @@
         }
         
         $scope.loadNotifications = function(){
-            
-            console.log("I should be loading notifications here ");
+
             
             
         }

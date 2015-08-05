@@ -18,11 +18,9 @@
             $rootScope.$broadcast('quickNotification', msg, "success");
             switch (msg.type) {
                 case 'message':
-                    console.log(">>Message Controller: Hey there is a new message for you from : "
-                            + msg.from + " online status: " + msg.text + " - convId =" + msg.conversationId);
+
                     $notifications.newNotifications = $notifications.newNotifications + 1;
                     $notifications.notifications.push({date: Date.now(), message: 'text: ' + msg.text});
-                    console.log("Message Controller >> new Message here updating nav bar: " + $notifications.newNotifications);
                     if ($scope.selectedConversation.conversation_id == msg.conversationId) {
                         $scope.messageHistory.push({owner_nickname: msg.from, text: msg.text, time: Date.now()});
                     }
@@ -40,7 +38,7 @@
 
                     break;
                 case 'online':
-                    
+
                     for (var i = 0; i < $scope.inbox.length; i++) {
                         if ($scope.inbox[i].conversation_id == msg.conversationId) {
                             $scope.inbox[i].onlineStatus = true;
@@ -81,7 +79,6 @@
             }).error(function (data) {
 
                 console.log("Error: " + data);
-                console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with blocking the conversation !" + data);
 
             });
@@ -102,12 +99,8 @@
 
                 }
 
-
-
             }).error(function (data) {
-
                 console.log("Error: " + data);
-                console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with unblocking the conversation !" + data);
 
             });
@@ -136,7 +129,6 @@
             }).error(function (data) {
 
                 console.log("Error: " + data);
-                console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with sending the message!" + data);
                 $scope.newMessage = "";
             });
@@ -149,12 +141,6 @@
             $chat.getMessages(selectedConversationId).success(function (data) {
                 $scope.messageHistory = data;
 
-
-                console.log("OK Data: ");
-                console.log(data);
-
-                $rootScope.$broadcast("quickNotification", "messages retrieved!");
-
                 var scrollDown = function () {
                     var newListHeight = $(".messages-history").height();
                     $("#user-messages-chat").scrollTop(newListHeight);
@@ -163,9 +149,7 @@
 
 
             }).error(function (data) {
-
                 console.log("Error: " + data);
-                console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with getting all messages!" + data);
             });
         }
@@ -176,7 +160,7 @@
 
             $chat.getConversations().success(function (data) {
                 $scope.inbox = data;
-                console.log("Routes Param selectedConversation: " + $routeParams.selectedConversation);
+
                 if ($routeParams.selectedConversation) {
 
                     for (var i = 0; i < $scope.inbox.length; i++) {
@@ -193,16 +177,12 @@
                     $scope.selectedConversation = $scope.inbox[0];
                 }
 
-                console.log("OK Inbox Data: ");
-                console.log(data);
-
-                $rootScope.$broadcast("quickNotification", "messages retrieved!");
 
 
             }).error(function (data) {
 
                 console.log("Error: " + data);
-                console.log(data);
+
                 $rootScope.$broadcast("quickNotification", "Something went wrong with getting all conversations!" + data);
             });
         }

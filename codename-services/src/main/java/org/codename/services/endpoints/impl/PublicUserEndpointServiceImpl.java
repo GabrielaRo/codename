@@ -39,6 +39,8 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     private UsersService usersService;
 
     private static String serverUrl;
+    
+    private String serverContext;
 
     private final static Logger log = Logger.getLogger(PublicUserEndpointServiceImpl.class.getName());
 
@@ -47,14 +49,13 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     }
 
     private String getServerUrl() {
-
+        serverContext = System.getProperty("SERVERCONTEXT");
         serverUrl = System.getProperty("SERVERURL");
         if (serverUrl == null || serverUrl.equals("")) {
             serverUrl = "http://localhost:8080/";
         }
-        serverUrl = serverUrl + "codename-server/";
-
-        System.out.println("Server URL : " + serverUrl);
+        serverUrl = serverUrl + serverContext;
+        
         return serverUrl;
     }
 
@@ -88,7 +89,7 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
         byte[] tmp = usersService.getAvatar(nickname);
         final byte[] avatar;
         if (tmp != null && tmp.length > 0) {
-            log.info("avatar found");
+            
             avatar = tmp;
             return Response.ok().entity(new StreamingOutput() {
                 @Override

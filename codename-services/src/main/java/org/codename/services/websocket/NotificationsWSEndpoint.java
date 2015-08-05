@@ -29,16 +29,13 @@ import org.codename.services.websocket.encoders.NotificationEncoder;
 )
 public class NotificationsWSEndpoint {
 
-    
-    
     @Inject
     NotificationsService notificationService;
 
     @OnOpen
     public void onOpen(Session client) {
         List<String> nicks = client.getRequestParameterMap().get("nickname");
-        System.out.println("OnOpen  Web Socket: " + nicks.get(0));
-        
+
         try {
             notificationService.addNewSession(nicks.get(0), client);
         } catch (ServiceException ex) {
@@ -49,12 +46,12 @@ public class NotificationsWSEndpoint {
 
     @OnMessage
     public void onMessage(String message, Session client) {
-        System.out.println("OnMessage  Web Socket: " + message);
+
     }
 
     @OnClose
     public void onClose(Session client) throws ServiceException {
-        System.out.println("On Close Web Socket");
+
         notificationService.removeSession(client);
     }
 

@@ -8,7 +8,7 @@
         server: 'http://localhost:8080/',
         address: "localhost",
         port: "8080",
-        context: ''
+        context: 'codename-server/'
 
     })
             // configure our routes
@@ -74,7 +74,7 @@
                         })
 
                         .otherwise({
-                            redirectto: '/'
+                            redirectTo: '/'
                         });
 //                $authProvider.google({
 //                    url: '/' + "codename-server/" + '/rest/auth/google',
@@ -91,14 +91,14 @@
         $rootScope.navStatus = "show";
         $rootScope.$on('$routeChangeStart', function (event, next) {
             var authorised;
+            
             if (next.access !== undefined) {
-                console.log("Going to: ");
-                console.log(next);
+                
                 authorised = $auth.authorize(next.access.requiresLogin, 
                         next.access.requiresProfile,
                         next.access.permissions,
                         next.access.permissionCheckType);
-                console.log("Result: " + authorised);
+                
                 if (authorised === 'Authorized') {
                     $location.path(next.originalPath);
                 } else if (authorised === 'NotAuthorized') {
@@ -112,16 +112,14 @@
             }
         });
 
-//        $rootScope.$on('$routeChangeSuccess', function () {
-//            if ($location.path() == "/") {
-//                $rootScope.navStatus = "hidden";
-//            } else if ($location.path() == "/invite") {
-//                $rootScope.navStatus = "hiddenFooter";
-//            } else {
-//                $rootScope.navStatus = "show";
-//            }
-//            history.push($location.$$path);
-//        });
+        $rootScope.$on('$routeChangeSuccess', function () {
+            if ($location.path() == "/invite") {
+                $rootScope.navStatus = "hiddenFooter";
+            } else {
+                $rootScope.navStatus = "show";
+            }
+            history.push($location.$$path);
+        });
 //        $rootScope.back = function () {
 //            var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
 //
@@ -133,7 +131,9 @@
 
     codename.config(['growlProvider', function (growlProvider) {
             growlProvider.globalPosition('top-center');
+            growlProvider.globalDisableIcons(true);
             growlProvider.globalTimeToLive(3000);
         }]);
 
 }());
+

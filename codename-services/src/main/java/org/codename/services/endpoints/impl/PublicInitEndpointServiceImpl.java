@@ -48,7 +48,6 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         
         serverUrl = serverUrl + serverContext;
 
-        System.out.println("Server URL : " + serverUrl);
         return serverUrl;
     }
 

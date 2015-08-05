@@ -33,14 +33,11 @@
 
         $scope.initMockUsers = function () {
             $users.initMockUsers().success(function (data) {
-                $rootScope.$broadcast("quickNotification", "Mock Users");
-
-
-
+                $rootScope.$broadcast("quickNotification", "Mock Users Created!");
 
             }).error(function (data) {
-                $rootScope.$broadcast("quickNotification", "Something failed: " + data.error, 'error');
-                console.log("Error : " + data.error + "!");
+                $rootScope.$broadcast("quickNotification", "Something failed: " + data, 'error');
+                console.log("Error : " + data + "!");
 
             });
 

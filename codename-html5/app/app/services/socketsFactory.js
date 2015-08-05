@@ -8,22 +8,22 @@
                     + "fhellow?nickname=" + $cookieStore.get('user_nick');
 
             $rootScope.websocket = new WebSocket(wsUri);
-            console.log("Init websocket for: " + $cookieStore.get('user_nick'));
+
             $rootScope.websocket.onopen = function (evt) {
-                console.log("onOpen client side");
+
 
             };
             $rootScope.websocket.onmessage = function (evt) {
 
                 var msg = JSON.parse(evt.data);
-                switch(msg.type){
-                    case 'online': 
-                        console.log("Hey there is a change of state in user : " + msg.user + " online status: "+ msg.online );
+                switch (msg.type) {
+                    case 'online':
+
                         break;
                     case 'message':
                         $notifications.newNotifications = $notifications.newNotifications + 1;
-                        $notifications.notifications.push({date:  Date.now(), message: 'text: '+msg.text });
-                        console.log("Sockets factory >> new Message here updating nav bar: " + $notifications.newNotifications);
+                        $notifications.notifications.push({date: Date.now(), message: 'text: ' + msg.text});
+
                         break;
                 }
             };
@@ -32,7 +32,7 @@
             };
 
             $rootScope.websocket.onclose = function () {
-                console.log("onClose client side");
+
             };
 
         };
@@ -46,7 +46,7 @@
         return factory;
     };
 
-    $sockets.$inject = ['$rootScope', '$cookieStore','$notifications', 'appConstants'];
+    $sockets.$inject = ['$rootScope', '$cookieStore', '$notifications', 'appConstants'];
     angular.module("codename").factory("$sockets", $sockets);
 
 }());

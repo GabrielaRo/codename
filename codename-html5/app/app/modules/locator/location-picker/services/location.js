@@ -32,7 +32,7 @@ angular.module('locator')
 
       }, function(error) {
         service.gpsAvailable = false;
-        console.log('code: ' + error.code + ' message: ' + error.message);
+        console.log('Error: code: ' + error.code + ' message: ' + error.message);
         // error callback
         e_cb();
       });

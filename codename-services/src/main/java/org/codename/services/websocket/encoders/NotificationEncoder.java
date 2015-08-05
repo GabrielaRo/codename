@@ -19,24 +19,18 @@ public class NotificationEncoder implements Encoder.Text<Notification> {
     @Override
     public String encode(Notification notification) throws EncodeException {
 
-//        JsonObject jsonObject = Json.createObjectBuilder()
-//                .add("notificationId", notification.getId())
-//                .add("userId", notification.getUserId())
-//                .add("message", notification.getMessage())
-//                .add("type", notification.getType()).build();
-//        return jsonObject.toString();
         return null;
 
     }
 
     @Override
     public void init(EndpointConfig ec) {
-        System.out.println("MessageEncoder - init method called");
+        
     }
 
     @Override
     public void destroy() {
-        System.out.println("MessageEncoder - destroy method called");
+        
     }
 
 }

@@ -143,7 +143,7 @@
                 
                 <executions>
 
-<!--                    <execution>
+                    <!--                    <execution>
                         <id>ui-build</id>
                         <phase>pre-integration-test</phase>
                         <goals>
@@ -172,63 +172,7 @@
    
 
     <profiles>
-        <profile>
-            <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
-            <!-- Use this profile for any OpenShift specific customization your app will need. -->
-            <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
-            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
-            <id>openshift</id>
-            
-            
-            <build>
-                
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>2.6</version>
-                        <configuration>
-                            <!-- specify UTF-8, ISO-8859-1 or any other file encoding -->
-                            <encoding>UTF-8</encoding>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>2.1.1</version>
-                        <configuration>
-                            <webResources>
-                               
-                                <resource>
-                                    <!-- this is relative to the pom.xml directory -->
-                                    <directory>app</directory>
-                                    <excludes>
-                                        <exclude>app/app.js</exclude>
-                                    </excludes>
-                                </resource>
-                                <resource>
-                                    <!-- this is relative to the pom.xml directory -->
-                                    <directory>app/openshift</directory>
-                                    <targetPath>app/</targetPath>
-                                    <includes>
-                                        <include>app.js</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <!-- this is relative to the pom.xml directory -->
-                                    <directory>app</directory>
-                                    <excludes>
-                                        <exclude>app/amazon</exclude>
-                                        <exclude>app/openshift</exclude>
-                                    </excludes>
-                                </resource>
-                            </webResources>
-                            <outputDirectory>deployments</outputDirectory>
-                            <warName>ROOT-openshift</warName>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+        
         <profile>
             <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
             <!-- Use this profile for any OpenShift specific customization your app will need. -->
@@ -258,7 +202,6 @@
                             
                             <packagingExcludes>
                                 app/app/app.js,
-                                openshift/, 
                                 amazon/,
                                 WEB-INF/classes/META-INF/persistence.xml
                                 WEB-INF/quickstart-ds.xml

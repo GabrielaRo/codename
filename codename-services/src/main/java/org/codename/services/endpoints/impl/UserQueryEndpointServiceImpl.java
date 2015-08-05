@@ -97,9 +97,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
             }
         }
-        System.out.println("Looking Fors: " + lookingForList);
-        System.out.println("I am : " + categoriesList);
-        System.out.println("Interests : " + interestsList);
+
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         List<User> allUsers = usersQueryService.getAll(interestsList, lookingForList, categoriesList);
         for (User u : allUsers) {
@@ -163,13 +161,11 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
 
             }
         }
-        System.out.println("Looking Fors: " + lookingForList);
-        System.out.println("I am : " + categoriesList);
-        System.out.println("Interests : " + interestsList);
+
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         List<User> usersInRange1 = usersQueryService.getUserByRange(lon, lat, 1.0, interestsList, lookingForList, categoriesList);
         for (User u : usersInRange1) {
-            System.out.println("User in Range 1: " + u);
+
             JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
             jsonUserObjectBuilder.add("range", "1");
             jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
@@ -178,7 +174,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
         List<User> usersInRange2 = usersQueryService.getUserByRange(lon, lat, 3.0, interestsList, lookingForList, categoriesList);
         for (User u : usersInRange2) {
             if (!usersInRange1.contains(u)) {
-                System.out.println("User in Range 2: " + u);
+
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", "2");
                 jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
@@ -188,7 +184,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
         List<User> usersInRange3 = usersQueryService.getUserByRange(lon, lat, 10.0, interestsList, lookingForList, categoriesList);
         for (User u : usersInRange3) {
             if (!usersInRange2.contains(u) && !usersInRange1.contains(u)) {
-                System.out.println("User in Range 3: " + u);
+
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", "3");
                 jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
@@ -198,7 +194,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
         List<User> usersInRange4 = usersQueryService.getUserByRange(lon, lat, 50.0, interestsList, lookingForList, categoriesList);
         for (User u : usersInRange4) {
             if (!usersInRange3.contains(u) && !usersInRange2.contains(u) && !usersInRange1.contains(u)) {
-                System.out.println("User in Range 4: " + u);
+
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", "4");
                 jsonArrayBuilder.add(jsonUserObjectBuilder);
@@ -207,7 +203,7 @@ public class UserQueryEndpointServiceImpl implements UserQueryEndpointService {
         List<User> usersInRange5 = usersQueryService.getUserByRange(lon, lat, 100.0, interestsList, lookingForList, categoriesList);
         for (User u : usersInRange5) {
             if (!usersInRange4.contains(u) && !usersInRange3.contains(u) && !usersInRange2.contains(u) && !usersInRange1.contains(u)) {
-                System.out.println("User in Range 5: " + u);
+
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", "5");
                 jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));

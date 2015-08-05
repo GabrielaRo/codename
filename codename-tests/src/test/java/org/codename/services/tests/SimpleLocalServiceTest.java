@@ -64,9 +64,7 @@ public class SimpleLocalServiceTest {
                 .addAsWebInfResource("quickstart-ds.xml", "quickstart-ds.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
         Set<ArchivePath> keySet = webArc.getContent().keySet();
-        for(ArchivePath k : keySet){
-            System.out.println("> K : "+k.get());
-        }
+        
         return webArc;
     }
 

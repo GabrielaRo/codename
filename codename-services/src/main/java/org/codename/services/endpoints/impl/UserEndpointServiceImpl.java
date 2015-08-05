@@ -299,8 +299,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
 
     @Override
     public Response updateLookingForAndIams(Long user_id, String lookingfor, String iams) throws ServiceException {
-        log.info("Storing from the database: (" + user_id + ") " + lookingfor);
-        System.out.println("Looking Fors here: " + lookingfor);
+
         if (lookingfor != null) {
             JsonReader reader = Json.createReader(new ByteArrayInputStream(lookingfor.getBytes()));
             JsonArray array = reader.readArray();
@@ -309,7 +308,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
             if (array != null) {
                 List<String> lookingForList = new ArrayList<String>(array.size());
                 for (int i = 0; i < array.size(); i++) {
-                    log.info("Looking For[" + i + "]: " + array.getString(i));
+
                     lookingForList.add(array.getString(i));
                 }
                 usersService.updateLookingFor(user_id, lookingForList);
@@ -324,7 +323,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
             if (array != null) {
                 List<String> iAmsList = new ArrayList<String>(array.size());
                 for (int i = 0; i < array.size(); i++) {
-                    log.info("I am [" + i + "]: " + array.getString(i));
+
                     iAmsList.add(array.getString(i));
                 }
                 usersService.updateIams(user_id, iAmsList);
@@ -336,7 +335,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
 
     @Override
     public Response updateCategories(Long user_id, String categories) throws ServiceException {
-        log.info("Storing from the database: (" + user_id + ") " + categories);
+
         if (categories != null) {
             JsonReader reader = Json.createReader(new ByteArrayInputStream(categories.getBytes()));
             JsonArray array = reader.readArray();
@@ -345,7 +344,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
             if (array != null) {
                 List<String> categoriesList = new ArrayList<String>(array.size());
                 for (int i = 0; i < array.size(); i++) {
-                    log.info("Category [" + i + "]: " + array.getString(i));
+
                     categoriesList.add(array.getString(i));
                 }
                 usersService.updateCategories(user_id, categoriesList);
@@ -364,7 +363,6 @@ public class UserEndpointServiceImpl implements UserEndpointService {
 
     @Override
     public Response updateLive(Long user_id, String live) throws ServiceException {
-        System.out.println("Updating profile live? " + live);
         usersService.updateLive(user_id, live);
         return Response.ok().build();
     }
