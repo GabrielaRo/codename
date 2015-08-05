@@ -66,7 +66,7 @@ public class UsersServiceSETest {
     @Test
     public void removeUserTest() throws ServiceException, Exception {
 
-        User u = new User("gabriela.rogelova@gmail.com", "123456");
+        User u = new User("gabriela@gmail.com", "123456");
 
         Long newUserId = usersService.newUser(u);
 
@@ -153,7 +153,43 @@ public class UsersServiceSETest {
         User u5 = new User("gabriela.rogelova@gmail.com", "123456");
 
         Assert.assertEquals(0, usersService.calculateUserProfilePercentage(u5));
-
+    }
+    
+    @Test
+    public void updateLiveTest() throws ServiceException {
+//      u1 profile -> 60% completed, it should return live == true
+    	User u1 = new User("rogelova@gmail.com", "123456");
+        Long newUserId1 = usersService.newUser(u1);
+        Assert.assertNotNull(newUserId1);
+        u1.setFirstname("Gabriela");
+        u1.setLastname("Rogelova");
+        u1.setOriginallyFrom("Pernik");
+        u1.setLinkedin("www.linkedin.com/gabriela");
+        u1.setWebsite("www.gabriela.com");
+        u1.setAdviceMessage("Advice");
+        u1.setAvatarFileName("Picture");
+        u1.setCoverFileName("Cover Photo");
+        u1.setHobbiesMessage("Hobby");
+        u1.setMessageMeMessage("Message me");
+        u1.setJobTitle("Job");
+        u1.setBio("My Bio");
+        usersService.updateLive(newUserId1, "true");
+        Assert.assertTrue(u1.isLive());
+    	
+//      u2 profile -> 43% completed, it should return live == false  
+        User u2 = new User("rog@gmail.com", "123456");
+        Long newUserId2 = usersService.newUser(u2);
+        Assert.assertNotNull(newUserId2);
+        u2.setFirstname("Gabriela");
+        u2.setLastname("Rogelova");
+        u2.setOriginallyFrom("Pernik");
+        u2.setLinkedin("www.linkedin.com/gabriela");
+        u2.setWebsite("www.gabriela.com");
+        u2.setAdviceMessage("Advice");
+        u2.setAvatarFileName("Picture");
+        usersService.updateLive(newUserId2, "true");
+        Assert.assertTrue(!(u2.isLive()));
+    	
     }
 
 }
