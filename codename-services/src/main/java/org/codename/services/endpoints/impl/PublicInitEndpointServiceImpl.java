@@ -222,6 +222,23 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             createUser("gdonald@gmail.com", "asdasd","George", "Donald", "Chiswick, United Kingdom",-0.267173200000002, 51.4876272,   "Hi, I'm George. I like to travel and work from anywhere. I only own what fits in my backpack. ", 
                     lookingFor, iAm, interests, "george_" );
+            
+            interests = new ArrayList<String>();
+            lookingFor = new ArrayList<String>();
+            iAm = new ArrayList<String>();
+            
+            lookingFor.add("Socialise");
+            lookingFor.add("Collaborate");
+            
+            iAm.add("Freelancer");
+            
+            interests.add("Startups");
+            interests.add("Software");
+            interests.add("Music");
+            interests.add("Photography");
+            
+            createUser("gabriela.rogelova@gmail.com", "123456","Gabriela", "Rogelova", "Islington, United Kingdom",-0.267173200000002, 51.4876272,   "I am Gabriela, I live in London, but I travel a lot. I like to work from different places. I love ice cream, jogging and goats.", 
+                    lookingFor, iAm, interests, "gabriela_" );
             mockUsersCreated = true;
             
 

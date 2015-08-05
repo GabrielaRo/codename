@@ -338,8 +338,10 @@ public class UsersServiceImpl implements UsersService {
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
-        u.setLive(liveBoolean);
-        pm.merge(u);
+        if (liveBoolean && calculateUserProfilePercentage(u) > 50) {
+        	u.setLive(liveBoolean);
+        	pm.merge(u);
+        }
     }
 
     @Override
