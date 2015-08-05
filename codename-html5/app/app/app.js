@@ -74,7 +74,7 @@
                         })
 
                         .otherwise({
-                            redirectto: '/'
+                            redirectTo: '/'
                         });
 //                $authProvider.google({
 //                    url: '/' + "codename-server/" + '/rest/auth/google',
@@ -91,6 +91,7 @@
         $rootScope.navStatus = "show";
         $rootScope.$on('$routeChangeStart', function (event, next) {
             var authorised;
+            console.log(next);
             if (next.access !== undefined) {
                 console.log("Going to: ");
                 console.log(next);
@@ -112,16 +113,14 @@
             }
         });
 
-//        $rootScope.$on('$routeChangeSuccess', function () {
-//            if ($location.path() == "/") {
-//                $rootScope.navStatus = "hidden";
-//            } else if ($location.path() == "/invite") {
-//                $rootScope.navStatus = "hiddenFooter";
-//            } else {
-//                $rootScope.navStatus = "show";
-//            }
-//            history.push($location.$$path);
-//        });
+        $rootScope.$on('$routeChangeSuccess', function () {
+            if ($location.path() == "/invite") {
+                $rootScope.navStatus = "hiddenFooter";
+            } else {
+                $rootScope.navStatus = "show";
+            }
+            history.push($location.$$path);
+        });
 //        $rootScope.back = function () {
 //            var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
 //

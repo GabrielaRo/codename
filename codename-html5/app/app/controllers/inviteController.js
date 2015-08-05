@@ -3,7 +3,7 @@
        $scope.pageClass = "invite full";
        $scope.inviteStatus = false;
         
-    
+        
        $scope.requestInvite = function (email) {
             console.log("requesting invite for: " + email);
             $invites.request(email).success(function (data) {
