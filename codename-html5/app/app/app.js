@@ -5,26 +5,26 @@
         'satellizer', 'ngTagsInput', 'locator', 'angular-growl']);
 
     codename.constant("appConstants", {
-        //server: ${server.address},
-        //server: "http://fhellow-restprovider.rhcloud.com/",
         server: 'http://localhost:8080/',
         address: "localhost",
         port: "8080",
-        //context: ${server.context}
         context: 'codename-server/'
 
     })
             // configure our routes
             .config(function ($routeProvider, $authProvider) {
                 $routeProvider
-                        .when('/', {
+                        .when('/login', {
                             templateUrl: 'app/views/home.html',
                             controller: 'homeController'
                         })
 
                         .when('/localfhellows', {
                             templateUrl: 'app/views/localfhellows.html',
-                            controller: 'localFhellowsController'
+                            controller: 'localFhellowsController',
+                            access: {
+                                requiresLogin: true
+                            }
                         })
                         .when('/password', {
                             templateUrl: 'app/views/password.html',
@@ -33,23 +33,35 @@
                         })
                         .when('/profile', {
                             templateUrl: 'app/views/profile.html',
-                            controller: 'profileController'
+                            controller: 'profileController',
+                            access: {
+                                requiresLogin: true
+                            }
                         })
                         .when('/profile/:nickname', {
                             templateUrl: 'app/views/publicprofile.html',
-                            controller: 'publicProfileController'
+                            controller: 'publicProfileController',
+                            access: {
+                                requiresLogin: true
+                            }
                         })
 
                         .when('/messages', {
                             templateUrl: 'app/views/messages.html',
-                            controller: 'messagesController'
+                            controller: 'messagesController',
+                            access: {
+                                requiresLogin: true
+                            }
                         })
                         .when('/messages/:selectedConversation', {
                             templateUrl: 'app/views/messages.html',
-                            controller: 'messagesController'
+                            controller: 'messagesController',
+                            access: {
+                                requiresLogin: true
+                            }
                         })
-                
-                        .when('/invite', {
+
+                        .when('/', {
                             templateUrl: 'app/views/invite.html',
                             controller: 'inviteController'
                         })
@@ -57,43 +69,61 @@
                         .otherwise({
                             redirectto: '/'
                         });
-                $authProvider.google({
-                    url: '/' + "codename-server/" + '/rest/auth/google',
-                    redirectUri: window.location.protocol + '//' + window.location.host + '/' + "codename-server/",
-                    clientId: '475121985833-g2ludjvano3pbgbt98nvt04h7ojmvpjv.apps.googleusercontent.com'
-                });
+//                $authProvider.google({
+//                    url: '/' + "codename-server/" + '/rest/auth/google',
+//                    redirectUri: window.location.protocol + '//' + window.location.host + '/' + "codename-server/",
+//                    clientId: '475121985833-g2ludjvano3pbgbt98nvt04h7ojmvpjv.apps.googleusercontent.com'
+//                });
             });
 
-            
+
     //HISTORY 
-    codename.run(function ($rootScope, $location) {
+    codename.run(function ($rootScope, $location, $auth) {
 
         var history = [];
         $rootScope.navStatus = "show";
-
-        $rootScope.$on('$routeChangeSuccess', function () {
-            if ($location.path() == "/" ) {
-                $rootScope.navStatus = "hidden";
-            }else if ($location.path() == "/invite" ) {
-                $rootScope.navStatus = "hiddenFooter";
-            }else {
-                $rootScope.navStatus = "show";
+        $rootScope.$on('$routeChangeStart', function (event, next) {
+            var authorised;
+            if (next.access !== undefined) {
+                console.log("Going to: ");
+                console.log(next);
+                authorised = $auth.authorize(next.access.requiresLogin,
+                        next.access.permissions,
+                        next.access.permissionCheckType);
+                console.log("Result: " + authorised);
+                if (authorised === 'Authorized') {
+                    $location.path(next.originalPath);
+                } else if (authorised === 'NotAuthorized') {
+                    $location.path('/login').replace();
+                } else {
+                    $location.path('/invite').replace();
+                }
             }
-            history.push($location.$$path);
         });
-        $rootScope.back = function () {
-            var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
 
-            $location.path(prevUrl);
-        };
+//        $rootScope.$on('$routeChangeSuccess', function () {
+//            if ($location.path() == "/") {
+//                $rootScope.navStatus = "hidden";
+//            } else if ($location.path() == "/invite") {
+//                $rootScope.navStatus = "hiddenFooter";
+//            } else {
+//                $rootScope.navStatus = "show";
+//            }
+//            history.push($location.$$path);
+//        });
+//        $rootScope.back = function () {
+//            var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
+//
+//            $location.path(prevUrl);
+//        };
     });
 
     //END HISTORY
 
-    codename.config(['growlProvider', function(growlProvider) {
-        growlProvider.globalPosition('top-center');
-        growlProvider.globalTimeToLive(3000);
-    }]);
+    codename.config(['growlProvider', function (growlProvider) {
+            growlProvider.globalPosition('top-center');
+            growlProvider.globalTimeToLive(3000);
+        }]);
 
 }());
 
