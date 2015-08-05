@@ -822,6 +822,7 @@
         $scope.updateUserLiveProfile = function (live) {
             console.log("Profile Live? " + !live)
             $users.updateUserLiveProfile(!live).success(function (data) {
+                $cookieStore.put('live', !live);
                 $scope.profile.live = !live;
             }).error(function (data) {
                 console.log("Error: " + data);

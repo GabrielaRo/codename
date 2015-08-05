@@ -60,6 +60,7 @@
             $scope.user_id = "";
             $scope.user_nick = "";
             $scope.firstLogin = "";
+            $scope.live = "";
 
 
             $users.logout().success(function (data) {
@@ -68,6 +69,7 @@
                 $cookieStore.remove('email');
                 $cookieStore.remove('user_id');
                 $cookieStore.remove('user_nick');
+                $cookieStore.remove('live');
                 $scope.avatarStyle = "";
                 $sockets.closeWebSocket();
                 $rootScope.$broadcast('goTo', "/");
@@ -93,12 +95,13 @@
                     $cookieStore.put('user_id', data.user_id);
                     $cookieStore.put('user_nick', data.user_nick);
                     $cookieStore.put('firstLogin', data.firstLogin);
+                    $cookieStore.put('live', data.live);
                     $scope.auth_token = $cookieStore.get('auth_token');
                     $scope.email = $cookieStore.get('email');
                     $scope.user_id = $cookieStore.get('user_id');
                     $scope.user_nick = $cookieStore.get('user_nick');
                     $scope.firstLogin = $cookieStore.get('firstLogin');
-
+                    $scope.live = $cookieStore.get('live');
                     $scope.credentials = {};
                     $scope.submitted = false;
                     $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
@@ -129,11 +132,13 @@
                                 $cookieStore.put('user_id', data.user_id);
                                 $cookieStore.put('user_nick', data.user_nick);
                                 $cookieStore.put('firstLogin', data.firstLogin);
+                                $cookieStore.put('live', data.live);
                                 $scope.auth_token = $cookieStore.get('auth_token');
                                 $scope.email = $cookieStore.get('email');
                                 $scope.user_id = $cookieStore.get('user_id');
                                 $scope.user_nick = $cookieStore.get('user_nick');
                                 $scope.firstLogin = $cookieStore.get('firstLogin');
+                                $scope.live = $cookieStore.get('live');
                                 $scope.credentials = {};
                                 $scope.submitted = false;
                                 $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};

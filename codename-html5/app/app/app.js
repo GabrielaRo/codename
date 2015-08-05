@@ -23,7 +23,8 @@
                             templateUrl: 'app/views/localfhellows.html',
                             controller: 'localFhellowsController',
                             access: {
-                                requiresLogin: true
+                                requiresLogin: true,
+                                requiresProfile: true
                             }
                         })
                         .when('/password', {
@@ -50,7 +51,8 @@
                             templateUrl: 'app/views/messages.html',
                             controller: 'messagesController',
                             access: {
-                                requiresLogin: true
+                                requiresLogin: true,
+                                requiresProfile: true
                             }
                         })
                         .when('/messages/:selectedConversation', {
@@ -87,7 +89,8 @@
             if (next.access !== undefined) {
                 console.log("Going to: ");
                 console.log(next);
-                authorised = $auth.authorize(next.access.requiresLogin,
+                authorised = $auth.authorize(next.access.requiresLogin, 
+                        next.access.requiresProfile,
                         next.access.permissions,
                         next.access.permissionCheckType);
                 console.log("Result: " + authorised);
@@ -95,6 +98,8 @@
                     $location.path(next.originalPath);
                 } else if (authorised === 'NotAuthorized') {
                     $location.path('/login').replace();
+                } else if (authorised === 'RequiresProfile') {
+                    $location.path('/profile').replace();
                 } else {
                     $location.path('/invite').replace();
                 }

@@ -127,12 +127,14 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
         String authToken = authenticator.login(email, password);
 
         boolean firstLogin = authUser.isIsFirstLogin();
+        boolean live = authUser.isLive();
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("email", email);
         jsonObjBuilder.add("auth_token", authToken);
         jsonObjBuilder.add("user_id", authUser.getId());
         jsonObjBuilder.add("user_nick", authUser.getNickname());
         jsonObjBuilder.add("firstLogin", firstLogin);
+        jsonObjBuilder.add("live", live);
 
         JsonObject jsonObj = jsonObjBuilder.build();
 
@@ -274,6 +276,7 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
             jsonObjBuilder.add("user_id", authUser.getId());
             jsonObjBuilder.add("user_nick", authUser.getNickname());
             jsonObjBuilder.add("firstLogin", authUser.isIsFirstLogin());
+            jsonObjBuilder.add("live", authUser.isLive());
             return Response.ok().entity(jsonObjBuilder.build()).build();
         } catch (ParseException ex) {
             throw new ServiceException(ex.getMessage());
