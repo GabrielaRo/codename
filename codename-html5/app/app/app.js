@@ -18,6 +18,11 @@
                             templateUrl: 'app/views/home.html',
                             controller: 'homeController'
                         })
+                
+                        .when('/invitelogin', {
+                            templateUrl: 'app/views/login.html',
+                            controller: 'loginController'
+                        })
 
                         .when('/localfhellows', {
                             templateUrl: 'app/views/localfhellows.html',
@@ -102,6 +107,7 @@
                     $location.path('/profile').replace();
                 } else {
                     $location.path('/invite').replace();
+                
                 }
             }
         });
