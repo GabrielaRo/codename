@@ -19,6 +19,38 @@
             });
 
         }
+       
+       $scope.carouselPosition = 1;
+       $scope.carouselItems = $(".carousel-item");
+       $scope.carouselLenght = $scope.carouselItems.length;
+       $scope.initCarousel = function(){
+           setTimeout(function(){ $scope.moveCarousel() }, 6000);
+           
+       }
+       $scope.moveCarousel = function(){
+           
+           if($scope.carouselPosition < $scope.carouselLenght){
+                $scope.carouselPosition++
+           }else {
+                $scope.carouselPosition = 1;
+           }
+           
+           $scope.carouselItems.each(function(index){
+               var itemPosition = 100 - ($scope.carouselPosition - index) * 100;
+                console.log(itemPosition);
+               $(this).css( "left", itemPosition+"%" );
+           });
+            $scope.initCarousel();
+       }
+       
+       $scope.initCarousel();
+        
+        
+        //
+        var nounAudio = new Audio('/app/static/noun.mp3');
+        $scope.playWord = function(){
+            nounAudio.play();
+        }
         
     };
 
