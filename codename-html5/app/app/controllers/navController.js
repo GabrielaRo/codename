@@ -39,7 +39,7 @@
 
         $scope.requestInvite = function (email) {
             console.log("requesting invite for: " + email);
-            $invites.request().success(function (data) {
+            $invites.request(email).success(function (data) {
                 $rootScope.inviteStatus = data;
                 $rootScope.$broadcast("quickNotification", "Invitation Sended");
 

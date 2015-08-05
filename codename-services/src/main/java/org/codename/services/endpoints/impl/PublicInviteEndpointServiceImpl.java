@@ -31,6 +31,7 @@ public class PublicInviteEndpointServiceImpl implements PublicInviteEndpointServ
 
     @Override
     public Response requestInvitation(String email) throws ServiceException {
+        System.out.println("Invitation to : "+email);
         boolean ok = invitationService.requestInvitation(email);
         return Response.ok(ok).build();
     }

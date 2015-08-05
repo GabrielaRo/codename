@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.codename.core.exceptions.ServiceException;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -28,6 +29,6 @@ public interface PublicInviteEndpointService extends Serializable {
     @POST
     @Path("request")
     @Produces({MediaType.APPLICATION_JSON})
-    Response requestInvitation(@NotNull @NotEmpty @FormParam("email") String email) throws ServiceException;
+    Response requestInvitation(@NotNull @NotEmpty @Email @FormParam("email") String email) throws ServiceException;
 
 }
