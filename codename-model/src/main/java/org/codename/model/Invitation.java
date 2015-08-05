@@ -40,8 +40,6 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity(name = "Invitation")
 @Table(name = "INVITATIONS")
-@Indexed
-@Spatial(spatialMode = SpatialMode.GRID)
 public class Invitation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,7 +51,6 @@ public class Invitation implements Serializable {
     @Column(unique = true)
     @NotNull
     @NotEmpty
-    @Email
     private String email;
 
     private Date requestedOn;

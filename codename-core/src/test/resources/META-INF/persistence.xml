@@ -28,6 +28,8 @@
         <mapping-file>META-INF/messages.xml</mapping-file>
         <mapping-file>META-INF/conversations.xml</mapping-file>
         <mapping-file>META-INF/notifications.xml</mapping-file>
+        <mapping-file>META-INF/invitations.xml</mapping-file>
+        <class>org.codename.model.Invitation</class>
         <class>org.codename.model.User</class>
         <class>org.codename.model.ServiceKey</class>
         <class>org.codename.model.Notification</class>

@@ -8,6 +8,7 @@ package org.codename.core.impl;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import org.codename.core.api.InvitationsService;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.core.util.PersistenceManager;
@@ -30,7 +31,13 @@ public class InvitationsServiceImpl implements InvitationsService {
 
     @Override
     public boolean requestInvitation(String email) throws ServiceException {
-        Invitation invitation = pm.createNamedQuery("Invitations.getByEmail", Invitation.class).getSingleResult();
+        
+        Invitation invitation = null;
+        try{
+            invitation = pm.createNamedQuery("Invitations.getByEmail", Invitation.class).setParameter("email", email).getSingleResult();
+        } catch(NoResultException nre){
+        
+        }
         if(invitation != null){
             return false;
         }
