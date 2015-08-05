@@ -1,0 +1,48 @@
+
+ <section class="sub-screen vertical dark" id="login-home">
+      <div class="wrapper">
+       <div class="container big">
+         <div class="login-home-text" >
+             <h1>
+                 Find  and connect with fellow Freelancers, Entrepreneurs and Digital Nomads working nearby and around the world.
+             </h1>
+             <h2>
+                  Chat, discuss ideas, share advice, swap stories and join the community.
+             </h2>
+         </div>
+         
+         
+             <div id="home-form" class="four-col">
+            <div class="content-block" ng-show="auth_token == undefined || auth_token == '' " >
+             
+                
+                 <div class="tab-contents">
+                     <div class="tab-content" id="sign-in">
+                         <form novalidate name="loginForm" ng-submit="loginUser(loginForm.$valid, credentials)">
+                            
+
+                             <div class="control full">
+                                 <input ng-model="credentials.email" id="email" name="email" type="email" placeholder="Email" required>
+                                 <div class="error-msg" ng-show="loginForm.email.$invalid && submitted">Enter a valid email.</div>
+                             </div>
+                             <div class="control full">
+                                 <input ng-model="credentials.password" type="password" id="pass" name="password" placeholder="Password" required>
+                             </div>
+                             
+                             
+                             <button  type="submit" value="Login" class="button block">Sign In</button>
+                             
+                         </form>
+                     </div>
+                     
+                 
+                 </div>
+          </div>
+
+        </div>
+         
+         
+       
+      </div>    
+    </div>
+</section>

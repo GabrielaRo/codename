@@ -2,13 +2,25 @@
  <section class="sub-screen vertical dark" id="invite-home">
       <div class="wrapper">
        <div class="container big">
-         <div class="invite-home-text">
+         <div class="invite-home-text" ng-if="!inviteStatus">
              <h1>
                  Find  and connect with fellow Freelancers, Entrepreneurs and Digital Nomads working nearby and around the world.
              </h1>
              <h2>
                   Chat, discuss ideas, share advice, swap stories and join the community.
              </h2>
+         </div>
+         
+         <div class="invite-home-text" ng-if="inviteStatus">
+             <h1>
+                Thanks for requesting<br>pre-launch access
+             </h1>
+             <h2>
+                 We’re really excited to share Fhellow with you. We’ll be sending invites out as soon as possible but in the meantime why not follow us on...
+             </h2>
+             <p>
+                 <a href="https://www.facebook.com/fhellow" target="_blank" class="button facebook"> <i class="fa fa-facebook"></i> Follow us on Facebook</a> <a href="https://twitter.com/fhellowapp" target="_blank" class="button twitter"> <i class="fa fa-twitter"></i> Follow us on Twitter</a>
+             </p>
          </div>
       </div>    
     </div>

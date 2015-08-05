@@ -1,7 +1,11 @@
 (function () {
     var inviteController = function ($scope, $rootScope, $users, $auth, appConstants) {
-        $scope.pageClass = "invite full";
-       
+       $scope.pageClass = "invite full";
+       $scope.inviteStatus = $rootScope.inviteStatus;
+        
+       $rootScope.$watch('inviteStatus', function() {
+           $scope.inviteStatus = $rootScope.inviteStatus;
+       });
         
     };
 

@@ -22,6 +22,7 @@
 
                 var targetElement = $("#" + target);
                 var targetPosition = (targetElement.position().top - 60) + $('#mainview').scrollTop();
+
                 $scope.animationRunning = true;
                 console.log(targetElement);
                 console.log(targetPosition);
@@ -37,9 +38,11 @@
         }
 
         $scope.requestInvite = function (email) {
-            console.log("requesting invite for: "+email);
+            console.log("requesting invite for: " + email);
             $invites.request().success(function (data) {
-                $rootScope.$broadcast("quickNotification", data);
+                $rootScope.inviteStatus = data;
+                $rootScope.$broadcast("quickNotification", "Invitation Sended");
+
 
             }).error(function (data) {
                 console.log(data);
