@@ -14,7 +14,7 @@
             // configure our routes
             .config(function ($routeProvider, $authProvider) {
                 $routeProvider
-                        .when('/login', {
+                        .when('/removeadmin', {
                             templateUrl: 'app/views/home.html',
                             controller: 'homeController'
                         })
@@ -102,7 +102,7 @@
                 if (authorised === 'Authorized') {
                     $location.path(next.originalPath);
                 } else if (authorised === 'NotAuthorized') {
-                    $location.path('/login').replace();
+                    $location.path('/invitelogin').replace();
                 } else if (authorised === 'RequiresProfile') {
                     $location.path('/profile').replace();
                 } else {
