@@ -17,78 +17,77 @@ import org.codename.model.User;
  */
 public interface UsersService {
 
-    Long newUser(User user) throws ServiceException;
+    public Long newUser(User user) throws ServiceException;
 
-    boolean existKey(String serviceKey);
+    public boolean existKey(String serviceKey);
 
-    String getKey(String serviceKey);
+    public String getKey(String serviceKey);
 
-    boolean exist(String email);
+    public boolean exist(String email);
 
-    boolean exist(Long user_id);
+    public boolean exist(Long user_id);
 
-    User getByEmail(String email);
+    public User getByEmail(String email);
     
-    User getByProviderId(String providerId);
+    public User getByProviderId(String providerId);
     
-    User getByNickName(String nickname) throws ServiceException;
+    public User getByNickName(String nickname) throws ServiceException;
 
-    User getById(Long user_id);
+    public User getById(Long user_id);
 
-    void updateInterests(Long user_id, List<String> interests) throws ServiceException;
+    public void updateInterests(Long user_id, List<String> interests) throws ServiceException;
 
-    void updateFirstLogin(Long user_id) throws ServiceException;
+    public void updateFirstLogin(Long user_id) throws ServiceException;
 
-    void updateFirstName(Long user_id, String firstname) throws ServiceException;
+    public void updateFirstName(Long user_id, String firstname) throws ServiceException;
 
-    void updateLastName(Long user_id, String lastname) throws ServiceException;
+    public void updateLastName(Long user_id, String lastname) throws ServiceException;
 
-    void updateBio(Long user_id, String bio) throws ServiceException;
+    public void updateBio(Long user_id, String bio) throws ServiceException;
 
-    void updateLocation(Long user_id, String location, Double lon, Double lat) throws ServiceException;
+    public void updateLocation(Long user_id, String location, Double lon, Double lat) throws ServiceException;
 
-    void updateAvatar(String nickname, String fileName, byte[] content) throws ServiceException;
+    public void updateAvatar(String nickname, String fileName, byte[] content) throws ServiceException;
 
-    void updateCover(String nickname, String fileName, byte[] content) throws ServiceException;
+    public void updateCover(String nickname, String fileName, byte[] content) throws ServiceException;
 
-    byte[] getAvatar(String nickname) throws ServiceException;
+    public byte[] getAvatar(String nickname) throws ServiceException;
 
-    byte[] getCover(String nickname) throws ServiceException;
+    public byte[] getCover(String nickname) throws ServiceException;
 
-    void removeAvatar(String nickname) throws ServiceException;
+    public void removeAvatar(String nickname) throws ServiceException;
 
-    void removeCover(String nickname) throws ServiceException;
+    public void removeCover(String nickname) throws ServiceException;
 
-    List<User> getAll();
+    public List<User> getAll();
     
-    List<User> getAllLive();
+    public List<User> getAllLive();
 
+    public Coordinates getLocation(Long user_id) throws ServiceException;
 
-    Coordinates getLocation(Long user_id) throws ServiceException;
+    public void updateBothNames(Long user_id, String firstname, String lastname) throws ServiceException;
 
-    void updateBothNames(Long user_id, String firstname, String lastname) throws ServiceException;
+    public void updateOriginallyFrom(Long user_id, String originallyfrom) throws ServiceException;
 
-    void updateOriginallyFrom(Long user_id, String originallyfrom) throws ServiceException;
+    public void updateLookingFor(Long user_id, List<String> lookingForList) throws ServiceException;
 
-    void updateLookingFor(Long user_id, List<String> lookingForList) throws ServiceException;
+    public void updateCategories(Long user_id, List<String> categoriesList) throws ServiceException;
 
-    void updateCategories(Long user_id, List<String> categoriesList) throws ServiceException;
+    public void updateLongBio(Long user_id, String longbio) throws ServiceException;
 
-    void updateLongBio(Long user_id, String longbio) throws ServiceException;
+    public void updateLive(Long user_id, String live) throws ServiceException;
 
-    void updateLive(Long user_id, String live) throws ServiceException;
+    public void updateIams(Long user_id, List<String> iAmsList) throws ServiceException;
 
-    void updateIams(Long user_id, List<String> iAmsList) throws ServiceException;
+    public void updateTwitter(Long user_id, String twitter) throws ServiceException;
 
-    void updateTwitter(Long user_id, String twitter) throws ServiceException;
+    public void updateWebsite(Long user_id, String webpage) throws ServiceException;
 
-    void updateWebsite(Long user_id, String webpage) throws ServiceException;
+    public void updateLinkedin(Long user_id, String linkedin) throws ServiceException;
 
-    void updateLinkedin(Long user_id, String linkedin) throws ServiceException;
+    public void updateBioLongBioIams(Long user_id, String bio, String longbio, List<String> iams) throws ServiceException;
 
-    void updateBioLongBioIams(Long user_id, String bio, String longbio, List<String> iams) throws ServiceException;
-
-    void updateNickName(Long user_id, String nickname) throws ServiceException;
+    public void updateNickName(Long user_id, String nickname) throws ServiceException;
 
     public void updateAdvice(Long user_id, String advice) throws ServiceException;
 
@@ -106,6 +105,6 @@ public interface UsersService {
 
     public void updateLastLogin(Long user_id, Date date) throws ServiceException;
    
-
+    public int calculateUserProfilePercentage(User u) throws ServiceException;
 
 }

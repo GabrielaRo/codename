@@ -5,6 +5,8 @@
  */
 package org.codename.core.tests;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 
 import org.codename.core.api.UsersService;
@@ -32,7 +34,6 @@ public class UsersServiceSETest {
 
     @Inject
     private UsersService usersService;
- 
 
     @BeforeClass
     public static void setUpClass() {
@@ -62,24 +63,97 @@ public class UsersServiceSETest {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
-   
-
     @Test
     public void removeUserTest() throws ServiceException, Exception {
 
         User u = new User("gabriela.rogelova@gmail.com", "123456");
-        
+
         Long newUserId = usersService.newUser(u);
-        
+
         Assert.assertNotNull(newUserId);
-        
+
         usersService.updateLive(newUserId, "true");
-        
+
         usersService.removeUser(newUserId);
-        
-        
+
         User byId = usersService.getById(newUserId);
         Assert.assertTrue(byId == null);
+    }
+
+    @Test
+    public void calculateUserProfilePercentageTest() throws ServiceException {
+
+    	//User 1 -> 26%, filled just few of the fields
+        User u1 = new User("gabriela.rogelova@gmail.com", "123456");
+        u1.setFirstname("Gabriela");
+        u1.setLastname("Rogelova");
+        u1.setLongBio("I am a digital nomad.");
+        u1.setTwitter("www.twitter.com/gabriela");
+
+        Assert.assertEquals(26, usersService.calculateUserProfilePercentage(u1));
+
+        //User 2 -> 43% filled the half of the fields
+        User u2 = new User("gabriela.rogelova@gmail.com", "123456");
+        u2.setFirstname("Gabriela");
+        u2.setLastname("Rogelova");
+        u2.setOriginallyFrom("Pernik");
+        u2.setLinkedin("www.linkedin.com/gabriela");
+        u2.setWebsite("www.gabriela.com");
+        u2.setAdviceMessage("Advice");
+        u2.setAvatarFileName("Picture");
+
+        Assert.assertEquals(43, usersService.calculateUserProfilePercentage(u2));
+
+      //User 3 -> 60%, filled more than half of the fields
+        User u3 = new User("gabriela.rogelova@gmail.com", "123456");
+        u3.setFirstname("Gabriela");
+        u3.setLastname("Rogelova");
+        u3.setOriginallyFrom("Pernik");
+        u3.setLinkedin("www.linkedin.com/gabriela");
+        u3.setWebsite("www.gabriela.com");
+        u3.setAdviceMessage("Advice");
+        u3.setAvatarFileName("Picture");
+        u3.setCoverFileName("Cover Photo");
+        u3.setHobbiesMessage("Hobby");
+        u3.setMessageMeMessage("Message me");
+        u3.setJobTitle("Job");
+        u3.setBio("My Bio");
+
+        Assert.assertEquals(60, usersService.calculateUserProfilePercentage(u3));
+
+//      User 4 -> 100%, filled all the fields
+        User u4 = new User("gabriela.rogelova@gmail.com", "123456");
+        List<String> test = new ArrayList<String>();
+        test.add("1 thing");
+        test.add("2 things");
+        test.add("3 things");
+        u4.setAvatarFileName("Photo");
+        u4.setFirstname("Gabriela");
+        u4.setLastname("Rogelova");
+        u4.setInterests(test);
+        u4.setLookingFor(test);
+        u4.setCoverFileName("Cover Photo");
+        u4.setLocation("London");
+        u4.setBio("My Bio");
+        u4.setJobTitle("Job");
+        u4.setAdviceMessage("Advice");
+        u4.setHobbiesMessage("Hobby");
+        u4.setResourcesMessage("Books");
+        u4.setShareMessage("Share");
+        u4.setMessageMeMessage("Message me");
+        u4.setOriginallyFrom("Pernik");
+        u4.setInterests(test);
+        u4.setWebsite("www.gabriela.com");
+        u4.setTwitter("www.twitter.com/gabriela");
+        u4.setLinkedin("www.linkedin.com/gabriela");
+
+        Assert.assertEquals(100, usersService.calculateUserProfilePercentage(u4));
+
+ //     User 5 -> 0%, no fields are filled
+        User u5 = new User("gabriela.rogelova@gmail.com", "123456");
+
+        Assert.assertEquals(0, usersService.calculateUserProfilePercentage(u5));
+
     }
 
 }

@@ -19,6 +19,7 @@ import org.codename.model.User;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.core.util.CodenameUtil;
 import org.codename.core.util.PersistenceManager;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -470,6 +471,68 @@ public class UsersServiceImpl implements UsersService {
         pm.merge(u);
     }
     
-    
+    @Override
+    public int calculateUserProfilePercentage(User u) {
+    	double increasingIndx = 0.0;
+    	double maxNumberOfWeight = 23.0;
+    	if (!(StringUtils.isEmpty(u.getAvatarFileName()))) {
+    		increasingIndx += 2;
+    	}
+    	if (!(StringUtils.isEmpty(u.getFirstname()))) {
+    		increasingIndx += 2;
+    	} 
+    	if (!(StringUtils.isEmpty(u.getLastname()))) {
+    		increasingIndx += 2;
+    	}
+    	if (!(u.getInterests().isEmpty())) {
+    		increasingIndx += 2;
+    	}
+    	if (!(u.getLookingFor().isEmpty())) {
+    		increasingIndx += 2;
+    	}
+    	if (!(StringUtils.isEmpty(u.getCoverFileName()))) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getLocation()))) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getLongBio()))) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getJobTitle()))) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getAdviceMessage()))) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getHobbiesMessage()))) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getResourcesMessage()))) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getShareMessage()))) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getMessageMeMessage()))) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getOriginallyFrom()))) {
+    		increasingIndx++;
+    	}
+    	if (!(u.getInterests().isEmpty())) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getWebsite()))) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getTwitter()))) {
+    		increasingIndx++;
+    	}
+    	if (!(StringUtils.isEmpty(u.getLinkedin()))) {
+    		increasingIndx++;    		
+    	} 
+    	return (int) ((increasingIndx / maxNumberOfWeight) * 100);
+    }
 
 }
