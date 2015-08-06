@@ -67,6 +67,16 @@
                                 requiresLogin: true
                             }
                         })
+                
+                
+                        .when('/contact', {
+                            templateUrl: 'app/views/contact.html',
+                            controller: 'contactController',
+                            access: {
+                                requiresLogin: true,
+                                requiresProfile: true
+                            }
+                        })
 
                         .when('/', {
                             templateUrl: 'app/views/invite.html',

@@ -33,12 +33,16 @@
             right: (@padding/2);
             top: -5px;
         }
+        
+        & + .content-block-content{
+              padding-top: (@padding/4);
+        }
     }
     .content-block-content {
         color: @textGray;
         white-space: normal;
         font-weight: @lightText;
-        padding-top: (@padding/4);
+        
         .textarea {
             width: 100%;
             textarea {

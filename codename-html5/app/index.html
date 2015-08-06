@@ -49,28 +49,12 @@
     <div class="screen {{pageClass}}" ng-view  id="mainview" > </div>
 
     <!-- FOOTER -->
-    <footer id="global-footer" ng-if="footerStatus == 'show'">
+    <footer id="global-footer" ng-if="footerStatus == 'show'" ng-controller="footerController">
         <nav ng-if="auth_token">
-            <ul id="nav-footer">
-                <li class="nav-item">
-                    <a href class="nav-item-link">About us</a>
-                </li>
-                <li class="nav-item">
-                    <a href class="nav-item-link">Team</a>
-                </li>
-                <li class="nav-item">
-                    <a href class="nav-item-link">Privacy Policy</a>
-                </li>
-                <li class="nav-item">
-                    <a href class="nav-item-link">Terms & Condition</a>
-                </li>
-                <li class="nav-item">
-                    <a href class="nav-item-link">Feedback</a>
-                </li>
-                <li class="nav-item">
-                    <a href class="nav-item-link">Contact</a>
-                </li>
-            </ul>
+           
+           <div ng-include="'app/views/footernav.html'" > </div>
+           
+            
         </nav>
         <div id="legal">
             © Copyright Fhellow LTD 2015
@@ -129,6 +113,7 @@
     <!-- CONTROLLERS -->
     <script type="text/javascript" src="app/controllers/mainController.js"></script>
     <script type="text/javascript" src="app/controllers/navController.js"></script>
+    <script type="text/javascript" src="app/controllers/footerController.js"></script>
     <script type="text/javascript" src="app/controllers/homeController.js"></script>
     <script type="text/javascript" src="app/controllers/loginController.js"></script>
     <script type="text/javascript" src="app/controllers/inviteController.js"></script>
@@ -137,6 +122,8 @@
     <script type="text/javascript" src="app/controllers/profileController.js"></script>
     <script type="text/javascript" src="app/controllers/publicProfileController.js"></script>
     <script type="text/javascript" src="app/controllers/localFhellowsController.js"></script>
+    <script type="text/javascript" src="app/controllers/contactController.js"></script>
+    
     
     <!-- DIRECTIVES -->
     <script type="text/javascript" src="app/directives/vCompare.js"></script>

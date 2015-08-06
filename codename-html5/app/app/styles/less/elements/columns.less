@@ -51,6 +51,10 @@
 .right-col {
     .col();
     width: 620px;
+    & + .left-col {
+        margin-right: 0;
+        margin-left: @colMargin;
+    }
 }
 
 .six-col {
