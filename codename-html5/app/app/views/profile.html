@@ -79,7 +79,7 @@
                         <div id="profile-user-location">
                             <div class="editable">
                                 <span class="editable-placeholder" ng-show="profile.location.description == ''"> Where are you currently based? </span>
-                                <span class="editable-placeholder" ng-show="profile.location.description != ''"> {{profile.location.description}}</span>
+                                <span class="editable-child" ng-show="profile.location.description != ''"> {{profile.location.description}}</span>
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
@@ -120,7 +120,7 @@
                                         <i class="fa fa-coffee editable-child"></i>
                                     </span>
                                     <span class="editable-child icon" ng-show="item == 'Collaborate'">
-                                        <i class="fa fa-pencil editable-child"></i>
+                                        <i class="fa fa-lightbulb-o editable-child"></i>
                                     </span>
                                     <span class="editable-child icon" ng-show="item == 'Mentor'">
                                         <i class="fa fa-graduation-cap editable-child"></i>
@@ -140,15 +140,15 @@
                                             <div class="form-fields vertical">
 
                                                 <div class="control full">
-                                                    <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Freelance') > -1}" ng-click="typeButtonPressed('Freelance')">Freelance</button>
+                                                    <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.iam.indexOf('Freelancer') > -1}" ng-click="typeButtonPressed('Freelancer')">Freelancer</button>
                                                 </div>
 
                                                 <div class="control full">
-                                                    <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Entrepreneur') > -1}" ng-click="typeButtonPressed('Entrepreneur')">Entrepreneur</button>
+                                                    <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.iam.indexOf('Entrepreneur') > -1}" ng-click="typeButtonPressed('Entrepreneur')">Entrepreneur</button>
                                                 </div>
 
                                                 <div class="control full">
-                                                    <button class="toggle block button" ng-class="{'on' : profile.iam.indexOf('Digital Nomad') > -1}" ng-click="typeButtonPressed('Digital Nomad')">Digital Nomad</button>
+                                                    <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.iam.indexOf('Digital Nomad') > -1}" ng-click="typeButtonPressed('Digital Nomad')">Digital Nomad</button>
                                                 </div>
 
                                             </div>
@@ -160,15 +160,15 @@
                                             <div class="form-fields vertical">
 
                                                 <div class="control full">
-                                                    <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Socialise') > -1}" ng-click="lookingForButtonPressed('Socialise')"> <i class="fa fa-coffee"></i> Socialise</button>
+                                                    <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.lookingFor.indexOf('Socialise') > -1}" ng-click="lookingForButtonPressed('Socialise')"> <i class="fa fa-coffee"></i> Socialise</button>
                                                 </div>
 
                                                 <div class="control full">
-                                                    <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Collaborate') > -1}" ng-click="lookingForButtonPressed('Collaborate')"> <i class="fa fa-pencil"></i> Collaborate</button>
+                                                    <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.lookingFor.indexOf('Collaborate') > -1}" ng-click="lookingForButtonPressed('Collaborate')"> <i class="fa fa-lightbulb-o"></i> Collaborate</button>
                                                 </div>
 
                                                 <div class="control full">
-                                                    <button class="toggle block button" ng-class="{'on' : profile.lookingFor.indexOf('Mentor') > -1}" ng-click="lookingForButtonPressed('Mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
+                                                    <button class="toggle  toggle-with-check block button" ng-class="{'on' : profile.lookingFor.indexOf('Mentor') > -1}" ng-click="lookingForButtonPressed('Mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
                                                 </div>
 
                                             </div>

@@ -111,10 +111,10 @@
         });
 
         $rootScope.$on('$routeChangeSuccess', function () {
-            if ($location.path() == "/invite") {
-                $rootScope.navStatus = "hiddenFooter";
+            if ($location.path() == "/invite" || $location.path() == "/") {
+                $rootScope.footerStatus = "hiddenFooter";
             } else {
-                $rootScope.navStatus = "show";
+                $rootScope.footerStatus = "show";
             }
             history.push($location.$$path);
         });
@@ -131,6 +131,7 @@
             growlProvider.globalPosition('top-center');
             growlProvider.globalDisableIcons(true);
             growlProvider.globalTimeToLive(3000);
+            growlProvider.globalDisableCountDown(true);
         }]);
 
 }());

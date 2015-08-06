@@ -62,6 +62,7 @@
             .nav-item {
                 border-left: 1px solid rgba(255,255,255,.3);
                 position: relative;
+                vertical-align: top;
                 
                 &.no-border {
                     border-left: none;
@@ -86,44 +87,68 @@
                 }
 
                 &.user {
-                    width: 100px;
+                    min-width: 100px;
                     position: relative;
+                    height: 65px;
+                    z-index: 0;
+                
 
-
-                    .user-profile-image {
+                    .user-profile-text {
+                        position: relative;
+                        color: #FFF;
+                        font-size: 18px;
                         display: inline-block;
-                        width: 28px;
-                        height: 32px;
+                        vertical-align: top;
+                         font-weight: @lightText;
+                        line-height: 65px;
                         margin-right: 10px;
-                        position: absolute;
-                        top: 14px;
-                        z-index: 10;
-                        left: 22px;
                     }
-                    .user-profile-image-brd {
+                    .user-profile-avatar {
+                        position: relative;
                         display: inline-block;
-                        width: 32px;
-                        height: 36px;
-                        margin-right: 10px;
-                        position: absolute;
-                        top: 12px;
-                        left: 20px;
-                        .hexagon-inner-2 {
-                            background-color: @textLight;
+                        width: 70px;
+                        vertical-align: top;
+                        .user-profile-image {
+                            display: inline-block;
+                            width: 28px;
+                            height: 32px;
+                            margin-right: 10px;
+                            position: absolute;
+                            top: 16px;
+                            z-index: 10;
+                            left: 22px;
                         }
+                        .user-profile-image-brd {
+                            display: inline-block;
+                            width: 32px;
+                            height: 36px;
+                            margin-right: 10px;
+                            position: absolute;
+                            top: 14px;
+                            left: 20px;
+                            .hexagon-inner-2 {
+                                background-color: @textLight;
+                            }
 
+                        }
+                    }
+                    .user-profile-arrow {
+                        position: relative;
+                        display: inline-block;
+                        width: 20px;
+                        vertical-align: top;
+                        height: 65px;
+                        color: @textLight;
+                        font-size: 16px;
+                        font-weight: @lightText;
+                        line-height: 65px;
+                        margin-right: 10px;
+                    
                     }
 
                  
 
-                    svg{
-                        width: 20px;
-                        height: 40px;
-                        position: absolute;
-                        top: 12px;
-                        right: 20px;
-
-                    }
+                   
                 }
                 
                 &:hover {

@@ -6,10 +6,10 @@
     position: absolute;
     top: 0;
     right: 0;
-    min-width: 300px;
-    background-color: @bgrLight;
+    min-width: 350px;
+    
     list-style-type: none;
-    .boxShadow();
+
     
     transition: opacity .15s ease-in-out 0s, max-height .01s linear .2s;
   
@@ -19,12 +19,69 @@
 
     
     &.main-nav-dropdown {
-        top:@globalNavHeight;
+        top:(@globalNavHeight - 10);
+        padding: 10px;
+        right: -10px;
+        &:before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 10px 10px 10px;
+            border-color: transparent transparent @bgrLight transparent;
+            position: absolute;
+            top: 0px;
+            right: 25px;
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+        }
     }
-    
+    .dropdown-items{
+        .boxShadow();
+        margin: 0;
+        padding: 0;
+    }
     .dropdown-item {
+            position: relative;
+        background-color: @bgrLight;
         border-bottom: 1px solid @borders;
         height: @dropdownItemHeight;
+        &.user-profile {
+            height: 180px;
+            .user-avatar-big {
+                display: inline-block;
+                width: 160px;
+                .user-profile-image {
+                            display: inline-block;
+                            width: 125px;
+                            height: 180px;
+                            margin-right: 10px;
+                            position: absolute;
+                            top: 0px;
+                            z-index: 10;
+                            left: 20px;
+                 }
+                       
+                 
+            }
+            
+            .user-avatar-text {
+                display: inline-block;
+                width: 190px;
+                font-size: 20px;
+                color: @textDark;
+                .profile-button {
+                    line-height: 20px;
+                }
+                .profile-user-name {
+                    line-height: 1.3em;
+                    padding-bottom: 10px;
+                    margin-top: 48px;
+                }
+            }
+        }
         .dropdown-link {
             display: inline-block;
             height: @dropdownItemHeight;
@@ -33,11 +90,17 @@
             font-weight: @dropdownFontWeight;
             width: 100%;
             box-sizing: border-box;
-            padding: 0 @padding;
+            padding: 0 (@padding/2);
             color: @textGray;
             &:hover {
                 color: darken(@link, 10%);
                 text-decoration: none;
+            }
+            
+            .fa {
+                margin: 0 10px 0 0;
+                opacity: .5;
+                font-size: 1.2em;
             }
             
         }

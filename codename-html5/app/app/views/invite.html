@@ -24,14 +24,14 @@
  <section class="sub-screen vertical dark" id="invite-home">
      
      <div id="invite-home-carousel">
-         <div class="carousel-item " style="left: 0;">
+         <div class="carousel-item active" style="left: 0;">
              <div class="carousel-image" style="background-image: url(/app/static/img/hero_1.jpg);"></div>
              <div class="carousel-content">
                  <div class="wrapper">
                      
                          <div class="item-text">
                              <div class="fhellow-logo"></div>
-                             <strong>Toby</strong>, Digital Nomad, Full Stack Developer & sells on Amazon Originally from London, Currently in Tarifa, Spain
+                             <strong>Toby</strong>, Digital Nomad, Full Stack Developer & sells on Amazon<br>Originally from London, Currently in Tarifa, Spain
                          </div>
                      
                  </div>
@@ -44,7 +44,7 @@
                      
                          <div class="item-text">
                              <div class="fhellow-logo"></div>
-                             <strong>Adrina</strong>, Freelance Copywriter & Travel Blogger Originally from Milan, Currently in London
+                             <strong>Adrina</strong>, Freelance Copywriter & Travel Blogger<br>Originally from Milan, Currently in London
                          </div>
                      
                  </div>
@@ -57,7 +57,7 @@
                      
                          <div class="item-text">
                              <div class="fhellow-logo"></div>
-                             <strong>Jamie </strong>, runs a software company remotely Originally from New York, Currently in London
+                             <strong>Jamie </strong>, runs a software company remotely<br>Originally from New York, Currently in London
                          </div>
                      
                  </div>
@@ -121,7 +121,7 @@
                          <div class="six-col">
                              <div class="about-text">
                                 <div class="check"><i class="fa fa-check"></i></div>
-                                 <p>Spent all day working alone and wished you had someone to share a coffee break or grab lunch with?</p>
+                                 <p>Missed having someone to brainstorm with or run an idea past?</p>
                              </div>
                          </div>
                          <div class="six-col">
@@ -201,7 +201,7 @@
            <div class="team-cards">
                <h1>Created by Fhellows for Fhellows</h1>
                <h3>We’re a friendly and proactive bunch with a dream - to connect like-minded Fhellows from all over the world.</h3>
-               <div id="results" class="list-container">
+               <div class="list-container">
                    <div class="cards-container"  >
 
                
@@ -428,7 +428,7 @@
                 <h1>Get in touch</h1>
             </div>
             <div class="seven-col col-margin ">
-                <form>
+                <form ng-if="!inviteContactStatus">
                     <div class="control-group ">
                         
                         <div class="control full" >
@@ -445,11 +445,15 @@
                         </div>
                         
                          <div class="control full" >
-                            <button class="button">Send Message</button>
+                            <button class="button" ng-click="sendContactForm()">Send Message</button>
                         </div>
                         
                     </div>
                 </form>
+                <div class="manual-notification success" ng-if="inviteContactStatus">
+                    <h2><i class='fa fa-check'></i> Your message has been sent</h2>
+                    <p>Thanks for dropping us a line. We’ll be in touch shortly.</p>
+                </div>
             </div>
             <div class="five-col col-margin-left">
                 <h3>We’d love to hear from you</h3>
@@ -463,7 +467,7 @@
 
 <!-- FOOTER -->
 <footer id="global-footer" >
-    <nav >
+    <nav ng-if="auth_token">
         <ul id="nav-footer">
             <li class="nav-item">
                 <a href class="nav-item-link">About us</a>

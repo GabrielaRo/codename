@@ -28,10 +28,46 @@
                      border-color: @red;
                      background-color: @redLight;
                  }
+                 &.alert-success {
+                     color: @greenSuccess;
+                     border-color: @greenSuccess;
+                     background-color: @greenSuccessLight;
+                 }
+                 &.alert-info {
+                     color: @blueInfo;
+                     border-color: @blueInfo;
+                     background-color: @blueInfoLight;
+                     
+                 }
                 
             }
         }
     }
     
    
+}
+
+.manual-notification {
+    border: 1px solid;
+    text-align: center;
+    font-size: 16px;
+    font-weight: @lightText;
+    padding: (@padding/2);
+    h2 {
+        font-size: 20px;
+        font-weight: @regularText;
+        margin: 0;
+        padding:10px 0;
+    }
+    p {
+        max-width: 100% !important;
+        width: 100%;
+    }
+
+    &.success {
+        border-color: @greenSuccess;
+        color: @greenSuccess;
+        background-color: @greenSuccessLight;
+        
+    }
 }

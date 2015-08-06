@@ -2,18 +2,27 @@
     var inviteController = function ($scope, $rootScope, $users, $auth, appConstants, $invites ) {
        $scope.pageClass = "invite full";
        $scope.inviteStatus = false;
+       $scope.inviteContactStatus = false;
         
+       $scope.sendContactForm = function(){
+            $scope.inviteContactStatus = true;
+       }
         
        $scope.requestInvite = function (email) {
             
             $invites.request(email).success(function (data) {
                 $scope.inviteStatus = true;
-                $rootScope.$broadcast("quickNotification", "Invitation Sent");
+                $rootScope.$broadcast("quickNotification", "<i class='fa fa-check'></i> Invitation Sent", 'success');
+                $('#mainview').animate({
+                    'scrollTop': 0
+                }, 1000, 'swing', function () {
+                  
+                });
 
 
             }).error(function (data) {
                 
-                $rootScope.$broadcast("quickNotification", "Something failed: " + data, 'error');
+                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Something failed: " + data, 'error');
                 console.log("Error : " + data + "!");
 
             });
@@ -38,6 +47,10 @@
            $scope.carouselItems.each(function(index){
                var itemPosition = 100 - ($scope.carouselPosition - index) * 100;
                $(this).css( "left", itemPosition+"%" );
+               $(this).removeClass("active");
+               if((index+1) == $scope.carouselPosition){
+                    $(this).addClass("active");
+               }
            });
             $scope.initCarousel();
        }

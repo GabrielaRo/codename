@@ -41,7 +41,7 @@
 
     <!-- APP MAIN NAVIGATION -->
 
-    <div ng-controller="NavigationController" ng-if="navStatus == 'show' || navStatus == 'hiddenFooter'" >
+    <div ng-controller="NavigationController"  >
         <div ng-include="'app/views/nav.html'" > </div>
     </div>
 
@@ -49,8 +49,8 @@
     <div class="screen {{pageClass}}" ng-view  id="mainview" > </div>
 
     <!-- FOOTER -->
-    <footer id="global-footer" ng-if="navStatus == 'show'">
-        <nav >
+    <footer id="global-footer" ng-if="footerStatus == 'show'">
+        <nav ng-if="auth_token">
             <ul id="nav-footer">
                 <li class="nav-item">
                     <a href class="nav-item-link">About us</a>

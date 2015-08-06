@@ -55,7 +55,7 @@
                     <div class="control-group ">
                         <label>Fhellow type:</label>
                         <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Freelance') > -1}" ng-click="typeButtonPressed('Freelance')">Freelance</button>
+                            <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Freelance') > -1}" ng-click="typeButtonPressed('Freelance')">Freelancer</button>
                         </div>
                         <div class="control" >
                             <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Entrepreneur') > -1}" ng-click="typeButtonPressed('Entrepreneur')">Entrepreneurs</button>
@@ -70,7 +70,7 @@
                             <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Socialise') > -1}" ng-click="lookingToButtonPressed('Socialise')"><i class="fa fa-coffee"></i> Socialise</button>
                         </div>
                         <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Collaborate') > -1}" ng-click="lookingToButtonPressed('Collaborate')"><i class="fa fa-pencil"></i> Collaborate</button>
+                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Collaborate') > -1}" ng-click="lookingToButtonPressed('Collaborate')"><i class="fa fa-lightbulb-o"></i> Collaborate</button>
                         </div>
                         <div class="control" >
                             <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Mentor') > -1}" ng-click="lookingToButtonPressed('Mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
@@ -90,9 +90,10 @@
                
                
                 <div class="fhellow-item" ng-repeat="fhellow in fhellowsList  | filter:filters.search">
-                    <div class="fhellow-location-range range-{{fhellow.range}}" ng-show="fhellow.range != undefined"> </div>
+                   <!-- <div class="fhellow-location-range range-{{fhellow.range}}" ng-show="fhellow.range != undefined"> </div>-->
                     <div class="fhellow-cover-image" style="background-image:url('{{serverUrlFull+ 'rest/public/users/' + fhellow.nickname + '/cover'}}')"> </div>
                     <div class="fhellow-profile">
+                        <div class="online-status" ng-if="fhellow.onlineStatus">Online</div>
                         <div class="fhellow-profile-image hexagon">
                             <div class="hexagon-inner-1">
                                 <div class="hexagon-inner-2" style="background-image:url('{{serverUrlFull+ 'rest/public/users/' + fhellow.nickname + '/avatar'}}')">
@@ -113,8 +114,28 @@
                         <div class="fhellow-name">
                             {{fhellow.firstname}}  {{fhellow.lastname}}
                         </div>
-                        <div class="fhellow-type">
-                             {{fhellow.location}}
+                        <div class="fhellow-location">
+                             {{fhellow.location}} 
+                             <span class="fhellow-range" ng-if="fhellow.range">
+                                 
+                                 
+                                 <span ng-if="fhellow.range == 1">
+                                     Within 10km
+                                 </span>
+                                 
+                                 <span ng-if="fhellow.range == 2">
+                                     Within 20km
+                                 </span>
+                                 
+                                 <span ng-if="fhellow.range == 3">
+                                     Within 50km
+                                 </span>
+                                 <span ng-if="fhellow.range == 4">
+                                     Within 100km
+                                 </span>
+                                
+                                 
+                             </span>
                         </div>
                         <!--
                         <div class="fhellow-location">
@@ -130,7 +151,7 @@
                                     <div class="icon {{lookingfor}}">
                                         <span ng-switch="lookingfor">
                                           <i ng-switch-when="Socialise" class="fa fa-coffee"></i>
-                                          <i ng-switch-when="Collaborate" class="fa fa-pencil"></i>
+                                          <i ng-switch-when="Collaborate" class="fa fa-lightbulb-o"></i>
                                           <i ng-switch-when="Mentor" class="fa fa-graduation-cap"></i>
                                         </span>
                                   
@@ -149,7 +170,7 @@
                         </div>
                     </div>
                     <div class="fhellow-actions">
-                       <div class="online-status" ng-if="fhellow.onlineStatus"></div>
+                       
                        <a class="button icon-only small" href ng-click="newConversation(fhellow.nickname)"> <i class="fa fa-envelope"></i></a>
                        <a class="button small" href="#/profile/{{fhellow.nickname}}">View Profile</a>
                     </div>

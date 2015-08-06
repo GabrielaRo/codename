@@ -8,6 +8,7 @@
     box-sizing: border-box;
     border: 1px solid @buttonBgr;
     outline: none;
+
     .transition();
     
     .fa {
@@ -129,6 +130,51 @@
         &.block {
             text-align: left;
             padding-left: @padding;
+        }
+        
+        
+        &.toggle-with-check {
+             padding-left: (@padding - 5);
+            position: relative;
+            
+            .fa {
+                margin-left: 5px;
+                width: 20px;
+                text-align: center;
+                margin-right: 5px;
+            }
+            
+            &:before {
+                content: '';
+                width: 15px;
+                height: 15px;
+                border: 1px solid @borders;
+                background-color: @bgrLight;
+                position: absolute;
+                top: 50%;
+                left: 10px;
+                margin-top: -7.5px;
+            }
+            &:after {
+                content: '';
+                width: 11px;
+                height: 7px;
+                border-bottom: 3px solid @link;
+                border-left: 3px solid @link;
+                position: absolute;
+                top: 50%;
+                left: 12px;
+                margin-top: -4px; 
+                transform: rotate(-45deg);
+                opacity: 0;
+                transition: opacity .3s ease-in-out;
+            }
+            
+            &.on {
+               &:after {
+                   opacity: 1;
+               }
+            }
         }
     }
     

@@ -75,7 +75,7 @@
                 $rootScope.$broadcast("quickNotification", "You have been logged out.", 'info');
             }).error(function (data) {
                 console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Error: " + data, 'error');
+                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Error: " + data, 'error');
             });
 
         };
@@ -113,7 +113,7 @@
 
                 }).error(function (data) {
                     console.log("Error: " + data.error);
-                    $rootScope.$broadcast("quickNotification", "You are NOT logged in because:" + data.error, 'error');
+                    $rootScope.$broadcast("quickNotification", " <i class='fa fa-exclamation-triangle'></i> You are NOT logged in because:" + data.error, 'error');
                 });
             }
         };
@@ -150,7 +150,7 @@
 
                             }).error(function (data) {
                                 console.log("Error: " + data.error);
-                                $rootScope.$broadcast("quickNotification", "You are NOT logged in because:" + data.error, 'error');
+                                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> You are NOT logged in because:" + data.error, 'error');
                             });
                         } else {
                             $rootScope.$broadcast('goTo', "/");

@@ -36,7 +36,7 @@
                 $rootScope.$broadcast("quickNotification", "Mock Users Created!");
 
             }).error(function (data) {
-                $rootScope.$broadcast("quickNotification", "Something failed: " + data, 'error');
+                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Something failed: " + data, 'error');
                 console.log("Error : " + data + "!");
 
             });
@@ -59,7 +59,7 @@
 
 
                 }).error(function (data) {
-                    $rootScope.$broadcast("quickNotification", "Something failed: " + data.error, 'error');
+                    $rootScope.$broadcast("quickNotification", " <i class='fa fa-exclamation-triangle'></i>Something failed: " + data.error, 'error');
                     console.log("Error : " + data.error + "!");
 
                 });
