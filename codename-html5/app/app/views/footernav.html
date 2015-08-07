@@ -1,18 +1,18 @@
 <ul id="nav-footer">
     <li class="nav-item">
-        <a href class="nav-item-link">About us</a>
+        <a href="#/" class="nav-item-link">About us</a>
     </li>
     <li class="nav-item">
-        <a href class="nav-item-link">Team</a>
+        <a href="#/" class="nav-item-link">Team</a>
     </li>
-    <li class="nav-item">
-        <a href class="nav-item-link">Privacy Policy</a>
+    <li class="nav-item" ng-class="{active : isActive('/privacy')}">
+        <a href="#privacy" class="nav-item-link">Privacy Policy</a>
     </li>
-    <li class="nav-item">
-        <a href class="nav-item-link">Terms & Condition</a>
+    <li class="nav-item" ng-class="{active : isActive('/terms_and_conditions')}">
+        <a href="#terms_and_conditions" class="nav-item-link">Terms & Condition</a>
     </li>
-    <li class="nav-item">
-        <a href class="nav-item-link">Feedback</a>
+    <li class="nav-item" ng-class="{active : isActive('/feedback')}">
+        <a href="#feedback"  class="nav-item-link">Feedback</a>
     </li>
     <li class="nav-item" ng-class="{active : isActive('/contact')}">
         <a href="#contact" class="nav-item-link">Contact</a>

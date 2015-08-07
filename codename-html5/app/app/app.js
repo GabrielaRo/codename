@@ -77,6 +77,42 @@
                                 requiresProfile: true
                             }
                         })
+                
+                        .when('/feedback', {
+                            templateUrl: 'app/views/feedback.html',
+                            controller: 'feedbackController',
+                            access: {
+                                requiresLogin: true,
+                                requiresProfile: true
+                            }
+                        })
+                
+                        .when('/terms_and_conditions', {
+                            templateUrl: 'app/views/terms_and_conditions.html',
+                            controller: 'termsController',
+                            access: {
+                                requiresLogin: true,
+                                requiresProfile: true
+                            }
+                        })
+                
+                        .when('/privacy', {
+                            templateUrl: 'app/views/privacy.html',
+                            controller: 'privacyController',
+                            access: {
+                                requiresLogin: true,
+                                requiresProfile: true
+                            }
+                        })
+                
+                        .when('/report', {
+                            templateUrl: 'app/views/report.html',
+                            controller: 'reportController',
+                            access: {
+                                requiresLogin: true,
+                                requiresProfile: true
+                            }
+                        })
 
                         .when('/', {
                             templateUrl: 'app/views/invite.html',

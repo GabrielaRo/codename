@@ -5,14 +5,8 @@
             
             
             <div id="nav-primary-wrapper">
-                <ul id="nav-primary" ng-show="auth_token">
-                    
-                    <li class="nav-item"  ng-class="{active: isActive('/localfhellows')}">
-                        <a href="#localfhellows" class="nav-item-link ">Find Fhellows</a>
-                    </li>
-                    
-                </ul>
-                <ul id="nav-primary-no-user" ng-show="!auth_token">
+               
+                <ul id="nav-primary-no-user" ng-show="!auth_token || isActive('/')")
 
                     <li class="nav-item no-border">
                         <a class="nav-item-link " href ng-click="goToSubSection('invite-home')" >Home </a>
@@ -27,6 +21,13 @@
                         <a class="nav-item-link " href ng-click="goToSubSection('invite-contact')" >Contact</a>
                     </li>
                    
+                </ul>
+                <ul id="nav-primary" ng-show="auth_token">
+                    
+                    <li class="nav-item"  ng-class="{active: isActive('/localfhellows')}">
+                        <a href="#localfhellows" class="nav-item-link ">Find Fhellows</a>
+                    </li>
+                    
                 </ul>
                 <ul id="nav-user" ng-show="auth_token">
                     <li class="nav-item messages" ng-include="'app/views/notifications-dropdown.html'"></li>
