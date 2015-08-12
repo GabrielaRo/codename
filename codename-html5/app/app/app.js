@@ -19,10 +19,10 @@
                             controller: 'homeController'
                         })
                 
-                        .when('/invitelogin', {
-                            templateUrl: 'app/views/login.html',
-                            controller: 'loginController'
-                        })
+//                        .when('/invitelogin', {
+//                            templateUrl: 'app/views/login.html',
+//                            controller: 'loginController'
+//                        })
 
                         .when('/localfhellows', {
                             templateUrl: 'app/views/localfhellows.html',
@@ -118,7 +118,10 @@
                             templateUrl: 'app/views/invite.html',
                             controller: 'inviteController'
                         })
-
+                        .when('/:inviteLogin/:userMail', {
+                            templateUrl: 'app/views/invite.html',
+                            controller: 'inviteController'
+                        })
                         .otherwise({
                             redirectTo: '/'
                         });
@@ -131,7 +134,7 @@
 
 
     //HISTORY 
-    codename.run(function ($rootScope, $location, $auth) {
+    codename.run(function ($rootScope, $location, $routeParams, $auth) {
 
         var history = [];
         $rootScope.navStatus = "show";
@@ -143,8 +146,21 @@
                         next.access.requiresProfile,
                         next.access.permissions,
                         next.access.permissionCheckType);
+                console.log(next);
                 if (authorised === 'Authorized') {
-                    $location.path(next.originalPath);
+                    var finalPath;
+                  
+//                    if(Object.keys(next.params).length > 0){
+//                        console.log(next.regexp);
+//                        console.log(next.params);
+//                        
+//                        finalPath = next.originalPath.replace(next.regexp, next.params);
+//                    }else{
+                        finalPath = next.originalPath;
+//                    }
+//                    $scope.apply();
+//                    console.log(finalPath);
+//                    $location.path(finalPath).replace();
                 } else if (authorised === 'NotAuthorized') {
                     $location.path('/invitelogin').replace();
                 } else if (authorised === 'RequiresProfile') {

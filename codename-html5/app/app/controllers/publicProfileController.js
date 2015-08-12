@@ -4,7 +4,7 @@
         /*
          * For Loading we try to fetch everything at once instead of each different piece
          */
-        $scope.params = $routeParams;
+        
         $scope.edit = true;
         $scope.profile = {
             firstname: "",
@@ -78,10 +78,10 @@
 
 
 
-        if ($scope.params && $scope.params.nickname) {
-            console.log($scope.params.nickname);
+        if ($routeParams && $routeParams.nickname) {
+            console.log($routeParams.nickname);
 
-            $scope.loadPublicUserData($scope.params.nickname);
+            $scope.loadPublicUserData($routeParams.nickname);
 
         }
 

@@ -1,9 +1,10 @@
 (function () {
-    var inviteController = function ($scope, $rootScope, $users, $auth, appConstants, $invites ) {
+    var inviteController = function ($scope, $rootScope, $users, $auth, appConstants, $routeParams, $invites ) {
        $scope.pageClass = "invite full";
        $scope.inviteStatus = false;
        $scope.inviteContactStatus = false;
-        
+        $scope.credentials = [];
+      
        $scope.sendContactForm = function(){
             $scope.inviteContactStatus = true;
        }
@@ -62,9 +63,20 @@
             nounAudio.play();
         }
         
+        
+        if ($routeParams && $routeParams.inviteLogin) {
+            console.log("INvite Logn? "+ $routeParams.inviteLogin);
+            console.log("User mail? "+ $routeParams.userMail);
+            
+            $scope.inviteLogin = $routeParams.inviteLogin;
+            $scope.credentials.email = $routeParams.userMail;
+            
+        }
+        
+        
     };
 
-    inviteController.$inject = ['$scope', '$rootScope', '$users', '$auth', 'appConstants', '$invites'];
+    inviteController.$inject = ['$scope', '$rootScope', '$users', '$auth', 'appConstants', '$routeParams','$invites'];
     angular.module("codename").controller("inviteController", inviteController);
 
 }());

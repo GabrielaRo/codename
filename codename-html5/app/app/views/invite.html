@@ -1,10 +1,10 @@
-<div id="invite-bar" ng-show="!auth_token && !inviteStatus" >
-   
+<div id="invite-bar" ng-show="!auth_token && !inviteStatus && !inviteLogin" >
+       
         <div class="container">
              <form  novalidate name="inviteForm">
                  <div class="control-group no-space">
                     <div class="text">
-                        Be the first to join! Request pre-launch access
+                      Be the first to join! Request pre-launch access
                     </div>
                      <div class="control ">
                          <input ng-model="email" type="email" placeholder="Enter your email">
@@ -20,7 +20,31 @@
     
 
 </div>
+<div id="invite-bar" ng-show="inviteLogin" >
+   
+        <div class="container">
+             <form  novalidate name="loginForm" ng-submit="loginUser(loginForm.$valid, credentials)">
+                 <div class="control-group no-space">
+                    <div class="text">
+                        Login
+                    </div>
+                     <div class="control ">
+                         <input ng-model="credentials.email" type="email" placeholder="Enter your email" required>
+                     </div>
+                      <div class="control ">
+                         <input ng-model="credentials.password" type="password" placeholder="Password" required>
+                     </div>
+                     <div class="control ">
 
+                         <button class="button primary block" value="Login"  type="submit">Sign In</button>
+
+                     </div>
+                 </div>
+            </form>
+        </div>
+    
+
+</div>
  <section class="sub-screen vertical dark" id="invite-home">
      
      <div id="invite-home-carousel">
@@ -31,6 +55,7 @@
                      
                          <div class="item-text">
                              <div class="fhellow-logo"></div>
+                             
                              <strong>Toby</strong>, Digital Nomad, Full Stack Developer & sells on Amazon<br>Originally from London, Currently in Tarifa, Spain
                          </div>
                      

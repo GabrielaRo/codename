@@ -112,8 +112,8 @@
                     }
 
                 }).error(function (data) {
-                    console.log("Error: " + data.error);
-                    $rootScope.$broadcast("quickNotification", " <i class='fa fa-exclamation-triangle'></i> You are NOT logged in because:" + data.error, 'error');
+                    console.log(data);
+                    $rootScope.$broadcast("quickNotification", " <i class='fa fa-exclamation-triangle'></i> You are NOT logged in because:" + data, 'error');
                 });
             }
         };
