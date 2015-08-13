@@ -8,7 +8,7 @@ angular.module('locator')
       restrict: 'E',
       require: '?ngModel',
       scope: {},
-      templateUrl: 'app/modules/locator/location-picker/directives/location-picker.html',
+      templateUrl: 'modules/locator/location-picker/directives/location-picker.html',
       link: function(scope, iElement, iAttrs, model) {
 
         scope.limitTo = scope.$eval(iAttrs.limitTo) || 15;

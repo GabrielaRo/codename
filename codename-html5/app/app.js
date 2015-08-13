@@ -15,7 +15,7 @@
             .config(function ($routeProvider, $authProvider) {
                 $routeProvider
                         .when('/removeadmin', {
-                            templateUrl: 'app/views/home.html',
+                            templateUrl: 'views/home.html',
                             controller: 'homeController'
                         })
                 
@@ -25,7 +25,7 @@
 //                        })
 
                         .when('/localfhellows', {
-                            templateUrl: 'app/views/localfhellows.html',
+                            templateUrl: 'views/localfhellows.html',
                             controller: 'localFhellowsController',
                             access: {
                                 requiresLogin: true,
@@ -33,19 +33,19 @@
                             }
                         })
                         .when('/password', {
-                            templateUrl: 'app/views/password.html',
+                            templateUrl: 'views/password.html',
                             controller: 'passwordController'
 
                         })
                         .when('/profile', {
-                            templateUrl: 'app/views/profile.html',
+                            templateUrl: 'views/profile.html',
                             controller: 'profileController',
                             access: {
                                 requiresLogin: true
                             }
                         })
                         .when('/profile/:nickname', {
-                            templateUrl: 'app/views/publicprofile.html',
+                            templateUrl: 'views/publicprofile.html',
                             controller: 'publicProfileController',
                             access: {
                                 requiresLogin: true
@@ -53,7 +53,7 @@
                         })
 
                         .when('/messages', {
-                            templateUrl: 'app/views/messages.html',
+                            templateUrl: 'views/messages.html',
                             controller: 'messagesController',
                             access: {
                                 requiresLogin: true,
@@ -61,7 +61,7 @@
                             }
                         })
                         .when('/messages/:selectedConversation', {
-                            templateUrl: 'app/views/messages.html',
+                            templateUrl: 'views/messages.html',
                             controller: 'messagesController',
                             access: {
                                 requiresLogin: true
@@ -70,7 +70,7 @@
                 
                 
                         .when('/contact', {
-                            templateUrl: 'app/views/contact.html',
+                            templateUrl: 'views/contact.html',
                             controller: 'contactController',
                             access: {
                                 requiresLogin: true,
@@ -79,7 +79,7 @@
                         })
                 
                         .when('/feedback', {
-                            templateUrl: 'app/views/feedback.html',
+                            templateUrl: 'views/feedback.html',
                             controller: 'feedbackController',
                             access: {
                                 requiresLogin: true,
@@ -88,7 +88,7 @@
                         })
                 
                         .when('/terms_and_conditions', {
-                            templateUrl: 'app/views/terms_and_conditions.html',
+                            templateUrl: 'views/terms_and_conditions.html',
                             controller: 'termsController',
                             access: {
                                 requiresLogin: true,
@@ -97,7 +97,7 @@
                         })
                 
                         .when('/privacy', {
-                            templateUrl: 'app/views/privacy.html',
+                            templateUrl: 'views/privacy.html',
                             controller: 'privacyController',
                             access: {
                                 requiresLogin: true,
@@ -106,7 +106,7 @@
                         })
                 
                         .when('/report', {
-                            templateUrl: 'app/views/report.html',
+                            templateUrl: 'views/report.html',
                             controller: 'reportController',
                             access: {
                                 requiresLogin: true,
@@ -115,11 +115,11 @@
                         })
 
                         .when('/', {
-                            templateUrl: 'app/views/invite.html',
+                            templateUrl: 'views/invite.html',
                             controller: 'inviteController'
                         })
                         .when('/:inviteLogin/:userMail', {
-                            templateUrl: 'app/views/invite.html',
+                            templateUrl: 'views/invite.html',
                             controller: 'inviteController'
                         })
                         .otherwise({
@@ -146,28 +146,13 @@
                         next.access.requiresProfile,
                         next.access.permissions,
                         next.access.permissionCheckType);
-                console.log(next);
-                if (authorised === 'Authorized') {
-                    var finalPath;
-                  
-//                    if(Object.keys(next.params).length > 0){
-//                        console.log(next.regexp);
-//                        console.log(next.params);
-//                        
-//                        finalPath = next.originalPath.replace(next.regexp, next.params);
-//                    }else{
-                        finalPath = next.originalPath;
-//                    }
-//                    $scope.apply();
-//                    console.log(finalPath);
-//                    $location.path(finalPath).replace();
-                } else if (authorised === 'NotAuthorized') {
+                console.log(authorised);
+                if (authorised === 'NotAuthorized') {
                     $location.path('/invitelogin').replace();
                 } else if (authorised === 'RequiresProfile') {
                     $location.path('/profile').replace();
-                } else {
+                } else if(authorised === 'Home') {
                     $location.path('/invite').replace();
-                
                 }
             }
         });

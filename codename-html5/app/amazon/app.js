@@ -15,17 +15,17 @@
             .config(function ($routeProvider, $authProvider) {
                 $routeProvider
                         .when('/removeadmin', {
-                            templateUrl: 'app/views/home.html',
+                            templateUrl: 'views/home.html',
                             controller: 'homeController'
                         })
                 
                         .when('/invitelogin', {
-                            templateUrl: 'app/views/login.html',
+                            templateUrl: 'views/login.html',
                             controller: 'loginController'
                         })
 
                         .when('/localfhellows', {
-                            templateUrl: 'app/views/localfhellows.html',
+                            templateUrl: 'views/localfhellows.html',
                             controller: 'localFhellowsController',
                             access: {
                                 requiresLogin: true,
@@ -33,19 +33,19 @@
                             }
                         })
                         .when('/password', {
-                            templateUrl: 'app/views/password.html',
+                            templateUrl: 'views/password.html',
                             controller: 'passwordController'
 
                         })
                         .when('/profile', {
-                            templateUrl: 'app/views/profile.html',
+                            templateUrl: 'views/profile.html',
                             controller: 'profileController',
                             access: {
                                 requiresLogin: true
                             }
                         })
                         .when('/profile/:nickname', {
-                            templateUrl: 'app/views/publicprofile.html',
+                            templateUrl: 'views/publicprofile.html',
                             controller: 'publicProfileController',
                             access: {
                                 requiresLogin: true
@@ -53,7 +53,7 @@
                         })
 
                         .when('/messages', {
-                            templateUrl: 'app/views/messages.html',
+                            templateUrl: 'views/messages.html',
                             controller: 'messagesController',
                             access: {
                                 requiresLogin: true,
@@ -61,7 +61,7 @@
                             }
                         })
                         .when('/messages/:selectedConversation', {
-                            templateUrl: 'app/views/messages.html',
+                            templateUrl: 'views/messages.html',
                             controller: 'messagesController',
                             access: {
                                 requiresLogin: true
@@ -69,7 +69,7 @@
                         })
 
                         .when('/', {
-                            templateUrl: 'app/views/invite.html',
+                            templateUrl: 'views/invite.html',
                             controller: 'inviteController'
                         })
 
@@ -99,9 +99,8 @@
                         next.access.permissions,
                         next.access.permissionCheckType);
                 
-                if (authorised === 'Authorized') {
-                    $location.path(next.originalPath);
-                } else if (authorised === 'NotAuthorized') {
+
+                if (authorised === 'NotAuthorized') {
                     $location.path('/invitelogin').replace();
                 } else if (authorised === 'RequiresProfile') {
                     $location.path('/profile').replace();

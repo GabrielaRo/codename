@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="bower_components/angular-growl-v2/build/angular-growl.min.css">
     
     <!-- APP STYLES -->
-    <link rel="stylesheet" type="text/css" href="app/styles/app.css"> 
+    <link rel="stylesheet" type="text/css" href="styles/app.css"> 
     <link rel="apple-touch-icon" href="appleicon.png">
     
     <link rel="stylesheet" type="text/css" href="bower_components/ng-tags-input/ng-tags-input.css">
@@ -42,7 +42,7 @@
     <!-- APP MAIN NAVIGATION -->
 
     <div ng-controller="NavigationController"  >
-        <div ng-include="'app/views/nav.html'" > </div>
+        <div ng-include="'views/nav.html'" > </div>
     </div>
 
     <!-- APP NG-VIEW -->
@@ -52,7 +52,7 @@
     <footer id="global-footer" ng-if="footerStatus == 'show'" ng-controller="footerController">
         <nav ng-if="auth_token">
            
-           <div ng-include="'app/views/footernav.html'" > </div>
+           <div ng-include="'views/footernav.html'" > </div>
            
             
         </nav>
@@ -91,49 +91,49 @@
     <script src="components/version/interpolate-filter.js"></script>
 
     <!-- Modules --> 
-    <script type="text/javascript" src="app/modules/locator/locator-module.js"></script>
+    <script type="text/javascript" src="modules/locator/locator-module.js"></script>
     <!-- APP JS -->
-    <script type="text/javascript" src="app/app.js"></script>
+    <script type="text/javascript" src="app.js"></script>
     
     <!-- SERVICES -->
     
-    <script type="text/javascript" src="app/services/usersFactory.js"></script>
-    <script type="text/javascript" src="app/services/queriesFactory.js"></script>
-    <script type="text/javascript" src="app/services/socketsFactory.js"></script>
-    <script type="text/javascript" src="app/services/interestsFactory.js"></script>
-    <script type="text/javascript" src="app/services/chatFactory.js"></script>
-    <script type="text/javascript" src="app/services/notificationsFactory.js"></script>
-    <script type="text/javascript" src="app/services/authFactory.js"></script>
-    <script type="text/javascript" src="app/services/inviteFactory.js"></script>
+    <script type="text/javascript" src="services/usersFactory.js"></script>
+    <script type="text/javascript" src="services/queriesFactory.js"></script>
+    <script type="text/javascript" src="services/socketsFactory.js"></script>
+    <script type="text/javascript" src="services/interestsFactory.js"></script>
+    <script type="text/javascript" src="services/chatFactory.js"></script>
+    <script type="text/javascript" src="services/notificationsFactory.js"></script>
+    <script type="text/javascript" src="services/authFactory.js"></script>
+    <script type="text/javascript" src="services/inviteFactory.js"></script>
     
-    <script type="text/javascript" src="app/services/transformRequestToFormFactory.js"></script>
-    <script type="text/javascript" src="app/modules/locator/location-picker/services/location.js"></script>
-    <script type="text/javascript" src="app/modules/locator/location-picker/services/reverse-geocoder.js"></script>
+    <script type="text/javascript" src="services/transformRequestToFormFactory.js"></script>
+    <script type="text/javascript" src="modules/locator/location-picker/services/location.js"></script>
+    <script type="text/javascript" src="modules/locator/location-picker/services/reverse-geocoder.js"></script>
 
     <!-- CONTROLLERS -->
-    <script type="text/javascript" src="app/controllers/mainController.js"></script>
-    <script type="text/javascript" src="app/controllers/navController.js"></script>
-    <script type="text/javascript" src="app/controllers/footerController.js"></script>
-    <script type="text/javascript" src="app/controllers/homeController.js"></script>
-    <script type="text/javascript" src="app/controllers/loginController.js"></script>
-    <script type="text/javascript" src="app/controllers/inviteController.js"></script>
-    <script type="text/javascript" src="app/controllers/messagesController.js"></script>
-    <script type="text/javascript" src="app/controllers/notificationsController.js"></script>
-    <script type="text/javascript" src="app/controllers/profileController.js"></script>
-    <script type="text/javascript" src="app/controllers/publicProfileController.js"></script>
-    <script type="text/javascript" src="app/controllers/localFhellowsController.js"></script>
-    <script type="text/javascript" src="app/controllers/contactController.js"></script>
-    <script type="text/javascript" src="app/controllers/feedbackController.js"></script>
-    <script type="text/javascript" src="app/controllers/termsController.js"></script>
-    <script type="text/javascript" src="app/controllers/privacyController.js"></script>
-    <script type="text/javascript" src="app/controllers/reportController.js"></script>
+    <script type="text/javascript" src="controllers/mainController.js"></script>
+    <script type="text/javascript" src="controllers/navController.js"></script>
+    <script type="text/javascript" src="controllers/footerController.js"></script>
+    <script type="text/javascript" src="controllers/homeController.js"></script>
+    <script type="text/javascript" src="controllers/loginController.js"></script>
+    <script type="text/javascript" src="controllers/inviteController.js"></script>
+    <script type="text/javascript" src="controllers/messagesController.js"></script>
+    <script type="text/javascript" src="controllers/notificationsController.js"></script>
+    <script type="text/javascript" src="controllers/profileController.js"></script>
+    <script type="text/javascript" src="controllers/publicProfileController.js"></script>
+    <script type="text/javascript" src="controllers/localFhellowsController.js"></script>
+    <script type="text/javascript" src="controllers/contactController.js"></script>
+    <script type="text/javascript" src="controllers/feedbackController.js"></script>
+    <script type="text/javascript" src="controllers/termsController.js"></script>
+    <script type="text/javascript" src="controllers/privacyController.js"></script>
+    <script type="text/javascript" src="controllers/reportController.js"></script>
     
     
     <!-- DIRECTIVES -->
-    <script type="text/javascript" src="app/directives/vCompare.js"></script>
-    <script type="text/javascript" src="app/modules/locator/location-picker/directives/location-picker.js"></script>
-    <script type="text/javascript" src="app/modules/locator/location-lookup/directives/location-lookup-directive.js"></script>
-    <script type="text/javascript" src="app/modules/locator/location-lookup/directives/location-predictions-directive.js"></script>
+    <script type="text/javascript" src="directives/vCompare.js"></script>
+    <script type="text/javascript" src="modules/locator/location-picker/directives/location-picker.js"></script>
+    <script type="text/javascript" src="modules/locator/location-lookup/directives/location-lookup-directive.js"></script>
+    <script type="text/javascript" src="modules/locator/location-lookup/directives/location-predictions-directive.js"></script>
     
     
 

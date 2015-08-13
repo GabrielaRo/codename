@@ -72,7 +72,6 @@
                 $scope.avatarStyle = "";
                 $sockets.closeWebSocket();
                 $rootScope.$broadcast('goTo', "/");
-                $rootScope.$broadcast("quickNotification", "You have been logged out.", 'info');
             }).error(function (data) {
                 console.log("Error: " + data);
                 $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Error: " + data, 'error');

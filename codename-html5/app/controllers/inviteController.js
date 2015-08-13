@@ -58,15 +58,14 @@
        
        $scope.initCarousel();
 
-        var nounAudio = new Audio('/app/static/noun.mp3');
+        var nounAudio = new Audio('static/noun.mp3');
         $scope.playWord = function(){
             nounAudio.play();
         }
         
         
         if ($routeParams && $routeParams.inviteLogin) {
-            console.log("INvite Logn? "+ $routeParams.inviteLogin);
-            console.log("User mail? "+ $routeParams.userMail);
+       
             
             $scope.inviteLogin = $routeParams.inviteLogin;
             $scope.credentials.email = $routeParams.userMail;

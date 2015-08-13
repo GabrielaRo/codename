@@ -588,7 +588,7 @@ tags-input .autocomplete  {
 	margin-left: -40px;
 	margin-top: -40px;
 	display: none;
-	background-image: url(../../static/img/interest-action.png);
+	background-image: url(static/img/interest-action.png);
 	background-repeat: no-repeat;
 	background-position: top left;
 }

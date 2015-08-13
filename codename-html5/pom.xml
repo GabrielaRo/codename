@@ -201,7 +201,7 @@
                             
                             
                             <packagingExcludes>
-                                app/app/app.js,
+                                app/app.js,
                                 amazon/,
                                 WEB-INF/classes/META-INF/persistence.xml
                                 WEB-INF/quickstart-ds.xml
