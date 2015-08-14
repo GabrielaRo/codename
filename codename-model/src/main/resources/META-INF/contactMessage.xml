@@ -26,7 +26,7 @@
 		</query>
 	</named-query>
 	
-	<named-query name="ContactMessage.getContactMessage">
+	<named-query name="ContactMessage.getRepliedContactMessage">
 		<query>
 			SELECT
 				_contactMessage

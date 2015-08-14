@@ -1,12 +1,25 @@
 (function () {
-    var inviteController = function ($scope, $rootScope, $users, $auth, appConstants, $routeParams, $invites ) {
+    var inviteController = function ($scope, $rootScope, $users, $auth, appConstants, $routeParams, $invites, $contact ) {
        $scope.pageClass = "invite full";
        $scope.inviteStatus = false;
        $scope.inviteContactStatus = false;
         $scope.credentials = [];
       
-       $scope.sendContactForm = function(){
-            $scope.inviteContactStatus = true;
+       $scope.sendContactForm = function(email, name, subject,  text, type){
+           console.log("email: "+email);
+           console.log("name: "+name);
+           console.log("subject: "+subject);
+           console.log("text: "+text);
+           console.log("type: "+type);
+            $contact.sendMessage(email, name, subject,  text, type).success(function (data) {
+                $scope.inviteContactStatus = true;
+                $rootScope.$broadcast("quickNotification", "<i class='fa fa-check'></i> Message Sent", 'success');
+            }).error(function (data) {
+                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Something failed: " + data, 'error');
+                console.log("Error : " + data + "!");
+
+            });
+            
        }
         
        $scope.requestInvite = function (email) {
@@ -75,7 +88,7 @@
         
     };
 
-    inviteController.$inject = ['$scope', '$rootScope', '$users', '$auth', 'appConstants', '$routeParams','$invites'];
+    inviteController.$inject = ['$scope', '$rootScope', '$users', '$auth', 'appConstants', '$routeParams','$invites', '$contact'];
     angular.module("codename").controller("inviteController", inviteController);
 
 }());

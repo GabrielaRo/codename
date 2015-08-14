@@ -10,7 +10,6 @@ import java.util.List;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.model.ContactMessage;
 
-
 /**
  *
  * @author gabriela
@@ -18,10 +17,9 @@ import org.codename.model.ContactMessage;
 public interface ContactMessageService {
 
     public boolean sendContactMessage(String contactEmails, String contactName, String contactSubject, String contactMessageText, String contactMessageType) throws ServiceException;
-    
+
     public List<ContactMessage> getAllMessages(String contactEmail) throws ServiceException;
 
-    public List<ContactMessage> getUnrepliedMessages(boolean contactMessageReplied) throws ServiceException; 
-    
+    public List<ContactMessage> getUnrepliedMessages(boolean contactMessageReplied) throws ServiceException;
 
 }

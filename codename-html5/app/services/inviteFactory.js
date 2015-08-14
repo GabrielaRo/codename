@@ -1,9 +1,8 @@
 (function () {
     var $invites = function ($http, $transformRequestToForm,  appConstants) {
         var factory = {};
-        //SIGNUP
+        //request invite
         factory.request = function (email) {
-            console.log('email in the factory: '+ email);
             return $http({
                 method: 'POST',
                 url: appConstants.server + appConstants.context + 'rest/public/invite/request',

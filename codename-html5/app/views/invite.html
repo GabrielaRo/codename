@@ -457,20 +457,20 @@
                     <div class="control-group ">
                         
                         <div class="control full" >
-                            <input type="text" placeholder="Your name">
+                            <input type="text" ng-model="name" placeholder="Your name">
                         </div>
                          <div class="control full" >
-                            <input type="email" placeholder="Your email">
+                            <input type="email" ng-model="email" placeholder="Your email">
                         </div>
                          <div class="control full" >
-                            <input type="text" placeholder="Subject">
+                            <input type="text" ng-model="subject" placeholder="Subject">
                         </div>
                         <div class="control full" >
-                            <textarea placeholder="Your message" id="" cols="30" rows="7"></textarea>
+                            <textarea placeholder="Your message" ng-model="text" id="" cols="30" rows="7"></textarea>
                         </div>
                         
                          <div class="control full" >
-                            <button class="button" ng-click="sendContactForm()">Send Message</button>
+                            <button class="button" ng-click="sendContactForm(email, name, subject,  text, 'contact-form')">Send Message</button>
                         </div>
                         
                     </div>
