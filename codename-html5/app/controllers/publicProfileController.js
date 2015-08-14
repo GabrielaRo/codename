@@ -1,5 +1,5 @@
 (function () {
-    var publicProfileController = function ($rootScope, $scope, $timeout, $users, $sockets, $cookieStore, appConstants, $routeParams, $auth, location) {
+    var publicProfileController = function ($rootScope, $scope, $timeout, $users, $sockets, $cookieStore, appConstants, $routeParams, $auth, location, $chat) {
 
         /*
          * For Loading we try to fetch everything at once instead of each different piece
@@ -28,8 +28,22 @@
             avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/cover"
         };
+        
+        $scope.newConversation = function (selectedUser) {
+            
+            $chat.newConversation(selectedUser).success(function (data) {
+                $rootScope.$broadcast('goTo', "/messages/"+data);
 
+            }).error(function (data) {
+                console.log("Error: ");
+                $rootScope.$broadcast("quickNotification", "Something went wrong creating a new conversations!" + data);
+            });
 
+        }
+
+        $scope.editProfile = function(){
+            $rootScope.$broadcast('goTo', "/profile");
+        }
 
         $scope.loadPublicUserData = function (nickname) {
             $users.getPublicUserData(nickname)
@@ -49,11 +63,10 @@
                         $scope.profile.interests = data.interests;
                         $scope.profile.iam = data.iams;
                         $scope.profile.website = data.website;
-                        $scope.profile.advice = data.advice;
+                        $scope.profile.twitter = data.twitter;
+                        $scope.profile.linkedin = data.linkedin;
                         $scope.profile.messageme = data.messageme;
                         $scope.profile.share = data.share;
-                        $scope.profile.hobbies = data.hobbies;
-                        $scope.profile.resources = data.resources;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
                         $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar",
@@ -90,6 +103,6 @@
 
     };
 
-    publicProfileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$sockets", "$cookieStore", "appConstants", "$routeParams", "$auth", "location"];
+    publicProfileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$sockets", "$cookieStore", "appConstants", "$routeParams", "$auth", "location", '$chat'];
     angular.module("codename").controller("publicProfileController", publicProfileController);
 }());

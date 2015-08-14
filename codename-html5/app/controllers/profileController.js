@@ -2,9 +2,6 @@
     var profileController = function ($rootScope, $scope, $timeout, $users, $cookieStore, appConstants, $routeParams, $auth, location, $interests) {
 
 
-
-
-
         /*
          * For Loading we try to fetch everything at once instead of each different piece
          */
@@ -786,6 +783,10 @@
             console.log("The percentage is : " + $scope.profile.percentage);
 
         };
+        
+        $scope.previewProfile = function(nickname){
+            $rootScope.$broadcast('goTo', "/profile/"+nickname);
+        }
 
         $scope.updateUserLiveProfile = function (live) {
 

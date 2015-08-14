@@ -29,9 +29,6 @@ public class UsersHelper {
         jsonObjBuilder.add("website", (u.getWebsite() == null) ? "" : u.getWebsite());
         jsonObjBuilder.add("twitter", (u.getTwitter() == null) ? "" : u.getTwitter());
         jsonObjBuilder.add("linkedin", (u.getLinkedin() == null) ? "" : u.getLinkedin());
-        jsonObjBuilder.add("advice", (u.getAdviceMessage() == null) ? "" : u.getAdviceMessage());
-        jsonObjBuilder.add("hobbies", (u.getHobbiesMessage() == null) ? "" : u.getHobbiesMessage());
-        jsonObjBuilder.add("resources", (u.getResourcesMessage() == null) ? "" : u.getResourcesMessage());
         jsonObjBuilder.add("share", (u.getShareMessage() == null) ? "" : u.getShareMessage());
         jsonObjBuilder.add("messageme", (u.getMessageMeMessage() == null) ? "" : u.getMessageMeMessage());
         jsonObjBuilder.add("live", u.isLive());
@@ -67,10 +64,10 @@ public class UsersHelper {
         jsonObjBuilder.add("title", (u.getJobTitle() == null) ? "" : u.getJobTitle());
         jsonObjBuilder.add("website", (u.getWebsite() == null) ? "" : u.getWebsite());
         jsonObjBuilder.add("nickname", (u.getNickname() == null) ? "" : u.getNickname());
+        jsonObjBuilder.add("twitter", (u.getTwitter() == null) ? "" : u.getTwitter());
+        jsonObjBuilder.add("linkedin", (u.getLinkedin() == null) ? "" : u.getLinkedin());
         jsonObjBuilder.add("messageme", (u.getMessageMeMessage() == null) ? "" : u.getMessageMeMessage());
-        jsonObjBuilder.add("advice", (u.getAdviceMessage() == null) ? "" : u.getAdviceMessage());
-        jsonObjBuilder.add("hobbies", (u.getHobbiesMessage() == null) ? "" : u.getHobbiesMessage());
-        jsonObjBuilder.add("resources", (u.getResourcesMessage() == null) ? "" : u.getResourcesMessage());
+        
         jsonObjBuilder.add("share", (u.getShareMessage() == null) ? "" : u.getShareMessage());
         
         jsonObjBuilder.add("hascover", u.getCoverFileName() != null && !u.getCoverFileName().equals(""));

@@ -2,7 +2,7 @@
 
     var NavigationController = function ($scope, $location, $rootScope, $invites, $cookieStore) {
 
-        $scope.nickname = $cookieStore.get('user_nick');
+        
         
         $scope.isActive = function (route) {
             return route === $location.path();

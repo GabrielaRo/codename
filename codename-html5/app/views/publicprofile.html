@@ -73,7 +73,9 @@
                         </div>
                     </div>
                     <div id="profile-status" >
-                        <button class="button">Have a Chat</button>
+                        
+                        <button class="button" ng-if="user_nick != profile.nickname" ng-click="newConversation(profile.nickname)"><i class="fa fa-envelope"></i> Have a Chat</button>
+                        <button class="button" ng-show="user_nick == profile.nickname" ng-click="editProfile()">Edit Profile</button>
                     </div>
                 </div>
             </div>
@@ -135,12 +137,12 @@
                         <div class="link" ng-show="profile.website != ''">
                            <i class="fa fa-globe profile-icon"></i>
                             <span>
-                               <a href="http:// {{profile.website}}">{{profile.website}}</a>
+                               <a href="http://{{profile.website}}">{{profile.website}}</a>
                             </span>
                         </div>
                     </div>
                 </div>
-                <div class="content-block">
+<!--                <div class="content-block">
                     <div class="content-block-title ">
                         My work playlist
                     </div>
@@ -150,7 +152,7 @@
                     <div class="content-block-title ">
                         I like to work at
                     </div>
-                </div>
+                </div>-->
             </div>
             <div class="right-col">
                 <div class="content-block" id="user-more-about-form">
@@ -168,7 +170,7 @@
                         </div>
                         
                         
-                        <div class="sub-block" id="user-title-form" ng-if="profile.title != '' && profile.title != undefined">
+<!--                        <div class="sub-block" id="user-title-form" ng-if="profile.title != '' && profile.title != undefined">
                             <strong>
                                How do you make a living?
                             </strong>
@@ -203,11 +205,11 @@
                             <div class="textarea">
                                 <div class="textarea-text" > {{profile.resources}} </div>
                             </div>
-                        </div>
+                        </div>-->
                         
                         <div class="sub-block" id="user-share-form" ng-if="profile.share != '' && profile.share != undefined">
                             <strong>
-                               Anything else you would like to share with Fhellows?
+                               My Story
                              </strong>
                             <div class="textarea">
                                 <div class="textarea-text" > {{profile.share}} </div>
