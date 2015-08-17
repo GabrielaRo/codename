@@ -12,6 +12,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.codename.core.exceptions.ServiceException;
@@ -27,12 +28,12 @@ public interface ContactMessageEndpointService extends Serializable {
     @GET
     @Path("replied")
     @Produces({MediaType.APPLICATION_JSON})
-    Response getRepliedMessages(@NotNull @PathParam("replied") String replied) throws ServiceException;
+    Response getRepliedMessages(@NotNull @QueryParam("replied") String replied) throws ServiceException;
 
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
-    Response getAll(@NotNull @PathParam("email") String email) throws ServiceException;
+    Response getAll(@NotNull @QueryParam("email") String email) throws ServiceException;
 
 
 }
