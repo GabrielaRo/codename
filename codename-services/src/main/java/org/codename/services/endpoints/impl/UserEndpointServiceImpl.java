@@ -93,7 +93,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
 
     @Override
     public Response search(Double lon, Double lat, String interests, String lookingFors, String categories, Integer offset, Integer limit) throws ServiceException {
-
+        System.out.println("Searching from "+offset + " to "+ limit);
         List<String> interestsList = null;
 
         if (interests != null) {
@@ -163,7 +163,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
                 jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
                 jsonArrayBuilder.add(jsonUserObjectBuilder);
             }
-            int max = limit - offset;
+            int max = (limit - offset)+1;
             System.out.println("Max : " + max);
             int missing = max - usersInRange.size();
             System.out.println("Missing : " + missing);

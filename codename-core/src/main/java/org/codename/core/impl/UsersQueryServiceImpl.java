@@ -57,7 +57,7 @@ public class UsersQueryServiceImpl implements UsersQueryService {
         QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
         BooleanJunction<BooleanJunction> bool = qb.bool();
         bool.must(qb.keyword().onField("live").matching("true").createQuery());
-       
+
         if (limitRange > 0.0 && lat != 0.0 & lon != 0.0) {
             if (offsetRange > 0.0) {
                 bool.must(qb.spatial().onDefaultCoordinates()
@@ -84,6 +84,7 @@ public class UsersQueryServiceImpl implements UsersQueryService {
             fullTextQuery.setFirstResult(0);
             fullTextQuery.setMaxResults(20);
         }
+
         //fullTextQuery.setSort(org.apache.lucene.search.Sort.RELEVANCE);
         Sort distanceSort = new Sort(
                 new DistanceSortField(lat, lon, "default"));
@@ -182,7 +183,7 @@ public class UsersQueryServiceImpl implements UsersQueryService {
             iAmsFacetSelection.selectFacets(iAmsSelectedFacets.toArray(new Facet[iAmsSelectedFacets.size()]));
         }
         resultList = fullTextQuery.getResultList();
-        System.out.println("Results size for query between (" + offsetRange + " - " + limitRange + ") = " + resultList.size());
+        System.out.println("Results size for query between page (" + offset + "-to -" + limit + ")range(" + offsetRange + " - " + limitRange + ") = " + resultList.size());
         return resultList;
     }
 

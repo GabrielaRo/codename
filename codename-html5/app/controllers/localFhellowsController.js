@@ -8,39 +8,53 @@
         $scope.tagsText = [];
         $scope.serverUrlFull = appConstants.server + appConstants.context;
         $scope.fhellowsList = [];
+        $scope.fhellowPerPage = 20;
+        $scope.currentPage = 0;
+        $scope.currrentOffset = ($scope.currentPage * $scope.fhellowPerPage);
+        $scope.currrentLimit = (($scope.currentPage + 1) * $scope.fhellowPerPage);
+
         location.get(angular.noop, angular.noop);
 
+        $scope.showMore = function () {
+            $scope.currentPage = $scope.currentPage + 1;
+            $scope.currrentOffset = ($scope.currentPage * $scope.fhellowPerPage);
+            $scope.currrentLimit = (($scope.currentPage + 1) * $scope.fhellowPerPage);
 
+            console.log("currentPage " + $scope.currentPage);
+            console.log("currrentOffset " + $scope.currrentOffset);
+            console.log("currrentLimit " + $scope.currrentLimit);
+            if ($scope.lookedUpLocation) {
+                $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+            } else {
+                $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+
+            }
+        };
+        $scope.resetPaging = function () {
+            $scope.fhellowsList = [];
+            $scope.currentPage = 0;
+            $scope.currrentOffset = ($scope.currentPage * $scope.fhellowPerPage) + 1;
+            $scope.currrentLimit = (($scope.currentPage + 1) * $scope.fhellowPerPage);
+
+        }
         $scope.selectAddress = function () {
             if ($scope.lookedUpLocation) {
+                $scope.resetPaging();
                 $scope.selectedLocation = $scope.lookedUpLocation;
-                $scope.fhellowsList = [];
+
                 $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
                         $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
 
             }
         };
-        $scope.eliminateDuplicates = function (arr) {
-            var i,
-                    len = arr.length,
-                    out = [],
-                    obj = {};
 
-            for (i = 0; i < len; i++) {
-                obj[arr[i]] = 0;
-            }
-            for (i in obj) {
-                out.push(i);
-            }
-            return out;
-        }
         $scope.interestsTagAdded = function ($tag) {
 
             $scope.tagsText.push($tag.text);
 
-
+            $scope.resetPaging();
             if ($scope.lookedUpLocation) {
-                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+                $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
             } else {
                 $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
 
@@ -49,9 +63,9 @@
         $scope.interestsTagRemoved = function ($tag) {
 
             $scope.tagsText.splice($scope.tagsText.indexOf($tag.text), 1);
-
+            $scope.resetPaging();
             if ($scope.lookedUpLocation) {
-                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+                $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
             } else {
                 $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
 
@@ -99,9 +113,10 @@
             } else {
                 $scope.filtersType.splice($scope.filtersType.indexOf(buttonName), 1);
             }
+            $scope.resetPaging();
             if ($scope.lookedUpLocation) {
 
-                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+                $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
             } else {
                 $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
 
@@ -114,9 +129,10 @@
             } else {
                 $scope.filtersLookingTo.splice($scope.filtersLookingTo.indexOf(buttonName), 1);
             }
+            $scope.resetPaging();
             if ($scope.lookedUpLocation) {
 
-                $scope.loadFhellowsByLocation($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
+                $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
                         $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
             } else {
                 $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
@@ -124,28 +140,29 @@
         }
 
         $scope.loadFhellowsInRange = function (lon, lat, tags, lookingFors, categories) {
-            $users.search(lon, lat, tags, lookingFors, categories, 0, 20).success(function (data) {
+            $users.search(lon, lat, tags, lookingFors, categories, $scope.currrentOffset, $scope.currrentLimit).success(function (data) {
                 if (typeof data !== 'undefined' && data.length > 0) {
                     console.log("data for all ranges : " + data.length);
                     console.log(data);
                     $scope.fhellowsList = $scope.fhellowsList.concat(data);
                 } else {
-                    console.log("no data for 1km");
+                    console.log("no data for all ranges");
                 }
             }).error(function (data) {
                 $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
             });
         }
 
-       
+
 
 
         $scope.loadFhellows = function (tags, lookingFors, categories) {
+            console.log("From : " + $scope.currrentOffset + "to " + $scope.currrentLimit);
 
-
-            $users.search(0.0, 0.0, tags, lookingFors, categories, 0, 20).success(function (data) {
+            $users.search(0.0, 0.0, tags, lookingFors, categories, $scope.currrentOffset, $scope.currrentLimit).success(function (data) {
                 console.log("data for the world : " + data.length);
-                $scope.fhellowsList = data;
+                console.log(data);
+                $scope.fhellowsList = $scope.fhellowsList.concat(data);
             }).error(function (data) {
                 console.log("Error: ");
                 console.log(data);
@@ -154,6 +171,7 @@
 
         };
 
+        $scope.resetPaging();
         $scope.loadFhellows($scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
 
         $(window).scroll(function () {
