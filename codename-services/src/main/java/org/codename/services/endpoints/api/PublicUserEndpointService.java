@@ -26,9 +26,14 @@ import org.codename.core.exceptions.ServiceException;
 public interface PublicUserEndpointService extends Serializable {
 
     @GET
-    @Path("all")
+    @Path("/")
     @Produces({MediaType.APPLICATION_JSON})
     Response getAll() throws ServiceException;
+    
+    @GET
+    @Path("{nickname}")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response getByNickName(@PathParam("nickname") String nickname) throws ServiceException;
     
     @Path("{nickname}/avatar")
     @GET
@@ -44,10 +49,7 @@ public interface PublicUserEndpointService extends Serializable {
     
    
     
-    @GET
-    @Path("{nickname}")
-    @Produces({MediaType.APPLICATION_JSON})
-    Response getByNickName(@PathParam("nickname") String nickname) throws ServiceException;
+   
     
   
 

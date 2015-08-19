@@ -27,7 +27,7 @@ angular.module('locator')
           var locData = {
             latitude: location.current.latitude,
             longitude: location.current.longitude,
-            name: locData.address_components[0].short_name,
+            name: locData.address_components[3].short_name,
             description: locData.formatted_address
           };
 

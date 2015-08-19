@@ -43,8 +43,8 @@
 
         factory.updateIam = function (selectedIams) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + "/iam/update",
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + "/iam",
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {iams: JSON.stringify(selectedIams)}
@@ -53,8 +53,8 @@
 
         factory.updateInterests = function (selectedInterests) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + "/interests/update",
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + "/interests",
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {interests: JSON.stringify(selectedInterests)}
@@ -62,8 +62,8 @@
         };
         factory.updateCategories = function (categories) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + "/categories/update",
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + "/categories",
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {categories: JSON.stringify(categories)}
@@ -71,8 +71,8 @@
         };
         factory.updateLookingForAndIams = function (lookingfor, iams) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + "/lookingforandiams/update",
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + "/lookingforandiams",
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {lookingfor: JSON.stringify(lookingfor), iams: JSON.stringify(iams) }
@@ -81,8 +81,8 @@
         //CREATE Update First Login
         factory.updateUserFirstLogin = function () {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/firstlogin/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/firstlogin',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {}
@@ -91,8 +91,8 @@
         //CREATE Update Live profile
         factory.updateUserLiveProfile = function (live) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/live/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/live',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {live: live}
@@ -154,8 +154,8 @@
         //UPDATE User Data
         factory.updateUserData = function (firstname, lastname, location, bio, title) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {firstname: firstname, lastname: lastname, location: location, bio: bio, title: title}
@@ -165,8 +165,8 @@
         //UPDATE User Data
         factory.updateBothNames = function (firstname, lastname) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/bothnames/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/bothnames',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {firstname: firstname, lastname: lastname}
@@ -176,8 +176,8 @@
         //UPDATE User Data
         factory.updateBioLongBioIams = function (bio, longbio, iams) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/biolongbioiams/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/biolongbioiams',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {bio: bio, longbio: longbio, iams: JSON.stringify(iams) }
@@ -187,52 +187,21 @@
         //UPDATE User Data
         factory.updateOriginallyFrom = function (originallyfrom) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/originallyfrom/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/originallyfrom',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {originallyfrom: originallyfrom}
             });
         };
 
-        //UPDATE User Data
-        factory.updateJobTitle = function (jobtitle) {
-            return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/jobtitle/update',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
-                transformRequest: $transformRequestToForm.transformRequest,
-                data: {jobtitle: jobtitle},
-            });
-        };
-        
-        //UPDATE User Data
-        factory.updateAdvice = function (advice) {
-            return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/advice/update',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
-                transformRequest: $transformRequestToForm.transformRequest,
-                data: {advice: advice},
-            });
-        };
-        
-        //UPDATE User Data
-        factory.updateHobbies = function (hobbies) {
-            return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/hobbies/update',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
-                transformRequest: $transformRequestToForm.transformRequest,
-                data: {hobbies: hobbies},
-            });
-        };
+
         
         //UPDATE User Data
         factory.updateShare = function (share) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/share/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/share',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {share: share},
@@ -242,29 +211,20 @@
         //UPDATE User Data
         factory.updateMessageMe = function (messageme) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/messageme/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/messageme',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {messageme: messageme},
             });
         };
         
-        //UPDATE User Data
-        factory.updateResources = function (resources) {
-            return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/resources/update',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
-                transformRequest: $transformRequestToForm.transformRequest,
-                data: {resources: resources},
-            });
-        };
+       
 
         factory.updateTwitter = function (twitter) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/twitter/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/twitter',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {twitter: twitter},
@@ -273,8 +233,8 @@
 
         factory.updateLinkedin = function (linkedin) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/linkedin/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/linkedin',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {linkedin: linkedin},
@@ -283,8 +243,8 @@
 
         factory.updateWebsite = function (website) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/website/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/website',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {website: website},
@@ -294,8 +254,8 @@
         //UPDATE User Bio
         factory.updateBio = function (bio) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/bio/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/bio',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {bio: bio},
@@ -305,8 +265,8 @@
         //UPDATE User Long Bio
         factory.updateLongBio = function (longbio) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/longbio/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/longbio',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {longbio: longbio},
@@ -318,8 +278,8 @@
         //UPDATE User Location
         factory.updateLocation = function (location, lon, lat) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/location/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/location',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {location: location, lon: lon, lat: lat},
@@ -329,8 +289,8 @@
         //UPDATE User Last Name
         factory.updateLastName = function (lastname) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/lastname/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/lastname',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {lastname: lastname}
@@ -340,11 +300,22 @@
         //UPDATE User  First Name
         factory.updateFirstName = function (firstname) {
             return $http({
-                method: 'POST',
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/firstname/update',
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/firstname',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 transformRequest: $transformRequestToForm.transformRequest,
                 data: {firstname: firstname}
+            });
+        };
+        
+        //UPDATE User  Nick Name
+        factory.updateNickname = function (nickname) {
+            return $http({
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/nickname',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: {nickname: nickname}
             });
         };
         //UPLOAD AVATAR
@@ -367,6 +338,18 @@
             })
         };
 
+        //Search Users
+        factory.search = function (lon,lat, interests,lookingFors, categories, range, offset, limit) {
+            return $http({
+                method: 'GET',
+                url: appConstants.server + appConstants.context + 'rest/users/search?lon='+lon+'&lat='+lat+'&interests='
+                        +JSON.stringify(interests)+'&lookingFors='+JSON.stringify(lookingFors)
+                        +'&categories='+JSON.stringify(categories)
+                        +'&range='+range+'&offset='+offset+'&limit='+limit,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
+                
+            });
+        };
 
         return factory;
     };

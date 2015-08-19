@@ -394,36 +394,7 @@ public class UsersServiceImpl implements UsersService {
         pm.merge(u);
     }
 
-    @Override
-    public void updateAdvice(Long user_id, String advice) throws ServiceException {
-        User u = pm.find(User.class, user_id);
-        if (u == null) {
-            throw new ServiceException("User doesn't exist: " + user_id);
-        }
-        u.setAdviceMessage(advice);
-        pm.merge(u);
-    }
-
-    @Override
-    public void updateHobbies(Long user_id, String hobbies) throws ServiceException {
-        User u = pm.find(User.class, user_id);
-        if (u == null) {
-            throw new ServiceException("User doesn't exist: " + user_id);
-        }
-        u.setHobbiesMessage(hobbies);
-        pm.merge(u);
-    }
-
-    @Override
-    public void updateResources(Long user_id, String resources) throws ServiceException {
-        User u = pm.find(User.class, user_id);
-        if (u == null) {
-            throw new ServiceException("User doesn't exist: " + user_id);
-        }
-        u.setResourcesMessage(resources);
-        pm.merge(u);
-    }
-
+   
     @Override
     public void updateShare(Long user_id, String share) throws ServiceException {
         User u = pm.find(User.class, user_id);
@@ -476,7 +447,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public int calculateUserProfilePercentage(User u) {
     	double increasingIndx = 0.0;
-    	double maxNumberOfWeight = 23.0;
+    	double maxNumberOfWeight = 20.0;
     	if (!(StringUtils.isEmpty(u.getAvatarFileName()))) {
     		increasingIndx += 2;
     	}
@@ -504,15 +475,7 @@ public class UsersServiceImpl implements UsersService {
     	if (!(StringUtils.isEmpty(u.getJobTitle()))) {
     		increasingIndx++;
     	}
-    	if (!(StringUtils.isEmpty(u.getAdviceMessage()))) {
-    		increasingIndx++;
-    	}
-    	if (!(StringUtils.isEmpty(u.getHobbiesMessage()))) {
-    		increasingIndx++;
-    	}
-    	if (!(StringUtils.isEmpty(u.getResourcesMessage()))) {
-    		increasingIndx++;
-    	}
+    	
     	if (!(StringUtils.isEmpty(u.getShareMessage()))) {
     		increasingIndx++;
     	}

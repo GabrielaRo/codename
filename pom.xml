@@ -22,11 +22,10 @@
   
     <properties>
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        
-        <version.wildfly>8.2.0.Final</version.wildfly>
         <kie.version>6.3.0-SNAPSHOT</kie.version>
         <java.min.version>1.7</java.min.version>
         <maven.min.version>3.0.0</maven.min.version>
+        <version.wildfly>8.2.0.Final</version.wildfly>
     </properties>
     
      
@@ -100,4 +99,3 @@
      </plugins>
      </build>
 </project>
-

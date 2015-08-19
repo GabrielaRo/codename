@@ -139,11 +139,6 @@ public class User implements Serializable {
 
     private String providerId = "";
 
-    private String adviceMessage;
-
-    private String hobbiesMessage;
-
-    private String resourcesMessage;
 
     private String shareMessage;
 
@@ -399,29 +394,7 @@ public class User implements Serializable {
         this.providerId = providerId;
     }
 
-    public String getAdviceMessage() {
-        return adviceMessage;
-    }
-
-    public void setAdviceMessage(String adviceMessage) {
-        this.adviceMessage = adviceMessage;
-    }
-
-    public String getHobbiesMessage() {
-        return hobbiesMessage;
-    }
-
-    public void setHobbiesMessage(String hobbiesMessage) {
-        this.hobbiesMessage = hobbiesMessage;
-    }
-
-    public String getResourcesMessage() {
-        return resourcesMessage;
-    }
-
-    public void setResourcesMessage(String resourcesMessage) {
-        this.resourcesMessage = resourcesMessage;
-    }
+    
 
     public String getShareMessage() {
         return shareMessage;

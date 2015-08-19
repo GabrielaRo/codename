@@ -89,12 +89,6 @@ public interface UsersService {
 
     public void updateNickName(Long user_id, String nickname) throws ServiceException;
 
-    public void updateAdvice(Long user_id, String advice) throws ServiceException;
-
-    public void updateHobbies(Long user_id, String hobbies) throws ServiceException;
-
-    public void updateResources(Long user_id, String resources) throws ServiceException;
-
     public void updateShare(Long user_id, String share) throws ServiceException;
 
     public void updateMessageMe(Long user_id, String messageme) throws ServiceException;

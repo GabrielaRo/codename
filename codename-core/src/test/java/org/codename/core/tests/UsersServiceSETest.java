@@ -90,7 +90,7 @@ public class UsersServiceSETest {
         u1.setLongBio("I am a digital nomad.");
         u1.setTwitter("www.twitter.com/gabriela");
 
-        Assert.assertEquals(26, usersService.calculateUserProfilePercentage(u1));
+        Assert.assertEquals(30, usersService.calculateUserProfilePercentage(u1));
 
         //User 2 -> 43% filled the half of the fields
         User u2 = new User("gabriela.rogelova@gmail.com", "123456");
@@ -99,10 +99,9 @@ public class UsersServiceSETest {
         u2.setOriginallyFrom("Pernik");
         u2.setLinkedin("www.linkedin.com/gabriela");
         u2.setWebsite("www.gabriela.com");
-        u2.setAdviceMessage("Advice");
         u2.setAvatarFileName("Picture");
 
-        Assert.assertEquals(43, usersService.calculateUserProfilePercentage(u2));
+        Assert.assertEquals(45, usersService.calculateUserProfilePercentage(u2));
 
       //User 3 -> 60%, filled more than half of the fields
         User u3 = new User("gabriela.rogelova@gmail.com", "123456");
@@ -111,10 +110,8 @@ public class UsersServiceSETest {
         u3.setOriginallyFrom("Pernik");
         u3.setLinkedin("www.linkedin.com/gabriela");
         u3.setWebsite("www.gabriela.com");
-        u3.setAdviceMessage("Advice");
         u3.setAvatarFileName("Picture");
         u3.setCoverFileName("Cover Photo");
-        u3.setHobbiesMessage("Hobby");
         u3.setMessageMeMessage("Message me");
         u3.setJobTitle("Job");
         u3.setBio("My Bio");
@@ -136,9 +133,6 @@ public class UsersServiceSETest {
         u4.setLocation("London");
         u4.setBio("My Bio");
         u4.setJobTitle("Job");
-        u4.setAdviceMessage("Advice");
-        u4.setHobbiesMessage("Hobby");
-        u4.setResourcesMessage("Books");
         u4.setShareMessage("Share");
         u4.setMessageMeMessage("Message me");
         u4.setOriginallyFrom("Pernik");
@@ -166,10 +160,9 @@ public class UsersServiceSETest {
         u1.setOriginallyFrom("Pernik");
         u1.setLinkedin("www.linkedin.com/gabriela");
         u1.setWebsite("www.gabriela.com");
-        u1.setAdviceMessage("Advice");
         u1.setAvatarFileName("Picture");
         u1.setCoverFileName("Cover Photo");
-        u1.setHobbiesMessage("Hobby");
+        
         u1.setMessageMeMessage("Message me");
         u1.setJobTitle("Job");
         u1.setBio("My Bio");
@@ -185,7 +178,6 @@ public class UsersServiceSETest {
         u2.setOriginallyFrom("Pernik");
         u2.setLinkedin("www.linkedin.com/gabriela");
         u2.setWebsite("www.gabriela.com");
-        u2.setAdviceMessage("Advice");
         u2.setAvatarFileName("Picture");
         usersService.updateLive(newUserId2, "true");
         Assert.assertTrue(!(u2.isLive()));

@@ -121,17 +121,23 @@
                         My Links
                     </div>
                     <div class="content-block-content">
+                        <div class="link" ng-show=" profile.nickname != ''">
+                           <i class="fa fa-nickname fhellow-logo"></i> 
+                            <span>
+                               <a href="http://fhellow.com/profile/{{profile.nickname}}">{{profile.nickname}}</a> 
+                            </span>
+                        </div>
                         <div class="link" ng-show=" profile.twitter != ''">
                            <i class="fa fa-twitter profile-icon"></i> 
                             <span>
-                               <a href="http://{{profile.twitter}}">{{profile.twitter}}</a> 
+                               <a href="http://twitter.com/{{profile.twitter}}">{{profile.twitter}}</a> 
                             </span>
                         </div>
                         
                         <div class="link" ng-show="profile.linkedin != ''">
                            <i class="fa fa-linkedin profile-icon"></i>
                             <span >
-                               <a href="http://{{profile.linkedin}}">{{profile.linkedin}}</a>
+                               <a href="http://linkedin.com/in/{{profile.linkedin}}">{{profile.linkedin}}</a>
                             </span>
                         </div>
                         <div class="link" ng-show="profile.website != ''">

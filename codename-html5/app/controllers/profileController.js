@@ -557,6 +557,25 @@
             }
 
         };
+        
+        $scope.updateNickname = function (nickname) {
+            $scope.clearEditablesActive();
+            //$scope.clearField($("#user-job-form"));
+            if (typeof (nickname) != "undefined" && nickname != "" && nickname != initialData.nickname) {
+                $users.updateNickname(nickname).success(function (data) {
+                    $scope.profile.nickname = nickname;
+                    initialData.nickname = nickname;
+                    $scope.calculatePercentage();
+                }).error(function (data) {
+                    console.log("Error: " + data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating your nickname!" + data);
+                });
+            } else {
+                $scope.resetData();
+
+            }
+
+        };
 
         $scope.updateTwitter = function (twitter) {
             $scope.clearEditablesActive();
