@@ -57,10 +57,7 @@ public class UsersQueryServiceImpl implements UsersQueryService {
         QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(User.class).get();
         BooleanJunction<BooleanJunction> bool = qb.bool();
         bool.must(qb.keyword().onField("live").matching("true").createQuery());
-        System.out.println(">>> Searching with offsetRange: " + offsetRange);
-        System.out.println(">>> Searching with limitRange: " + limitRange);
-        System.out.println(">>> Searching with lat: " + lat);
-        System.out.println(">>> Searching with long: " + lon);
+       
         if (limitRange > 0.0 && lat != 0.0 & lon != 0.0) {
             if (offsetRange > 0.0) {
                 bool.must(qb.spatial().onDefaultCoordinates()

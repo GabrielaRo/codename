@@ -44,7 +44,6 @@ public interface UserEndpointService extends Serializable {
             @QueryParam("interests") String interests,
             @QueryParam("lookingFors") String lookingFors,
             @QueryParam("categories") String categories, 
-            @QueryParam("range") String range,
             @QueryParam("offset") Integer offset,
             @QueryParam("limit") Integer limit) throws ServiceException;
     

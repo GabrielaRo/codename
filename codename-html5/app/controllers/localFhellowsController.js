@@ -15,14 +15,9 @@
             if ($scope.lookedUpLocation) {
                 $scope.selectedLocation = $scope.lookedUpLocation;
                 $scope.fhellowsList = [];
-                $scope.loadFhellowsWithin1KM($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
+                $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
                         $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
-                $scope.loadFhellowsWithin3KM($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
-                        $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
-                $scope.loadFhellowsWithin10KM($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
-                        $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
-                $scope.loadFhellowsWithin50KM($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
-                        $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+
             }
         };
         $scope.eliminateDuplicates = function (arr) {
@@ -128,16 +123,10 @@
             }
         }
 
-        $scope.loadFhellowsWithin1KM = function (lon, lat, tags, lookingFors, categories) {
-//            console.log("lon = " + lon);
-//            console.log("lat = " + lat);
-//            console.log("lookingFors = ");
-//            console.log(lookingFors);
-//            console.log("categories = ");
-//            console.log(categories);
-            $users.search(lon, lat, tags, lookingFors, categories, '_1KM', 0, 20).success(function (data) {
+        $scope.loadFhellowsInRange = function (lon, lat, tags, lookingFors, categories) {
+            $users.search(lon, lat, tags, lookingFors, categories, 0, 20).success(function (data) {
                 if (typeof data !== 'undefined' && data.length > 0) {
-                    console.log("data for 1km : " + data.length);
+                    console.log("data for all ranges : " + data.length);
                     console.log(data);
                     $scope.fhellowsList = $scope.fhellowsList.concat(data);
                 } else {
@@ -146,81 +135,15 @@
             }).error(function (data) {
                 $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
             });
+        }
 
-        };
-
-        $scope.loadFhellowsWithin3KM = function (lon, lat, tags, lookingFors, categories) {
-//            console.log("lon = " + lon);
-//            console.log("lat = " + lat);
-//            console.log("lookingFors = ");
-//            console.log(lookingFors);
-//            console.log("categories = ");
-//            console.log(categories);
-            $users.search(lon, lat, tags, lookingFors, categories, '_3KM', 0, 20).success(function (data) {
-                if (typeof data !== 'undefined' && data.length > 0) {
-                    console.log("data for 3km : " + data.length);
-                    console.log(data);
-                    $scope.fhellowsList = $scope.fhellowsList.concat(data);
-                    $scope.eliminateDuplicates($scope.fhellowsList);
-                } else {
-                    console.log("no data for 3km");
-                }
-            }).error(function (data) {
-                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
-            });
-
-        };
-
-        $scope.loadFhellowsWithin10KM = function (lon, lat, tags, lookingFors, categories) {
-//            console.log("lon = " + lon);
-//            console.log("lat = " + lat);
-//            console.log("lookingFors = ");
-//            console.log(lookingFors);
-//            console.log("categories = ");
-//            console.log(categories);
-            $users.search(lon, lat, tags, lookingFors, categories, '_10KM', 0, 20).success(function (data) {
-                if (typeof data !== 'undefined' && data.length > 0) {
-                    console.log("data for 10km : " + data.length);
-                    $scope.fhellowsList = $scope.fhellowsList.concat(data);
-                    $scope.eliminateDuplicates($scope.fhellowsList);
-                    console.log(data);
-                } else {
-                    console.log("no data for 10km");
-                }
-            }).error(function (data) {
-                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
-            });
-
-        };
-
-        $scope.loadFhellowsWithin50KM = function (lon, lat, tags, lookingFors, categories) {
-//            console.log("lon = " + lon);
-//            console.log("lat = " + lat);
-//            console.log("lookingFors = ");
-//            console.log(lookingFors);
-//            console.log("categories = ");
-//            console.log(categories);
-            $users.search(lon, lat, tags, lookingFors, categories, '_50KM', 0, 20).success(function (data) {
-
-                if (typeof data !== 'undefined' && data.length > 0) {
-                    console.log("data for 50km : " + data.length);
-                    console.log(data);
-                    $scope.fhellowsList = $scope.fhellowsList.concat(data);
-                    $scope.eliminateDuplicates($scope.fhellowsList);
-                } else {
-                    console.log("no data for 50km");
-                }
-            }).error(function (data) {
-                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
-            });
-
-        };
+       
 
 
         $scope.loadFhellows = function (tags, lookingFors, categories) {
 
 
-            $users.search(0.0, 0.0, tags, lookingFors, categories, '_WORLD', 0, 20).success(function (data) {
+            $users.search(0.0, 0.0, tags, lookingFors, categories, 0, 20).success(function (data) {
                 console.log("data for the world : " + data.length);
                 $scope.fhellowsList = data;
             }).error(function (data) {

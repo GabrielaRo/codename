@@ -14,7 +14,8 @@ public enum DistanceRange {
     _3KM(1.0, 3.0, "Within 3 KM"),
     _10KM(3.0, 10.0, "Within 10 KM"),
     _50KM(10.0, 50.0, "Within 50 KM"),
-    _WORLD(-1.0, -1.0, "The World");
+    _WORLD(50.0, 10000.0, "Far Away"),
+    _ALL(-1.0, -1.0, "The World" );
 
     private Double offsetRange;
     private Double limitRange;
