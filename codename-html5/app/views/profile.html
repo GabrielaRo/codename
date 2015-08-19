@@ -93,9 +93,9 @@
                                             <div class="control full">
                                                 <location-lookup ng-model="userCurrentLocation" templateUrl="" limit-to="4"></location-lookup>
                                             </div>
-                                            <div class="help-text">
+                                            <!--<div class="help-text" >
                                                 Rest asure we will never share your postcode or address. This is only so you can find Fhellows in your general area.
-                                            </div>
+                                            </div>-->
                                         </div>
                                         <div class="form-actions">
                                             <button class="button primary" ng-click="updateLocation(userCurrentLocation.description, userCurrentLocation.longitude, userCurrentLocation.latitude)">Save</button> 
@@ -212,14 +212,14 @@
                                 <i class="fa fa-pencil editable-child"></i>
                             </div>
 
-                            <div class="floatform" id="user-location-form">
+                            <div class="floatform big" id="user-location-form">
                                 <div class="form-content">
                                     <div class="form-title">
                                         Bio:
                                     </div>
                                     <div class="form-fields">
                                         <div class="control full">
-                                            <textarea ng-model="profile.bio"></textarea>
+                                            <textarea ng-model="profile.bio" maxlength="140"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-actions">
@@ -303,7 +303,7 @@
                     </div>
                     <div class="content-block-content">
                         <div class="link" >
-                            <i class="fa fa-twitter profile-icon"></i> 
+                            <i class="fhellow-logo profile-icon"></i> 
                             <span class="editable"  >
 
                                 {{profile.nickname}} <span class="editable-placeholder" ng-show="profile.nickname == ''">Update your Nickname</span>
@@ -423,14 +423,14 @@
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
 
-                                <div class="floatform" id="user-originally-from-float-form">
+                                <div class="floatform big" id="user-originally-from-float-form">
                                     <div class="form-content">
                                         <div class="form-title">
                                             Originally from  
                                         </div>
                                         <div class="form-fields">
                                             <div class="control full">
-                                                <textarea ng-model="profile.originallyFrom"></textarea>
+                                                <textarea ng-model="profile.originallyFrom" placeholder="London, New York, Paris, Timbuktu, etc..."></textarea>
                                             </div>
                                         </div>
                                         <div class="form-actions">
@@ -601,14 +601,14 @@
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
 
-                                <div class="floatform" id="user-share-float-form">
+                                <div class="floatform big" id="user-share-float-form">
                                     <div class="form-content">
                                         <div class="form-title">
                                             My Story
                                         </div>
                                         <div class="form-fields">
                                             <div class="control full">
-                                                <textarea ng-model="profile.share"></textarea>
+                                                <textarea ng-model="profile.share" placeholder="What do you do? How did you get started? What do you like to do when you’re not working? Any advice you’d like share with other Fhellows? What are your favourite resrouces? What are your plans and goals for the future?"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-actions">
@@ -636,14 +636,14 @@
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
 
-                                <div class="floatform" id="user-message-float-form">
+                                <div class="floatform big" id="user-message-float-form">
                                     <div class="form-content">
                                         <div class="form-title">
                                             Message
                                         </div>
                                         <div class="form-fields">
                                             <div class="control full">
-                                                <textarea ng-model="profile.messageme"></textarea>
+                                                <textarea ng-model="profile.messageme" placeholder="Fancy a coffee, want to brainstorm, are going to be in Madrid in July?"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-actions">

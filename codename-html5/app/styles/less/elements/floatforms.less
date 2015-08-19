@@ -11,6 +11,13 @@
         padding: (@padding/2);
         font-size: @fontSize;
         
+        &.big {
+            width: 590px;
+            textarea {
+                min-height: 105px;
+            }
+        }
+        
         .form-content {
             .form-column {
                 width: 45%;
@@ -40,6 +47,7 @@
                 input, textarea {
                     margin-bottom: 0;
                 }
+                
                 .control {
                     font-size: @fontSize;
                      margin-bottom: 0;

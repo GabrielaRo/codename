@@ -115,6 +115,13 @@
         .editable {
             font-size: 18px;
         }
+        
+        .floatform.big {
+            textarea {
+                min-height: 60px !important;
+                height: 60px !important;
+            }
+        }
     }
     
     #profile-user-info {
@@ -125,6 +132,16 @@
                 display: block;
                 padding: (@padding /4) 0;
             
+            }
+            .fhellow-logo {
+                width: 20px;
+                height: 24px;
+                background-image: url(../static/img/fhellow-logo-green.svg);
+                background-position: center center;
+                position: relative;
+                display: inline-block;
+                top: 6px;
+
             }
         }
     }
@@ -142,7 +159,9 @@
     }
     
     #user-location-form {
-        width: 360px;
+      
+          width: 330px;
+      
     }
     
     #user-looking-to-form {
