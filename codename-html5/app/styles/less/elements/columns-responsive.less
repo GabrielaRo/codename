@@ -1,0 +1,24 @@
+@media screen and (min-width: @lg) {
+
+}
+
+@media screen and (min-width: @md) and (max-width: @lg) {
+
+}
+
+@media screen and (max-width: @md) {
+    .container, .four-col, .five-col, .seven-col, .two-col, .six-col {
+        width: 100% !important;
+        display: block;
+    }
+    .container {
+        padding: 0 @padding !important;
+    }
+    
+    .col-margin, .col-margin-left {
+        margin-right: 0;
+        margin-left: 0;
+    }
+   
+}
+

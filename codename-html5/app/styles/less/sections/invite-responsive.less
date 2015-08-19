@@ -1,0 +1,111 @@
+@media screen and (min-width: @lg) {
+
+}
+
+@media screen and (min-width: @md) and (max-width: @lg) {
+
+}
+
+@media screen and (max-width: @md) {
+    .invite {
+        #invite-bar {
+            .container {
+                padding: 0 10px !important;
+            }
+            height: 105px;
+            .text {
+                font-size: 12px;
+                text-transform: uppercase;
+                display: block;
+                line-height: 35px;
+                .hidden-mobile {
+                    display: none;
+                }
+                
+               
+            }
+            .control {
+                margin-left: 0;
+                input[type="email"] {
+                    width: 100%;
+                    min-width: 200px;
+                }
+            }
+           
+            &.login {
+                height: 210px;
+                position: relative;
+                top: auto;
+                left: auto;
+                .control {
+                    margin-left: 0;
+                    display: block;
+                    input[type="email"], input[type="password"] {
+                        width: 100%;
+                        min-width: 200px;
+                    }
+                }
+            }
+            
+        }
+        #invite-home {
+            min-height: 480px;
+            
+            #invite-home-carousel {
+                top: 60px;
+                height: auto;
+                min-height: 480px;
+                .carousel-item {
+                    .carousel-content {
+                        display: none;
+                    }
+                }
+                
+                &.login {
+                        top: 270px;
+                }
+            }
+            .invite-home-text {
+                width: 100%;
+                padding-bottom: 0;
+                h1 {
+                    font-size: 24px;
+                    line-height: 1.42857143em;
+                    text-align: center;
+                    margin: 0 auto;
+                    max-width: 400px;
+                    padding-bottom: 20px;
+                }
+                h2 {
+                    display: none;
+                }
+                
+                .button.facebook, .button.twitter {
+                    width: 100%;
+                     margin: 0 0 5px;
+                }
+            }
+        }
+        
+        #invite-team {
+            display: none;
+        }
+        #invite-about {
+            display: none;
+        }
+        #about-dictionary {
+            display: none;
+        }
+        
+        #invite-contact {
+            .button {
+                width: 100%;
+            }
+            #contact-text {
+                display: none;
+            }
+            
+        }
+    }
+}
+

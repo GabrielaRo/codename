@@ -4,7 +4,7 @@
              <form  novalidate name="inviteForm">
                  <div class="control-group no-space">
                     <div class="text">
-                      Be the first to join! Request pre-launch access
+                     <span class="hidden-mobile">Be the first to join!</span> Request pre-launch access
                     </div>
                      <div class="control ">
                          <input ng-model="email" type="email" placeholder="Enter your email">
@@ -20,7 +20,7 @@
     
 
 </div>
-<div id="invite-bar" ng-show="inviteLogin" >
+<div id="invite-bar" class="login" ng-show="inviteLogin" >
    
         <div class="container">
              <form  novalidate name="loginForm" ng-submit="loginUser(loginForm.$valid, credentials)">
@@ -47,7 +47,7 @@
 </div>
  <section class="sub-screen vertical dark" id="invite-home">
      
-     <div id="invite-home-carousel">
+     <div id="invite-home-carousel" ng-class="{login : inviteLogin}">
          <div class="carousel-item active" style="left: 0;">
              <div class="carousel-image" style="background-image: url(static/img/hero_1.jpg);"></div>
              <div class="carousel-content">
@@ -478,7 +478,7 @@
                     <p>Thanks for dropping us a line. We’ll be in touch shortly.</p>
                 </div>
             </div>
-            <div class="five-col col-margin-left">
+            <div class="five-col col-margin-left" id="contact-text">
                 <h3>We’d love to hear from you</h3>
                 <p>As you may have gathered we don't have an office, we prefer coffee shops, hotel lobbys and co-working spaces. But out main base is London.</p>
                 <p>If you have any questions, would like to meet for coffee or have any feedback / ideas you would like to share with us then please just drop us a message - we’d love to hear from you.</p>
