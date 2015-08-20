@@ -39,7 +39,7 @@
                            
                             <div class="message-data">
                                 <div class="message-user-name">{{conversation.description}}</div>
-                                <div class="message-excerpt"><span ng-if="(conversation.from == me)"><i class="fa fa-reply"></i></span>{{conversation.excerpt}}</div>
+                                <div class="message-excerpt"><span class="reply" ng-if="(conversation.from == me)"><i class="fa fa-reply"></i></span>{{conversation.excerpt}}</div>
                                 <div class="message-date">{{conversation.time| date:'EEE HH:mm'}}</div>
                             </div>
                         </div>
