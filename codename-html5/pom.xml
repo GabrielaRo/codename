@@ -70,7 +70,7 @@
                 <version>1.0.2.Final</version>
                 <configuration>
                     <!--jvmArgs>-Xms2048m -Xmx4024m -XX:MaxPermSize=2024M -XX:PermSize=1512M -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y</jvmArgs-->
-                    <jvmArgs>-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y -DSERVERURL=http://localhost:8080/ -DSERVERCONTEXT=codename-server/</jvmArgs>
+                    <jvmArgs>-DSERVERURL=http://localhost:8080/ -DSERVERCONTEXT=codename-server/</jvmArgs>
                 </configuration>
             </plugin>
             <plugin>
