@@ -17,7 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.search.annotations.Analyze;
@@ -29,7 +28,6 @@ import org.hibernate.search.annotations.Latitude;
 import org.hibernate.search.annotations.Longitude;
 import org.hibernate.search.annotations.Resolution;
 import org.hibernate.search.annotations.Spatial;
-import org.hibernate.search.annotations.SpatialMode;
 import org.hibernate.search.annotations.Store;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -41,7 +39,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity(name = "User")
 @Table(name = "USERS")
 @Indexed
-@Spatial(spatialMode = SpatialMode.GRID)
+@Spatial
 public class User implements Serializable {
 
     public static enum UserProvider {

@@ -25,7 +25,7 @@
         <kie.version>6.3.0-SNAPSHOT</kie.version>
         <java.min.version>1.7</java.min.version>
         <maven.min.version>3.0.0</maven.min.version>
-        <version.wildfly>8.2.0.Final</version.wildfly>
+        <version.wildfly>9.0.0.Beta2</version.wildfly>
     </properties>
     
      

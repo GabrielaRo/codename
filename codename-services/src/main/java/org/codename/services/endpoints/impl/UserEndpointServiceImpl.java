@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -92,8 +91,8 @@ public class UserEndpointServiceImpl implements UserEndpointService {
     }
 
     @Override
-    public Response search(Double lon, Double lat, String interests, String lookingFors, String categories, Integer offset, Integer limit) throws ServiceException {
-        System.out.println("Searching from "+offset + " to "+ limit);
+    public Response search(Double lon, Double lat, String interests, String lookingFors, String categories, String range, Integer offset, Integer limit) throws ServiceException {
+        System.out.println("Searching (Range: " + range + ") from " + offset + " to " + limit);
         List<String> interestsList = null;
 
         if (interests != null) {
@@ -148,82 +147,94 @@ public class UserEndpointServiceImpl implements UserEndpointService {
         if (lon == 0.0 && lat == 0.0) {
             List<User> usersInRange = usersQueryService.search(lon, lat, DistanceRange._ALL.getOffsetRange(),
                     DistanceRange._ALL.getLimitRange(), interestsList, lookingForList, categoriesList, offset, limit);
+            int i = offset;
             for (User u : usersInRange) {
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", DistanceRange._ALL.getDescription());
+                jsonUserObjectBuilder.add("rangeCode", DistanceRange._ALL.name());
+                jsonUserObjectBuilder.add("offset", i);
                 jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
                 jsonArrayBuilder.add(jsonUserObjectBuilder);
+                i++;
             }
         } else {
-            List<User> usersInRange = usersQueryService.search(lon, lat, DistanceRange._1KM.getOffsetRange(),
-                    DistanceRange._1KM.getLimitRange(), interestsList, lookingForList, categoriesList, offset, limit);
-            for (User u : usersInRange) {
-                JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
-                jsonUserObjectBuilder.add("range", DistanceRange._1KM.getDescription());
-                jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
-                jsonArrayBuilder.add(jsonUserObjectBuilder);
+            
+            int missing = limit;
+            DistanceRange incomingRange = null;
+            try {
+                incomingRange = DistanceRange.valueOf(range);
+            } catch (IllegalArgumentException iae) {
             }
-            int max = (limit - offset)+1;
-            System.out.println("Max : " + max);
-            int missing = max - usersInRange.size();
-            System.out.println("Missing : " + missing);
-            if (missing > 0) {
-                usersInRange = usersQueryService.search(lon, lat, DistanceRange._3KM.getOffsetRange(),
-                        DistanceRange._3KM.getLimitRange(), interestsList, lookingForList, categoriesList, 0, limit);
-                Iterator<User> iterator = usersInRange.iterator();
-                while (iterator.hasNext() && missing > 0) {
-                    User u = iterator.next();
-                    JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
-                    jsonUserObjectBuilder.add("range", DistanceRange._3KM.getDescription());
-                    jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
-                    jsonArrayBuilder.add(jsonUserObjectBuilder);
-                    missing = missing - 1;
-                    System.out.println("Missing now _3KM : " + missing);
-                }
-                if (missing > 0) {
-                    usersInRange = usersQueryService.search(lon, lat, DistanceRange._10KM.getOffsetRange(),
-                            DistanceRange._10KM.getLimitRange(), interestsList, lookingForList, categoriesList, 0, limit);
-                    iterator = usersInRange.iterator();
-                    while (iterator.hasNext() && missing > 0) {
-                        User u = iterator.next();
-                        JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
-                        jsonUserObjectBuilder.add("range", DistanceRange._10KM.getDescription());
-                        jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
-                        jsonArrayBuilder.add(jsonUserObjectBuilder);
-                        missing = missing - 1;
-                        System.out.println("Missing now _10KM : " + missing);
-                    }
-                    if (missing > 0) {
-                        usersInRange = usersQueryService.search(lon, lat, DistanceRange._50KM.getOffsetRange(),
-                                DistanceRange._50KM.getLimitRange(), interestsList, lookingForList, categoriesList, 0, limit);
-                        iterator = usersInRange.iterator();
-                        while (iterator.hasNext() && missing > 0) {
-                            User u = iterator.next();
+            boolean firstRange = true;
+            if (incomingRange == null) {
+                for (DistanceRange r : DistanceRange.values()) {
+
+                    if (!r.equals(DistanceRange._ALL)) {
+                        int i = 0;
+                        if (firstRange) {
+                            i = offset;
+                            firstRange = false;
+                        }
+                        List<User> usersInRange = usersQueryService.search(lon, lat, r.getOffsetRange(),
+                                r.getLimitRange(), interestsList, lookingForList, categoriesList, offset, limit);
+                        for (User u : usersInRange) {
                             JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
-                            jsonUserObjectBuilder.add("range", DistanceRange._50KM.getDescription());
+                            jsonUserObjectBuilder.add("range", r.getDescription());
+                            jsonUserObjectBuilder.add("rangeCode", r.name());
+                            jsonUserObjectBuilder.add("offset", i);
                             jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
                             jsonArrayBuilder.add(jsonUserObjectBuilder);
                             missing = missing - 1;
-                            System.out.println("Missing now _50KM : " + missing);
+                            i++;
                         }
-                        if (missing > 0) {
-                            usersInRange = usersQueryService.search(lon, lat, DistanceRange._WORLD.getOffsetRange(),
-                                    DistanceRange._WORLD.getLimitRange(), interestsList, lookingForList, categoriesList, 0, limit);
-                            iterator = usersInRange.iterator();
-                            while (iterator.hasNext() && missing > 0) {
-                                User u = iterator.next();
+
+                        System.out.println("Missing : " + missing);
+                        if (missing <= 0) {
+                            break;
+                        } else {
+                            limit = missing;
+                            System.out.println("Limit now : " + missing);
+                        }
+                    }
+
+                }
+            } else {
+                boolean enabled = false;
+                for (DistanceRange r : DistanceRange.values()) {
+                    if (r.equals(incomingRange) || enabled) {
+                        enabled = true;
+                        if (!r.equals(DistanceRange._ALL)) {
+                            int i = 0;
+                            if (firstRange) {
+                                i = offset;
+                                firstRange = false;
+                            }
+                            List<User> usersInRange = usersQueryService.search(lon, lat, r.getOffsetRange(),
+                                    r.getLimitRange(), interestsList, lookingForList, categoriesList, offset, limit);
+                            for (User u : usersInRange) {
                                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
-                                jsonUserObjectBuilder.add("range", DistanceRange._WORLD.getDescription());
+                                jsonUserObjectBuilder.add("range", r.getDescription());
+                                jsonUserObjectBuilder.add("rangeCode", r.name());
+                                jsonUserObjectBuilder.add("offset", i);
                                 jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
                                 jsonArrayBuilder.add(jsonUserObjectBuilder);
                                 missing = missing - 1;
-                                System.out.println("Missing now _WORLD : " + missing);
+                                i++;
+                            }
+
+                            System.out.println("Missing : " + missing);
+                            if (missing <= 0) {
+                                break;
+                            } else {
+                                limit = missing;
+                                System.out.println("Limit Now : " + missing);
                             }
                         }
                     }
-                }
 
+                }
             }
+
         }
 
         return Response.ok(jsonArrayBuilder.build().toString()).build();

@@ -339,12 +339,13 @@
         };
 
         //Search Users
-        factory.search = function (lon,lat, interests,lookingFors, categories, offset, limit) {
+        factory.search = function (lon,lat, interests,lookingFors, categories, range, offset, limit) {
             return $http({
                 method: 'GET',
                 url: appConstants.server + appConstants.context + 'rest/users/search?lon='+lon+'&lat='+lat+'&interests='
                         +JSON.stringify(interests)+'&lookingFors='+JSON.stringify(lookingFors)
                         +'&categories='+JSON.stringify(categories)
+                        +'&range='+range
                         +'&offset='+offset+'&limit='+limit,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 

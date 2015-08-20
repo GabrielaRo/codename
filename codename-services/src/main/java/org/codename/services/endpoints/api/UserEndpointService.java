@@ -35,7 +35,7 @@ public interface UserEndpointService extends Serializable {
     @Path("")
     @Produces({MediaType.APPLICATION_JSON})
     Response getAll() throws ServiceException;
-    
+
     @GET
     @Path("/search")
     @Produces({MediaType.APPLICATION_JSON})
@@ -43,15 +43,16 @@ public interface UserEndpointService extends Serializable {
             @QueryParam("lat") Double lat,
             @QueryParam("interests") String interests,
             @QueryParam("lookingFors") String lookingFors,
-            @QueryParam("categories") String categories, 
+            @QueryParam("categories") String categories,
+            @QueryParam("range") String range,
             @QueryParam("offset") Integer offset,
             @QueryParam("limit") Integer limit) throws ServiceException;
-    
+
     @Path("{nickname}/avatar")
     @GET
     @Produces({MediaType.APPLICATION_OCTET_STREAM})
     Response getAvatar(@NotNull @PathParam("nickname") String nickname) throws ServiceException;
-    
+
     @Path("{id}/exist")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -61,8 +62,6 @@ public interface UserEndpointService extends Serializable {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     Response get(@PathParam("id") Long user_id) throws ServiceException;
-    
-    
 
     @Path("{nickname}/avatar/upload")
     @POST
@@ -74,8 +73,6 @@ public interface UserEndpointService extends Serializable {
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     Response uploadCover(@NotNull @PathParam("nickname") String nickname, MultipartFormDataInput input) throws ServiceException;
 
-    
-
     @Path("{nickname}/avatar")
     @DELETE
     Response removeAvatar(@NotNull @PathParam("nickname") String nickname) throws ServiceException;
@@ -83,8 +80,6 @@ public interface UserEndpointService extends Serializable {
     @Path("{nickname}/cover")
     @DELETE
     Response removeCover(@NotNull @PathParam("nickname") String nickname) throws ServiceException;
-
-    
 
     @Path("{id}/firstlogin")
     @PUT
@@ -174,7 +169,6 @@ public interface UserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response updateCategories(@NotNull @PathParam("id") Long user_id, @FormParam("categories") String categories) throws ServiceException;
 
-
     @Path("{id}/bio")
     @PUT
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
@@ -187,31 +181,28 @@ public interface UserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response updateLongBio(@NotNull @PathParam("id") Long user_id, @FormParam("longbio") String longbio) throws ServiceException;
 
-
     @Path("{id}/interests")
     @PUT
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON})
     Response updateInterests(@NotNull @PathParam("id") Long user_id, @FormParam("interests") String interests) throws ServiceException;
 
-
     @Path("{id}/share")
     @PUT
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON})
     Response updateShare(@NotNull @PathParam("id") Long user_id, @FormParam("share") String share) throws ServiceException;
-    
+
     @Path("{id}/messageme")
     @PUT
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON})
     Response updateMessageMe(@NotNull @PathParam("id") Long user_id, @FormParam("messageme") String messageme) throws ServiceException;
-    
+
     @Path("{id}/jobtitle")
     @PUT
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON})
     Response updateJobTitle(@NotNull @PathParam("id") Long user_id, @FormParam("jobtitle") String jobtitle) throws ServiceException;
-    
-    
+
 }

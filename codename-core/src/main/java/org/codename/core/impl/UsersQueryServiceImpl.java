@@ -60,14 +60,14 @@ public class UsersQueryServiceImpl implements UsersQueryService {
 
         if (limitRange > 0.0 && lat != 0.0 & lon != 0.0) {
             if (offsetRange > 0.0) {
-                bool.must(qb.spatial().onDefaultCoordinates()
+                bool.must(qb.spatial()
                         .within(offsetRange, Unit.KM)
                         .ofLatitude(lat)
                         .andLongitude(lon)
                         .createQuery()).not();
             }
 
-            bool.must(qb.spatial().onDefaultCoordinates()
+            bool.must(qb.spatial()
                     .within(limitRange, Unit.KM)
                     .ofLatitude(lat)
                     .andLongitude(lon)
@@ -183,7 +183,7 @@ public class UsersQueryServiceImpl implements UsersQueryService {
             iAmsFacetSelection.selectFacets(iAmsSelectedFacets.toArray(new Facet[iAmsSelectedFacets.size()]));
         }
         resultList = fullTextQuery.getResultList();
-        System.out.println("Results size for query between page (" + offset + "-to -" + limit + ")range(" + offsetRange + " - " + limitRange + ") = " + resultList.size());
+        System.out.println("Results size for query between page (" + fullTextQuery.getFirstResult() + "-to -" + fullTextQuery.getMaxResults() + ")range(" + offsetRange + " - " + limitRange + ") = " + resultList.size());
         return resultList;
     }
 
