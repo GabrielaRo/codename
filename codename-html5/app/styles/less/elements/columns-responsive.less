@@ -12,12 +12,19 @@
         display: block;
     }
     .container {
-        padding: 0 @padding !important;
+        padding: 0 (@padding/2) !important;
     }
     
     .col-margin, .col-margin-left {
         margin-right: 0;
         margin-left: 0;
+    }
+    
+    .four-col, .five-col, .seven-col, .six-col {
+        width: 100% !important;
+        display: block;
+        max-width: 600px;
+        margin: 0 auto;
     }
    
 }

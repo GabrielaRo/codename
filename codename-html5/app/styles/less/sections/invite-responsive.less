@@ -9,6 +9,11 @@
 @media screen and (max-width: @md) {
     .invite {
         #invite-bar {
+            
+            position: relative;
+            top: auto;
+            left: auto;
+            
             .container {
                 padding: 0 10px !important;
             }
@@ -52,7 +57,7 @@
             min-height: 480px;
             
             #invite-home-carousel {
-                top: 60px;
+                top: 165px;
                 height: auto;
                 min-height: 480px;
                 .carousel-item {
@@ -64,13 +69,16 @@
                 &.login {
                         top: 270px;
                 }
+                &.inviteSend {
+                    top: 60px;
+                }
             }
             .invite-home-text {
                 width: 100%;
                 padding-bottom: 0;
                 h1 {
                     font-size: 24px;
-                    line-height: 1.42857143em;
+                    line-height: 1.3em;
                     text-align: center;
                     margin: 0 auto;
                     max-width: 400px;
