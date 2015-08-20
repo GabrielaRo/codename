@@ -3,7 +3,7 @@
        $scope.pageClass = "invite full";
        $scope.inviteStatus = false;
        $scope.inviteContactStatus = false;
-        $scope.credentials = [];
+       $scope.credentials = [];
       
        $scope.sendContactForm = function(email, name, subject,  text, type){
            console.log("email: "+email);
@@ -47,7 +47,19 @@
        $scope.carouselItems = $(".carousel-item");
        $scope.carouselLenght = $scope.carouselItems.length;
        $scope.initCarousel = function(){
-           setTimeout(function(){ $scope.moveCarousel() }, 6000);
+           if(!$scope.inviteStatus){
+            setTimeout(function(){ $scope.moveCarousel() }, 6000);
+           }else {
+                $scope.carouselPosition = 1;
+                $scope.carouselItems.each(function(index){
+                   var itemPosition = 100 - ($scope.carouselPosition - index) * 100;
+                   $(this).css( "left", itemPosition+"%" );
+                   $(this).removeClass("active");
+                   if((index+1) == $scope.carouselPosition){
+                        $(this).addClass("active");
+                   }
+               });
+           }
            
        }
        $scope.moveCarousel = function(){
