@@ -88,6 +88,8 @@
         
    <div id="results" class="list-container">
             <h2>All Fhellows</h2>
+            
+            <p ng-hide="fhellowsList.length" style="text-align:center;"><i class="fa fa-spinner fa-spin"></i></p>
             <p ng-hide="fhellowsList.length">There is no result</p>
             <div class="cards-container"  >
                
@@ -166,7 +168,7 @@
 
             </div>
             <div class="load-more" >
-                <a ng-click="showMore()" ng-if="!noMoreResults">View More</a>
+                <a ng-click="showMore()" ng-if="!noMoreResults" class="button inverted">Show more Fhellows</a>
             </div>
         </div>
 
