@@ -8,7 +8,7 @@
         $scope.tagsText = [];
         $scope.serverUrlFull = appConstants.server + appConstants.context;
         $scope.fhellowsList = [];
-        $scope.fhellowPerPage = 4;
+        $scope.fhellowPerPage = 10;
         $scope.currentPage = 0;
         
         $scope.currrentOffset = 0;

@@ -180,7 +180,7 @@ public class SimpleLocalServiceTest {
         usersService.updateLive(newUser, "true");
 
         List<String> iAms = new ArrayList<String>(3);
-        iAms.add("Freelance");
+        iAms.add("Freelancer");
         iAms.add("Digital Nomad");
         iAms.add("Entrepenuer");
 
@@ -199,14 +199,14 @@ public class SimpleLocalServiceTest {
         usersService.updateInterests(newUser, interests);
 
         ut.commit();
-        // User 2: is: Freelance, Digital Nomad
+        // User 2: is: Freelancer, Digital Nomad
         //         LookingFor: Mentor
         //         Interest: Design, Architecture
         ut.begin();
         Long newUser2 = usersService.newUser(new User("grogdj3@gmail.com", "asdasd"));
         usersService.updateLive(newUser2, "true");
         iAms = new ArrayList<String>(2);
-        iAms.add("Freelance");
+        iAms.add("Freelancer");
         iAms.add("Digital Nomad");
 
         usersService.updateIams(newUser2, iAms);
@@ -221,14 +221,14 @@ public class SimpleLocalServiceTest {
 
         ut.commit();
 
-        //User 3: is: Freelance
+        //User 3: is: Freelancer
         //        Looking For: Collaborate
         //        Interest: Software
         ut.begin();
         Long newUser3 = usersService.newUser(new User("grogdj4@gmail.com", "asdasd"));
         usersService.updateLive(newUser3, "true");
         iAms = new ArrayList<String>(1);
-        iAms.add("Freelance");
+        iAms.add("Freelancer");
         lookingFor = new ArrayList<String>(3);
         lookingFor.add("Collaborate");
         usersService.updateLookingFor(newUser3, lookingFor);
@@ -241,7 +241,7 @@ public class SimpleLocalServiceTest {
 
         //Search 1: 
         iAms = new ArrayList<String>(1);
-        iAms.add("Freelance");
+        iAms.add("Freelancer");
         lookingFor = new ArrayList<String>(3);
         lookingFor.add("Collaborate");
         interests = new ArrayList<String>();
@@ -253,7 +253,7 @@ public class SimpleLocalServiceTest {
 
          //Search 2: 
         iAms = new ArrayList<String>(1);
-        iAms.add("Freelance");
+        iAms.add("Freelancer");
         lookingFor = new ArrayList<String>();
 
         interests = new ArrayList<String>();

@@ -166,17 +166,19 @@ public class UserEndpointServiceImpl implements UserEndpointService {
             } catch (IllegalArgumentException iae) {
             }
             boolean firstRange = true;
+            System.out.println("Incoming range is: "+range + " and the offset is:"+offset);
             if (incomingRange == null) {
                 for (DistanceRange r : DistanceRange.values()) {
-
+                    System.out.println(">> ANalizing Quering range:  "+r.getDescription());
                     if (!r.equals(DistanceRange._ALL)) {
                         int i = 0;
                         if (firstRange) {
                             i = offset;
                             firstRange = false;
                         }
+                        System.out.println(">> Executing Query range:  "+r.getDescription());
                         List<User> usersInRange = usersQueryService.search(lon, lat, r.getOffsetRange(),
-                                r.getLimitRange(), interestsList, lookingForList, categoriesList, offset, limit);
+                                r.getLimitRange(), interestsList, lookingForList, categoriesList, i, limit);
                         for (User u : usersInRange) {
                             JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                             jsonUserObjectBuilder.add("range", r.getDescription());
@@ -201,7 +203,9 @@ public class UserEndpointServiceImpl implements UserEndpointService {
             } else {
                 boolean enabled = false;
                 for (DistanceRange r : DistanceRange.values()) {
+                    System.out.println(">> ANalizing Quering range:  "+r.getDescription());
                     if (r.equals(incomingRange) || enabled) {
+                        
                         enabled = true;
                         if (!r.equals(DistanceRange._ALL)) {
                             int i = 0;
@@ -209,8 +213,9 @@ public class UserEndpointServiceImpl implements UserEndpointService {
                                 i = offset;
                                 firstRange = false;
                             }
+                            System.out.println(">> Executing Query range:  "+r.getDescription());
                             List<User> usersInRange = usersQueryService.search(lon, lat, r.getOffsetRange(),
-                                    r.getLimitRange(), interestsList, lookingForList, categoriesList, offset, limit);
+                                    r.getLimitRange(), interestsList, lookingForList, categoriesList, i, limit);
                             for (User u : usersInRange) {
                                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                                 jsonUserObjectBuilder.add("range", r.getDescription());

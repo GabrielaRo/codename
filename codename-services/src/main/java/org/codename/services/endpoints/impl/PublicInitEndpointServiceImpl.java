@@ -75,7 +75,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             lookingFor.add("Socialise");
             lookingFor.add("Collabortate");
-            iAm.add("Freelance");
+            iAm.add("Freelancer");
             
             interests.add("Design");
             interests.add("Photography");
@@ -92,7 +92,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             lookingFor.add("Socialise");
             lookingFor.add("Collabortate");
-            iAm.add("Freelance");
+            iAm.add("Freelancer");
             iAm.add("Entrepreneur");
             interests.add("Design");
             interests.add("Photography");
@@ -127,7 +127,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             lookingFor.add("Socialise");
             lookingFor.add("Collaborate");
-            iAm.add("Freelance");
+            iAm.add("Freelancer");
             
             interests.add("Photography");
             interests.add("Journalism");
@@ -142,7 +142,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             lookingFor.add("Socialise");
             
-            iAm.add("Freelance");
+            iAm.add("Freelancer");
             iAm.add("Digital Nomad");
             iAm.add("Entrepreneur");
             
@@ -159,7 +159,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             lookingFor.add("Socialise");
             
-            iAm.add("Freelance");
+            iAm.add("Freelancer");
             
             interests.add("Photography");
             interests.add("Design");
@@ -178,7 +178,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             lookingFor.add("Socialise");
             
-            iAm.add("Freelance");
+            iAm.add("Freelancer");
             iAm.add("Digital Nomad");
             
             interests.add("Startups");
@@ -194,7 +194,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             lookingFor.add("Socialise");
             lookingFor.add("Collaborate");
-            iAm.add("Freelance");
+            iAm.add("Freelancer");
             iAm.add("Digital Nomad");
             iAm.add("Entrepreneur");
             interests.add("Startups");
