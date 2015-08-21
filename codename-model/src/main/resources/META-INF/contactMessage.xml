@@ -17,15 +17,6 @@
 		</query>
 	</named-query>
 	
-	<named-query name="ContactMessage.getContactMessage">
-		<query>
-			SELECT
-				_contactMessage
-			FROM
-				ContactMessage _contactMessage
-		</query>
-	</named-query>
-	
 	<named-query name="ContactMessage.getRepliedContactMessage">
 		<query>
 			SELECT
