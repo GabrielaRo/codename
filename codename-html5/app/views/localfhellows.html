@@ -136,13 +136,30 @@
                             </div>
                             <div class="fhellow-lookingfors">
                                 <div class="looking-fors" ng-repeat="lookingfor in fhellow.lookingFor">
-                                    <div class="icon {{lookingfor}}">
-                                        <span ng-switch="lookingfor">
-                                          <i ng-switch-when="Socialise" class="fa fa-coffee"></i>
-                                          <i ng-switch-when="Collaborate" class="fa fa-lightbulb-o"></i>
-                                          <i ng-switch-when="Mentor" class="fa fa-graduation-cap"></i>
-                                        </span>
-                                  
+                                    <div class="tooltip-item">
+                                        <div class="icon {{lookingfor}}">
+
+                                            <span ng-switch="lookingfor">
+
+                                              <i ng-switch-when="Socialise" class="fa fa-coffee"></i>
+                                              <i ng-switch-when="Collaborate" class="fa fa-lightbulb-o"></i>
+                                              <i ng-switch-when="Mentor" class="fa fa-graduation-cap"></i>
+                                            </span>
+
+                                        </div>
+                                        
+                                        <div class="tooltip-content {{lookingfor}}">
+
+                                            <span ng-switch="lookingfor">
+
+                                              <span ng-switch-when="Socialise" >Socialise</span>
+                                              <span ng-switch-when="Collaborate">Collaborate</span>
+                                              <span ng-switch-when="Mentor" >Mentor</span>
+                                            </span>
+
+                                        </div>
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>
