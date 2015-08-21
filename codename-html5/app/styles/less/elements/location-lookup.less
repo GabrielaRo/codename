@@ -49,3 +49,36 @@ location-lookup {
         z-index: 4000;
     }
 }
+
+.location-wrapper {
+    position: relative;
+    display: inline-block;
+    padding-right: @padding;
+}
+
+a.user-location-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 20px;
+    line-height: 40px;
+    width: 40px;
+    text-align: center;
+      cursor: pointer;
+    color: #000;
+    &:hover {
+        color: @link;
+    }
+    
+    &.search {
+        right: 1px;
+        font-size: 20px;
+        line-height: 48px;
+        text-align: center;
+        z-index: 100;
+        border-bottom: 1px dashed rgba(255,255,255,.5);
+        color: #FFF;
+      
+    }
+    
+}
