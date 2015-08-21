@@ -167,7 +167,9 @@
             $sockets.initWebSocket();
         }
 
-        $rootScope.$on("updateUser", function (data) {
+        $rootScope.$on("updateUser", function (event, data) {
+            $cookieStore.put('user_nick', data.userNick);
+            $scope.user_nick = $cookieStore.get('user_nick');
             $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
 
         });

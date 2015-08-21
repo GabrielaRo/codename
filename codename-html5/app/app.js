@@ -118,10 +118,6 @@
                             templateUrl: 'views/invite.html',
                             controller: 'inviteController'
                         })
-                        .when('/:inviteLogin/:userMail', {
-                            templateUrl: 'views/invite.html',
-                            controller: 'inviteController'
-                        })
                         .otherwise({
                             redirectTo: '/'
                         });

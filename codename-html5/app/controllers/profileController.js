@@ -300,7 +300,7 @@
                 $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar" + '?' + new Date().getTime();
                 $scope.profile.hasavatar = true;
                 $scope.calculatePercentage();
-                $rootScope.$broadcast("updateUser", {token: $scope.auth_token, userId: $scope.user_id});
+                $rootScope.$broadcast("updateUser", {token: $scope.auth_token, userId: $scope.user_id, userNick: $scope.user_nick});
 
             }).error(function (data) {
                 console.log('Error: file ' + file.name + ' upload error. Response: ' + data);
@@ -565,6 +565,7 @@
                 $users.updateNickname(nickname).success(function (data) {
                     $scope.profile.nickname = nickname;
                     initialData.nickname = nickname;
+                    $rootScope.$broadcast("updateUser", {token: $scope.auth_token, userId: $scope.user_id, userNick: nickname});
                     $scope.calculatePercentage();
                 }).error(function (data) {
                     console.log("Error: " + data);
