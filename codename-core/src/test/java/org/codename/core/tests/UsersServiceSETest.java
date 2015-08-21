@@ -70,7 +70,6 @@ public class UsersServiceSETest {
     }
 
     @Test
-    @Ignore
     public void removeUserTest() throws ServiceException, Exception {
 
         User u = new User("gabriela@gmail.com", "123456");
@@ -88,7 +87,6 @@ public class UsersServiceSETest {
     }
 
     @Test
-    @Ignore
     public void calculateUserProfilePercentageTest() throws ServiceException {
 
     	//User 1 -> 26%, filled just few of the fields
@@ -158,7 +156,6 @@ public class UsersServiceSETest {
     }
     
     @Test
-    @Ignore
     public void updateLiveTest() throws ServiceException {
 //      u1 profile -> 60% completed, it should return live == true
     	User u1 = new User("rogelova@gmail.com", "123456");
@@ -194,7 +191,7 @@ public class UsersServiceSETest {
     }
     
     @Test
-    @Ignore
+    
     public void contactMessageTest() throws ServiceException {
     	String email = "testemail@test.com";
     	boolean cmSrvcBool = contactMessageService.sendContactMessage(email, "T", "Subj", "Question", "Contact");
@@ -204,7 +201,7 @@ public class UsersServiceSETest {
     }
     
     @Test
-    @Ignore
+    
     public void getAllMessagesTest() throws ServiceException {
     	String email = "getAllMessagesTest@test.com";
     	boolean cmSrvcBool = contactMessageService.sendContactMessage(email, "T", "Subj", "Question", "Contact");
@@ -222,7 +219,7 @@ public class UsersServiceSETest {
     }
     
     @Test
-    @Ignore
+    
     public void getAllMessagesFilteringTest() throws ServiceException {
     	String email = "getAllMessagesFilteringTest@test.com";
     	String email1 = "random.mail@test,com";
@@ -246,6 +243,7 @@ public class UsersServiceSETest {
     }
 
     @Test
+    @Ignore
     public void contactMessageEmptyTest() throws ServiceException {
 //    	returns true, which is strange.
     	boolean cmSrvcBool = contactMessageService.sendContactMessage(null, null, null, null, null);
@@ -253,7 +251,7 @@ public class UsersServiceSETest {
     }
     
     @Test
-    @Ignore
+    
     public void getUnrepliedMessagesTest() throws ServiceException {
     	String email = "getUnrepliedMessagesTest@test.com";
     	boolean cmSrvcBool = contactMessageService.sendContactMessage(email, "T", "Subj", "Question", "Contact");

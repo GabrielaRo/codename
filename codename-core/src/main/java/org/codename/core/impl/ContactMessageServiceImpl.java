@@ -40,7 +40,7 @@ public class ContactMessageServiceImpl implements ContactMessageService {
 
     @Override
     public List<ContactMessage> getAllMessages(String contactEmail) throws ServiceException {
-        return pm.createNamedQuery("ContactMessage.getContactMessage", ContactMessage.class).setParameter("contactEmail", contactEmail).getResultList();
+        return pm.createNamedQuery("ContactMessage.getByEmail", ContactMessage.class).setParameter("contactEmail", contactEmail).getResultList();
     }
 
     @Override
