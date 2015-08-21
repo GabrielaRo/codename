@@ -7,7 +7,7 @@
 
                 </location-lookup>
 
-                <a class="user-location-button search" ng-click="">
+                <a class="user-location-button search" ng-click="shareLocation()">
                     <i class="fa fa-location-arrow"></i>
                 </a>
             </div>
@@ -93,8 +93,6 @@
         
         
    <div id="results" class="list-container">
-            <h2>All Fhellows</h2>
-            
             <p ng-hide="fhellowsList.length" style="text-align:center;"><i class="fa fa-spinner fa-spin"></i></p>
             <p ng-hide="fhellowsList.length">There is no result</p>
             <div class="cards-container"  >

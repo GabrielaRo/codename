@@ -10,17 +10,19 @@
         $scope.fhellowsList = [];
         $scope.fhellowPerPage = 10;
         $scope.currentPage = 0;
-        
+
         $scope.currrentOffset = 0;
         $scope.noMoreResults = false;
 
-        location.get(angular.noop, angular.noop);
+        $scope.shareLocation = function(){
+            location.get(angular.noop, angular.noop);
+        }
 
         $scope.showMore = function () {
             $scope.currentPage = $scope.currentPage + 1;
-            
 
-            
+
+
             if ($scope.lookedUpLocation) {
                 $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude, $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
             } else {
@@ -139,15 +141,15 @@
 
         $scope.loadFhellowsInRange = function (lon, lat, tags, lookingFors, categories) {
             $scope.noMoreResults = false;
-            if($scope.fhellowsList.length > 0){
+            if ($scope.fhellowsList.length > 0) {
                 $scope.currentRange = $scope.fhellowsList[$scope.fhellowsList.length - 1].rangeCode;
                 $scope.currrentOffset = $scope.fhellowsList[$scope.fhellowsList.length - 1].offset + 1;
-            }else{
+            } else {
                 $scope.currrentOffset = 0;
                 $scope.currentRange = "NA";
             }
-            
-            console.log("Current range: "+$scope.currentRange+" From : " + $scope.currrentOffset );
+
+            console.log("Current range: " + $scope.currentRange + " From : " + $scope.currrentOffset);
             $users.search(lon, lat, tags, lookingFors, categories, $scope.currentRange, $scope.currrentOffset, $scope.fhellowPerPage).success(function (data) {
                 if (typeof data !== 'undefined' && data.length > 0) {
                     console.log("data for all ranges : " + data.length);
@@ -167,18 +169,18 @@
 
         $scope.loadFhellows = function (tags, lookingFors, categories) {
             $scope.noMoreResults = false;
-            if($scope.fhellowsList.length > 0){
+            if ($scope.fhellowsList.length > 0) {
                 $scope.currentRange = $scope.fhellowsList[$scope.fhellowsList.length - 1].rangeCode;
-                $scope.currrentOffset = $scope.fhellowsList[$scope.fhellowsList.length - 1].offset  + 1;
-            }else{
+                $scope.currrentOffset = $scope.fhellowsList[$scope.fhellowsList.length - 1].offset + 1;
+            } else {
                 $scope.currrentOffset = 0;
                 $scope.currentRange = "NA";
             }
-            
-            console.log("Current range: "+$scope.currentRange+" From : " + $scope.currrentOffset );
 
-            $users.search(0.0, 0.0, tags, lookingFors, categories,$scope.currentRange, $scope.currrentOffset, $scope.fhellowPerPage).success(function (data) {
-                
+            console.log("Current range: " + $scope.currentRange + " From : " + $scope.currrentOffset);
+
+            $users.search(0.0, 0.0, tags, lookingFors, categories, $scope.currentRange, $scope.currrentOffset, $scope.fhellowPerPage).success(function (data) {
+
                 if (typeof data !== 'undefined' && data.length > 0) {
                     console.log("data for the world : " + data.length);
                     console.log(data);
