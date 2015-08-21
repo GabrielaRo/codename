@@ -278,7 +278,7 @@
                     <div class="content-block-content">
 
                         <div class="control full"  ng-show="interestStatus" >
-                            <tags-input  ng-model="tags"  class="no-list"                
+                            <tags-input  ng-model="tags"  class="no-list show-top"                
                                          placeholder="What are you in to?" 
                                          replace-spaces-with-dashes="false"
                                          add-from-autocomplete-only="true" 
@@ -287,8 +287,8 @@
                                 <auto-complete source="loadInterests($query)" 
                                                min-length="0"
                                                load-on-focus="true"
-                                               load-on-empty="true"
-                                               max-results-to-show="3"
+                                               load-on-empty="false"
+                                               
                                                >
 
                                 </auto-complete>
@@ -300,7 +300,7 @@
                             <div ng-show="profile.interests == ''">Share your interests with Fhellows</div>
 
                             <div class="interest" ng-class="{editing : interestStatus }" ng-repeat="interst in profile.interests">
-                                <a class="delete" data-type="{{interst}}" ng-show="interestStatus" ng-click="interestsTagDeleted(interst)">x</a>
+                                <a class="delete" data-type="{{interst}}" ng-show="interestStatus" ng-click="interestsTagDeleted(interst)"><i class="fa fa-times-circle"></i></a>
                                 {{interst}}
                             </div>
 
