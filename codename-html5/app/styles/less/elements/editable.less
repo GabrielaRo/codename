@@ -19,6 +19,18 @@
           background-color: @link;
         
     }
+    
+    &.editable-inline {
+        display: inline;
+        word-break: break-all;
+        &:hover{
+            
+            &:before {
+                display: inline;
+            }
+        }
+    }
+    
     &.editable-active, &:hover{
         z-index: 10;
         &:before {

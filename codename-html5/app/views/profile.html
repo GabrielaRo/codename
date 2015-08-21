@@ -323,16 +323,21 @@
                     <div class="content-block-content">
                         <div class="link" >
                             <i class="fhellow-logo profile-icon"></i> 
-                            <span class="editable"  >
+                            <span class="editable editable-inline">
 
-                                {{profile.nickname}} <span class="editable-placeholder" ng-show="profile.nickname == ''">Update your Nickname</span>
+                                http://www.fhellow.com/{{profile.nickname}} <span class="editable-placeholder" ng-show="profile.nickname == ''">Update your Nickname</span>
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
                                 <div class="floatform" id="user-nickname-form">
                                     <div class="form-content">
+                                        <div class="form-title">
+                                            My Fhellow URL
+                                        </div>
                                         <div class="form-fields">
+                                           
                                             <div class="control">
+                                                <span class="help-text-inline">http://www.fhellow.com/</span>
                                                 <input type="text" ng-model="profile.nickname" placeholder="Nickname Here">
                                             </div>
                                         </div>
