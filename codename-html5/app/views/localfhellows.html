@@ -64,7 +64,7 @@
                     <div class="control-group ">
                         <label>Fhellow type:</label>
                         <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Freelance') > -1}" ng-click="typeButtonPressed('Freelancer')">Freelancer</button>
+                            <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Freelancer') > -1}" ng-click="typeButtonPressed('Freelancer')">Freelancer</button>
                         </div>
                         <div class="control" >
                             <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Entrepreneur') > -1}" ng-click="typeButtonPressed('Entrepreneur')">Entrepreneurs</button>
@@ -127,7 +127,7 @@
                         </div>
                         <div class="fhellow-location">
                              {{fhellow.location}} 
-                             <span class="fhellow-range">
+                             <span class="fhellow-range" ng-if="fhellow.range != 'The World'">
                                  {{fhellow.range}}
                              </span>
                         </div>
@@ -146,21 +146,18 @@
                                         <div class="icon {{lookingfor}}">
 
                                             <span ng-switch="lookingfor">
-
                                               <i ng-switch-when="Socialise" class="fa fa-coffee"></i>
                                               <i ng-switch-when="Collaborate" class="fa fa-lightbulb-o"></i>
                                               <i ng-switch-when="Mentor" class="fa fa-graduation-cap"></i>
                                             </span>
 
                                         </div>
-                                        
-                                        <div class="tooltip-content {{lookingfor}}">
+                                       
+                                        <div class="tooltip-content ">
 
                                             <span ng-switch="lookingfor">
 
-                                              <span ng-switch-when="Socialise" >Socialise</span>
-                                              <span ng-switch-when="Collaborate">Collaborate</span>
-                                              <span ng-switch-when="Mentor" >Mentor</span>
+                                              {{lookingfor}}
                                             </span>
 
                                         </div>
@@ -191,7 +188,10 @@
 
             </div>
             <div class="load-more" >
-                <a ng-click="showMore()" ng-if="!noMoreResults" class="button inverted">Show more Fhellows</a>
+                <a ng-click="showMore()" ng-disabled="noMoreResults" class="button inverted" ng-class="{disabled : noMoreResults}">
+                    <span ng-if="!noMoreResults">Show more Fhellows</span>
+                    <span ng-if="noMoreResults">No more Fhellows</span>
+                </a>
             </div>
         </div>
 

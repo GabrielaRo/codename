@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="right-col">
-                    <div id="profile-user-data">
+                    <div id="profile-user-data" class="fhellow-profile">
                         <div id="profile-user-name">
                             <div >
                                 {{profile.firstname}} {{profile.lastname}} 
@@ -58,13 +58,32 @@
                                 <span ng-repeat="item in profile.lookingFor" class="editable-child looking-fors">
                                     
                                     <span class="editable-child icon" ng-show="item == 'Socialise'">
-                                        <i class="fa fa-coffee "></i>
+                                        <div class="tooltip-item">
+                                            <i class="fa fa-coffee "></i>
+                                            <div class="tooltip-content">
+                                                  <span >Socialise</span>
+                                            </div>
+                                        </div>
                                     </span>
                                     <span class="editable-child icon" ng-show="item == 'Collaborate'">
-                                        <i class="fa fa-lightbulb-o "></i>
+                                        <div class="tooltip-item">
+                                            <i class="fa fa-lightbulb-o "></i>
+                                            <div class="tooltip-content">
+                                                  <span >Collaborate</span>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        
                                     </span>
                                     <span class="editable-child icon" ng-show="item == 'Mentor'">
-                                        <i class="fa fa-graduation-cap "></i>
+                                        <div class="tooltip-item">
+                                            <i class="fa fa-graduation-cap "></i>
+                                            <div class="tooltip-content">
+                                                  <span >Mentor</span>
+                                            </div>
+                                        </div>
+                                        
                                     </span>
                                 </span>    
                             
