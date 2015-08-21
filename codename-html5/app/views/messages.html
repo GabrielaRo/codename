@@ -43,6 +43,11 @@
                                 <div class="message-date">{{conversation.time| date:'EEE HH:mm'}}</div>
                             </div>
                         </div>
+                        
+                        <div class="no-message" ng-if="!inbox.lenght">
+                            No Messages 
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -52,7 +57,13 @@
             <div class="content-block no-margin" ng-class="{blocked: selectedConversation.blocked == true}">
                 <div class="content-block-title">
                     {{selectedConversation.description}} 
-                    <div class="content-block-title-options">
+                    
+                    <div class="no-message" ng-if="!selectedConversation.description.lenght">
+                        Select a message to start chating
+                    </div>
+                    
+                    
+                    <div class="content-block-title-options" ng-if="selectedConversation.description.lenght">
                         <ul class="option-button">
                             <li>
                                 <div class="button-icon"><i class="fa fa-angle-down"></i></div>
@@ -116,7 +127,7 @@
                              </div>
                             -->
                             <div class="messages-history-day" >
-                                <div class="day-name">
+                                <div class="day-name" ng-if="false">
                                     <span>
                                         All Messages
                                     </span>
@@ -150,10 +161,10 @@
                     </div>
                     <div id="user-messages-send">
                         <div class="send-input">
-                            <textarea ng-model="newMessage" id="sendMessageTextArea"  placeholder="Write your message here..." ng-disabled="selectedConversation.blocked"></textarea>
+                            <textarea ng-model="newMessage" id="sendMessageTextArea"  ng-disabled="!selectedConversation.description.lenght" placeholder="Write your message here..." ng-disabled="selectedConversation.blocked"></textarea>
                         </div>    
                         <div class="send-actions">
-                            <button id="sendMessageButton" class="button primary" ng-click="sendMessage(selectedConversation.conversation_id, newMessage)" ng-disabled="selectedConversation.blocked">Send</button>
+                            <button id="sendMessageButton" class="button primary" ng-disabled="!selectedConversation.description.lenght" ng-click="sendMessage(selectedConversation.conversation_id, newMessage)" ng-disabled="selectedConversation.blocked">Send</button>
                         </div>
                     </div>
                 </div>

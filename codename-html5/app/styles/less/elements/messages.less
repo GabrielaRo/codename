@@ -135,6 +135,13 @@
     height: @inboxHeight;
     overflow-y: auto;
     cursor: pointer;
+    
+    .no-message {
+        padding: (@padding / 2);
+        cursor: default;
+        height: 100%;
+    }
+    
     .inbox-message {
         height: @inboxMessageHeight;
         position: relative;
@@ -337,4 +344,8 @@
         padding-top: (@padding/4);
         text-align: right;
     }
+}
+
+.no-message {
+    opacity: .5;
 }
