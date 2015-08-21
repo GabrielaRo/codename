@@ -16,7 +16,10 @@
                 $routeProvider
                         .when('/removeadmin', {
                             templateUrl: 'views/home.html',
-                            controller: 'homeController'
+                            controller: 'homeController',
+//                            access: {
+//                                requiresAdmin: true
+//                            }
                         })
                 
 //                        .when('/invitelogin', {
@@ -144,11 +147,11 @@
                         next.access.permissionCheckType);
                 console.log(authorised);
                 if (authorised === 'NotAuthorized') {
-                    $location.path('/invitelogin').replace();
+                    $location.path('/').search({email:'Enter your email'}).replace();
                 } else if (authorised === 'RequiresProfile') {
                     $location.path('/profile').replace();
                 } else if(authorised === 'Home') {
-                    $location.path('/invite').replace();
+                    $location.path('/').replace();
                 }
             }
         });

@@ -7,9 +7,9 @@ package org.codename.services.filters.auth;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -41,8 +41,6 @@ public final class GrogAuthenticator {
 
     public String login(String email, String password) throws ServiceException {
 
-        log.log(Level.INFO, "email: {0}", email);
-        log.log(Level.INFO, "password: {0}", password);
        
 
         if (userService.exist(email)) {
@@ -50,8 +48,8 @@ public final class GrogAuthenticator {
             User user = userService.getByEmail(email);
 
             String passwordMatch = user.getPassword();
-            log.log(Level.INFO, "passwordMatch: {0}", passwordMatch);
-            log.log(Level.INFO, "CodenameUtil.hash(password): {0}", CodenameUtil.hash(password));
+            
+            
             if (passwordMatch.equals(CodenameUtil.hash(password))) {
 
                 /**
@@ -70,6 +68,7 @@ public final class GrogAuthenticator {
                 String authToken = UUID.randomUUID().toString();
 
                 authorizationTokensStorage.put(authToken, email);
+                
                 userService.updateLastLogin(user.getId(), new Date());
                 return authToken;
 
@@ -83,8 +82,6 @@ public final class GrogAuthenticator {
 
     public String loginWithExternalToken(String email, String externalToken) throws ServiceException {
 
-        log.log(Level.INFO, "email: {0}", email);
-        log.log(Level.INFO, "externalToken: {0}", externalToken);
 
         if (userService.exist(email)) {
             //If the user comes from an external provider there is no need for password check
@@ -202,6 +199,11 @@ public final class GrogAuthenticator {
 
         throw new ServiceException("Invalid service key and authorization token match.", true);
 
+    }
+    
+    public List<String> getUserRoles(String serviceKey){
+        String email = userService.getKey(serviceKey);
+        return userService.getByEmail(email).getRoles();
     }
 
 }

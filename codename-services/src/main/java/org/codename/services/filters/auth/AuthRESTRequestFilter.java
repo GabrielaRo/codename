@@ -6,6 +6,7 @@
 package org.codename.services.filters.auth;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -63,6 +64,7 @@ public class AuthRESTRequestFilter implements ContainerRequestFilter {
                     return;
 
                 }
+                
                 log.info("Checking for correct auth_token: " + path);
                 String authToken = requestCtx.getHeaderString(GrogHTTPHeaderNames.AUTH_TOKEN);
 
@@ -72,6 +74,15 @@ public class AuthRESTRequestFilter implements ContainerRequestFilter {
                     requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
 
                 }
+                List<String> roles = grogAuthenticator.getUserRoles(serviceKey);
+                
+                if(path.contains("admin") && !roles.contains("Admin")){
+                    
+                    log.severe("You cannot access to this resources without out Admin role " + path);
+                    requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+                }
+                
+                
 
             }
         }

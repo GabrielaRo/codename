@@ -118,6 +118,11 @@ public class User implements Serializable {
     @IndexedEmbedded
     @Field(analyze = Analyze.NO, store = Store.YES)
     private List<String> iAms = new ArrayList<String>();
+    
+    @ElementCollection
+    @IndexedEmbedded
+    @Field(analyze = Analyze.NO, store = Store.YES)
+    private List<String> roles = new ArrayList<String>();
 
     @Field(analyze = Analyze.NO)
     private boolean live;
@@ -425,6 +430,15 @@ public class User implements Serializable {
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
     }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+    
     
     @Override
     public String toString() {
