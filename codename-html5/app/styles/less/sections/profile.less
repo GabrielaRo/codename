@@ -70,7 +70,7 @@
             .six-col();
             .col-margin();
             z-index: 10;
-            padding: (@padding * 0.75) 0 0;
+            padding: (@padding / 2) 0 0;
             
             #profile-user-name {
                 font-size: @nameFontSize;
@@ -101,6 +101,11 @@
             }
             #profile-user-looking-to {
                  font-weight: @lightText;
+                .editable {
+                    .editable-mark {
+                        height: 25px;
+                    }
+                }
             }
             
             &.fhellow-profile {
@@ -148,7 +153,9 @@
             .link {
                 display: block;
                 padding: (@padding /4) 0;
-            
+                &.inline {
+                    padding-bottom: 5px;
+                }
             }
             .fhellow-logo {
                 width: 20px;
@@ -159,6 +166,26 @@
                 display: inline-block;
                 top: 6px;
 
+            }
+            
+            .floatform {
+                min-width: 300px;
+                left: -48px;
+            }
+            .editable-inline {
+                .floatform {
+                    
+                    left: -42px;
+                }
+            }
+            
+            .public-link {
+                a{
+                    color: @textGray;
+                    &:hover {
+                        color: @link;
+                    }
+                }
             }
         }
     }
@@ -177,7 +204,7 @@
     
     #user-location-form {
       
-          width: 590px;
+          width: 350px;
       
     }
     
@@ -193,6 +220,7 @@
     .profile-icon {
         font-size: 20px;
         margin-right: 5px;
+        width: 20px;
         &.fa-linkedin {
             color: #2285ba;
         }

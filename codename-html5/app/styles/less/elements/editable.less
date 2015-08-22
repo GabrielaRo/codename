@@ -23,12 +23,27 @@
     &.editable-inline {
         display: inline;
         word-break: break-all;
-        &:hover{
+        padding: 6px;
+        margin-left: -6px;
+        line-height: 30px;
+        box-sizing: border-box;
+
+        &:hover,  &.editable-active{
+            background-color: fadeout(@link, 70%);
             
             &:before {
-                display: inline;
+               display: none;
+               
             }
         }
+        
+        .editable-mark {
+            bottom: 10px;
+            right: -25px;
+        }
+    }
+    &.editable-icon-left {
+        
     }
     
     &.editable-active, &:hover{

@@ -231,7 +231,7 @@
                                 <i class="fa fa-pencil editable-child"></i>
                             </div>
 
-                            <div class="floatform big" id="user-location-form">
+                            <div class="floatform big" id="user-bio-form">
                                 <div class="form-content">
                                     <div class="form-title">
                                         Bio:
@@ -244,6 +244,10 @@
                                     <div class="form-actions">
                                         <button class="button primary" ng-click="updateBio(profile.bio)">Save</button> 
                                         <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+                                        
+                                        <div class="actions-text">
+                                            {{140 - profile.bio.length}} Characters Left
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -311,8 +315,9 @@
 
                     </div>
                     <div class="content-block-actions left" ng-show="interestStatus">
-                        <button class="button inverted"  ng-click="cancelInterestBlock()">Cancel</button>
                         <button class="button primary"  ng-click="saveInterestBlock(profile.interests)">Save</button>
+                        <button class="button inverted"  ng-click="cancelInterestBlock()">Cancel</button>
+                        
                     </div>
 
                 </div>
@@ -321,11 +326,13 @@
                         My Links
                     </div>
                     <div class="content-block-content">
-                        <div class="link" >
+                        <div class="link inline" >
                             <i class="fhellow-logo profile-icon"></i> 
-                            <span class="editable editable-inline">
-
-                                http://www.fhellow.com/{{profile.nickname}} <span class="editable-placeholder" ng-show="profile.nickname == ''">Update your Nickname</span>
+                            <span class="editable editable-inline editable-icon-left">
+                                
+                                <span class="editable-child" ng-show="profile.nickname != ''">http://www.fhellow.com/p/</span>{{profile.nickname}} 
+                                <span class="editable-placeholder" ng-show="profile.nickname == ''">Update your Nickname</span>
+                                
                                 <div class="editable-mark">
                                     <i class="fa fa-pencil editable-child"></i>
                                 </div>
@@ -337,13 +344,16 @@
                                         <div class="form-fields">
                                            
                                             <div class="control">
-                                                <span class="help-text-inline">http://www.fhellow.com/</span>
-                                                <input type="text" ng-model="profile.nickname" placeholder="Nickname Here">
+                                                <span class="help-text-inline">http://www.fhellow.com/p/</span>
+                                                <input type="text" ng-model="profile.nickname" placeholder="Nickname Here" maxlength="8">
                                             </div>
                                         </div>
                                         <div class="form-actions">
                                             <button class="button primary" ng-click="updateNickname(profile.nickname)">Save</button> 
                                             <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                                            <div class="actions-text">
+                                            {{8 - profile.nickname.length}} Characters Left
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -361,7 +371,7 @@
                                 <div class="floatform" id="user-twitter-form">
                                     <div class="form-content">
                                         <div class="form-fields">
-                                            <div class="control">
+                                            <div class="control full">
                                                 <input type="text" ng-model="profile.twitter" placeholder="Twitter Link">
                                             </div>
                                         </div>
@@ -386,7 +396,7 @@
                                 <div class="floatform" id="user-linkedin-form">
                                     <div class="form-content">
                                         <div class="form-fields">
-                                            <div class="control">
+                                            <div class="control full">
                                                 <input type="text" ng-model="profile.linkedin" placeholder="Linkedin Link">
                                             </div>
                                         </div>
@@ -408,7 +418,7 @@
                                 <div class="floatform" id="user-website-form">
                                     <div class="form-content">
                                         <div class="form-fields">
-                                            <div class="control">
+                                            <div class="control full">
                                                 <input type="text" ng-model="profile.website" placeholder="Website Link">
                                             </div>
                                         </div>

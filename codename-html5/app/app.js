@@ -47,7 +47,7 @@
                                 requiresLogin: true
                             }
                         })
-                        .when('/profile/:nickname', {
+                        .when('/p/:nickname', {
                             templateUrl: 'views/publicprofile.html',
                             controller: 'publicProfileController',
                             access: {
