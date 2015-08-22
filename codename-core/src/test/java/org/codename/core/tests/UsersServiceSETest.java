@@ -222,8 +222,8 @@ public class UsersServiceSETest {
     
     public void getAllMessagesFilteringTest() throws ServiceException {
     	String email = "getAllMessagesFilteringTest@test.com";
-    	String email1 = "random.mail@test,com";
-    	String email2 = "random.mail2@test,com";
+    	String email1 = "random.mail@test.com";
+    	String email2 = "random.mail2@test.com";
     	boolean cmSrvcBool = contactMessageService.sendContactMessage(email, "T", "Subj", "Question", "Contact");
     	boolean cmSrvcBool2 = contactMessageService.sendContactMessage(email, "T2", "Subj2", "Question2", "Contact2");
     	boolean cmSrvcBool3 = contactMessageService.sendContactMessage(email, "T3", "Subj3", "Question3", "Contact3");
