@@ -63,7 +63,7 @@
                     </div>
                     
                     
-                    <div class="content-block-title-options" ng-if="selectedConversation.description.lenght">
+                    <div class="content-block-title-options" ng-if="selectedConversation.description.length">
                         <ul class="option-button">
                             <li>
                                 <div class="button-icon"><i class="fa fa-angle-down"></i></div>
@@ -161,10 +161,10 @@
                     </div>
                     <div id="user-messages-send">
                         <div class="send-input">
-                            <textarea ng-model="newMessage" id="sendMessageTextArea"  ng-disabled="!selectedConversation.description.length" placeholder="Write your message here..." ng-disabled="selectedConversation.blocked"></textarea>
+                            <textarea ng-model="newMessage" id="sendMessageTextArea"  ng-disabled="!selectedConversation.description.length || selectedConversation.blocked" placeholder="Write your message here..." ></textarea>
                         </div>    
                         <div class="send-actions">
-                            <button id="sendMessageButton" class="button primary" ng-disabled="!selectedConversation.description.length" ng-click="sendMessage(selectedConversation.conversation_id, newMessage)" ng-disabled="selectedConversation.blocked">Send</button>
+                            <button id="sendMessageButton" class="button primary" ng-disabled="!selectedConversation.description.length || selectedConversation.blocked" ng-click="sendMessage(selectedConversation.conversation_id, newMessage)" >Send</button>
                         </div>
                     </div>
                 </div>
