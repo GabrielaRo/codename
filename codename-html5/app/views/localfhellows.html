@@ -1,202 +1,203 @@
 <div id="section-header" class="search-header">
-   
-        <h1>
-            Find Fhellows around 
-            <div class="location-wrapper">
-                <location-lookup class="search" ng-model="lookedUpLocation" templateUrl="" limit-to="4">
 
-                </location-lookup>
+    <h1>
+        Find Fhellows around 
+        <div class="location-wrapper">
+            <location-lookup class="search" ng-model="lookedUpLocation" templateUrl="" limit-to="4">
 
-                <a class="user-location-button no-animate search" ng-click="shareLocation()" ng-if="!gettingLocation ">
-                    <i  class="fa fa-location-arrow"></i>
-                    
-                </a>
-                <a class="user-location-button no-animate search" ng-if="gettingLocation"> 
-                    <i  class="fa fa-spinner fa-spin no-animate"></i>
-                </a>
-            </div>
-            
-            
-            
-        </h1>
-    
-        <h1>
-            Interested in  
-            <tags-input class="header" ng-model="tags"                 
-                placeholder="+" 
-                replace-spaces-with-dashes="false"
-                 add-from-autocomplete-only="true"
-                 on-tag-added="interestsTagAdded($tag)"
-                 on-tag-removed="interestsTagRemoved($tag)">
-                <auto-complete source="loadInterests($query)"
-                                 min-length="0"
-                                 load-on-focus="true"
-                                 load-on-empty="true"
-                                 max-results-to-show="32">
-                                
-                 </auto-complete>
-            </tags-input>
+            </location-lookup>
 
-        </h1>
-   
+            <a class="user-location-button no-animate search" ng-click="shareLocation()" ng-if="!gettingLocation">
+                <i  class="fa fa-location-arrow"></i>
+
+            </a>
+            <a class="user-location-button no-animate search" ng-if="gettingLocation"> 
+                <i  class="fa fa-spinner fa-spin no-animate"></i>
+            </a>
+        </div>
+
+
+
+    </h1>
+
+    <h1>
+        Interested in  
+        <tags-input class="header" ng-model="tags"                 
+                    placeholder="+" 
+                    replace-spaces-with-dashes="false"
+                    add-from-autocomplete-only="true"
+                    on-tag-added="interestsTagAdded($tag)"
+                    on-tag-removed="interestsTagRemoved($tag)">
+            <auto-complete source="loadInterests($query)"
+                           min-length="0"
+                           load-on-focus="true"
+                           load-on-empty="true"
+                           max-results-to-show="32">
+
+            </auto-complete>
+        </tags-input>
+
+    </h1>
+
 </div>
 
-    <div id="filters">
-            <div id="collapsed-header">
-               <div class="container">
-                    <div class="six-col">
-                        <location-lookup ng-model="lookedUpLocation" templateUrl="" limit-to="4"> </location-lookup>
-                    </div>
-                    <div class="six-col">
-                        <tags-input class="header" ng-model="tags"                 
+<div id="filters">
+    <div id="collapsed-header">
+        <div class="container">
+            <div class="six-col">
+                <location-lookup ng-model="lookedUpLocation" templateUrl="" limit-to="4"> </location-lookup>
+            </div>
+            <div class="six-col">
+                <tags-input class="header" ng-model="tags"                 
                             placeholder="+" 
                             replace-spaces-with-dashes="false"
-                             add-from-autocomplete-only="true" >
-                              <auto-complete source="loadInterests($query)"
-                                             min-length="0"
-                                             load-on-focus="true"
-                                             load-on-empty="true"
-                                             max-results-to-show="32" >
+                            add-from-autocomplete-only="true" >
+                    <auto-complete source="loadInterests($query)"
+                                   min-length="0"
+                                   load-on-focus="true"
+                                   load-on-empty="true"
+                                   max-results-to-show="32" >
 
-                             </auto-complete>
-                        </tags-input>
-                    </div>
-                </div>
-            </div>
-            <div id="filters-container">
-                <form>
-                    <div class="control-group ">
-                        <label>Fhellow type:</label>
-                        <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Freelancer') > -1}" ng-click="typeButtonPressed('Freelancer')">Freelancer</button>
-                        </div>
-                        <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Entrepreneur') > -1}" ng-click="typeButtonPressed('Entrepreneur')">Entrepreneurs</button>
-                        </div>
-                        <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Digital Nomad') > -1}" ng-click="typeButtonPressed('Digital Nomad')">Digital Nomads</button>
-                        </div>
-                    </div>
-                    <div class="control-group ">
-                        <label>Fhellows looking to:</label>
-                        <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Socialise') > -1}" ng-click="lookingToButtonPressed('Socialise')"><i class="fa fa-coffee"></i> Socialise</button>
-                        </div>
-                        <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Collaborate') > -1}" ng-click="lookingToButtonPressed('Collaborate')"><i class="fa fa-lightbulb-o"></i> Collaborate</button>
-                        </div>
-                        <div class="control" >
-                            <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Mentor') > -1}" ng-click="lookingToButtonPressed('Mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
-                        </div>
-                    </div>
-
-                    
-                </form>
+                    </auto-complete>
+                </tags-input>
             </div>
         </div>
-        
-        
-   <div id="results" class="list-container">
-            <div ng-hide="fhellowsList.length" class="list-loader">
-                <i class="fa fa-spinner fa-spin"></i>
-                <h2>Finding Fhellows</h2>
+    </div>
+    <div id="filters-container">
+        <form>
+            <div class="control-group ">
+                <label>Fhellow type:</label>
+                <div class="control" >
+                    <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Freelancer') > -1}" ng-click="typeButtonPressed('Freelancer')">Freelancer</button>
+                </div>
+                <div class="control" >
+                    <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Entrepreneur') > -1}" ng-click="typeButtonPressed('Entrepreneur')">Entrepreneurs</button>
+                </div>
+                <div class="control" >
+                    <button class="toggle button" ng-class="{'on' : filtersType.indexOf('Digital Nomad') > -1}" ng-click="typeButtonPressed('Digital Nomad')">Digital Nomads</button>
+                </div>
             </div>
-            
-            <div class="cards-container"  >
-               
-               
-                <div class="fhellow-item" ng-repeat="fhellow in fhellowsList">
-                   <!-- <div class="fhellow-location-range range-{{fhellow.range}}" ng-show="fhellow.range != undefined"> </div>-->
-                    <div class="fhellow-cover-image" style="background-image:url('{{serverUrlFull+ 'rest/public/users/' + fhellow.nickname + '/cover'}}')"> </div>
-                    <div class="fhellow-profile">
-                        <div class="online-status" ng-if="fhellow.onlineStatus">Online</div>
-                        <div class="fhellow-profile-image hexagon">
-                            <div class="hexagon-inner-1">
-                                <div class="hexagon-inner-2" style="background-image:url('{{serverUrlFull+ 'rest/public/users/' + fhellow.nickname + '/avatar'}}')">
+            <div class="control-group ">
+                <label>Fhellows looking to:</label>
+                <div class="control" >
+                    <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Socialise') > -1}" ng-click="lookingToButtonPressed('Socialise')"><i class="fa fa-coffee"></i> Socialise</button>
+                </div>
+                <div class="control" >
+                    <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Collaborate') > -1}" ng-click="lookingToButtonPressed('Collaborate')"><i class="fa fa-lightbulb-o"></i> Collaborate</button>
+                </div>
+                <div class="control" >
+                    <button class="toggle button" ng-class="{'on' : filtersLookingTo.indexOf('Mentor') > -1}" ng-click="lookingToButtonPressed('Mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
+                </div>
+            </div>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="fhellow-profile-image-brd hexagon">
-                            <div class="hexagon-inner-1">
-                                <div class="hexagon-inner-2">
 
-                                </div>
-                            </div>
+        </form>
+    </div>
+</div>
+
+
+<div id="results" class="list-container">
+    <div ng-hide="fhellowsList.length" class="list-loader">
+        <i class="fa fa-spinner fa-spin"></i>
+        <h2>Finding Fhellows</h2>
+    </div>
+
+    <div class="cards-container"  >
+
+
+        <div class="fhellow-item" ng-repeat="fhellow in fhellowsList">
+            <!-- <div class="fhellow-location-range range-{{fhellow.range}}" ng-show="fhellow.range != undefined"> </div>-->
+            <div class="fhellow-cover-image" style="background-image:url('{{serverUrlFull + 'rest/public/users/' + fhellow.nickname + '/cover'}}')"> </div>
+            <div class="fhellow-profile">
+                <div class="online-status" ng-if="fhellow.onlineStatus">Online</div>
+                <div class="fhellow-profile-image hexagon">
+                    <div class="hexagon-inner-1">
+                        <div class="hexagon-inner-2" style="background-image:url('{{serverUrlFull + 'rest/public/users/' + fhellow.nickname + '/avatar'}}')">
+
                         </div>
-                        
                     </div>
-                    <div class="fhellow-info">
-                        <div class="fhellow-name">
-                            {{fhellow.firstname}}  {{fhellow.lastname}}
+                </div>
+                <div class="fhellow-profile-image-brd hexagon">
+                    <div class="hexagon-inner-1">
+                        <div class="hexagon-inner-2">
+
                         </div>
-                        <div class="fhellow-location">
-                             {{fhellow.location}} 
-                             <span class="fhellow-range" ng-if="fhellow.range != 'The World'">
-                                 {{fhellow.range}}
-                             </span>
-                        </div>
-                        <!--
-                        <div class="fhellow-location">
-                            <strong>From: </strong>{{fhellow.location}} <br/>
-                            <strong>Currently in: </strong>{{fhellow.originallyFrom}}
-                        </div>-->
-                        <div class="fhellow-attr">
-                            <div class="fhellow-iams">
-                                <div class="iams" ng-repeat="iam in fhellow.iams">{{iam}}</div>
-                            </div>
-                            <div class="fhellow-lookingfors">
-                                <div class="looking-fors" ng-repeat="lookingfor in fhellow.lookingFor">
-                                    <div class="tooltip-item">
-                                        <div class="icon {{lookingfor}}">
+                    </div>
+                </div>
 
-                                            <span ng-switch="lookingfor">
-                                              <i ng-switch-when="Socialise" class="fa fa-coffee"></i>
-                                              <i ng-switch-when="Collaborate" class="fa fa-lightbulb-o"></i>
-                                              <i ng-switch-when="Mentor" class="fa fa-graduation-cap"></i>
-                                            </span>
+            </div>
+            <div class="fhellow-info">
+                <div class="fhellow-name">
+                    {{fhellow.firstname}}  {{fhellow.lastname}}
+                </div>
+                <div class="fhellow-location">
+                    {{fhellow.location}} 
+                    <span class="fhellow-range" ng-if="fhellow.range != 'The World'">
+                        {{fhellow.range}}
+                    </span>
+                </div>
+                <!--
+                <div class="fhellow-location">
+                    <strong>From: </strong>{{fhellow.location}} <br/>
+                    <strong>Currently in: </strong>{{fhellow.originallyFrom}}
+                </div>-->
+                <div class="fhellow-attr">
+                    <div class="fhellow-iams">
+                        <div class="iams" ng-repeat="iam in fhellow.iams">{{iam}}</div>
+                    </div>
+                    <div class="fhellow-lookingfors">
+                        <div class="looking-fors" ng-repeat="lookingfor in fhellow.lookingFor">
+                            <div class="tooltip-item">
+                                <div class="icon {{lookingfor}}">
 
-                                        </div>
-                                       
-                                        <div class="tooltip-content ">
+                                    <span ng-switch="lookingfor">
+                                        <i ng-switch-when="Socialise" class="fa fa-coffee"></i>
+                                        <i ng-switch-when="Collaborate" class="fa fa-lightbulb-o"></i>
+                                        <i ng-switch-when="Mentor" class="fa fa-graduation-cap"></i>
+                                    </span>
+                                    <div class="tooltip-content ">
 
-                                            <span ng-switch="lookingfor">
+                                        <span ng-switch="lookingfor">
 
-                                              {{lookingfor}}
-                                            </span>
+                                            {{lookingfor}}
+                                        </span>
 
-                                        </div>
-                                        
-                                        
                                     </div>
+
                                 </div>
+
+
+
+
                             </div>
-                           
-                        </div>
-                        <div class="fhellow-description">
-                            {{fhellow.bio}}
-                        </div>
-                        <div class="fhellow-interests"  ng-hide="fhellow.interests.length == 0">
-                          
-                            Interests:
-                            <span ng-repeat="interest in fhellow.interests">{{interest}}, </span>
                         </div>
                     </div>
-                    <div class="fhellow-actions">
-                       
-                       <a class="button icon-only small" href ng-click="newConversation(fhellow.nickname)"> <i class="fa fa-envelope"></i></a>
-                       <a class="button small" href="#/p/{{fhellow.nickname}}">View Profile</a>
-                    </div>
+
                 </div>
-                
+                <div class="fhellow-description">
+                    {{fhellow.bio}}
+                </div>
+                <div class="fhellow-interests"  ng-hide="fhellow.interests.length == 0">
 
-
+                    Interests:
+                    <span ng-repeat="interest in fhellow.interests">{{interest}}, </span>
+                </div>
             </div>
-            <div class="load-more"  ng-hide="!fhellowsList.length">
-                <a ng-click="showMore()" ng-disabled="noMoreResults" class="button inverted" ng-class="{disabled : noMoreResults}">
-                    <span ng-if="!noMoreResults">Show more Fhellows</span>
-                    <span ng-if="noMoreResults">No more Fhellows</span>
-                </a>
+            <div class="fhellow-actions">
+
+                <a class="button icon-only small" href ng-click="newConversation(fhellow.nickname)"> <i class="fa fa-envelope"></i></a>
+                <a class="button small" href="#/p/{{fhellow.nickname}}">View Profile</a>
             </div>
         </div>
+
+
+
+    </div>
+    <div class="load-more"  ng-hide="!fhellowsList.length">
+        <a ng-click="showMore()" ng-disabled="noMoreResults" class="button inverted" ng-class="{disabled : noMoreResults}">
+            <span ng-if="!noMoreResults">Show more Fhellows</span>
+            <span ng-if="noMoreResults">No more Fhellows</span>
+        </a>
+    </div>
+</div>
 

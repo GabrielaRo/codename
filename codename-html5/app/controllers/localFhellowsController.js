@@ -183,9 +183,15 @@
                 if (typeof data !== 'undefined' && data.length > 0) {
                    
                     $scope.fhellowsList = $scope.fhellowsList.concat(data);
+                    console.log($scope.fhellowsList);
                 } else {
                    
                     $scope.noMoreResults = true;
+                }
+                if($scope.fhellowsList.length < ($scope.fhellowPerPage * $scope.currentPage) ){
+                    console.log("NO more results because of "+$scope.fhellowsList.length +"<"+($scope.fhellowPerPage * $scope.currentPage));
+                    $scope.noMoreResults = true;
+                    
                 }
             }).error(function (data) {
                 $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
@@ -212,9 +218,15 @@
                 if (typeof data !== 'undefined' && data.length > 0) {
                     
                     $scope.fhellowsList = $scope.fhellowsList.concat(data);
+                    console.log($scope.fhellowsList);
                 } else {
                    
                     $scope.noMoreResults = true;
+                }
+                if($scope.fhellowsList.length < ($scope.fhellowPerPage * $scope.currentPage) ){
+                    console.log("NO more results because of "+$scope.fhellowsList.length +"<"+($scope.fhellowPerPage * $scope.currentPage));
+                    $scope.noMoreResults = true;
+                    
                 }
             }).error(function (data) {
                 console.log("Error: ");

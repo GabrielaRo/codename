@@ -74,7 +74,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             iAm = new ArrayList<String>();
             
             lookingFor.add("Socialise");
-            lookingFor.add("Collabortate");
+            lookingFor.add("Collaborate");
             iAm.add("Freelancer");
             
             interests.add("Design");
@@ -91,7 +91,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             iAm = new ArrayList<String>();
             
             lookingFor.add("Socialise");
-            lookingFor.add("Collabortate");
+            lookingFor.add("Collaborate");
             iAm.add("Freelancer");
             iAm.add("Entrepreneur");
             interests.add("Design");
