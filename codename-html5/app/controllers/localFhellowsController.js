@@ -1,5 +1,5 @@
 (function () {
-    var localFhellowsController = function ($scope, $rootScope, $users, $interests, $chat, location, appConstants, reverseGeocoder) {
+    var localFhellowsController = function ($scope, $rootScope, $users, $interests, $chat, location, appConstants, reverseGeocoder, $location) {
         $scope.imagePath = "static/img/public-images/";
         $scope.filters = {location: '', proximity: 200, type: "", search: ""};
         $scope.filtersType = [];
@@ -33,11 +33,11 @@
                                 description: results[0].address_components[6].short_name + " , " +results[0].address_components[3].short_name
                             };
                             $scope.selectedLocation = locData;
-//                            $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
-//                                    $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
-                            var el = angular.element(document.querySelectorAll("#myLocationText"));
-                            el[0].value = 'Current Location';
-                            $scope.lookedUpLocation = locData;
+                            if($location.path().contains('localfhellows')){
+                                var el = angular.element(document.querySelectorAll("#myLocationText"));
+                                el[0].value = 'Current Location';
+                                $scope.lookedUpLocation = locData;
+                            }
                             
                     
                             
@@ -238,7 +238,7 @@
 
     };
 
-    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests', '$chat', 'location', 'appConstants', 'reverseGeocoder'];
+    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests', '$chat', 'location', 'appConstants', 'reverseGeocoder', '$location'];
     angular.module("codename").controller("localFhellowsController", localFhellowsController);
 
 }());

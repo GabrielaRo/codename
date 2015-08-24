@@ -1,5 +1,6 @@
 (function () {
-    var profileController = function ($rootScope, $scope, $timeout, $users, $cookieStore, appConstants, $routeParams, $auth, location, $interests, reverseGeocoder) {
+    var profileController = function ($rootScope, $scope, $timeout, $users, $cookieStore, appConstants, 
+    $routeParams, $auth, location, $interests, reverseGeocoder, $location) {
 
 
         /*
@@ -47,9 +48,11 @@
                                 name: results[0].address_components[6].short_name,
                                 description: results[0].address_components[6].short_name + ", " +results[0].address_components[3].short_name
                             };
-                            var el = angular.element(document.querySelectorAll("#myLocationText"));
-                            el[0].value = locData.description;
-                            $scope.userCurrentLocation = locData;
+                            if($location.path().contains('profile')){
+                                var el = angular.element(document.querySelectorAll("#myLocationText"));
+                                el[0].value = locData.description;
+                                $scope.userCurrentLocation = locData;
+                            }
 
                         });
             });
@@ -919,6 +922,7 @@
 
     };
 
-    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$cookieStore", "appConstants", "$routeParams", "$auth", "location", "$interests", "reverseGeocoder"];
+    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$cookieStore", "appConstants", 
+        "$routeParams", "$auth", "location", "$interests", "reverseGeocoder", "$location"];
     angular.module("codename").controller("profileController", profileController);
 }());
