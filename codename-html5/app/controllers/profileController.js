@@ -827,7 +827,7 @@
         };
         
         $scope.previewProfile = function(nickname){
-            $rootScope.$broadcast('goTo', "/profile/"+nickname);
+            $rootScope.$broadcast('goTo', "/p/"+nickname);
         }
 
         $scope.updateUserLiveProfile = function (live) {
