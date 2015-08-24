@@ -30,9 +30,12 @@
             avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/cover"
         };
+        
+        $scope.gettingProfileLocation = false;
 
         $scope.shareLocationForProfile = function () {
             location.get(angular.noop, angular.noop);
+            $scope.gettingProfileLocation = true;
             location.ready(function () {
                 reverseGeocoder.geocode(location.current)
                         .then(function (results) {
@@ -51,6 +54,7 @@
                             $scope.userCurrentLocation = locData;
                             console.log("Current location is: ");
                             console.log(locData);
+                            $scope.gettingProfileLocation = false;
 
                         });
             });

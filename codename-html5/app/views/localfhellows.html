@@ -7,8 +7,12 @@
 
                 </location-lookup>
 
-                <a class="user-location-button search" ng-click="shareLocation()">
-                    <i class="fa fa-location-arrow"></i>
+                <a class="user-location-button no-animate search" ng-click="shareLocation()" ng-if="!gettingLocation ">
+                    <i  class="fa fa-location-arrow"></i>
+                    
+                </a>
+                <a class="user-location-button no-animate search" ng-if="gettingLocation"> 
+                    <i  class="fa fa-spinner fa-spin no-animate"></i>
                 </a>
             </div>
             

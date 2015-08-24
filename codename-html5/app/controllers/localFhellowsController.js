@@ -13,10 +13,14 @@
 
         $scope.currrentOffset = 0;
         $scope.noMoreResults = false;
+        $scope.gettingLocation = false;
 
         $scope.shareLocation = function () {
+            $scope.gettingLocation = true;
             location.get(angular.noop, angular.noop);
+            
             location.ready(function () {
+                
                 reverseGeocoder.geocode(location.current)
                         .then(function (results) {
                             console.log("Result [0]");
@@ -37,6 +41,8 @@
                             $scope.lookedUpLocation = locData;
                             console.log("Current location is: ");
                             console.log(locData);
+                    
+                            $scope.gettingLocation = false;
 
                         });
             });

@@ -92,8 +92,12 @@
                                         <div class="form-fields">
                                             <div class="control full">
                                                 <location-lookup ng-model="userCurrentLocation" templateUrl="" limit-to="4"></location-lookup>
-                                                <a class="user-location-button" ng-click="shareLocationForProfile()">
+                                                <a class="user-location-button no-animate" ng-click="shareLocationForProfile()" ng-if="!gettingProfileLocation" >
                                                     <i class="fa fa-location-arrow"></i>
+                                                </a>
+                                                
+                                                <a class="user-location-button no-animate" ng-if="gettingProfileLocation">
+                                                     <i  class="fa fa-spinner fa-spin no-animate"></i>
                                                 </a>
                                             </div>
                                             <!--<div class="help-text" >
