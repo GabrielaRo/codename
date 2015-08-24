@@ -1,6 +1,6 @@
 (function () {
-    var profileController = function ($rootScope, $scope, $timeout, $users, $cookieStore, appConstants, 
-    $routeParams, $auth, location, $interests, reverseGeocoder, $location) {
+    var profileController = function ($rootScope, $scope, $timeout, $users, $cookieStore, appConstants,
+            $routeParams, $auth, location, $interests, reverseGeocoder, $location) {
 
 
         /*
@@ -31,7 +31,7 @@
             avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/cover"
         };
-        
+
         $scope.gettingProfileLocation = false;
 
         $scope.shareLocationForProfile = function () {
@@ -46,9 +46,9 @@
                                 latitude: location.current.latitude,
                                 longitude: location.current.longitude,
                                 name: results[0].address_components[6].short_name,
-                                description: results[0].address_components[6].short_name + ", " +results[0].address_components[3].short_name
+                                description: results[0].address_components[6].short_name + ", " + results[0].address_components[3].short_name
                             };
-                            if($location.path().contains('profile')){
+                            if ($location.path().contains('profile')) {
                                 var el = angular.element(document.querySelectorAll("#myLocationText"));
                                 el[0].value = locData.description;
                                 $scope.userCurrentLocation = locData;
@@ -582,7 +582,7 @@
             }
 
         };
-        
+
         $scope.updateNickname = function (nickname) {
             $scope.clearEditablesActive();
             //$scope.clearField($("#user-job-form"));
@@ -594,7 +594,7 @@
                     $scope.calculatePercentage();
                 }).error(function (data) {
                     $scope.profile.nickname = initialData.nickname;
-                    console.log("Error: " );
+                    console.log("Error: ");
                     console.log(data);
                     $rootScope.$broadcast("quickNotification", "Something went wrong with updating your nickname!" + data.error);
                 });
@@ -779,60 +779,57 @@
         $scope.calculatePercentage = function () {
             $scope.profile.percentage = 0;
             if ($scope.profile.hascover == true) {
-
                 $scope.profile.percentage += 5;
             }
             if ($scope.profile.hasavatar == true) {
-
+                $scope.profile.percentage += 5;
+            }
+            if ($scope.profile.location != "undefined" && $scope.profile.location != "") {
                 $scope.profile.percentage += 5;
             }
             if ($scope.profile.firstname != "undefined" && $scope.profile.firstname != "") {
-                $scope.profile.percentage += 5;
-
+                $scope.profile.percentage += 2;
             }
             if ($scope.profile.lastname != "undefined" && $scope.profile.lastname != "") {
-                $scope.profile.percentage += 5;
-
+                $scope.profile.percentage += 3;
             }
-            if ($scope.profile.title != "undefined" && $scope.profile.title != "") {
-                $scope.profile.percentage += 10;
-
-            }
-            if ($scope.profile.location.description != "undefined" && $scope.profile.location.description != "") {
-                $scope.profile.percentage += 10;
-
-            }
-
             if ($scope.profile.originallyFrom != "undefined" && $scope.profile.originallyFrom != "") {
-                $scope.profile.percentage += 10;
-
+                $scope.profile.percentage += 5;
             }
             if ($scope.profile.bio != "undefined" && $scope.profile.bio != "") {
-                $scope.profile.percentage += 5;
-
+                $scope.profile.percentage += 20;
             }
-            if ($scope.profile.longbio != "undefined" && $scope.profile.longbio != "") {
-                $scope.profile.percentage += 5;
 
-            }
             if ($scope.profile.interests != "undefined" && $scope.profile.interests != "") {
-                $scope.profile.percentage += 10;
-
+                $scope.profile.percentage += 5;
             }
             if ($scope.profile.lookingFor != "undefined" && $scope.profile.lookingFor != "") {
-                $scope.profile.percentage += 10;
-
+                $scope.profile.percentage += 5;
             }
             if ($scope.profile.iam != "undefined" && $scope.profile.iam != "") {
-                $scope.profile.percentage += 10;
-
+                $scope.profile.percentage += 5;
+            }
+            if ($scope.profile.linkedin != "undefined" && $scope.profile.linkedin != "") {
+                $scope.profile.percentage += 5;
+            }
+            if ($scope.profile.website != "undefined" && $scope.profile.website != "") {
+                $scope.profile.percentage += 5;
+            }
+            if ($scope.profile.twitter != "undefined" && $scope.profile.twitter != "") {
+                $scope.profile.percentage += 5;
+            }
+            if ($scope.profile.share != "undefined" && $scope.profile.share != "") {
+                $scope.profile.percentage += 20;
+            }
+            if ($scope.profile.messageme != "undefined" && $scope.profile.messageme != "") {
+                $scope.profile.percentage += 5;
             }
             console.log("The percentage is : " + $scope.profile.percentage);
 
         };
-        
-        $scope.previewProfile = function(nickname){
-            $rootScope.$broadcast('goTo', "/p/"+nickname);
+
+        $scope.previewProfile = function (nickname) {
+            $rootScope.$broadcast('goTo', "/p/" + nickname);
         }
 
         $scope.updateUserLiveProfile = function (live) {
@@ -903,11 +900,11 @@
 
                 setTimeout(function () {
                     $scope.bindEditableEvents();
-                    
+
                 }, 500);
 
             } else {
-               
+
                 if ($scope.auth_token && $scope.auth_token !== "") {
                     $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
                     $scope.edit = true;
@@ -922,7 +919,7 @@
 
     };
 
-    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$cookieStore", "appConstants", 
+    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$cookieStore", "appConstants",
         "$routeParams", "$auth", "location", "$interests", "reverseGeocoder", "$location"];
     angular.module("codename").controller("profileController", profileController);
 }());
