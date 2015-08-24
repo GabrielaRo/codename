@@ -23,8 +23,7 @@
                 
                 reverseGeocoder.geocode(location.current)
                         .then(function (results) {
-                            console.log("Result [0]");
-                            console.log(results[0]);
+                            $scope.gettingLocation = false;
                             $scope.resetPaging();
                             
                             var locData = {
@@ -34,15 +33,14 @@
                                 description: results[0].address_components[6].short_name + " , " +results[0].address_components[3].short_name
                             };
                             $scope.selectedLocation = locData;
-                            $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
-                                    $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+//                            $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
+//                                    $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
                             var el = angular.element(document.querySelectorAll("#myLocationText"));
                             el[0].value = 'Current Location';
                             $scope.lookedUpLocation = locData;
-                            console.log("Current location is: ");
-                            console.log(locData);
+                            
                     
-                            $scope.gettingLocation = false;
+                            
 
                         });
             });
@@ -180,14 +178,13 @@
                 $scope.currentRange = "NA";
             }
 
-            console.log("Current range: " + $scope.currentRange + " From : " + $scope.currrentOffset);
+           
             $users.search(lon, lat, tags, lookingFors, categories, $scope.currentRange, $scope.currrentOffset, $scope.fhellowPerPage).success(function (data) {
                 if (typeof data !== 'undefined' && data.length > 0) {
-                    console.log("data for all ranges : " + data.length);
-                    console.log(data);
+                   
                     $scope.fhellowsList = $scope.fhellowsList.concat(data);
                 } else {
-                    console.log("no data for all ranges");
+                   
                     $scope.noMoreResults = true;
                 }
             }).error(function (data) {
@@ -208,16 +205,15 @@
                 $scope.currentRange = "NA";
             }
 
-            console.log("Current range: " + $scope.currentRange + " From : " + $scope.currrentOffset);
+            
 
             $users.search(0.0, 0.0, tags, lookingFors, categories, $scope.currentRange, $scope.currrentOffset, $scope.fhellowPerPage).success(function (data) {
 
                 if (typeof data !== 'undefined' && data.length > 0) {
-                    console.log("data for the world : " + data.length);
-                    console.log(data);
+                    
                     $scope.fhellowsList = $scope.fhellowsList.concat(data);
                 } else {
-                    console.log("no data for all ranges");
+                   
                     $scope.noMoreResults = true;
                 }
             }).error(function (data) {

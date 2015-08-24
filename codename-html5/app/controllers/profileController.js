@@ -39,22 +39,17 @@
             location.ready(function () {
                 reverseGeocoder.geocode(location.current)
                         .then(function (results) {
-                            console.log("Result [0]");
-                            console.log(results[0]);
-                            
+                            $scope.gettingProfileLocation = false;
+
                             var locData = {
                                 latitude: location.current.latitude,
                                 longitude: location.current.longitude,
                                 name: results[0].address_components[6].short_name,
                                 description: results[0].address_components[6].short_name + ", " +results[0].address_components[3].short_name
                             };
-                            $scope.selectedLocation = locData;
                             var el = angular.element(document.querySelectorAll("#myLocationText"));
                             el[0].value = locData.description;
                             $scope.userCurrentLocation = locData;
-                            console.log("Current location is: ");
-                            console.log(locData);
-                            $scope.gettingProfileLocation = false;
 
                         });
             });
@@ -157,7 +152,6 @@
 
         $scope.loadInterests = function ($query) {
             return $scope.interests.filter(function (interest) {
-                console.log(interest);
                 return interest.text.toLowerCase().indexOf($query.toLowerCase()) != -1;
             });
         }
