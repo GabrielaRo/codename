@@ -46,7 +46,8 @@ public interface UserEndpointService extends Serializable {
             @QueryParam("categories") String categories,
             @QueryParam("range") String range,
             @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) throws ServiceException;
+            @QueryParam("limit") Integer limit,
+            @QueryParam("excludes") String excludes) throws ServiceException;
 
     @Path("{nickname}/avatar")
     @GET

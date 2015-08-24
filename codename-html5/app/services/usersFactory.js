@@ -340,13 +340,15 @@
 
         //Search Users
         factory.search = function (lon,lat, interests,lookingFors, categories, range, offset, limit) {
+            var excludes = [];
+            excludes.push($cookieStore.get('user_nick'));
             return $http({
                 method: 'GET',
                 url: appConstants.server + appConstants.context + 'rest/users/search?lon='+lon+'&lat='+lat+'&interests='
                         +JSON.stringify(interests)+'&lookingFors='+JSON.stringify(lookingFors)
                         +'&categories='+JSON.stringify(categories)
                         +'&range='+range
-                        +'&offset='+offset+'&limit='+limit,
+                        +'&offset='+offset+'&limit='+limit+"&excludes="+JSON.stringify(excludes),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
                 
             });

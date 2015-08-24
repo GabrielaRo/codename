@@ -78,6 +78,7 @@ public class User implements Serializable {
 
     private String jobTitle;
 
+    @Field(analyze = Analyze.YES, store = Store.YES)
     private String nickname;
 
     @Lob

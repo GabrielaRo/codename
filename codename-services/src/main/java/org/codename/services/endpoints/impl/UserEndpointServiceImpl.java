@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -91,7 +92,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
     }
 
     @Override
-    public Response search(Double lon, Double lat, String interests, String lookingFors, String categories, String range, Integer offset, Integer limit) throws ServiceException {
+    public Response search(Double lon, Double lat, String interests, String lookingFors, String categories, String range, Integer offset, Integer limit, String excludes) throws ServiceException {
         System.out.println("Searching (Range: " + range + ") from " + offset + " to " + limit);
         List<String> interestsList = null;
 
@@ -143,12 +144,30 @@ public class UserEndpointServiceImpl implements UserEndpointService {
             }
         }
 
+        List<String> excludesList = null;
+        if (excludes != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(excludes.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
+
+            if (array != null) {
+                excludesList = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+                    log.info("Excludes[" + i + "]: " + array.getString(i));
+
+                    excludesList.add(array.getString(i));
+                }
+
+            }
+        }
+
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         if (lon == 0.0 && lat == 0.0) {
             List<User> usersInRange = usersQueryService.search(lon, lat, DistanceRange._ALL.getOffsetRange(),
-                    DistanceRange._ALL.getLimitRange(), interestsList, lookingForList, categoriesList, offset, limit);
+                    DistanceRange._ALL.getLimitRange(), interestsList, lookingForList, categoriesList, offset, limit, excludesList);
             int i = offset;
             for (User u : usersInRange) {
+
                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                 jsonUserObjectBuilder.add("range", DistanceRange._ALL.getDescription());
                 jsonUserObjectBuilder.add("rangeCode", DistanceRange._ALL.name());
@@ -156,9 +175,10 @@ public class UserEndpointServiceImpl implements UserEndpointService {
                 jsonUserObjectBuilder.add("onlineStatus", notificationServices.isOnline(u.getNickname()));
                 jsonArrayBuilder.add(jsonUserObjectBuilder);
                 i++;
+
             }
         } else {
-            
+
             int missing = limit;
             DistanceRange incomingRange = null;
             try {
@@ -166,20 +186,21 @@ public class UserEndpointServiceImpl implements UserEndpointService {
             } catch (IllegalArgumentException iae) {
             }
             boolean firstRange = true;
-            System.out.println("Incoming range is: "+range + " and the offset is:"+offset);
+            System.out.println("Incoming range is: " + range + " and the offset is:" + offset);
             if (incomingRange == null) {
                 for (DistanceRange r : DistanceRange.values()) {
-                    System.out.println(">> ANalizing Quering range:  "+r.getDescription());
+                    System.out.println(">> ANalizing Quering range:  " + r.getDescription());
                     if (!r.equals(DistanceRange._ALL)) {
                         int i = 0;
                         if (firstRange) {
                             i = offset;
                             firstRange = false;
                         }
-                        System.out.println(">> Executing Query range:  "+r.getDescription());
+                        System.out.println(">> Executing Query range:  " + r.getDescription());
                         List<User> usersInRange = usersQueryService.search(lon, lat, r.getOffsetRange(),
-                                r.getLimitRange(), interestsList, lookingForList, categoriesList, i, limit);
+                                r.getLimitRange(), interestsList, lookingForList, categoriesList, i, limit, excludesList);
                         for (User u : usersInRange) {
+
                             JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                             jsonUserObjectBuilder.add("range", r.getDescription());
                             jsonUserObjectBuilder.add("rangeCode", r.name());
@@ -188,6 +209,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
                             jsonArrayBuilder.add(jsonUserObjectBuilder);
                             missing = missing - 1;
                             i++;
+
                         }
 
                         System.out.println("Missing : " + missing);
@@ -203,9 +225,9 @@ public class UserEndpointServiceImpl implements UserEndpointService {
             } else {
                 boolean enabled = false;
                 for (DistanceRange r : DistanceRange.values()) {
-                    System.out.println(">> ANalizing Quering range:  "+r.getDescription());
+                    System.out.println(">> ANalizing Quering range:  " + r.getDescription());
                     if (r.equals(incomingRange) || enabled) {
-                        
+
                         enabled = true;
                         if (!r.equals(DistanceRange._ALL)) {
                             int i = 0;
@@ -213,9 +235,9 @@ public class UserEndpointServiceImpl implements UserEndpointService {
                                 i = offset;
                                 firstRange = false;
                             }
-                            System.out.println(">> Executing Query range:  "+r.getDescription());
+                            System.out.println(">> Executing Query range:  " + r.getDescription());
                             List<User> usersInRange = usersQueryService.search(lon, lat, r.getOffsetRange(),
-                                    r.getLimitRange(), interestsList, lookingForList, categoriesList, i, limit);
+                                    r.getLimitRange(), interestsList, lookingForList, categoriesList, i, limit, excludesList);
                             for (User u : usersInRange) {
                                 JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
                                 jsonUserObjectBuilder.add("range", r.getDescription());

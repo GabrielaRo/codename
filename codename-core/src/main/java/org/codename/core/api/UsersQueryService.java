@@ -16,6 +16,8 @@ import org.codename.model.User;
 public interface UsersQueryService {
 
 
-    List<User> search(Double lon, Double lat, Double offsetRange, Double limitRange, List<String> interests, List<String> lookingFors, List<String> categories, Integer offset, Integer limit) throws ServiceException;
+    List<User> search(Double lon, Double lat, Double offsetRange, Double limitRange, 
+            List<String> interests, List<String> lookingFors, List<String> categories, 
+            Integer offset, Integer limit, List<String> exludes) throws ServiceException;
 
 }

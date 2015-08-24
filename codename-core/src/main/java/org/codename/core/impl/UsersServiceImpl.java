@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import org.codename.core.api.UsersService;
 import org.codename.model.Coordinates;
 import org.codename.model.ServiceKey;
@@ -339,8 +340,8 @@ public class UsersServiceImpl implements UsersService {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
         if (liveBoolean && calculateUserProfilePercentage(u) > 50) {
-        	u.setLive(liveBoolean);
-        	pm.merge(u);
+            u.setLive(liveBoolean);
+            pm.merge(u);
         }
     }
 
@@ -370,8 +371,20 @@ public class UsersServiceImpl implements UsersService {
         if (u == null) {
             throw new ServiceException("User doesn't exist: " + user_id);
         }
-        u.setNickname(nickname);
-        pm.merge(u);
+        User otherUser = null;
+        try {
+            otherUser = pm.createNamedQuery("User.getByNickName", User.class).setParameter("nickname", nickname).getSingleResult();
+        } catch (NoResultException nre) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        } catch (NonUniqueResultException nure) {
+            throw new ServiceException("Nickname (" + nickname + ")already in use by another user. Try another one");
+        }
+        if (u.getEmail().equals(otherUser.getEmail())) {
+            u.setNickname(nickname);
+            pm.merge(u);
+            return;
+        }
+        throw new ServiceException("Nickname (" + nickname + ")already in use by another user. Please, try another one");
     }
 
     @Override
@@ -394,7 +407,6 @@ public class UsersServiceImpl implements UsersService {
         pm.merge(u);
     }
 
-   
     @Override
     public void updateShare(Long user_id, String share) throws ServiceException {
         User u = pm.find(User.class, user_id);
@@ -443,61 +455,61 @@ public class UsersServiceImpl implements UsersService {
         u.setLastLogin(date);
         pm.merge(u);
     }
-    
+
     @Override
     public int calculateUserProfilePercentage(User u) {
-    	double increasingIndx = 0.0;
-    	double maxNumberOfWeight = 20.0;
-    	if (!(StringUtils.isEmpty(u.getAvatarFileName()))) {
-    		increasingIndx += 2;
-    	}
-    	if (!(StringUtils.isEmpty(u.getFirstname()))) {
-    		increasingIndx += 2;
-    	} 
-    	if (!(StringUtils.isEmpty(u.getLastname()))) {
-    		increasingIndx += 2;
-    	}
-    	if (!(u.getInterests().isEmpty())) {
-    		increasingIndx += 2;
-    	}
-    	if (!(u.getLookingFor().isEmpty())) {
-    		increasingIndx += 2;
-    	}
-    	if (!(StringUtils.isEmpty(u.getCoverFileName()))) {
-    		increasingIndx++;
-    	}
-    	if (!(StringUtils.isEmpty(u.getLocation()))) {
-    		increasingIndx++;
-    	}
-    	if (!(StringUtils.isEmpty(u.getLongBio()))) {
-    		increasingIndx++;
-    	}
-    	if (!(StringUtils.isEmpty(u.getJobTitle()))) {
-    		increasingIndx++;
-    	}
-    	
-    	if (!(StringUtils.isEmpty(u.getShareMessage()))) {
-    		increasingIndx++;
-    	}
-    	if (!(StringUtils.isEmpty(u.getMessageMeMessage()))) {
-    		increasingIndx++;
-    	}
-    	if (!(StringUtils.isEmpty(u.getOriginallyFrom()))) {
-    		increasingIndx++;
-    	}
-    	if (!(u.getInterests().isEmpty())) {
-    		increasingIndx++;
-    	}
-    	if (!(StringUtils.isEmpty(u.getWebsite()))) {
-    		increasingIndx++;
-    	}
-    	if (!(StringUtils.isEmpty(u.getTwitter()))) {
-    		increasingIndx++;
-    	}
-    	if (!(StringUtils.isEmpty(u.getLinkedin()))) {
-    		increasingIndx++;    		
-    	} 
-    	return (int) ((increasingIndx / maxNumberOfWeight) * 100);
+        double increasingIndx = 0.0;
+        double maxNumberOfWeight = 20.0;
+        if (!(StringUtils.isEmpty(u.getAvatarFileName()))) {
+            increasingIndx += 2;
+        }
+        if (!(StringUtils.isEmpty(u.getFirstname()))) {
+            increasingIndx += 2;
+        }
+        if (!(StringUtils.isEmpty(u.getLastname()))) {
+            increasingIndx += 2;
+        }
+        if (!(u.getInterests().isEmpty())) {
+            increasingIndx += 2;
+        }
+        if (!(u.getLookingFor().isEmpty())) {
+            increasingIndx += 2;
+        }
+        if (!(StringUtils.isEmpty(u.getCoverFileName()))) {
+            increasingIndx++;
+        }
+        if (!(StringUtils.isEmpty(u.getLocation()))) {
+            increasingIndx++;
+        }
+        if (!(StringUtils.isEmpty(u.getLongBio()))) {
+            increasingIndx++;
+        }
+        if (!(StringUtils.isEmpty(u.getJobTitle()))) {
+            increasingIndx++;
+        }
+
+        if (!(StringUtils.isEmpty(u.getShareMessage()))) {
+            increasingIndx++;
+        }
+        if (!(StringUtils.isEmpty(u.getMessageMeMessage()))) {
+            increasingIndx++;
+        }
+        if (!(StringUtils.isEmpty(u.getOriginallyFrom()))) {
+            increasingIndx++;
+        }
+        if (!(u.getInterests().isEmpty())) {
+            increasingIndx++;
+        }
+        if (!(StringUtils.isEmpty(u.getWebsite()))) {
+            increasingIndx++;
+        }
+        if (!(StringUtils.isEmpty(u.getTwitter()))) {
+            increasingIndx++;
+        }
+        if (!(StringUtils.isEmpty(u.getLinkedin()))) {
+            increasingIndx++;
+        }
+        return (int) ((increasingIndx / maxNumberOfWeight) * 100);
     }
 
 }

@@ -590,8 +590,10 @@
                     $rootScope.$broadcast("updateUser", {token: $scope.auth_token, userId: $scope.user_id, userNick: nickname});
                     $scope.calculatePercentage();
                 }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating your nickname!" + data);
+                    $scope.profile.nickname = initialData.nickname;
+                    console.log("Error: " );
+                    console.log(data);
+                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating your nickname!" + data.error);
                 });
             } else {
                 $scope.resetData();
