@@ -1,5 +1,5 @@
 (function () {
-    var profileController = function ($rootScope, $scope, $timeout, $users, $cookieStore, appConstants, $routeParams, $auth, location, $interests) {
+    var profileController = function ($rootScope, $scope, $timeout, $users, $cookieStore, appConstants, $routeParams, $auth, location, $interests, reverseGeocoder) {
 
 
         /*
@@ -31,7 +31,31 @@
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/cover"
         };
 
-        location.get(angular.noop, angular.noop);
+        $scope.shareLocationForProfile = function () {
+            location.get(angular.noop, angular.noop);
+            location.ready(function () {
+                reverseGeocoder.geocode(location.current)
+                        .then(function (results) {
+                            console.log("Result [0]");
+                            console.log(results[0]);
+                            
+                            var locData = {
+                                latitude: location.current.latitude,
+                                longitude: location.current.longitude,
+                                name: results[0].address_components[6].short_name,
+                                description: results[0].address_components[6].short_name + ", " +results[0].address_components[3].short_name
+                            };
+                            $scope.selectedLocation = locData;
+                            var el = angular.element(document.querySelectorAll("#myLocationText"));
+                            el[0].value = locData.description;
+                            $scope.userCurrentLocation = locData;
+                            console.log("Current location is: ");
+                            console.log(locData);
+
+                        });
+            });
+
+        };
 
         $scope.selectLocation = function () {
             if ($scope.userCurrentLocation) {
@@ -895,6 +919,6 @@
 
     };
 
-    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$cookieStore", "appConstants", "$routeParams", "$auth", "location", "$interests"];
+    profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$cookieStore", "appConstants", "$routeParams", "$auth", "location", "$interests", "reverseGeocoder"];
     angular.module("codename").controller("profileController", profileController);
 }());

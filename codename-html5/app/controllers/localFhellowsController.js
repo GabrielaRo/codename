@@ -1,5 +1,5 @@
 (function () {
-    var localFhellowsController = function ($scope, $rootScope, $users, $interests, $chat, location, appConstants) {
+    var localFhellowsController = function ($scope, $rootScope, $users, $interests, $chat, location, appConstants, reverseGeocoder) {
         $scope.imagePath = "static/img/public-images/";
         $scope.filters = {location: '', proximity: 200, type: "", search: ""};
         $scope.filtersType = [];
@@ -14,9 +14,34 @@
         $scope.currrentOffset = 0;
         $scope.noMoreResults = false;
 
-        $scope.shareLocation = function(){
+        $scope.shareLocation = function () {
             location.get(angular.noop, angular.noop);
-        }
+            location.ready(function () {
+                reverseGeocoder.geocode(location.current)
+                        .then(function (results) {
+                            console.log("Result [0]");
+                            console.log(results[0]);
+                            $scope.resetPaging();
+                            
+                            var locData = {
+                                latitude: location.current.latitude,
+                                longitude: location.current.longitude,
+                                name: results[0].address_components[6].short_name,
+                                description: results[0].address_components[6].short_name + " , " +results[0].address_components[3].short_name
+                            };
+                            $scope.selectedLocation = locData;
+                            $scope.loadFhellowsInRange($scope.selectedLocation.longitude, $scope.selectedLocation.latitude,
+                                    $scope.tagsText, $scope.filtersLookingTo, $scope.filtersType);
+                            var el = angular.element(document.querySelectorAll("#myLocationText"));
+                            el[0].value = 'Current Location';
+                            $scope.lookedUpLocation = locData;
+                            console.log("Current location is: ");
+                            console.log(locData);
+
+                        });
+            });
+
+        };
 
         $scope.showMore = function () {
             $scope.currentPage = $scope.currentPage + 1;
@@ -211,7 +236,7 @@
 
     };
 
-    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests', '$chat', 'location', 'appConstants'];
+    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests', '$chat', 'location', 'appConstants', 'reverseGeocoder'];
     angular.module("codename").controller("localFhellowsController", localFhellowsController);
 
 }());
