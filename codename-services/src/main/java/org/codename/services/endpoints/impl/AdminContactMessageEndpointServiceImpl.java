@@ -17,21 +17,21 @@ import org.codename.core.api.ContactMessageService;
 
 import org.codename.core.exceptions.ServiceException;
 import org.codename.model.ContactMessage;
-import org.codename.services.endpoints.api.ContactMessageEndpointService;
+import org.codename.services.endpoints.api.AdminContactMessageEndpointService;
 
 /**
  *
  * @author grogdj
  */
 @Stateless
-public class ContactMessageEndpointServiceImpl implements ContactMessageEndpointService {
+public class AdminContactMessageEndpointServiceImpl implements AdminContactMessageEndpointService {
 
     @Inject
     private ContactMessageService contactMessageService;
 
-    private final static Logger log = Logger.getLogger(ContactMessageEndpointServiceImpl.class.getName());
+    private final static Logger log = Logger.getLogger(AdminContactMessageEndpointServiceImpl.class.getName());
 
-    public ContactMessageEndpointServiceImpl() {
+    public AdminContactMessageEndpointServiceImpl() {
 
     }
 

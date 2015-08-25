@@ -67,6 +67,8 @@ public class UsersServiceImpl implements UsersService {
             return pm.createNamedQuery("User.getByEmail", User.class).setParameter("email", email).getSingleResult();
         } catch (NoResultException e) {
             return null;
+        } catch (NonUniqueResultException e) {
+            return null;
         }
 
     }
@@ -77,6 +79,8 @@ public class UsersServiceImpl implements UsersService {
             return pm.createNamedQuery("User.getByProviderId", User.class).setParameter("providerId", providerId).getSingleResult();
         } catch (NoResultException e) {
             return null;
+        } catch (NonUniqueResultException e) {
+            return null;
         }
     }
 
@@ -86,6 +90,8 @@ public class UsersServiceImpl implements UsersService {
             return pm.createNamedQuery("User.getByNickName", User.class).setParameter("nickname", nickname).getSingleResult();
         } catch (NoResultException e) {
             return null;
+        } catch (NonUniqueResultException e) {
+            return null;
         }
     }
 
@@ -94,6 +100,8 @@ public class UsersServiceImpl implements UsersService {
         try {
             return pm.find(User.class, user_id);
         } catch (NoResultException e) {
+            return null;
+        } catch (NonUniqueResultException e) {
             return null;
         }
 
@@ -115,6 +123,8 @@ public class UsersServiceImpl implements UsersService {
             }
         } catch (NoResultException e) {
             return "";
+        } catch (NonUniqueResultException e) {
+            return null;
         }
         return "";
     }

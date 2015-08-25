@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +57,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  * @author grogdj
  */
+
+
 @Stateless
 public class AuthenticationEndpointServiceImpl implements AuthenticationEndpointService {
 
@@ -132,6 +135,11 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
         jsonObjBuilder.add("email", email);
         jsonObjBuilder.add("auth_token", authToken);
         jsonObjBuilder.add("user_id", authUser.getId());
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        for (String r : authUser.getRoles()) {
+            jsonArrayBuilder.add(r);
+        }
+        jsonObjBuilder.add("user_roles", jsonArrayBuilder.build().toString());
         jsonObjBuilder.add("user_nick", authUser.getNickname());
         jsonObjBuilder.add("firstLogin", firstLogin);
         jsonObjBuilder.add("live", live);
@@ -210,7 +218,7 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
         Map<String, Object> userInfo = null;
         try {
             accessToken = (String) getResponseEntity(response).get("access_token");
-            
+
             response
                     = client.target(peopleApiUrl).request("text/plain")
                     .header(CodenameUtil.AUTH_HEADER_KEY, String.format("Bearer %s", accessToken)).get();
@@ -223,7 +231,6 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
             ex.printStackTrace();
         }
 
-        
         User byEmail = userService.getByEmail((String) userInfo.get("email"));
         if (byEmail == null) {
             User user = new User((String) userInfo.get("email"), userInfo.get("sub").toString(),
@@ -274,6 +281,11 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
             jsonObjBuilder.add("email", authUser.getEmail());
             jsonObjBuilder.add("auth_token", authToken);
             jsonObjBuilder.add("user_id", authUser.getId());
+            JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+            for (String r : authUser.getRoles()) {
+                jsonArrayBuilder.add(r);
+            }
+            jsonObjBuilder.add("user_roles", jsonArrayBuilder.build().toString());
             jsonObjBuilder.add("user_nick", authUser.getNickname());
             jsonObjBuilder.add("firstLogin", authUser.isIsFirstLogin());
             jsonObjBuilder.add("live", authUser.isLive());

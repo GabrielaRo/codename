@@ -10,7 +10,6 @@ import javax.ejb.Local;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -22,16 +21,16 @@ import org.codename.core.exceptions.ServiceException;
  * @author grogdj
  */
 @Local
-@Path("/contact")
-public interface ContactMessageEndpointService extends Serializable {
+@Path("/admin/contact")
+public interface AdminContactMessageEndpointService extends Serializable {
 
     @GET
-    @Path("replied")
+    @Path("")
     @Produces({MediaType.APPLICATION_JSON})
     Response getRepliedMessages(@NotNull @QueryParam("replied") String replied) throws ServiceException;
 
     @GET
-    @Path("all")
+    @Path("/byemail")
     @Produces({MediaType.APPLICATION_JSON})
     Response getAll(@NotNull @QueryParam("email") String email) throws ServiceException;
 

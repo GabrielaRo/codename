@@ -1,0 +1,54 @@
+
+<section class="sub-screen vertical dark">
+    <div class="wrapper">
+        <div class="container">
+
+
+            <div id="home-form" class="four-col">
+                Roles: {{user_roles}}
+                <div class="content-block">
+                    <a ng-click="getNotRepliedContactMessages()">Get Contact Messages</a>
+
+                </div>
+                <div class="content-block">
+                    <div class="tabs" id="home-tabs">
+
+                        <form novalidate name="registerForm" id="registerForm" ng-submit="registerUser(registerForm.$valid)">
+                            <div class="control full">
+
+
+                                <div class="control full">
+                                    <input type="email" name="email" id="email" required ng-model="newUser.email" placeholder="Your Email" ng-class="{submitError: submitted}" />
+                                    <div class="error-msg" ng-show="registerForm.email.$invalid && joinSubmitted">Enter a valid email.</div>
+                                </div>
+
+                                <div class="control full">
+                                    <input type="password" ng-minlength="6" id="pass" name="pass" required ng-model="newUser.pass" placeholder="Password" class="form-control" ng-class="{submitError: submitted}"  />           
+                                    <div class="error-msg" ng-show="registerForm.pass.$error.minlength && joinSubmitted">Password is too short.</div>
+                                </div>
+
+                                <div class="control full">
+                                    <input type="password" name="passc" placeholder="Repeat Password" id="passc" required ng-model="newUser.passc" class="form-control" compare-to="newUser.pass" ng-class="{submitError: joinSubmitted}"  />
+                                    <div class="error-msg" ng-show="registerForm.passc.$invalid && registerForm.pass.$valid && !registerForm.passc.$pristine && joinSubmitted">Passwords don't match</div>
+                                </div>
+
+                                <button  type="submit" value="signup" class="button block" ng-disabled="registerForm.$pristine">Sign up</button>
+
+                                <div class="control full">
+                                    <div class="control-help-text center block">
+                                        By joining, I agree to Fhellow’s <a href> Terms & Conditions</a> and <a href>Privacy Policy</a>.
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>    
+    </div>
+</section>
+

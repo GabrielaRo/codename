@@ -48,9 +48,8 @@ public class AuthRESTRequestFilter implements ContainerRequestFilter {
         if (!path.startsWith("/auth/register")
                 && !path.startsWith("/static") && !path.startsWith("/auth/google")
                 && !path.contains("public")) {
-            
-            // Then check is the service key exists and is valid.
 
+            // Then check is the service key exists and is valid.
             // For any pther methods besides login, the authToken and service key  must be verified
             if (!path.startsWith("/auth/login")) {
                 log.info("Checking for correct service_key " + path);
@@ -64,7 +63,7 @@ public class AuthRESTRequestFilter implements ContainerRequestFilter {
                     return;
 
                 }
-                
+
                 log.info("Checking for correct auth_token: " + path);
                 String authToken = requestCtx.getHeaderString(GrogHTTPHeaderNames.AUTH_TOKEN);
 
@@ -75,14 +74,14 @@ public class AuthRESTRequestFilter implements ContainerRequestFilter {
 
                 }
                 List<String> roles = grogAuthenticator.getUserRoles(serviceKey);
-                
-                if(path.contains("admin") && !roles.contains("Admin")){
-                    
+
+                if (path.contains("admin") && !roles.contains("Admin")) {
+
                     log.severe("You cannot access to this resources without out Admin role " + path);
                     requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+                } else {
+                    log.info("This is an admin request from ("+serviceKey+") to " + path + " - with roles = "+roles);
                 }
-                
-                
 
             }
         }

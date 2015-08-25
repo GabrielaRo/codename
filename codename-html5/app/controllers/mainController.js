@@ -7,6 +7,7 @@
         $scope.auth_token = $cookieStore.get('auth_token');
         $scope.email = $cookieStore.get('email');
         $scope.user_id = $cookieStore.get('user_id');
+        $scope.user_id = $cookieStore.get('user_roles');
         $scope.user_nick = $cookieStore.get('user_nick');
         $scope.firstLogin = $cookieStore.get('firstLogin');
         $scope.index = 0;
@@ -57,6 +58,7 @@
             $scope.auth_token = "";
             $scope.email = "";
             $scope.user_id = "";
+            $scope.user_roles = "";
             $scope.user_nick = "";
             $scope.firstLogin = "";
             $scope.live = "";
@@ -67,6 +69,7 @@
                 $cookieStore.remove('auth_token');
                 $cookieStore.remove('email');
                 $cookieStore.remove('user_id');
+                $cookieStore.remove('user_roles');
                 $cookieStore.remove('user_nick');
                 $cookieStore.remove('live');
                 $scope.avatarStyle = "";
@@ -91,12 +94,14 @@
                     $cookieStore.put('auth_token', data.auth_token);
                     $cookieStore.put('email', data.email);
                     $cookieStore.put('user_id', data.user_id);
+                    $cookieStore.put('user_roles', data.user_roles);
                     $cookieStore.put('user_nick', data.user_nick);
                     $cookieStore.put('firstLogin', data.firstLogin);
                     $cookieStore.put('live', data.live);
                     $scope.auth_token = $cookieStore.get('auth_token');
                     $scope.email = $cookieStore.get('email');
                     $scope.user_id = $cookieStore.get('user_id');
+                    $scope.user_roles = $cookieStore.get('user_roles');
                     $scope.user_nick = $cookieStore.get('user_nick');
                     $scope.firstLogin = $cookieStore.get('firstLogin');
                     $scope.live = $cookieStore.get('live');
@@ -128,12 +133,14 @@
                                 $cookieStore.put('auth_token', data.auth_token);
                                 $cookieStore.put('email', data.email);
                                 $cookieStore.put('user_id', data.user_id);
+                                $cookieStore.put('user_roles', data.user_roles);
                                 $cookieStore.put('user_nick', data.user_nick);
                                 $cookieStore.put('firstLogin', data.firstLogin);
                                 $cookieStore.put('live', data.live);
                                 $scope.auth_token = $cookieStore.get('auth_token');
                                 $scope.email = $cookieStore.get('email');
                                 $scope.user_id = $cookieStore.get('user_id');
+                                $scope.user_roles = $cookieStore.get('user_roles');
                                 $scope.user_nick = $cookieStore.get('user_nick');
                                 $scope.firstLogin = $cookieStore.get('firstLogin');
                                 $scope.live = $cookieStore.get('live');

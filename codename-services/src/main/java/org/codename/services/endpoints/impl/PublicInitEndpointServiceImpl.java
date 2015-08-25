@@ -22,7 +22,7 @@ import org.codename.core.api.UsersService;
 import org.codename.services.endpoints.api.PublicInitEndpointService;
 import org.codename.core.exceptions.ServiceException;
 
-//http://localhost:8080/codename-server/rest/public/app/init
+//http://localhost:8080/codename-server/rest/public/app/createusers
 @Stateless
 public class PublicInitEndpointServiceImpl implements PublicInitEndpointService {
 
@@ -67,7 +67,8 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             iAm.add("Digital Nomad");
             interests.add("Software");
             
-            createUser("grogdj@gmail.com", "asdasd","Grog", "DJ", "Chiswick, United Kingdom",-0.267173200000002, 51.4876272,   "This is grog dj bio", lookingFor, iAm, interests, "0_" );
+            createUser("grogdj@gmail.com", "asdasd","Grog", "DJ", "Chiswick, United Kingdom",
+                    -0.267173200000002, 51.4876272,   "This is grog dj bio", lookingFor, iAm, interests, "0_", true );
             
             interests = new ArrayList<String>();
             lookingFor = new ArrayList<String>();
@@ -84,7 +85,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             
             createUser("eze@gmail.com", "123123","Ezequiel", "Salatino", "Capellades, Barcelona",1.6859230000000025, 41.5309648, "I’m Ezequiel, a graphic and web designer from Mendoza, Argentina.", 
-                    lookingFor, iAm, interests, "eze_" );
+                    lookingFor, iAm, interests, "eze_", true );
  
             interests = new ArrayList<String>();
             lookingFor = new ArrayList<String>();
@@ -101,7 +102,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             
             createUser("tom48734@gmail.com", "9832kjhs","Tom", "Campion", "Peckham, United Kingdom",-0.06913699999995515, 51.474191,   "I’m a nomadic designer, living and working from wherever the wind takes me. www.mynomadlife.com", 
-                    lookingFor, iAm, interests, "tom_" );
+                    lookingFor, iAm, interests, "tom_", false );
             
             
             interests = new ArrayList<String>();
@@ -118,7 +119,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             interests.add("Blogging");
             
             createUser("adamchengismyname@gmail.com", "jhsdkaus","Adam", "Cheng", "Shoreditch, United Kingdom",-0.08472800000004099, 51.52849,   "I'm an entrepreneur and recently sold my design agency. I am now spliiting my time bettwen London and Bali.", 
-                    lookingFor, iAm, interests, "adam_" );
+                    lookingFor, iAm, interests, "adam_" , false);
             
             
             interests = new ArrayList<String>();
@@ -134,7 +135,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             interests.add("Blogging");
             
             createUser("amymaverson@gmail.com", "snlasas","Amy", "Mavorson", "Shoreditch, United Kingdom",-0.08472800000004099, 51.52849,   "I’ve been a freelance journalist for three years now. I’m a fan of Pinterest, cereal and 'inverted commas'.", 
-                    lookingFor, iAm, interests, "amy_" );
+                    lookingFor, iAm, interests, "amy_" , false);
             
             interests = new ArrayList<String>();
             lookingFor = new ArrayList<String>();
@@ -151,7 +152,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             
             createUser("charlottespencer@gmail.com", "kjas9fa","Charlotte", "Spencer", "Shoreditch, United Kingdom",-0.08472800000004099, 51.52849,   "Fashion illustrator and runner currently working in London for a month.", 
-                    lookingFor, iAm, interests, "charlotte_" );
+                    lookingFor, iAm, interests, "charlotte_" , false );
             
             interests = new ArrayList<String>();
             lookingFor = new ArrayList<String>();
@@ -170,7 +171,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             
             createUser("jonasapperly@gmail.com", "aksdhas","Jonas", "Apperly", "Hampstead, United Kingdom",-0.1762025000000449, 51.5556715,   "My girlfriend and I have been living semi-nomadic for a year now - we are currently in London and blogging as we go: thenomadcouple.com", 
-                    lookingFor, iAm, interests, "jonas_" );
+                    lookingFor, iAm, interests, "jonas_" , false );
             
             interests = new ArrayList<String>();
             lookingFor = new ArrayList<String>();
@@ -186,7 +187,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             
             createUser("clarajohnson@gmail.com", "723879","Clara", "Johnson", "Clapham, United Kingdom",-0.13856999999995878, 51.46231,   "I have just begun my digital nomad lifestyle in May from Vancouver, Canada. Stoked to begin a life like this!", 
-                    lookingFor, iAm, interests, "clara_" );
+                    lookingFor, iAm, interests, "clara_" , false);
             
             interests = new ArrayList<String>();
             lookingFor = new ArrayList<String>();
@@ -204,7 +205,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             
             
             createUser("alisa.afkhami@gmail.com", "myprofile","Alisa", "Ay", "Wandsworth, United Kingdom",-0.20600100000001476, 51.45755,   "Hi, I'm Alisa a freelance designer from London. My goal is to work from anywhere in the world, preferably somewhere where the sun shines and the are waves to surf on.", 
-                    lookingFor, iAm, interests, "alisa_" );
+                    lookingFor, iAm, interests, "alisa_" , false );
             
             interests = new ArrayList<String>();
             lookingFor = new ArrayList<String>();
@@ -220,7 +221,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
 
             
             createUser("gdonald@gmail.com", "asdasd","George", "Donald", "Chiswick, United Kingdom",-0.267173200000002, 51.4876272,   "Hi, I'm George. I like to travel and work from anywhere. I only own what fits in my backpack. ", 
-                    lookingFor, iAm, interests, "george_" );
+                    lookingFor, iAm, interests, "george_" , false);
             
             interests = new ArrayList<String>();
             lookingFor = new ArrayList<String>();
@@ -237,7 +238,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
             interests.add("Photography");
             
             createUser("gabriela.rogelova@gmail.com", "123456","Gabriela", "Rogelova", "Islington, United Kingdom",-0.267173200000002, 51.4876272,   "I am Gabriela, I live in London, but I travel a lot. I like to work from different places. I love ice cream, jogging and goats.", 
-                    lookingFor, iAm, interests, "gabriela_" );
+                    lookingFor, iAm, interests, "gabriela_" , false);
             mockUsersCreated = true;
             
 
@@ -249,7 +250,7 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
 
     private Long createUser(String email, String password, String firstname, String lastname, 
             String location, Double lon, Double lat, String bio, 
-            List<String> lookingFor, List<String> iAms, List<String> interests, String profileId
+            List<String> lookingFor, List<String> iAms, List<String> interests, String profileId, boolean admin
             ) throws ServiceException{
         User user = new User(email, password);
         user.setFirstname(firstname);
@@ -263,7 +264,11 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
         user.setLookingFor(lookingFor);
         user.setiAms(iAms);
         user.setInterests(interests);
-
+        if(admin){
+            List<String> roles = new ArrayList<String>();
+            roles.add("Admin");
+            user.setRoles(roles);
+        }
         Long userId = usersService.newUser(user);
         
         
