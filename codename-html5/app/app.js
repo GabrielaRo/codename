@@ -14,14 +14,15 @@
             // configure our routes
             .config(function ($routeProvider, $authProvider) {
                 $routeProvider
-                        .when('/removeadmin', {
-                            templateUrl: 'views/home.html',
-                            controller: 'homeController',
-//                            access: {
-//                                requiresAdmin: true
-//                            }
+                        .when('/admin', {
+                            templateUrl: 'views/admin.html',
+                            controller: 'adminController',
+                            access: {
+                                requiresLogin: true,
+                                requiresAdmin: true
+                            }
                         })
-                
+
 //                        .when('/invitelogin', {
 //                            templateUrl: 'app/views/login.html',
 //                            controller: 'loginController'
@@ -70,8 +71,8 @@
                                 requiresLogin: true
                             }
                         })
-                
-                
+
+
                         .when('/contact', {
                             templateUrl: 'views/contact.html',
                             controller: 'contactController',
@@ -80,7 +81,7 @@
                                 requiresProfile: true
                             }
                         })
-                
+
                         .when('/feedback', {
                             templateUrl: 'views/feedback.html',
                             controller: 'feedbackController',
@@ -89,7 +90,7 @@
                                 requiresProfile: true
                             }
                         })
-                
+
                         .when('/terms_and_conditions', {
                             templateUrl: 'views/terms_and_conditions.html',
                             controller: 'termsController',
@@ -98,7 +99,7 @@
                                 requiresProfile: true
                             }
                         })
-                
+
                         .when('/privacy', {
                             templateUrl: 'views/privacy.html',
                             controller: 'privacyController',
@@ -107,7 +108,7 @@
                                 requiresProfile: true
                             }
                         })
-                
+
                         .when('/report', {
                             templateUrl: 'views/report.html',
                             controller: 'reportController',
@@ -139,17 +140,21 @@
         $rootScope.navStatus = "show";
         $rootScope.$on('$routeChangeStart', function (event, next) {
             var authorised;
-            
+
             if (next.access !== undefined) {
-                authorised = $auth.authorize(next.access.requiresLogin, 
+                authorised = $auth.authorize(next.access.requiresLogin,
                         next.access.requiresProfile,
+                        next.access.requiresAdmin,
                         next.access.permissions,
                         next.access.permissionCheckType);
+                console.log('Auth = ' + authorised);
                 if (authorised === 'NotAuthorized') {
-                    $location.path('/').search({email:'Enter your email'}).replace();
+                    $location.path('/').search({email: 'Enter your email'}).replace();
                 } else if (authorised === 'RequiresProfile') {
                     $location.path('/profile').replace();
-                } else if(authorised === 'Home') {
+                } else if (authorised == 'AdminNotAuthorized') {
+                    $location.path('/profile').replace();
+                } else if (authorised === 'Home') {
                     $location.path('/').replace();
                 }
             }
