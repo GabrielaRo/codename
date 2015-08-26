@@ -71,8 +71,6 @@ public interface UsersService {
 
     public void updateLookingFor(Long user_id, List<String> lookingForList) throws ServiceException;
 
-    public void updateCategories(Long user_id, List<String> categoriesList) throws ServiceException;
-
     public void updateLongBio(Long user_id, String longbio) throws ServiceException;
 
     public void updateLive(Long user_id, String live) throws ServiceException;

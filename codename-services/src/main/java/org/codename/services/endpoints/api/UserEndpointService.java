@@ -43,7 +43,7 @@ public interface UserEndpointService extends Serializable {
             @QueryParam("lat") Double lat,
             @QueryParam("interests") String interests,
             @QueryParam("lookingFors") String lookingFors,
-            @QueryParam("categories") String categories,
+            @QueryParam("categories") String iams,
             @QueryParam("range") String range,
             @QueryParam("offset") Integer offset,
             @QueryParam("limit") Integer limit,
@@ -168,7 +168,7 @@ public interface UserEndpointService extends Serializable {
     @PUT
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON})
-    Response updateCategories(@NotNull @PathParam("id") Long user_id, @FormParam("categories") String categories) throws ServiceException;
+    Response updateIams(@NotNull @PathParam("id") Long user_id, @FormParam("categories") String categories) throws ServiceException;
 
     @Path("{id}/bio")
     @PUT

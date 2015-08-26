@@ -39,7 +39,7 @@ import org.codename.model.User;
 import org.codename.core.api.UsersService;
 
 import org.codename.services.endpoints.api.UserEndpointService;
-import static org.codename.services.endpoints.impl.UsersHelper.createFullJsonUser;
+import static org.codename.services.endpoints.impl.UsersHelper.createListJsonUser;
 import org.codename.core.exceptions.ServiceException;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
@@ -74,7 +74,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
         if (u == null) {
             throw new ServiceException("User " + user_id + " doesn't exists");
         }
-        JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+        JsonObjectBuilder jsonUserObjectBuilder = createListJsonUser(u);
         JsonObject jsonObj = jsonUserObjectBuilder.build();
         return Response.ok(jsonObj.toString()).build();
     }
@@ -85,14 +85,14 @@ public class UserEndpointServiceImpl implements UserEndpointService {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
         for (User u : users) {
-            JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+            JsonObjectBuilder jsonUserObjectBuilder = createListJsonUser(u);
             jsonArrayBuilder.add(jsonUserObjectBuilder);
         }
         return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
 
     @Override
-    public Response search(Double lon, Double lat, String interests, String lookingFors, String categories, String range, Integer offset, Integer limit, String excludes) throws ServiceException {
+    public Response search(Double lon, Double lat, String interests, String lookingFors, String iAms, String range, Integer offset, Integer limit, String excludes) throws ServiceException {
         System.out.println("Searching (Range: " + range + ") from " + offset + " to " + limit);
         List<String> interestsList = null;
 
@@ -111,18 +111,18 @@ public class UserEndpointServiceImpl implements UserEndpointService {
 
             }
         }
-        List<String> categoriesList = null;
-        if (categories != null) {
-            JsonReader reader = Json.createReader(new ByteArrayInputStream(categories.getBytes()));
+        List<String> aImList = null;
+        if (iAms != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(iAms.getBytes()));
             JsonArray array = reader.readArray();
             reader.close();
 
             if (array != null) {
-                categoriesList = new ArrayList<String>(array.size());
+                aImList = new ArrayList<String>(array.size());
                 for (int i = 0; i < array.size(); i++) {
-                    log.info("Category[" + i + "]: " + array.getString(i));
+                    log.info("Iam[" + i + "]: " + array.getString(i));
 
-                    categoriesList.add(array.getString(i));
+                    aImList.add(array.getString(i));
                 }
 
             }
@@ -164,11 +164,14 @@ public class UserEndpointServiceImpl implements UserEndpointService {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         if (lon == 0.0 && lat == 0.0) {
             List<User> usersInRange = usersQueryService.search(lon, lat, DistanceRange._ALL.getOffsetRange(),
-                    DistanceRange._ALL.getLimitRange(), interestsList, lookingForList, categoriesList, offset, limit, excludesList);
+                    DistanceRange._ALL.getLimitRange(), interestsList, lookingForList, aImList, offset, limit, excludesList);
+            //Enable for debug only
+//            usersQueryService.searchWithScore(lon, lat, DistanceRange._ALL.getOffsetRange(),
+//                    DistanceRange._ALL.getLimitRange(), interestsList, lookingForList, aImList, offset, limit, excludesList);
             int i = offset;
             for (User u : usersInRange) {
 
-                JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+                JsonObjectBuilder jsonUserObjectBuilder = createListJsonUser(u);
                 jsonUserObjectBuilder.add("range", DistanceRange._ALL.getDescription());
                 jsonUserObjectBuilder.add("rangeCode", DistanceRange._ALL.name());
                 jsonUserObjectBuilder.add("offset", i);
@@ -198,10 +201,13 @@ public class UserEndpointServiceImpl implements UserEndpointService {
                         }
                         System.out.println(">> Executing Query range:  " + r.getDescription());
                         List<User> usersInRange = usersQueryService.search(lon, lat, r.getOffsetRange(),
-                                r.getLimitRange(), interestsList, lookingForList, categoriesList, i, limit, excludesList);
+                                r.getLimitRange(), interestsList, lookingForList, aImList, i, limit, excludesList);
+                        //Enable for debug only
+//                        usersQueryService.searchWithScore(lon, lat, r.getOffsetRange(),
+//                                r.getLimitRange(), interestsList, lookingForList, aImList, i, limit, excludesList);
                         for (User u : usersInRange) {
 
-                            JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+                            JsonObjectBuilder jsonUserObjectBuilder = createListJsonUser(u);
                             jsonUserObjectBuilder.add("range", r.getDescription());
                             jsonUserObjectBuilder.add("rangeCode", r.name());
                             jsonUserObjectBuilder.add("offset", i);
@@ -237,9 +243,12 @@ public class UserEndpointServiceImpl implements UserEndpointService {
                             }
                             System.out.println(">> Executing Query range:  " + r.getDescription());
                             List<User> usersInRange = usersQueryService.search(lon, lat, r.getOffsetRange(),
-                                    r.getLimitRange(), interestsList, lookingForList, categoriesList, i, limit, excludesList);
+                                    r.getLimitRange(), interestsList, lookingForList, aImList, i, limit, excludesList);
+                            //Enable for debug only
+//                            usersQueryService.searchWithScore(lon, lat, r.getOffsetRange(),
+//                                    r.getLimitRange(), interestsList, lookingForList, aImList, i, limit, excludesList);
                             for (User u : usersInRange) {
-                                JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
+                                JsonObjectBuilder jsonUserObjectBuilder = createListJsonUser(u);
                                 jsonUserObjectBuilder.add("range", r.getDescription());
                                 jsonUserObjectBuilder.add("rangeCode", r.name());
                                 jsonUserObjectBuilder.add("offset", i);
@@ -468,6 +477,27 @@ public class UserEndpointServiceImpl implements UserEndpointService {
     public Response updateOriginallyFrom(Long user_id, String originallyfrom) throws ServiceException {
         usersService.updateOriginallyFrom(user_id, originallyfrom);
         return Response.ok().build();
+
+    }
+
+    @Override
+    public Response updateIams(Long user_id, String iams) throws ServiceException {
+        if (iams != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(iams.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
+
+            if (array != null) {
+                List<String> iAmsList = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+
+                    iAmsList.add(array.getString(i));
+                }
+                usersService.updateIams(user_id, iAmsList);
+            }
+
+        }
+        return Response.ok().build();
     }
 
     @Override
@@ -503,28 +533,6 @@ public class UserEndpointServiceImpl implements UserEndpointService {
             }
 
         }
-        return Response.ok().build();
-    }
-
-    @Override
-    public Response updateCategories(Long user_id, String categories) throws ServiceException {
-
-        if (categories != null) {
-            JsonReader reader = Json.createReader(new ByteArrayInputStream(categories.getBytes()));
-            JsonArray array = reader.readArray();
-            reader.close();
-
-            if (array != null) {
-                List<String> categoriesList = new ArrayList<String>(array.size());
-                for (int i = 0; i < array.size(); i++) {
-
-                    categoriesList.add(array.getString(i));
-                }
-                usersService.updateCategories(user_id, categoriesList);
-            }
-
-        }
-
         return Response.ok().build();
     }
 

@@ -323,15 +323,6 @@ public class UsersServiceImpl implements UsersService {
         pm.merge(u);
     }
 
-    @Override
-    public void updateCategories(Long user_id, List<String> categoriesList) throws ServiceException {
-        User u = pm.find(User.class, user_id);
-        if (u == null) {
-            throw new ServiceException("User doesn't exist: " + user_id);
-        }
-        u.setCategories(categoriesList);
-        pm.merge(u);
-    }
 
     public void updateLongBio(Long user_id, String longbio) throws ServiceException {
         User u = pm.find(User.class, user_id);

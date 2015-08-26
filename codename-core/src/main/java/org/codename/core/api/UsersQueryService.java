@@ -17,7 +17,10 @@ public interface UsersQueryService {
 
 
     List<User> search(Double lon, Double lat, Double offsetRange, Double limitRange, 
-            List<String> interests, List<String> lookingFors, List<String> categories, 
+            List<String> interests, List<String> lookingFors, List<String> iams, 
             Integer offset, Integer limit, List<String> exludes) throws ServiceException;
+    
+    List<Object> searchWithScore(Double lon, Double lat, Double offsetRange, Double limitRange, List<String> interests,
+            List<String> lookingFors, List<String> iAms, Integer offset, Integer limit, List<String> excludes) throws ServiceException; 
 
 }

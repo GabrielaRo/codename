@@ -89,4 +89,36 @@ public class UsersHelper {
         jsonObjBuilder.add("iams", iAmJsonArrayBuilder);
         return jsonObjBuilder;
     }
+    
+    public static JsonObjectBuilder createListJsonUser(User u) {
+        JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+        
+        jsonObjBuilder.add("bio", (u.getBio() == null) ? "" : u.getBio());
+        
+        jsonObjBuilder.add("location", (u.getLocation() == null) ? "" : u.getLocation());
+        
+        jsonObjBuilder.add("firstname", (u.getFirstname() == null) ? "" : u.getFirstname());
+        jsonObjBuilder.add("lastname", (u.getLastname() == null) ? "" : u.getLastname());
+        jsonObjBuilder.add("nickname", (u.getNickname() == null) ? "" : u.getNickname());
+        
+        jsonObjBuilder.add("hascover", u.getCoverFileName() != null && !u.getCoverFileName().equals(""));
+        jsonObjBuilder.add("hasavatar", u.getAvatarFileName() != null && !u.getAvatarFileName().equals(""));
+        JsonArrayBuilder interestsJsonArrayBuilder = Json.createArrayBuilder();
+        for (String i : u.getInterests()) {
+            interestsJsonArrayBuilder.add(i);
+        }
+        jsonObjBuilder.add("interests", interestsJsonArrayBuilder);
+        JsonArrayBuilder lookingForJsonArrayBuilder = Json.createArrayBuilder();
+        for (String l : u.getLookingFor()) {
+            lookingForJsonArrayBuilder.add(l);
+        }
+        jsonObjBuilder.add("lookingFor", lookingForJsonArrayBuilder);
+        JsonArrayBuilder iAmJsonArrayBuilder = Json.createArrayBuilder();
+        for (String i : u.getiAms()) {
+            iAmJsonArrayBuilder.add(i);
+        }
+        jsonObjBuilder.add("iams", iAmJsonArrayBuilder);
+        return jsonObjBuilder;
+    }
+    
 }

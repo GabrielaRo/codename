@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Boost;
 import org.hibernate.search.annotations.DateBridge;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -96,29 +97,27 @@ public class User implements Serializable {
     private String lastname;
 
     @Latitude
+    @Boost(value = 1.5f)
     private Double latitude;
 
     @Longitude
+    @Boost(value = 1.5f)
     private Double longitude;
 
     @ElementCollection
     @IndexedEmbedded
-    @Field(analyze = Analyze.NO, store = Store.YES)
+    @Field(analyze = Analyze.YES, store = Store.YES, boost = @Boost(1.5f))
     private List<String> interests = new ArrayList<String>();
 
-    @ElementCollection
-    @IndexedEmbedded
-    @Field(analyze = Analyze.NO, store = Store.YES)
-    private List<String> categories = new ArrayList<String>();
 
     @ElementCollection
     @IndexedEmbedded
-    @Field(analyze = Analyze.NO, store = Store.YES)
+    @Field(analyze = Analyze.YES, store = Store.YES, boost = @Boost(1.5f))
     private List<String> lookingFor = new ArrayList<String>();
 
     @ElementCollection
     @IndexedEmbedded
-    @Field(analyze = Analyze.NO, store = Store.YES)
+    @Field(analyze = Analyze.YES, store = Store.YES, boost = @Boost(1.5f))
     private List<String> iAms = new ArrayList<String>();
     
     @ElementCollection(fetch = FetchType.EAGER)
@@ -301,14 +300,6 @@ public class User implements Serializable {
 
     public void setOriginallyFrom(String originallyFrom) {
         this.originallyFrom = originallyFrom;
-    }
-
-    public List<String> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
     }
 
     public List<String> getLookingFor() {
