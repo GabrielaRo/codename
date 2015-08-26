@@ -180,7 +180,7 @@
                 <div class="fhellow-interests"  ng-hide="fhellow.interests.length == 0">
 
                     Interests:
-                    <span ng-repeat="interest in fhellow.interests">{{interest}}, </span>
+                    <span ng-repeat="interest in fhellow.interests">{{interest}} <span ng-if="$index != (fhellow.interests.length -1)">,</span> </span>
                 </div>
             </div>
             <div class="fhellow-actions">
