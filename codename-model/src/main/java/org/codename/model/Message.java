@@ -79,4 +79,10 @@ public class Message implements Serializable {
         this.sender = sender;
     }
 
+    @Override
+    public String toString() {
+        return "Message{" + "id=" + id + ", conversationId=" + conversationId + ", sender=" + sender + ", text=" + text + ", timestamp=" + timestamp + '}';
+    }
+
+    
 }

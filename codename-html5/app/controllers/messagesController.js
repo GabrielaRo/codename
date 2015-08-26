@@ -10,6 +10,7 @@
         $scope.selectedConversation = [];
 
         $scope.me = $cookieStore.get('user_nick');
+        $scope.emojiMessage = {};
 
         $rootScope.websocket.onmessage = function (evt) {
 
@@ -122,7 +123,7 @@
             }
             $chat.sendMessage(conversationId, message).success(function (data) {
 
-                $scope.newMessage = "";
+                $scope.emojiMessage = {};
                 var newListHeight = $(".messages-history").height();
                 $("#user-messages-chat").animate({scrollTop: newListHeight}, 1000);
 
@@ -130,7 +131,7 @@
 
                 console.log("Error: " + data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong with sending the message!" + data);
-                $scope.newMessage = "";
+                $scope.emojiMessage = {};
             });
 
 
@@ -192,7 +193,7 @@
         $(document).ready(function () {
             $('#sendMessageTextArea').keypress(function (e) {
                 if (e.keyCode == 13) {
-                    if ($scope.newMessage != "" && $scope.newMessage != undefined) {
+                    if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
                         $('#sendMessageButton').click();
                     }
                 }

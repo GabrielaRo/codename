@@ -2,7 +2,7 @@
 
     var codename = angular.module('codename', ['ngCookies', 'ngRoute',
         'ngAnimate', 'angular.filter', 'ngFileUpload',
-        'satellizer', 'ngTagsInput', 'locator', 'angular-growl']);
+        'satellizer', 'ngTagsInput', 'locator', 'angular-growl', 'ngSanitize', 'emojiApp']);
 
     codename.constant("appConstants", {
         server: 'http://localhost:8080/',

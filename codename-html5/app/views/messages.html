@@ -14,9 +14,9 @@
                 </div>
                 <div class="content-block-content">
                     <div id="user-messages-inbox">
-                        <div class="inbox-message" ng-repeat="conversation in inbox | orderBy: -conversation.time" ng-click="selectConversation(conversation)" ng-class="{active: selectedConversation.description == conversation.description, blocked: conversation.blocked, new: conversation.newMessage == true}">
+                        <div class="inbox-message" ng-repeat="conversation in inbox| orderBy: -conversation.time" ng-click="selectConversation(conversation)" ng-class="{active: selectedConversation.description == conversation.description, blocked: conversation.blocked, new: conversation.newMessage == true}">
                             <div class="user-avatar">
-                                
+
                                 <div class="message-user-avatar hexagon">
                                     <div class="hexagon-inner-1">
 
@@ -35,19 +35,19 @@
                                 </div>
                                 <div class="online-status" ng-if="conversation.onlineStatus"></div>
                             </div>
-                           
-                           
+
+
                             <div class="message-data">
                                 <div class="message-user-name">{{conversation.description}}</div>
-                                <div class="message-excerpt"><span class="reply" ng-if="(conversation.from == me)"><i class="fa fa-reply"></i></span>{{conversation.excerpt}}</div>
+                                <div class="message-excerpt" ng-bind-html="conversation.excerpt | colonToSmiley"><span class="reply" ng-if="(conversation.from == me)"><i class="fa fa-reply"></i></span></div>
                                 <div class="message-date">{{conversation.time| date:'EEE HH:mm'}}</div>
                             </div>
                         </div>
-                        
+
                         <div class="no-message" ng-if="!inbox.length">
                             No Messages 
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -57,12 +57,12 @@
             <div class="content-block no-margin" ng-class="{blocked: selectedConversation.blocked == true}">
                 <div class="content-block-title">
                     {{selectedConversation.description}} 
-                    
+
                     <div class="no-message" ng-if="!selectedConversation.description.length">
-                        Select a message to start chating
+                        Select a message to start chatting
                     </div>
-                    
-                    
+
+
                     <div class="content-block-title-options" ng-if="selectedConversation.description.length">
                         <ul class="option-button">
                             <li>
@@ -72,60 +72,27 @@
                                     <li class="dropdown-item">
                                         <a href="#/report" class="dropdown-link" >Report abuse / spam</a>
                                     </li>
-                                    <li ng-if="!selectedConversation.blocked " class="dropdown-item">
+                                    <li ng-if="!selectedConversation.blocked" class="dropdown-item">
                                         <a href class="dropdown-link" ng-click="blockConversation(selectedConversation.conversation_id)">Block user</a>
                                     </li>
-                                    <li ng-if="selectedConversation.blocked " class="dropdown-item">
+                                    <li ng-if="selectedConversation.blocked" class="dropdown-item">
                                         <a href class="dropdown-link" ng-click="unblockConversation(selectedConversation.conversation_id)">Unblock user</a>
                                     </li>
-                                   
+
                                 </ul>
                             </li>
                         </ul>
                     </div>
                 </div>
-              
+
                 <div class="content-block-content">
                     <div id="user-messages-chat">
-                      
-                       <div class="blocked-message" ng-if="selectedConversation.blocked ">
-                           This user is blocked.
-                       </div>
+
+                        <div class="blocked-message" ng-if="selectedConversation.blocked">
+                            This user is blocked.
+                        </div>
                         <div class="messages-history" ng-if="!selectedConversation.blocked">
-                            <!--
-                             <div class="messages-history-day" ng-repeat="day in messageHistory">
-                                 <div class="day-name">
-                                     <span>
-                                         {{day.day}}
-                                     </span>
-                                 </div>
-                                 <div class="day-messages">
-                                     <div class="history-message" ng-repeat="message in day.messages">
-                                         <div class="user-avatar">
-                                             <div class="history-message-user-avatar hexagon">
-                                                <div class="hexagon-inner-1">
-                                                    <div class="hexagon-inner-2 " >
- 
-                                                    </div>
-                                                </div>
-                                             </div>
-                                         </div>
-                                         <div class="message-body">
-                                            <div class="message-hour">
-                                                 {{message.time}}
-                                             </div>
-                                             <div class="message-user">
-                                                 {{message.owner_nickname}}
-                                             </div>
-                                             <div class="message-text">
-                                                 {{message.text}}
-                                             </div>
-                                         </div>
-                                         
-                                     </div>
-                                 </div>
-                             </div>
-                            -->
+                           
                             <div class="messages-history-day" >
                                 <div class="day-name" ng-if="selectedConversation.description.length">
                                     <span>
@@ -150,8 +117,8 @@
                                             <div class="message-user">
                                                 {{message.owner_nickname}}
                                             </div>
-                                            <div class="message-text">
-                                                {{message.text}}
+                                            <div ng-bind-html="message.text | colonToSmiley" class="message-text">
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -160,11 +127,16 @@
                         </div>
                     </div>
                     <div id="user-messages-send">
-                        <div class="send-input">
-                            <textarea ng-model="newMessage" id="sendMessageTextArea"  ng-disabled="!selectedConversation.description.length || selectedConversation.blocked" placeholder="Write your message here..." ></textarea>
-                        </div>    
+                        <div class="send-input" emoji-form emoji-message="emojiMessage">
+                            <textarea ng-model="emojiMessage.messagetext" id="sendMessageTextArea"  ng-disabled="!selectedConversation.description.length || selectedConversation.blocked" placeholder="Write your message here..." ></textarea>
+                        </div>  
+                        <button id="emojibtn">
+                                <i class="icon icon-emoji"></i>
+                            </button>
                         <div class="send-actions">
-                            <button id="sendMessageButton" class="button primary" ng-disabled="!selectedConversation.description.length || selectedConversation.blocked" ng-click="sendMessage(selectedConversation.conversation_id, newMessage)" >Send</button>
+                            
+                            <button id="sendMessageButton" class="button primary" ng-disabled="!selectedConversation.description.length || selectedConversation.blocked" 
+                                    ng-click="sendMessage(selectedConversation.conversation_id, emojiMessage.messagetext)" >Send</button>
                         </div>
                     </div>
                 </div>
