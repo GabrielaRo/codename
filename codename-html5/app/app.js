@@ -147,7 +147,6 @@
                         next.access.requiresAdmin,
                         next.access.permissions,
                         next.access.permissionCheckType);
-                console.log('Auth = ' + authorised);
                 if (authorised === 'NotAuthorized') {
                     $location.path('/').search({email: 'Enter your email'}).replace();
                 } else if (authorised === 'RequiresProfile') {

@@ -8,15 +8,24 @@
     <artifactId>codename-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>  
     <packaging>pom</packaging>
-    <name>CodeName Parent</name>
-    <description> CodeName Modules</description>
+    <name>CodeName :: Parent</name>
+    <description>CodeName Modules</description>
 
     <modules>
-        <module>codename-model</module>
-        <module>codename-rules</module>
-        <module>codename-services</module>
+        
+        <!-- User Modules --> 
+        <module>codename-user-model</module>
+        <module>codename-user-core</module>
+        <module>codename-user-services</module>
+        <!-- Chat Modules --> 
+        <module>codename-chat-model</module>
+        <module>codename-chat-core</module>
+        <module>codename-chat-services</module>
+        
+        <!-- Web App Module -->
         <module>codename-html5</module>
-        <module>codename-core</module>
+        
+        <!--module>codename-rules</module-->
         <!--module>codename-tests</module-->
     </modules>
   

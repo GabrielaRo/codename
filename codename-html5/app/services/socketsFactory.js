@@ -10,7 +10,7 @@
             $rootScope.websocket = new WebSocket(wsUri);
 
             $rootScope.websocket.onopen = function (evt) {
-
+                console.log(">>> WS on Open");
 
             };
             $rootScope.websocket.onmessage = function (evt) {
@@ -32,7 +32,7 @@
             };
 
             $rootScope.websocket.onclose = function () {
-
+                console.log(">>> WS on Close");
             };
 
         };

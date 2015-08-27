@@ -183,13 +183,12 @@
                 if (typeof data !== 'undefined' && data.length > 0) {
                    
                     $scope.fhellowsList = $scope.fhellowsList.concat(data);
-                    console.log($scope.fhellowsList);
                 } else {
                    
                     $scope.noMoreResults = true;
                 }
                 if($scope.fhellowsList.length < ($scope.fhellowPerPage * $scope.currentPage) ){
-                    console.log("NO more results because of "+$scope.fhellowsList.length +"<"+($scope.fhellowPerPage * $scope.currentPage));
+                    
                     $scope.noMoreResults = true;
                     
                 }
@@ -218,13 +217,13 @@
                 if (typeof data !== 'undefined' && data.length > 0) {
                     
                     $scope.fhellowsList = $scope.fhellowsList.concat(data);
-                    console.log($scope.fhellowsList);
+                    
                 } else {
                    
                     $scope.noMoreResults = true;
                 }
                 if($scope.fhellowsList.length < ($scope.fhellowPerPage * $scope.currentPage) ){
-                    console.log("NO more results because of "+$scope.fhellowsList.length +"<"+($scope.fhellowPerPage * $scope.currentPage));
+                    
                     $scope.noMoreResults = true;
                     
                 }

@@ -50,3 +50,9 @@ node_modules
 .index
 .niogit
 /nbproject/
+/codename-user-services/target/
+/codename-user-core/target/
+/codename-user-model/target/
+/codename-chat-core/target/
+/codename-chat-model/target/
+/codename-chat-services/target/

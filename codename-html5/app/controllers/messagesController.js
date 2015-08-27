@@ -16,7 +16,7 @@
         };
 
         $rootScope.websocket.onmessage = function (evt) {
-
+            console.log("On Message Message Controller! " + evt.data);
             var msg = JSON.parse(evt.data);
 
             switch (msg.type) {
@@ -153,6 +153,9 @@
                 var scrollDown = function () {
                     var newListHeight = $(".messages-history").height();
                     $("#user-messages-chat").scrollTop(newListHeight);
+                    $scope.$apply(new function () {
+                        $notifications.clearNewNotifications();
+                    });
                 };
                 setTimeout(scrollDown, 200);
 
@@ -208,6 +211,7 @@
                 }
             });
         });
+
 
 
     };

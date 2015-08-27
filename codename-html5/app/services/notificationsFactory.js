@@ -5,6 +5,7 @@
         factory.notifications = [];
 
         factory.clearNewNotifications = function () {
+            console.log("clearing notifications! ");
             factory.newNotifications = 0;
             factory.notifications = [];
         };

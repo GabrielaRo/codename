@@ -33,6 +33,20 @@
     
    
     <dependencies>
+        
+        
+        <dependency>
+            <groupId>org.codename</groupId>
+            <artifactId>codename-user-services</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codename</groupId>
+            <artifactId>codename-chat-services</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        
         <dependency>  
             <groupId>javax</groupId>    
             <artifactId>javaee-web-api</artifactId>    
@@ -40,11 +54,6 @@
             <scope>provided</scope>
         </dependency> 
         
-        <dependency>
-            <groupId>org.codename</groupId>
-            <artifactId>codename-services</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
