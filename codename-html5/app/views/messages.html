@@ -128,11 +128,11 @@
                     </div>
                     <div id="user-messages-send">
                         <div class="send-input" emoji-form emoji-message="emojiMessage">
-                            <textarea ng-model="emojiMessage.messagetext" id="sendMessageTextArea"  ng-disabled="!selectedConversation.description.length || selectedConversation.blocked" placeholder="Write your message here..." ></textarea>
+                            <textarea ng-model="emojiMessage.messagetext" id="sendMessageTextArea"  ng-disabled="!selectedConversation.description.length || selectedConversation.blocked" placeholder="Write your message here..." ng-class="{disabled: !selectedConversation.description.length || selectedConversation.blocked}" ></textarea>
                         </div>  
-                        <button id="emojibtn">
+                       <!-- <button id="emojibtn">
                                 <i class="icon icon-emoji"></i>
-                        </button>
+                        </button>-->
                         <div class="send-actions">
                             
                             <button id="sendMessageButton" class="button primary" ng-disabled="!selectedConversation.description.length || selectedConversation.blocked" 
