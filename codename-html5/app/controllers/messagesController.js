@@ -20,7 +20,8 @@
         $rootScope.websocket.onmessage = function (evt) {
 
             var msg = JSON.parse(evt.data);
-
+            console.log(evt);
+            console.log(msg);
             switch (msg.type) {
                 case 'message':
 
@@ -30,7 +31,7 @@
                     if ($scope.selectedConversation.other_nickname == msg.from) {
 
                         $scope.$apply(function () {
-                            $scope.messageHistory.push({owner_nickname: msg.from, text: msg.text, time: Date.now()});
+                            $scope.messageHistory.push({owner_nickname: msg.from, description: msg.description ,text: msg.text, time: Date.now()});
                         });
                         var scrollDown = function () {
                             var newListHeight = $(".messages-history").height();

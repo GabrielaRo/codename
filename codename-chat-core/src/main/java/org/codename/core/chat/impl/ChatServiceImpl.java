@@ -43,7 +43,7 @@ public class ChatServiceImpl implements ChatService {
         if (senderUser != null && destinationUser != null && true) {// Check if the user that I'm trying to send the message is my blocked list
             Message message = new Message(destinationUser.getId(), senderUser.getId(), text);
             pm.persist(message);
-            presenceService.newNotification(toUser, sender, text, "message", "");
+            presenceService.newNotification(toUser, sender, text, "message", senderUser.getFirstname() +" "+ senderUser.getLastname());
             return message.getId();
         } else {
             throw new ServiceException("You (" + sender + ") cannot message " + toUser + ", you have "

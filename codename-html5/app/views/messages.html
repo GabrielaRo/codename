@@ -42,7 +42,7 @@
                                 <div class="message-user-name">{{conversation.description}}</div>
 
                                 <div class="message-excerpt" >
-                                    <span class="reply" ng-if="(conversation.other_nickname == me)"><i class="fa fa-reply"></i></span>
+                                    <span class="reply" ng-if="(conversation.from == me)"><i class="fa fa-reply"></i></span>
                                     <span ng-bind-html="conversation.excerpt | colonToSmiley"></span>
                                 </div>
                                 <div class="message-date">{{conversation.time| date:'EEE HH:mm'}}</div>

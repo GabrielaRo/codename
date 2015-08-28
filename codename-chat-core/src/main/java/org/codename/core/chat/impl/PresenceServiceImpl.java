@@ -61,7 +61,7 @@ public class PresenceServiceImpl implements PresenceService {
             jsonUserObjectBuilder.add("from", fromNickname);
             jsonUserObjectBuilder.add("to", toNickname);
             jsonUserObjectBuilder.add("text", message);
-            jsonUserObjectBuilder.add("conversationId", type);
+            jsonUserObjectBuilder.add("description", type);
 
             if (session != null) {
                 session.getBasicRemote().sendText(jsonUserObjectBuilder.build().toString());
