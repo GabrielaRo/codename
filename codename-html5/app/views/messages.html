@@ -38,12 +38,17 @@
                             </div>
                             
                             <div class="message-data">
+                               
                                 <div class="message-user-name">{{conversation.description}}</div>
-                                <div class="message-excerpt" ng-bind-html="conversation.excerpt | colonToSmiley"><span class="reply" ng-if="conversation.from == me"><i class="fa fa-reply"></i></span></div>
+
+                                <div class="message-excerpt" >
+                                    <span class="reply" ng-if="(conversation.other_nickname == me)"><i class="fa fa-reply"></i></span>
+                                    <span ng-bind-html="conversation.excerpt | colonToSmiley"></span>
+                                </div>
                                 <div class="message-date">{{conversation.time| date:'EEE HH:mm'}}</div>
                             </div>
                         </div>
-
+                         <a href class="button block" ng-if="inbox.length > 6">Load more</a>
                         <div class="no-message" ng-if="!inbox.length">
                             No Messages 
                         </div>
@@ -96,7 +101,7 @@
                             <div class="messages-history-day" >
                                 <div class="day-name" ng-if="selectedConversation.description.length">
                                     <span>
-                                        All Messages
+                                        <a href class="button inverted small">Load more</a>
                                     </span>
                                 </div>
                                 <div class="day-messages">

@@ -97,6 +97,7 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
         User byNickName = usersService.getByNickName(user);
 
         jsonObjBuilder.add("other_nickname", user);
+        
         jsonObjBuilder.add("description", byNickName.getFirstname() + " " + byNickName.getLastname());
         jsonObjBuilder.add("onlineStatus", ""+presenceService.isOnline(user));
 
