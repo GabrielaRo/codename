@@ -151,7 +151,7 @@
                     }
                 };
                 var newListHeight = $(".messages-history").height();
-                $("#user-messages-chat").animate({scrollTop: newListHeight}, 1000);
+                $("#user-messages-chat").animate({scrollTop: newListHeight}, 200);
 
             }).error(function (data) {
 
