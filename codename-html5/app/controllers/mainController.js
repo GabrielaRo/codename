@@ -7,6 +7,7 @@
         $scope.auth_token = $cookieStore.get('auth_token');
         $scope.email = $cookieStore.get('email');
         $scope.user_id = $cookieStore.get('user_id');
+        $scope.user_full = $cookieStore.get('user_full');
         $scope.user_id = $cookieStore.get('user_roles');
         $scope.user_nick = $cookieStore.get('user_nick');
         $scope.firstLogin = $cookieStore.get('firstLogin');
@@ -58,6 +59,7 @@
             $scope.auth_token = "";
             $scope.email = "";
             $scope.user_id = "";
+            $scope.user_full = "";
             $scope.user_roles = "";
             $scope.user_nick = "";
             $scope.firstLogin = "";
@@ -69,6 +71,7 @@
                 $cookieStore.remove('auth_token');
                 $cookieStore.remove('email');
                 $cookieStore.remove('user_id');
+                $cookieStore.remove('user_full');
                 $cookieStore.remove('user_roles');
                 $cookieStore.remove('user_nick');
                 $cookieStore.remove('live');
@@ -94,6 +97,7 @@
                     $cookieStore.put('auth_token', data.auth_token);
                     $cookieStore.put('email', data.email);
                     $cookieStore.put('user_id', data.user_id);
+                    $cookieStore.put('user_full', data.user_full);
                     $cookieStore.put('user_roles', data.user_roles);
                     $cookieStore.put('user_nick', data.user_nick);
                     $cookieStore.put('firstLogin', data.firstLogin);
@@ -101,6 +105,7 @@
                     $scope.auth_token = $cookieStore.get('auth_token');
                     $scope.email = $cookieStore.get('email');
                     $scope.user_id = $cookieStore.get('user_id');
+                    $scope.user_full = $cookieStore.get('user_full');
                     $scope.user_roles = $cookieStore.get('user_roles');
                     $scope.user_nick = $cookieStore.get('user_nick');
                     $scope.firstLogin = $cookieStore.get('firstLogin');
@@ -133,6 +138,7 @@
                                 $cookieStore.put('auth_token', data.auth_token);
                                 $cookieStore.put('email', data.email);
                                 $cookieStore.put('user_id', data.user_id);
+                                $cookieStore.put('user_full', data.user_full);
                                 $cookieStore.put('user_roles', data.user_roles);
                                 $cookieStore.put('user_nick', data.user_nick);
                                 $cookieStore.put('firstLogin', data.firstLogin);
@@ -140,6 +146,7 @@
                                 $scope.auth_token = $cookieStore.get('auth_token');
                                 $scope.email = $cookieStore.get('email');
                                 $scope.user_id = $cookieStore.get('user_id');
+                                $scope.user_full = $cookieStore.get('user_full');
                                 $scope.user_roles = $cookieStore.get('user_roles');
                                 $scope.user_nick = $cookieStore.get('user_nick');
                                 $scope.firstLogin = $cookieStore.get('firstLogin');

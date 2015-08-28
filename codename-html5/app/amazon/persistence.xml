@@ -21,7 +21,7 @@
         <mapping-file>META-INF/users.xml</mapping-file>
         <mapping-file>META-INF/servicekey.xml</mapping-file>
         <mapping-file>META-INF/messages.xml</mapping-file>
-        <mapping-file>META-INF/conversations.xml</mapping-file>
+        
         <mapping-file>META-INF/notifications.xml</mapping-file>
         <mapping-file>META-INF/invitations.xml</mapping-file>
         <mapping-file>META-INF/contactMessage.xml</mapping-file>
@@ -31,7 +31,7 @@
         <class>org.codename.model.ServiceKey</class>
         <class>org.codename.model.Notification</class>
         <class>org.codename.model.Message</class>
-        <class>org.codename.model.Conversation</class>  
+         
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <!-- Properties for Hibernate -->

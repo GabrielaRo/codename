@@ -5,13 +5,15 @@
  */
 package org.codename.core.chat.tests;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.inject.Inject;
 
 import org.codename.core.chat.api.ChatService;
 import org.codename.core.user.api.UsersService;
 import org.codename.core.exceptions.ServiceException;
-import org.codename.model.chat.Conversation;
 import org.codename.model.chat.Message;
 import org.codename.model.user.User;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -39,9 +41,10 @@ public class ChatServiceSETest {
 
     @Inject
     private UsersService usersService;
-    
-    private User user = new User("marylandSup@gmail.com", "fakepassword");
-    private User user1 = new User("grogDj@gmail.com", "fakepassword");
+
+    private User marylandSupUser = new User("marylandSup@gmail.com", "fakepassword");
+    private User grogDjUser = new User("grogdj@gmail.com", "fakepassword");
+    private User ezeUser = new User("eze@gmail.com", "fakepassword");
 
     @BeforeClass
     public static void setUpClass() {
@@ -53,15 +56,17 @@ public class ChatServiceSETest {
 
     @Before
     public void setUp() throws ServiceException {
-        
-        usersService.newUser(user);
-        usersService.newUser(user1);
+
+        usersService.newUser(marylandSupUser);
+        usersService.newUser(grogDjUser);
+        usersService.newUser(ezeUser);
     }
 
     @After
     public void tearDown() throws ServiceException {
-        usersService.removeUser(user.getId());
-        usersService.removeUser(user1.getId());
+        usersService.removeUser(marylandSupUser.getId());
+        usersService.removeUser(grogDjUser.getId());
+        usersService.removeUser(ezeUser.getId());
     }
 
     @Deployment
@@ -72,66 +77,39 @@ public class ChatServiceSETest {
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/users.xml", "users.xml")
                 .addAsManifestResource("META-INF/messages.xml", "messages.xml")
-                .addAsManifestResource("META-INF/conversations.xml", "conversations.xml")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Test
     public void chatServiceInitialTest() throws ServiceException, Exception {
 
+        Long message1 = chatService.sendMessage(grogDjUser.getNickname(), marylandSupUser.getNickname(), "hi this is my first message");
 
-        Long conversationId = chatService.createConversation("marylandSup", "grogDj");
+        Long message2 = chatService.sendMessage(marylandSupUser.getNickname(), grogDjUser.getNickname(), "grogDj here! ");
 
-        Long message1 = chatService.sendMessage(conversationId, "marylandSup", "hi this is my first message");
+        Long message3 = chatService.sendMessage(marylandSupUser.getNickname(), grogDjUser.getNickname(), "bro!");
 
-        Long message2 = chatService.sendMessage(conversationId, "grogDj", "grogDj here! ");
+        Long message4 = chatService.sendMessage(marylandSupUser.getNickname(), ezeUser.getNickname(), "hey there!");
 
-        Long message3 = chatService.sendMessage(conversationId, "grogDj", "bro! ");
+        Long message5 = chatService.sendMessage(ezeUser.getNickname(), marylandSupUser.getNickname(), "hey!");
 
-        List<Message> messages = chatService.getMessages(conversationId);
+        List<Message> messages = chatService.getMessages(marylandSupUser.getNickname());
+
+        Assert.assertEquals(5, messages.size());
+
+        messages = chatService.getMessages(ezeUser.getNickname());
+
+        Assert.assertEquals(2, messages.size());
+
+        messages = chatService.getMessages(grogDjUser.getNickname());
+
         Assert.assertEquals(3, messages.size());
 
-        List<Conversation> conversations = chatService.getConversations("marylandSup");
-        Assert.assertEquals(1, conversations.size());
-
-        boolean removeConversation = chatService.removeConversation("marylandSup", "grogDj");
-        Assert.assertTrue(removeConversation);
-
-    }
-
-    @Test
-    public void chatServiceDuplicatedConversationTest() throws ServiceException, Exception {
-
-        Long firstConversation = chatService.createConversation("marylandSup", "grogDj");
-
-        chatService.sendMessage(firstConversation, "marylandSup", "hi this is my first message");
-
-        chatService.sendMessage(firstConversation, "grogDj", "grogDj here! ");
-
-        chatService.sendMessage(firstConversation, "grogDj", "bro! ");
-
-        List<Message> messages = chatService.getMessages(firstConversation);
-        Assert.assertEquals(3, messages.size());
-
-        List<Conversation> conversations = chatService.getConversations("marylandSup");
-        Assert.assertEquals(1, conversations.size());
-
-        Long secondConverstaion = chatService.createConversation("marylandSup", "grogDj");
-
-        Assert.assertEquals(firstConversation, secondConverstaion);
-
-        Long thirdConversation = chatService.createConversation("grogDj", "marylandSup");
-
-        Assert.assertEquals(thirdConversation, secondConverstaion);
-
-        messages = chatService.getMessages(thirdConversation);
-        Assert.assertEquals(3, messages.size());
-
-        messages = chatService.getMessages(secondConverstaion);
-        Assert.assertEquals(3, messages.size());
-
-        boolean removeConversation = chatService.removeConversation("marylandSup", "grogDj");
-        Assert.assertTrue(removeConversation);
+        // Let's build the marylandSup inbox
+        messages = chatService.getMessages(marylandSupUser.getNickname());
+        Assert.assertEquals(5, messages.size());
+        Map<String, List<Message>> inboxUsers = chatService.getInbox(marylandSupUser.getNickname());
+        Assert.assertEquals(2, inboxUsers.keySet().size());
 
     }
 

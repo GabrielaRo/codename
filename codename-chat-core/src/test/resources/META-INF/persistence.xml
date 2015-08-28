@@ -28,13 +28,11 @@
         <mapping-file>META-INF/invitations.xml</mapping-file>
         <mapping-file>META-INF/contactMessage.xml</mapping-file>
         <mapping-file>META-INF/messages.xml</mapping-file>
-        <mapping-file>META-INF/conversations.xml</mapping-file>
         <mapping-file>META-INF/notifications.xml</mapping-file>
         <class>org.codename.model.user.ContactMessage</class>
         <class>org.codename.model.user.Invitation</class>
         <class>org.codename.model.user.User</class>
         <class>org.codename.model.user.ServiceKey</class>
-        <class>org.codename.model.chat.Conversation</class>
         <class>org.codename.model.chat.Message</class>
         <class>org.codename.model.chat.Notification</class>
         

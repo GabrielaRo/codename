@@ -1,6 +1,6 @@
 (function () {
 
-    var NavigationController = function ($scope, $location, $rootScope, $invites, $notifications, $cookieStore) {
+    var NavigationController = function ($scope, $location, $rootScope, $invites,  $cookieStore) {
 
         
         $scope.isActive = function (route) {
@@ -38,7 +38,7 @@
 
     };
 
-    NavigationController.$inject = ['$scope', '$location', '$rootScope', '$invites', '$notifications','$cookieStore'];
+    NavigationController.$inject = ['$scope', '$location', '$rootScope', '$invites','$cookieStore'];
     angular.module("codename").controller("NavigationController", NavigationController);
 
 }());

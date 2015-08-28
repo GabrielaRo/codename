@@ -1,5 +1,5 @@
 (function () {
-    var $sockets = function ($rootScope, $cookieStore, $notifications, appConstants) {
+    var $sockets = function ($rootScope, $cookieStore, $presence, appConstants) {
         var factory = {};
         //init web socket for a client
         factory.initWebSocket = function () {
@@ -21,8 +21,8 @@
 
                         break;
                     case 'message':
-                        $notifications.newNotifications = $notifications.newNotifications + 1;
-                        $notifications.notifications.push({date: Date.now(), message: 'text: ' + msg.text});
+                        $presence.newNotifications = $presence.newNotifications + 1;
+                        $presence.notifications.push({date: Date.now(), message: 'text: ' + msg.text});
 
                         break;
                 }
@@ -46,7 +46,7 @@
         return factory;
     };
 
-    $sockets.$inject = ['$rootScope', '$cookieStore', '$notifications', 'appConstants'];
+    $sockets.$inject = ['$rootScope', '$cookieStore', '$presence', 'appConstants'];
     angular.module("codename").factory("$sockets", $sockets);
 
 }());

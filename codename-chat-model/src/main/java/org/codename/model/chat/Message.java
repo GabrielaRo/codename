@@ -24,16 +24,16 @@ public class Message implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long conversationId;
-    private String sender;
+    private Long toUser;
+    private Long sender;
     private String text;
     private Date timestamp;
 
     public Message() {
     }
 
-    public Message(Long conversationId, String sender, String text) {
-        this.conversationId = conversationId;
+    public Message(Long toUser, Long sender, String text) {
+        this.toUser = toUser;
         this.sender = sender;
         this.text = text;
         this.timestamp = new Date();
@@ -47,12 +47,20 @@ public class Message implements Serializable {
         this.id = id;
     }
 
-    public Long getConversationId() {
-        return conversationId;
+    public Long getToUser() {
+        return toUser;
     }
 
-    public void setConversationId(Long conversationId) {
-        this.conversationId = conversationId;
+    public void setToUser(Long toUser) {
+        this.toUser = toUser;
+    }
+
+    public Long getSender() {
+        return sender;
+    }
+
+    public void setSender(Long sender) {
+        this.sender = sender;
     }
 
     public Date getTimestamp() {
@@ -71,18 +79,9 @@ public class Message implements Serializable {
         this.text = text;
     }
 
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
     @Override
     public String toString() {
-        return "Message{" + "id=" + id + ", conversationId=" + conversationId + ", sender=" + sender + ", text=" + text + ", timestamp=" + timestamp + '}';
+        return "Message{" + "id=" + id + ", toUser=" + toUser + ", sender=" + sender + ", text=" + text + ", timestamp=" + timestamp + '}';
     }
 
-    
 }

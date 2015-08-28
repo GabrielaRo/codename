@@ -6,6 +6,7 @@
 package org.codename.services.endpoints.chat.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,11 +15,12 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.core.Response;
 import org.codename.core.chat.api.ChatService;
-import org.codename.core.chat.api.NotificationsService;
 import org.codename.core.exceptions.ServiceException;
-import org.codename.model.chat.Conversation;
 import org.codename.model.chat.Message;
 import org.codename.services.endpoints.chat.api.ChatEndpointService;
+import org.codename.core.chat.api.PresenceService;
+import org.codename.core.user.api.UsersService;
+import org.codename.model.user.User;
 
 /**
  *
@@ -31,95 +33,76 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
 
     @Inject
     private ChatService chatService;
-    
+
     @Inject
-    private NotificationsService notificationService;
-    
+    private PresenceService presenceService;
+
+    @Inject
+    private UsersService usersService;
+
     public ChatEndpointServiceImpl() {
 
     }
-    
+
     @Override
-    public Response sendMessage(Long conversationId, String sender, String message) throws ServiceException {
-        chatService.sendMessage(conversationId, sender, message);
-        
+    public Response sendMessage(String toUser, String sender, String message) throws ServiceException {
+        chatService.sendMessage(toUser, sender, message);
+
         return Response.ok().build();
     }
 
     @Override
-    public Response blockConversation(Long conversationId) throws ServiceException {
-        chatService.blockConversation(conversationId);
-        return Response.ok().build();
-    }
-    
-    @Override
-    public Response unblockConversation(Long conversationId) throws ServiceException {
-        chatService.unblockConversation(conversationId);
-        return Response.ok().build();
-    }
-
-    @Override
-    public Response createConversation(String initiator, String otherFhellow) throws ServiceException {
-        Long conversationId = chatService.createConversation(initiator, otherFhellow);
-
-        return Response.ok(conversationId).build();
-    }
-
-    @Override
-    public Response getConversations(String user) throws ServiceException {
-        List<Conversation> conversations = chatService.getConversations(user);
+    public Response getUserInbox(String nickname) throws ServiceException {
+        Map<String, List<Message>> inbox = chatService.getInbox(nickname);
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-
-        for (Conversation c : conversations) {
-
-            JsonObjectBuilder jsonUserObjectBuilder = createJsonConversation(c, user);
+        for (String user : inbox.keySet()) {
+            JsonObjectBuilder jsonUserObjectBuilder = 
+                    createJsonConversation(inbox.get(user).get(inbox.get(user).size() - 1), user);
             jsonArrayBuilder.add(jsonUserObjectBuilder);
-
         }
-
         return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
 
     @Override
-    public Response getMessages(Long conversationId) throws ServiceException {
-        List<Message> messages = chatService.getMessages(conversationId);
+    public Response getConversationMessages(String nickname, String withUser) throws ServiceException {
+        Map<String, List<Message>> inbox = chatService.getInbox(nickname);
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        List<Message> messageWithUser = inbox.get(withUser);
+        if (messageWithUser != null) {
+            for (Message m : messageWithUser) {
+                JsonObjectBuilder jsonUserObjectBuilder = createJsonMessage(m);
+                jsonArrayBuilder.add(jsonUserObjectBuilder);
+            }
 
-        for (Message m : messages) {
-            JsonObjectBuilder jsonUserObjectBuilder = createJsonMessage(m);
-            jsonArrayBuilder.add(jsonUserObjectBuilder);
         }
-
         return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
+
 
     private JsonObjectBuilder createJsonMessage(Message m) {
+        User byId = usersService.getById(m.getSender());
 
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("id", m.getId());
         jsonObjBuilder.add("text", m.getText());
-        jsonObjBuilder.add("owner_nickname", m.getSender());
+        jsonObjBuilder.add("owner_nickname", byId.getNickname());
+        jsonObjBuilder.add("description", byId.getFirstname() + " " + byId.getLastname());
         jsonObjBuilder.add("time", m.getTimestamp().getTime());
 
         return jsonObjBuilder;
     }
 
-    private JsonObjectBuilder createJsonConversation(Conversation c, String user) {
+    private JsonObjectBuilder createJsonConversation(Message m, String user) throws ServiceException {
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-        jsonObjBuilder.add("conversation_id", c.getId());
-        
-        if(c.getUserA().equals(user)){
-            jsonObjBuilder.add("other_nickname", c.getUserB());
-            jsonObjBuilder.add("description", c.getUserBFullName());
-            jsonObjBuilder.add("onlineStatus", notificationService.isOnline(c.getUserB()));
-        }else{
-            jsonObjBuilder.add("other_nickname", c.getUserA());
-            jsonObjBuilder.add("description", c.getUserAFullName());
-            jsonObjBuilder.add("onlineStatus", notificationService.isOnline(c.getUserA()));
-        }
-        jsonObjBuilder.add("excerpt", c.getExcerpt());
-        jsonObjBuilder.add("time", c.getTimestamp().getTime());
-        jsonObjBuilder.add("blocked", c.isBlocked());
+        User byNickName = usersService.getByNickName(user);
+
+        jsonObjBuilder.add("other_nickname", user);
+        jsonObjBuilder.add("description", byNickName.getFirstname() + " " + byNickName.getLastname());
+        jsonObjBuilder.add("onlineStatus", ""+presenceService.isOnline(user));
+
+        jsonObjBuilder.add("excerpt", m.getText());
+        jsonObjBuilder.add("time", m.getTimestamp().getTime());
+//        jsonObjBuilder.add("blocked", c.isBlocked());
 
         return jsonObjBuilder;
     }

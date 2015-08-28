@@ -6,8 +6,8 @@
 package org.codename.core.chat.api;
 
 import java.util.List;
+import java.util.Map;
 import org.codename.core.exceptions.ServiceException;
-import org.codename.model.chat.Conversation;
 import org.codename.model.chat.Message;
 
 /**
@@ -16,22 +16,11 @@ import org.codename.model.chat.Message;
  */
 public interface ChatService {
 
-    public Long sendMessage(Long conversationId, String sender, String text) throws ServiceException;;
+    public Long sendMessage(String toUser, String sender, String text) throws ServiceException;;
 
-    public List<Message> getMessages(Long conversationId) throws ServiceException;
+    public List<Message> getMessages(String user) throws ServiceException;
+    
+    public Map<String, List<Message>> getInbox(String nickname) throws ServiceException;
 
-    public List<Conversation> getConversations(String userId) throws ServiceException;
-
-    public Long createConversation(String userA, String userB) throws ServiceException;
-    
-    public boolean removeConversation(String userA, String userB) throws ServiceException;
-    
-    public boolean removeConversation(Long conversationId) throws ServiceException;
-    
-    public boolean blockConversation(String userA, String userB) throws ServiceException;
-    
-    public boolean blockConversation(Long conversationId) throws ServiceException;
-    
-    public boolean unblockConversation(Long conversationId) throws ServiceException;
 
 }

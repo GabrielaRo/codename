@@ -5,18 +5,18 @@
  */
 package org.codename.core.chat.impl;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import org.codename.core.chat.api.ChatService;
-import org.codename.core.chat.api.NotificationsService;
 import org.codename.core.user.api.UsersService;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.core.util.PersistenceManager;
-import org.codename.model.chat.Conversation;
 import org.codename.model.chat.Message;
+import org.codename.core.chat.api.PresenceService;
 import org.codename.model.user.User;
 
 /**
@@ -33,134 +33,55 @@ public class ChatServiceImpl implements ChatService {
     private UsersService usersService;
 
     @Inject
-    private NotificationsService notificationService;
+    private PresenceService presenceService;
 
     @Override
-    public Long sendMessage(Long conversationId, String sender, String text) throws ServiceException {
-        Conversation conv = pm.find(Conversation.class, conversationId);
-        if (conv != null && !conv.isBlocked()) {
-            Message message = new Message(conversationId, sender, text);
-            pm.persist(message);
-            conv.setExcerpt(text);
-            conv.setTimestamp(new Date());
-            pm.merge(conv);
-            if (conv.getUserA().equals(sender)) {
-                notificationService.newNotification(conv.getUserB(), conv.getUserA(), text, "message", String.valueOf(conversationId));
-            } else {
-                notificationService.newNotification(conv.getUserA(), conv.getUserB(), text, "message", String.valueOf(conversationId));
-            }
+    public Long sendMessage(String toUser, String sender, String text) throws ServiceException {
 
+        User senderUser = usersService.getByNickName(sender);
+        User destinationUser = usersService.getByNickName(toUser);
+        if (senderUser != null && destinationUser != null && true) {// Check if the user that I'm trying to send the message is my blocked list
+            Message message = new Message(destinationUser.getId(), senderUser.getId(), text);
+            pm.persist(message);
+            presenceService.newNotification(toUser, sender, text, "message", "");
             return message.getId();
         } else {
-            throw new ServiceException("Conversation not found or conversation blocked");
+            throw new ServiceException("You (" + sender + ") cannot message " + toUser + ", you have "
+                    + "being blocked or the user doesn't exist anymore!");
         }
     }
 
     @Override
-    public List<Message> getMessages(Long conversationId) throws ServiceException {
-        return pm.createNamedQuery("Messages.getConversation", Message.class).setParameter("conversationId", conversationId).getResultList();
+    public List<Message> getMessages(String nickname) throws ServiceException {
+        User user = usersService.getByNickName(nickname);
+        return pm.createNamedQuery("Messages.getByUser", Message.class).setParameter("user", user.getId()).getResultList();
     }
 
     @Override
-    public List<Conversation> getConversations(String userId) throws ServiceException {
-        return pm.createNamedQuery("Conversations.byUser", Conversation.class).setParameter("userId", userId).getResultList();
-    }
-
-    @Override
-    public Long createConversation(String initiator, String otherFhellow) throws ServiceException {
-        try {
-            Conversation conv = pm.createNamedQuery("Conversations.byParticipants", Conversation.class)
-                    .setParameter("participantA", initiator)
-                    .setParameter("participantB", otherFhellow).getSingleResult();
-
-            return conv.getId();
-
-        } catch (NoResultException nre) {
-            // Do nothing just create the conversation            
+    /*
+     * This method creates the inbox for a user, but in a very inefficient way. 
+     *  There is a lot of room for performance improvement here. 
+    */
+    public Map<String, List<Message>> getInbox(String nickname) throws ServiceException {
+        User user = usersService.getByNickName(nickname);
+        Map<String, List<Message>> inboxMap = new HashMap<String, List<Message>>();
+        List<Message> messages = getMessages(nickname);
+        for (Message m : messages) {
+            if (m.getSender().equals(user.getId())) {
+                User byId = usersService.getById(m.getToUser());
+                if (inboxMap.get(byId.getNickname()) == null) {
+                    inboxMap.put(byId.getNickname(), new ArrayList<Message>());
+                }
+                inboxMap.get(byId.getNickname()).add(m);
+            } else if (m.getToUser().equals(user.getId())) {
+                User byId = usersService.getById(m.getSender());
+                if (inboxMap.get(byId.getNickname()) == null) {
+                    inboxMap.put(byId.getNickname(), new ArrayList<Message>());
+                }
+                inboxMap.get(byId.getNickname()).add(m);
+            }
         }
-
-        Conversation conversation = new Conversation(initiator, otherFhellow);
-        User initiatorUser = usersService.getByNickName(initiator);
-        if (initiatorUser == null) {
-            throw new ServiceException("Other fhellow: " + initiator + " not found!");
-        }
-        User otherFhellowUser = usersService.getByNickName(otherFhellow);
-
-        if (otherFhellowUser == null) {
-            throw new ServiceException("Other fhellow: " + otherFhellow + " not found!");
-        }
-        conversation.setUserAFullName(initiatorUser.getFirstname() + " " + initiatorUser.getLastname());
-        conversation.setUserBFullName(otherFhellowUser.getFirstname() + " " + otherFhellowUser.getLastname());
-        pm.persist(conversation);
-        return conversation.getId();
-    }
-
-    @Override
-    public boolean removeConversation(String userA, String userB) throws ServiceException {
-        try {
-            Conversation conv = pm.createNamedQuery("Conversations.byParticipants", Conversation.class)
-                    .setParameter("participantA", userA)
-                    .setParameter("participantB", userB).getSingleResult();
-
-            pm.remove(conv);
-            return true;
-        } catch (NoResultException nre) {
-            //throw new ServiceException("No conversation found for " + userA + " and " + userB);
-            return false;
-        }
-    }
-
-    @Override
-    public boolean removeConversation(Long conversationId) throws ServiceException {
-        try {
-            Conversation conv = pm.find(Conversation.class, conversationId);
-            pm.remove(conv);
-            return true;
-        } catch (NoResultException nre) {
-            //throw new ServiceException("No conversation found for " + userA + " and " + userB);
-            return false;
-        }
-    }
-
-    @Override
-    public boolean blockConversation(String userA, String userB) throws ServiceException {
-        try {
-            Conversation conv = pm.createNamedQuery("Conversations.byParticipants", Conversation.class)
-                    .setParameter("participantA", userA)
-                    .setParameter("participantB", userB).getSingleResult();
-            conv.setBlocked(true);
-            pm.merge(conv);
-            return true;
-        } catch (NoResultException nre) {
-            //throw new ServiceException("No conversation found for " + userA + " and " + userB);
-            return false;
-        }
-    }
-
-    @Override
-    public boolean blockConversation(Long conversationId) throws ServiceException {
-        try {
-            Conversation conv = pm.find(Conversation.class, conversationId);
-            conv.setBlocked(true);
-            pm.merge(conv);
-            return true;
-        } catch (NoResultException nre) {
-            //throw new ServiceException("No conversation found for " + userA + " and " + userB);
-            return false;
-        }
-    }
-
-    @Override
-    public boolean unblockConversation(Long conversationId) throws ServiceException {
-        try {
-            Conversation conv = pm.find(Conversation.class, conversationId);
-            conv.setBlocked(false);
-            pm.merge(conv);
-            return true;
-        } catch (NoResultException nre) {
-            //throw new ServiceException("No conversation found for " + userA + " and " + userB);
-            return false;
-        }
+        return inboxMap;
     }
 
 }

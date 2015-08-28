@@ -1,25 +1,25 @@
 (function () {
 
-    var notificationsController = function ($rootScope, $scope, $notifications, appConstants) {
-        console.log($notifications.notifications);
+    var notificationsController = function ($rootScope, $scope, $presence, appConstants) {
+        console.log($presence.notifications);
 
-        $scope.newNotifications = $notifications.newNotifications;
-        $scope.notifications = $notifications.notifications;
-        $rootScope.websocket.onmessage = function (evt) {
-
-            var msg = JSON.parse(evt.data);
-            switch (msg.type) {
-                case 'message':
-                    console.log("On Message Notification Controller! " + evt.data);
-                    $notifications.newNotifications = $notifications.newNotifications + 1;
-                    $notifications.notifications.push({date: Date.now(), message: 'text: ' + msg.text});
-                    $scope.$apply(function () {
-                        $scope.newNotifications = $notifications.newNotifications;
-                        $scope.notifications = $notifications.notifications;
-                    });
-                    break;
-            }
-        };
+        $scope.newNotifications = $presence.newNotifications;
+        $scope.notifications = $presence.notifications;
+//        $rootScope.websocket.onmessage = function (evt) {
+//
+//            var msg = JSON.parse(evt.data);
+//            switch (msg.type) {
+//                case 'message':
+//                    console.log("On Message Notification Controller! " + evt.data);
+//                    $presence.newNotifications = $presence.newNotifications + 1;
+//                    $presence.notifications.push({date: Date.now(), message: 'text: ' + msg.text});
+//                    $scope.$apply(function () {
+//                        $scope.newNotifications = $presence.newNotifications;
+//                        $scope.notifications = $presence.notifications;
+//                    });
+//                    break;
+//            }
+//        };
         $scope.checkNew = function (notification_id) {
 
         }
@@ -49,6 +49,6 @@
         });
         
     };
-    notificationsController.$inject = ['$rootScope', '$scope', '$notifications', 'appConstants'];
+    notificationsController.$inject = ['$rootScope', '$scope', '$presence', 'appConstants'];
     angular.module("codename").controller("notificationsController", notificationsController);
 }());

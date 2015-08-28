@@ -137,8 +137,10 @@ public class AuthenticationEndpointServiceImpl implements AuthenticationEndpoint
         for (String r : authUser.getRoles()) {
             jsonArrayBuilder.add(r);
         }
+        
         jsonObjBuilder.add("user_roles", jsonArrayBuilder.build().toString());
         jsonObjBuilder.add("user_nick", authUser.getNickname());
+        jsonObjBuilder.add("user_full", authUser.getFirstname() + " "+ authUser.getLastname() );
         jsonObjBuilder.add("firstLogin", firstLogin);
         jsonObjBuilder.add("live", live);
 

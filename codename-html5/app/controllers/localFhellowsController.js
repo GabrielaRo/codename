@@ -1,5 +1,6 @@
 (function () {
-    var localFhellowsController = function ($scope, $rootScope, $users, $interests, $chat, location, appConstants, reverseGeocoder, $location) {
+    var localFhellowsController = function ($scope, $rootScope, $users, $interests, $chat,
+            location, appConstants, reverseGeocoder, $location, $presence) {
         $scope.imagePath = "static/img/public-images/";
         $scope.filters = {location: '', proximity: 200, type: "", search: ""};
         $scope.filtersType = [];
@@ -18,29 +19,29 @@
         $scope.shareLocation = function () {
             $scope.gettingLocation = true;
             location.get(angular.noop, angular.noop);
-            
+
             location.ready(function () {
-                
+
                 reverseGeocoder.geocode(location.current)
                         .then(function (results) {
                             $scope.gettingLocation = false;
                             $scope.resetPaging();
-                            
+
                             var locData = {
                                 latitude: location.current.latitude,
                                 longitude: location.current.longitude,
                                 name: results[0].address_components[6].short_name,
-                                description: results[0].address_components[6].short_name + " , " +results[0].address_components[3].short_name
+                                description: results[0].address_components[6].short_name + " , " + results[0].address_components[3].short_name
                             };
                             $scope.selectedLocation = locData;
-                            if($location.path().contains('localfhellows')){
+                            if ($location.path().contains('localfhellows')) {
                                 var el = angular.element(document.querySelectorAll("#myLocationText"));
                                 el[0].value = 'Current Location';
                                 $scope.lookedUpLocation = locData;
                             }
-                            
-                    
-                            
+
+
+
 
                         });
             });
@@ -103,15 +104,15 @@
 
         $scope.$watch('lookedUpLocation', $scope.selectAddress);
 
-        $scope.newConversation = function (selectedUser) {
-
-            $chat.newConversation(selectedUser).success(function (data) {
-                $rootScope.$broadcast('goTo', "/messages/" + data);
-
-            }).error(function (data) {
-                console.log("Error: ");
-                $rootScope.$broadcast("quickNotification", "Something went wrong creating a new conversations!" + data);
-            });
+        $scope.newConversation = function (selectedUser, firstname, lastname, status) {
+            $rootScope.$broadcast('goTo', "/messages/" + selectedUser + "/" + firstname + "/" + lastname + "/" + status);
+//            $chat.newConversation(selectedUser).success(function (data) {
+//                $rootScope.$broadcast('goTo', "/messages/" + data);
+//
+//            }).error(function (data) {
+//                console.log("Error: ");
+//                $rootScope.$broadcast("quickNotification", "Something went wrong creating a new conversations!" + data);
+//            });
 
         }
 
@@ -178,19 +179,34 @@
                 $scope.currentRange = "NA";
             }
 
-           
-            $users.search(lon, lat, tags, lookingFors, categories, $scope.currentRange, $scope.currrentOffset, $scope.fhellowPerPage).success(function (data) {
-                if (typeof data !== 'undefined' && data.length > 0) {
-                   
-                    $scope.fhellowsList = $scope.fhellowsList.concat(data);
+
+            $users.search(lon, lat, tags, lookingFors, categories,
+                    $scope.currentRange, $scope.currrentOffset, $scope.fhellowPerPage).success(function (fhellows) {
+                if (typeof fhellows !== 'undefined' && fhellows.length > 0) {
+
+                    var nicknames = [];
+                    for (var i = 0; i < fhellows.length; i++) {
+                        nicknames.push(fhellows[i].nickname);
+                    }
+
+                    $presence.getUsersState(nicknames).success(function (states) {
+                        for (var i = 0; i < fhellows.length; i++) {
+                            fhellows[i].onlineStatus = states[i];
+                        }
+                        $scope.fhellowsList = $scope.fhellowsList.concat(fhellows);
+                    }).error(function (data) {
+                        console.log("Error: ");
+                        console.log(data);
+                        $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
+                    });
                 } else {
-                   
+
                     $scope.noMoreResults = true;
                 }
-                if($scope.fhellowsList.length < ($scope.fhellowPerPage * $scope.currentPage) ){
-                    
+                if ($scope.fhellowsList.length < ($scope.fhellowPerPage * $scope.currentPage)) {
+
                     $scope.noMoreResults = true;
-                    
+
                 }
             }).error(function (data) {
                 $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
@@ -210,24 +226,38 @@
                 $scope.currentRange = "NA";
             }
 
-            
+            $users.search(0.0, 0.0, tags, lookingFors, categories, $scope.currentRange,
+                    $scope.currrentOffset, $scope.fhellowPerPage)
+                    .success(function (fhellows) {
 
-            $users.search(0.0, 0.0, tags, lookingFors, categories, $scope.currentRange, $scope.currrentOffset, $scope.fhellowPerPage).success(function (data) {
+                        if (typeof fhellows !== 'undefined' && fhellows.length > 0) {
+                            var nicknames = [];
+                            for (var i = 0; i < fhellows.length; i++) {
+                                nicknames.push(fhellows[i].nickname);
+                            }
 
-                if (typeof data !== 'undefined' && data.length > 0) {
-                    
-                    $scope.fhellowsList = $scope.fhellowsList.concat(data);
-                    
-                } else {
-                   
-                    $scope.noMoreResults = true;
-                }
-                if($scope.fhellowsList.length < ($scope.fhellowPerPage * $scope.currentPage) ){
-                    
-                    $scope.noMoreResults = true;
-                    
-                }
-            }).error(function (data) {
+
+                            $presence.getUsersState(nicknames).success(function (states) {
+
+                                for (var i = 0; i < fhellows.length; i++) {
+                                    fhellows[i].onlineStatus = states[i];
+                                }
+                                $scope.fhellowsList = $scope.fhellowsList.concat(fhellows);
+                            }).error(function (data) {
+                                console.log("Error: ");
+                                console.log(data);
+                                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
+                            });
+                        } else {
+
+                            $scope.noMoreResults = true;
+                        }
+                        if ($scope.fhellowsList.length < ($scope.fhellowPerPage * $scope.currentPage)) {
+
+                            $scope.noMoreResults = true;
+
+                        }
+                    }).error(function (data) {
                 console.log("Error: ");
                 console.log(data);
                 $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
@@ -249,7 +279,8 @@
 
     };
 
-    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests', '$chat', 'location', 'appConstants', 'reverseGeocoder', '$location'];
+    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests', '$chat',
+        'location', 'appConstants', 'reverseGeocoder', '$location', '$presence'];
     angular.module("codename").controller("localFhellowsController", localFhellowsController);
 
 }());

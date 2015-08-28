@@ -14,10 +14,10 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-import org.codename.core.chat.api.NotificationsService;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.services.chat.websocket.decoders.NotificationDecoder;
 import org.codename.services.chat.websocket.encoders.NotificationEncoder;
+import org.codename.core.chat.api.PresenceService;
 
 /**
  *
@@ -30,14 +30,14 @@ import org.codename.services.chat.websocket.encoders.NotificationEncoder;
 public class NotificationsWSEndpoint {
 
     @Inject
-    NotificationsService notificationService;
+    PresenceService notificationService;
 
     @OnOpen
     public void onOpen(Session client) {
         List<String> nicks = client.getRequestParameterMap().get("nickname");
 
         try {
-            notificationService.addNewSession(nicks.get(0), client);
+            notificationService.userJoin(nicks.get(0), client);
         } catch (ServiceException ex) {
             ex.printStackTrace();
             Logger.getLogger(NotificationsWSEndpoint.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,7 +52,7 @@ public class NotificationsWSEndpoint {
     @OnClose
     public void onClose(Session client) throws ServiceException {
 
-        notificationService.removeSession(client);
+        notificationService.userLeave(client);
     }
 
 }

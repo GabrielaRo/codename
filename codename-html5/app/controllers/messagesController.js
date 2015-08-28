@@ -1,6 +1,6 @@
 (function () {
 
-    var messagesController = function ($scope, $chat, $cookieStore, $routeParams, $rootScope, $sockets, $notifications, $filter, appConstants) {
+    var messagesController = function ($scope, $chat, $cookieStore, $routeParams, $rootScope, $sockets, $presence, $filter, appConstants) {
 
 
         $scope.serverUrlFull = appConstants.server + appConstants.context;
@@ -12,23 +12,37 @@
         $scope.me = $cookieStore.get('user_nick');
         $scope.emojiMessage = {};
         $scope.emojiMessage.replyToUser = function () {
-            $('#sendMessageButton').click();
+            if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
+                $('#sendMessageButton').click();
+            }
         };
 
         $rootScope.websocket.onmessage = function (evt) {
-            console.log("On Message Message Controller! " + evt.data);
+
             var msg = JSON.parse(evt.data);
 
             switch (msg.type) {
                 case 'message':
 
-                    $notifications.newNotifications = $notifications.newNotifications + 1;
-                    $notifications.notifications.push({date: Date.now(), message: 'text: ' + msg.text});
-                    if ($scope.selectedConversation.conversation_id == msg.conversationId) {
-                        $scope.messageHistory.push({owner_nickname: msg.from, text: msg.text, time: Date.now()});
+                    $presence.newNotifications = $presence.newNotifications + 1;
+                    $presence.notifications.push({date: Date.now(), message: 'text: ' + msg.text});
+
+                    if ($scope.selectedConversation.other_nickname == msg.from) {
+
+                        $scope.$apply(function () {
+                            $scope.messageHistory.push({owner_nickname: msg.from, text: msg.text, time: Date.now()});
+                        });
+                        var scrollDown = function () {
+                            var newListHeight = $(".messages-history").height();
+                            $("#user-messages-chat").scrollTop(newListHeight);
+                            $scope.$apply(new function () {
+                                $presence.clearNewNotifications();
+                            });
+                        };
+                        setTimeout(scrollDown, 200);
                     }
                     for (var i = 0; i < $scope.inbox.length; i++) {
-                        if ($scope.inbox[i].conversation_id == msg.conversationId) {
+                        if ($scope.inbox[i].other_nickname == msg.from) {
                             $scope.inbox[i].excerpt = msg.text;
                             $scope.inbox[i].time = Date.now();
                             $scope.inbox[i].newMessage = true;
@@ -37,20 +51,22 @@
                             $scope.inbox[i].onlineStatus = true;
                         }
                     }
-                    $filter('orderBy')($scope.inbox, 'conversation.time', true);
+                    $scope.$apply(function () {
+                        $filter('orderBy')($scope.inbox, 'conversation.time', true);
+                    });
 
                     break;
                 case 'online':
 
                     for (var i = 0; i < $scope.inbox.length; i++) {
-                        if ($scope.inbox[i].conversation_id == msg.conversationId) {
+                        if ($scope.inbox[i].other_nickname == msg.from) {
                             $scope.inbox[i].onlineStatus = true;
                         }
                     }
                     break;
                 case 'offline':
                     for (var i = 0; i < $scope.inbox.length; i++) {
-                        if ($scope.inbox[i].conversation_id == msg.conversationId) {
+                        if ($scope.inbox[i].other_nickname == msg.from) {
                             $scope.inbox[i].onlineStatus = false;
                         }
                     }
@@ -63,7 +79,8 @@
 
             $scope.selectedConversation = conversation;
 
-            $scope.getMessages(conversation.conversation_id);
+            $scope.getMessages(conversation.other_nickname);
+
 
         }
 
@@ -112,22 +129,25 @@
         }
 
 
-        $scope.sendMessage = function (conversationId, message) {
+        $scope.sendMessage = function (toUser, message) {
 
-            $scope.messageHistory.push({owner_nickname: $cookieStore.get("user_nick"), text: message, time: Date.now()});
+            $scope.messageHistory.push({owner_nickname: $cookieStore.get("user_nick"), description: $cookieStore.get("user_full"), text: message, time: Date.now()});
             for (var i = 0; i < $scope.inbox.length; i++) {
-                if ($scope.inbox[i].conversation_id == conversationId) {
+                if ($scope.inbox[i].other_nickname == toUser) {
                     $scope.inbox[i].excerpt = message;
                     $scope.inbox[i].time = Date.now();
                     $scope.inbox[i].from = $scope.me;
                 }
 
             }
-            $chat.sendMessage(conversationId, message).success(function (data) {
+            $filter('orderBy')($scope.inbox, 'conversation.time', true);
+            $chat.sendMessage(toUser, message).success(function (data) {
 
                 $scope.emojiMessage = {};
                 $scope.emojiMessage.replyToUser = function () {
-                    $('#sendMessageButton').click();
+                    if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
+                        $('#sendMessageButton').click();
+                    }
                 };
                 var newListHeight = $(".messages-history").height();
                 $("#user-messages-chat").animate({scrollTop: newListHeight}, 1000);
@@ -138,23 +158,25 @@
                 $rootScope.$broadcast("quickNotification", "Something went wrong with sending the message!" + data);
                 $scope.emojiMessage = {};
                 $scope.emojiMessage.replyToUser = function () {
-                    $('#sendMessageButton').click();
+                    if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
+                        $('#sendMessageButton').click();
+                    }
                 };
             });
 
 
         }
 
-        $scope.getMessages = function (selectedConversationId) {
+        $scope.getMessages = function (other_nickname) {
 
-            $chat.getMessages(selectedConversationId).success(function (data) {
+            $chat.getMessages(other_nickname).success(function (data) {
                 $scope.messageHistory = data;
 
                 var scrollDown = function () {
                     var newListHeight = $(".messages-history").height();
                     $("#user-messages-chat").scrollTop(newListHeight);
                     $scope.$apply(new function () {
-                        $notifications.clearNewNotifications();
+                        $presence.clearNewNotifications();
                     });
                 };
                 setTimeout(scrollDown, 200);
@@ -169,26 +191,31 @@
 
 
         $scope.getConversations = function () {
-
+            $scope.inbox = [];
             $chat.getConversations().success(function (data) {
                 $scope.inbox = data;
 
-                if ($routeParams.selectedConversation) {
-
+                if ($routeParams.selectedUser) {
+                    var selected = false;
                     for (var i = 0; i < $scope.inbox.length; i++) {
-                        if ($scope.inbox[i].conversation_id == $routeParams.selectedConversation) {
+                        if ($scope.inbox[i].other_nickname == $routeParams.selectedUser) {
                             $scope.selectConversation($scope.inbox[i]);
+                            selected = true;
                         }
                     }
+                    if (!selected) {
+                        $scope.inbox.push({other_nickname: $routeParams.selectedUser, description: $routeParams.firstname + " " + $routeParams.lastname,
+                            excerpt: '...', time: Date.now(), onlineStatus: $routeParams.status});
+                        $scope.selectConversation($scope.inbox[$scope.inbox.length - 1]);
+                    }
 
-
-                } else if ($scope.inbox[0] && !$routeParams.selectedConversation) {
-                    $scope.selectedConversationId = $scope.inbox[0].conversation_id;
-                    $scope.getMessages($scope.selectedConversationId);
+                } else if ($scope.inbox[0] && !$routeParams.selectedUser) {
+                    $scope.selectedConversationOtherNickname = $scope.inbox[0].other_nickname;
+                    $scope.getMessages($scope.selectedConversationOtherNickname);
                     $scope.selectedUserName = $scope.inbox[0].description;
                     $scope.selectedConversation = $scope.inbox[0];
                 }
-
+                $filter('orderBy')($scope.inbox, 'conversation.time', true);
 
 
             }).error(function (data) {
@@ -201,22 +228,12 @@
 
         $scope.getConversations();
 
-        $(document).ready(function () {
-            $('#sendMessageTextArea').keypress(function (e) {
-                if (e.keyCode == 13) {
-                    console.log($scope.emojiMessage);
-                    if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
-                        $('#sendMessageButton').click();
-                    }
-                }
-            });
-        });
 
 
 
     };
 
-    messagesController.$inject = ['$scope', '$chat', '$cookieStore', '$routeParams', '$rootScope', '$sockets', '$notifications', '$filter', 'appConstants'];
+    messagesController.$inject = ['$scope', '$chat', '$cookieStore', '$routeParams', '$rootScope', '$sockets', '$presence', '$filter', 'appConstants'];
     angular.module("codename").controller("messagesController", messagesController);
 
 

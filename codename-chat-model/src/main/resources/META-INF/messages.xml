@@ -6,14 +6,14 @@
 	
 
 
-	<named-query name="Messages.getConversation">
+	<named-query name="Messages.getByUser">
 		<query>
 			SELECT
 				_message
 			FROM
 				Message _message					
 			WHERE
-				_message.conversationId = :conversationId
+				_message.sender = :user or _message.toUser = :user
                     ORDER BY _message.timestamp asc
 		</query>
 	</named-query>

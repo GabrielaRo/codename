@@ -109,7 +109,7 @@
             <!-- <div class="fhellow-location-range range-{{fhellow.range}}" ng-show="fhellow.range != undefined"> </div>-->
             <div class="fhellow-cover-image" style="background-image:url('{{serverUrlFull + 'rest/public/users/' + fhellow.nickname + '/cover'}}')"> </div>
             <div class="fhellow-profile">
-                <div class="online-status" ng-if="fhellow.onlineStatus">Online</div>
+                <div class="online-status" ng-if="fhellow.onlineStatus != 'false'">Online</div>
                 <div class="fhellow-profile-image hexagon">
                     <div class="hexagon-inner-1">
                         <div class="hexagon-inner-2" style="background-image:url('{{serverUrlFull + 'rest/public/users/' + fhellow.nickname + '/avatar'}}')">
@@ -185,7 +185,7 @@
             </div>
             <div class="fhellow-actions">
 
-                <a class="button icon-only small" href ng-click="newConversation(fhellow.nickname)"> <i class="fa fa-envelope"></i></a>
+                <a class="button icon-only small" href ng-click="newConversation(fhellow.nickname,fhellow.firstname,fhellow.lastname, fhellow.onlineStatus)"> <i class="fa fa-envelope"></i></a>
                 <a class="button small" href="#/p/{{fhellow.nickname}}">View Profile</a>
             </div>
         </div>

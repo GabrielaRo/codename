@@ -23,10 +23,6 @@
                             }
                         })
 
-//                        .when('/invitelogin', {
-//                            templateUrl: 'app/views/login.html',
-//                            controller: 'loginController'
-//                        })
 
                         .when('/localfhellows', {
                             templateUrl: 'views/localfhellows.html',
@@ -64,7 +60,7 @@
                                 requiresProfile: true
                             }
                         })
-                        .when('/messages/:selectedConversation', {
+                        .when('/messages/:selectedUser/:firstname/:lastname/:status', {
                             templateUrl: 'views/messages.html',
                             controller: 'messagesController',
                             access: {

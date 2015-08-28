@@ -6,6 +6,7 @@
 package org.codename.core.chat.api;
 
 import java.util.List;
+import java.util.Map;
 import javax.websocket.Session;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.model.chat.Notification;
@@ -14,15 +15,17 @@ import org.codename.model.chat.Notification;
  *
  * @author grogdj
  */
-public interface NotificationsService {
+public interface PresenceService {
 
-    void addNewSession(String nickname, Session client) throws ServiceException;
+    void userJoin(String nickname, Session client) throws ServiceException;
 
-    void removeSession(Session client) throws ServiceException;
+    void userLeave(Session client) throws ServiceException;
 
     void newNotification(String toNickname, String fromNickname, String message, String action, String type) throws ServiceException;
 
     List<Notification> getAllNotificationsByUser(String nickname);
     
     boolean isOnline(String nickname);
+    
+    List<Boolean> getUsersState(List<String> nicknames);
 }

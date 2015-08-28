@@ -13,8 +13,8 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -30,35 +30,21 @@ import org.hibernate.validator.constraints.NotEmpty;
 public interface ChatEndpointService extends Serializable {
 
     @POST
-    @Path("/conversations/{conversationId}/block")
+    @Path("/message")
     @Produces({MediaType.APPLICATION_JSON})
-    Response blockConversation(@NotNull @PathParam("conversationId") Long conversationId) throws ServiceException;
-    
-    @POST
-    @Path("/conversations/{conversationId}/unblock")
-    @Produces({MediaType.APPLICATION_JSON})
-    Response unblockConversation(@NotNull @PathParam("conversationId") Long conversationId) throws ServiceException;
-    
-    @POST
-    @Path("/conversations/{conversationId}/message")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response sendMessage(@NotNull @PathParam("conversationId") Long conversationId,
+    public Response sendMessage(@NotNull @FormParam("toUser") String toUser,
             @NotNull @NotEmpty @FormParam("sender") String sender,
             @NotNull @NotEmpty @FormParam("message") String message) throws ServiceException;
 
     @GET
-    @Path("/conversations/{conversationId}/messages")
+    @Path("/inbox")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getMessages(@NotNull @PathParam("conversationId") Long conversationId) throws ServiceException;
-
-    @POST
-    @Path("/conversations/create")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response createConversation(@NotNull @NotEmpty @FormParam("initiator") String initiator, @NotNull @NotEmpty @FormParam("other") String other) throws ServiceException;
+    public Response getUserInbox(@NotNull @QueryParam("nickname") String nickname) throws ServiceException;
 
     @GET
-    @Path("/conversations/{user}")
+    @Path("/messages")
     @Produces({MediaType.APPLICATION_JSON})
-    Response getConversations(@NotNull @NotEmpty @PathParam("user") String user) throws ServiceException;
+    Response getConversationMessages(@NotNull @QueryParam("nickname") String nickname,
+            @NotNull @QueryParam("withUser") String withUser) throws ServiceException;
 
 }
