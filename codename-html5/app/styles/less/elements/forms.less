@@ -211,3 +211,22 @@
     box-sizing: border-box;
     padding: 0 @inputPadding;
 }
+
+
+.html-editor {
+    .form-control {
+        height: auto !important;
+        border-radius: 0;
+        white-space: normal !important;
+     
+            div {
+                   &:focus {
+                outline: none !important;
+                   }
+            }
+        
+    }
+    .btn-toolbar {
+        padding-bottom: 5px;
+    }
+}
