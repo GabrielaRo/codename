@@ -15,7 +15,8 @@
     "imagesloaded": "3.1.8",
     "angular-filter": "0.5.4",
     "angular-sanitize": "1.4.4",
-    "angular-emoji-popup": "*"
+    "angular-emoji-popup": "*",
+    "textAngular":"*"
   },
   "authors": [
     "grogdj@gmail.com"

@@ -40,6 +40,7 @@ import org.codename.core.user.api.UsersService;
 import org.codename.services.endpoints.user.api.UserEndpointService;
 import static org.codename.services.endpoints.user.impl.UsersHelper.createListJsonUser;
 import org.codename.core.exceptions.ServiceException;
+import static org.codename.services.endpoints.user.impl.UsersHelper.createFullJsonUser;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
@@ -71,7 +72,7 @@ public class UserEndpointServiceImpl implements UserEndpointService {
         if (u == null) {
             throw new ServiceException("User " + user_id + " doesn't exists");
         }
-        JsonObjectBuilder jsonUserObjectBuilder = createListJsonUser(u);
+        JsonObjectBuilder jsonUserObjectBuilder = createFullJsonUser(u);
         JsonObject jsonObj = jsonUserObjectBuilder.build();
         return Response.ok(jsonObj.toString()).build();
     }

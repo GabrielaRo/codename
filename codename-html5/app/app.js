@@ -1,6 +1,6 @@
 (function () {
 
-    var codename = angular.module('codename', ['ngCookies', 'ngRoute',
+    var codename = angular.module('codename', ['textAngular', 'ngCookies', 'ngRoute',
         'ngAnimate', 'angular.filter', 'ngFileUpload',
         'satellizer', 'ngTagsInput', 'locator', 'angular-growl', 'ngSanitize', 'emojiApp']);
 

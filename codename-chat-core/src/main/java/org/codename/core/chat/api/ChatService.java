@@ -22,5 +22,6 @@ public interface ChatService {
     
     public Map<String, List<Message>> getInbox(String nickname) throws ServiceException;
 
+    public List<Message> getMessagesIndex(String nickname, Integer offset, Integer limit) throws ServiceException;
 
 }

@@ -1,11 +1,15 @@
 (function () {
     var profileController = function ($rootScope, $scope, $timeout, $users, $cookieStore, appConstants,
-            $routeParams, $auth, location, $interests, reverseGeocoder, $location) {
+            $routeParams, $auth, location, $interests, reverseGeocoder, $location, taOptions) {
 
 
         /*
          * For Loading we try to fetch everything at once instead of each different piece
          */
+        taOptions.toolbar = [
+            ['bold', 'italics', 'ul', 'ol', 'redo', 'undo', 'clear'],
+            ['insertLink']
+        ];
         $scope.params = $routeParams;
         $scope.edit = true;
         $scope.interests = [];
@@ -920,6 +924,6 @@
     };
 
     profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$cookieStore", "appConstants",
-        "$routeParams", "$auth", "location", "$interests", "reverseGeocoder", "$location"];
+        "$routeParams", "$auth", "location", "$interests", "reverseGeocoder", "$location", "taOptions"];
     angular.module("codename").controller("profileController", profileController);
 }());

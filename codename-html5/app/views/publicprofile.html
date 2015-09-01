@@ -194,50 +194,14 @@
                             </div>
                         </div>
                         
-                        
-<!--                        <div class="sub-block" id="user-title-form" ng-if="profile.title != '' && profile.title != undefined">
-                            <strong>
-                               How do you make a living?
-                            </strong>
-                            <div class="textarea">
-                                <div class="textarea-text"> {{profile.title}} </div>
-                            </div>
-                        </div>
-                        
-                         <div class="sub-block" id="user-advice-form" ng-if="profile.advice != '' && profile.advice != undefined">
-                            <strong >
-                               What advice would you give a Fhellow a few years behind you?
-                            </strong>
-                            <div class="textarea">
-                                <div class="textarea-text"> {{profile.advice}} </div>
-                            </div>
-                        </div>
-                        
-                        
-                        <div class="sub-block" id="user-hobbies-form" ng-if="profile.hobbies != '' && profile.hobbies != undefined">
-                            <strong>
-                               What do you like to do when you’re not working?
-                            </strong>
-                            <div class="textarea">
-                                <div class="textarea-text" > {{profile.hobbies}} </div>
-                            </div>
-                        </div>
-                        
-                        <div class="sub-block" id="user-books-form" ng-if="profile.resources != '' && profile.resources != undefined">
-                            <strong>
-                               What books, blogs or resources would you recomend to other Fhellows?
-                            </strong>
-                            <div class="textarea">
-                                <div class="textarea-text" > {{profile.resources}} </div>
-                            </div>
-                        </div>-->
+                       
                         
                         <div class="sub-block" id="user-share-form" ng-if="profile.share != '' && profile.share != undefined">
                             <strong>
                                My Story
                              </strong>
                             <div class="textarea">
-                                <div class="textarea-text" > {{profile.share}} </div>
+                                <div class="textarea-text" ><span ng-bind-html="profile.share"></span></div>
                             </div>
                         </div>
                         

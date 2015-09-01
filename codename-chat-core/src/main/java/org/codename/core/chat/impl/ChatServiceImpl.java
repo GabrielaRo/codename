@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import org.apache.lucene.search.Query;
 import org.codename.core.chat.api.ChatService;
 import org.codename.core.user.api.UsersService;
 import org.codename.core.exceptions.ServiceException;
@@ -18,6 +19,11 @@ import org.codename.core.util.PersistenceManager;
 import org.codename.model.chat.Message;
 import org.codename.core.chat.api.PresenceService;
 import org.codename.model.user.User;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.BooleanJunction;
+import org.hibernate.search.query.dsl.QueryBuilder;
 
 /**
  *
@@ -53,15 +59,47 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<Message> getMessages(String nickname) throws ServiceException {
+        
         User user = usersService.getByNickName(nickname);
-        return pm.createNamedQuery("Messages.getByUser", Message.class).setParameter("user", user.getId()).getResultList();
+        
+        return pm.createNamedQuery("Messages.getByUser", Message.class)
+                .setParameter("user", user.getId())
+//                .setFirstResult(offset)
+//                .setMaxResults(limit)
+                .getResultList();
     }
 
     @Override
+    public List<Message> getMessagesIndex(String nickname, Integer offset, Integer limit) throws ServiceException {
+        
+        User user = usersService.getByNickName(nickname);
+        FullTextEntityManager fullTextEm = Search.getFullTextEntityManager(pm.getEm());
+        QueryBuilder qb = fullTextEm.getSearchFactory().buildQueryBuilder().forEntity(Message.class).get();
+        BooleanJunction<BooleanJunction> bool = qb.bool();
+        bool.should(qb.keyword().onField("sender").matching(user.getId()).createQuery());
+        bool.should(qb.keyword().onField("toUser").matching(user.getId()).createQuery());
+        
+        Query query = bool.createQuery();
+
+        FullTextQuery fullTextQuery = fullTextEm.createFullTextQuery(query, Message.class);
+       
+        if (offset != null && limit != null) {
+            fullTextQuery.setFirstResult(offset);
+            fullTextQuery.setMaxResults(limit);
+        } else {
+            fullTextQuery.setFirstResult(0);
+            fullTextQuery.setMaxResults(20);
+        }    
+
+        List resultList = fullTextQuery.getResultList();
+        return resultList;
+    }
+    
     /*
      * This method creates the inbox for a user, but in a very inefficient way. 
      *  There is a lot of room for performance improvement here. 
     */
+    @Override
     public Map<String, List<Message>> getInbox(String nickname) throws ServiceException {
         User user = usersService.getByNickName(nickname);
         Map<String, List<Message>> inboxMap = new HashMap<String, List<Message>>();
