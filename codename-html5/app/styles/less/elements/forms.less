@@ -224,7 +224,17 @@
                 outline: none !important;
                    }
             }
-        
+        &.ta-scroll-window {
+            font-size: @fontSize !important;
+            box-shadow: none !important;
+                min-height: 150px !important;
+                max-height: 300px !important;
+            
+            &  > .ta-bind {
+                min-height: 150px !important;
+                max-height: 300px !important;
+            }
+        }
     }
     .btn-toolbar {
         padding-bottom: 5px;
