@@ -13,28 +13,32 @@
                
               
                 <div class="content-block-content">
-                    <form >
+                    <form ng-if="!feedbackContactStatus">
                         <div class="control-group ">
 
                             <div class="control full" >
-                                <input type="text" placeholder="Your name">
+                                <input type="text" ng-model="name" placeholder="Your name">
                             </div>
                              <div class="control full" >
-                                <input type="email" placeholder="Your email">
+                                <input type="email" ng-model="email" placeholder="Your email">
                             </div>
                              <div class="control full" >
-                                <input type="text" placeholder="Subject">
+                                <input type="text" ng-model="subject" placeholder="Subject">
                             </div>
                             <div class="control full" >
-                                <textarea placeholder="Your feedabck" id="" cols="30" rows="7"></textarea>
+                                <textarea placeholder="Your feedabck" id="" ng-model="text" cols="30" rows="7"></textarea>
                             </div>
 
                              <div class="control full" >
-                                <button class="button" >Send feedabck</button>
+                                <button class="button" ng-click="sendContactForm(email, name, subject, text, 'feedback-contact-form')" >Send feedabck</button>
                             </div>
 
                         </div>
                     </form>
+                    <div class="manual-notification success" ng-if="feedbackContactStatus">
+                    <h2><i class='fa fa-check'></i> Your message has been sent</h2>
+                    <p>Thanks for dropping us a line. We’ll be in touch shortly.</p>
+                </div>
                 </div>
             </div>
         </div>

@@ -1,237 +1,237 @@
 <div id="invite-bar" ng-show="!auth_token && !inviteStatus && !inviteLogin" >
-       
-        <div class="container">
-             <form  novalidate name="inviteForm">
-                 <div class="control-group no-space">
-                    <div class="text">
-                     <span class="hidden-mobile">Be the first to join!</span> Request pre-launch access
-                    </div>
-                     <div class="control ">
-                         <input ng-model="email" type="email" placeholder="Enter your email">
-                     </div>
-                     <div class="control ">
 
-                         <button class="button primary block" ng-click="requestInvite(email)">Submit</button>
+    <div class="container">
+        <form  novalidate name="inviteForm">
+            <div class="control-group no-space">
+                <div class="text">
+                    <span class="hidden-mobile">Be the first to join!</span> Request pre-launch access
+                </div>
+                <div class="control ">
+                    <input ng-model="email" type="email" placeholder="Enter your email">
+                </div>
+                <div class="control ">
 
-                     </div>
-                 </div>
-            </form>
-        </div>
-    
+                    <button class="button primary block" ng-click="requestInvite(email)">Submit</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
 
 </div>
 <div id="invite-bar" class="login" ng-show="inviteLogin" >
-   
-        <div class="container">
-             <form  novalidate name="loginForm" ng-submit="loginUser(loginForm.$valid, credentials)">
-                 <div class="control-group no-space">
-                    <div class="text">
-                        Login
-                    </div>
-                     <div class="control ">
-                         <input ng-model="credentials.email" type="email" placeholder="Enter your email" required>
-                     </div>
-                      <div class="control ">
-                         <input ng-model="credentials.password" type="password" placeholder="Password" required>
-                     </div>
-                     <div class="control ">
 
-                         <button class="button primary block" value="Login"  type="submit">Sign In</button>
+    <div class="container">
+        <form  novalidate name="loginForm" ng-submit="loginUser(loginForm.$valid, credentials)">
+            <div class="control-group no-space">
+                <div class="text">
+                    Login
+                </div>
+                <div class="control ">
+                    <input ng-model="credentials.email" type="email" placeholder="Enter your email" required>
+                </div>
+                <div class="control ">
+                    <input ng-model="credentials.password" type="password" placeholder="Password" required>
+                </div>
+                <div class="control ">
 
-                     </div>
-                 </div>
-            </form>
-        </div>
-    
+                    <button class="button primary block" value="Login"  type="submit">Sign In</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
 
 </div>
- <section class="sub-screen vertical dark" id="invite-home">
-     
-     <div id="invite-home-carousel" ng-class="{login : inviteLogin, inviteSend : inviteStatus}">
-         <div class="carousel-item active" style="left: 0;">
-             <div class="carousel-image" style="background-image: url(static/img/hero_1.jpg);"></div>
-             <div class="carousel-content">
-                 <div class="wrapper">
-                     
-                         <div class="item-text">
-                             <div class="fhellow-logo"></div>
-                             
-                             <strong>Toby</strong>, Digital Nomad, Full Stack Developer & sells on Amazon<br>Originally from London, Currently in Tarifa, Spain
-                         </div>
-                     
-                 </div>
-             </div>
-         </div>
-         <div class="carousel-item " style="left: 100%;">
-             <div class="carousel-image" style="background-image: url(static/img/hero_2.jpg);"></div>
-             <div class="carousel-content">
-                 <div class="wrapper">
-                     
-                         <div class="item-text">
-                             <div class="fhellow-logo"></div>
-                             <strong>Adrina</strong>, Freelance Copywriter & Travel Blogger<br>Originally from Milan, Currently in London
-                         </div>
-                     
-                 </div>
-             </div>
-         </div>
-         <div class="carousel-item " style="left: 200%;">
-             <div class="carousel-image" style="background-image: url(static/img/hero_3.jpg);"></div>
-             <div class="carousel-content">
-                 <div class="wrapper">
-                     
-                         <div class="item-text">
-                             <div class="fhellow-logo"></div>
-                             <strong>Jamie </strong>, runs a software company remotely<br>Originally from New York, Currently in London
-                         </div>
-                     
-                 </div>
-             </div>
-         </div>
-         
-     </div>
-     
-     
-      <div class="wrapper">
-       <div class="container big">
-         <div class="invite-home-text" ng-if="!inviteStatus">
-             <h1>
-                Find and connect with fellow Freelancers, Entrepreneurs and Digital Nomads working nearby and around the world.
-             </h1>
-             <h2>
-                  Chat, discuss ideas, share advice, swap stories, meet up and join the community.
-             </h2>
-         </div>
-         
-         <div class="invite-home-text" ng-if="inviteStatus">
-             <h1>
-                Thanks for requesting<br>pre-launch access
-             </h1>
-             <h2>
-                 We’re really excited to share Fhellow with you. We’ll be sending invites out as soon as possible but in the meantime why not follow us on...
-             </h2>
-             <p>
-                 <a href="https://www.facebook.com/fhellow" target="_blank" class="button facebook"> <i class="fa fa-facebook"></i> Follow us on Facebook</a> <a href="https://twitter.com/fhellowapp" target="_blank" class="button twitter"> <i class="fa fa-twitter"></i> Follow us on Twitter</a>
-             </p>
-         </div>
-         
-       
-      </div>    
+<section class="sub-screen vertical dark" id="invite-home">
+
+    <div id="invite-home-carousel" ng-class="{login : inviteLogin, inviteSend : inviteStatus}">
+        <div class="carousel-item active" style="left: 0;">
+            <div class="carousel-image" style="background-image: url(static/img/hero_1.jpg);"></div>
+            <div class="carousel-content">
+                <div class="wrapper">
+
+                    <div class="item-text">
+                        <div class="fhellow-logo"></div>
+
+                        <strong>Toby</strong>, Digital Nomad, Full Stack Developer & sells on Amazon<br>Originally from London, Currently in Tarifa, Spain
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item " style="left: 100%;">
+            <div class="carousel-image" style="background-image: url(static/img/hero_2.jpg);"></div>
+            <div class="carousel-content">
+                <div class="wrapper">
+
+                    <div class="item-text">
+                        <div class="fhellow-logo"></div>
+                        <strong>Adrina</strong>, Freelance Copywriter & Travel Blogger<br>Originally from Milan, Currently in London
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item " style="left: 200%;">
+            <div class="carousel-image" style="background-image: url(static/img/hero_3.jpg);"></div>
+            <div class="carousel-content">
+                <div class="wrapper">
+
+                    <div class="item-text">
+                        <div class="fhellow-logo"></div>
+                        <strong>Jamie </strong>, runs a software company remotely<br>Originally from New York, Currently in London
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="wrapper">
+        <div class="container big">
+            <div class="invite-home-text" ng-if="!inviteStatus">
+                <h1>
+                    Find and connect with fellow Freelancers, Entrepreneurs and Digital Nomads working nearby and around the world.
+                </h1>
+                <h2>
+                    Chat, discuss ideas, share advice, swap stories, meet up and join the community.
+                </h2>
+            </div>
+
+            <div class="invite-home-text" ng-if="inviteStatus">
+                <h1>
+                    Thanks for requesting<br>pre-launch access
+                </h1>
+                <h2>
+                    We’re really excited to share Fhellow with you. We’ll be sending invites out as soon as possible but in the meantime why not follow us on...
+                </h2>
+                <p>
+                    <a href="https://www.facebook.com/fhellow" target="_blank" class="button facebook"> <i class="fa fa-facebook"></i> Follow us on Facebook</a> <a href="https://twitter.com/fhellowapp" target="_blank" class="button twitter"> <i class="fa fa-twitter"></i> Follow us on Twitter</a>
+                </p>
+            </div>
+
+
+        </div>    
     </div>
 </section>
 <section class="sub-screen auto-height light"  id="invite-about">
-   <div class="wrapper">
-       <div class="container big " >
-                 <div>
-                     <h1>
-                       Do you work remotely and have you ever...
-                     </h1>
-                     <div class="row">
-                         <div class="six-col">
-                             <div class="about-text">
-                                <div class="check"><i class="fa fa-check"></i></div>
-                                 <p>Spent all day working alone and wished you had someone to share a coffee break or grab lunch with?</p>
-                             </div>
-                         </div>
-                         <div class="six-col">
-                             <div class="about-text">
-                                <div class="check"><i class="fa fa-check"></i></div>
-                                 <p>Needed recommendations on where to work, from great coffee shops to choosing your next nomad location?</p>
-                             </div>
-                         </div>
-                        
-                     </div>
-                     
-                     <div class="row">
-                         <div class="six-col">
-                             <div class="about-text">
-                                <div class="check"><i class="fa fa-check"></i></div>
-                                 <p>Missed having someone to brainstorm with or run an idea past?</p>
-                             </div>
-                         </div>
-                         <div class="six-col">
-                             <div class="about-text">
-                                <div class="check"><i class="fa fa-check"></i></div>
-                                 <p>Arrived in a new city and wished you could find other nomads, local freelancers or entrepreneurs?</p>
-                             </div>
-                         </div>
-                        
-                     </div>
+    <div class="wrapper">
+        <div class="container big " >
+            <div>
+                <h1>
+                    Do you work remotely and have you ever...
+                </h1>
+                <div class="row">
+                    <div class="six-col">
+                        <div class="about-text">
+                            <div class="check"><i class="fa fa-check"></i></div>
+                            <p>Spent all day working alone and wished you had someone to share a coffee break or grab lunch with?</p>
+                        </div>
+                    </div>
+                    <div class="six-col">
+                        <div class="about-text">
+                            <div class="check"><i class="fa fa-check"></i></div>
+                            <p>Needed recommendations on where to work, from great coffee shops to choosing your next nomad location?</p>
+                        </div>
+                    </div>
 
-                      <div class="row">
-                         <div class="six-col">
-                             <div class="about-text">
-                                <div class="check"><i class="fa fa-check"></i></div>
-                                 <p>Wished you could ask someone in a similar position for advice because most of your friends don’t work remotely?</p>
-                             </div>
-                         </div>
-                         <div class="six-col">
-                             <div class="about-text">
-                                <div class="check"><i class="fa fa-check"></i></div>
-                                 <p>Wondered how other location independents do it and wish you could do the same?</p>
-                             </div>
-                         </div>
-                        
-                     </div>
-                     
-                     <div class="row">
-                        <div class="about-text-full">
-                         <p>So have we, which is why we’ve created this community. We think we can learn so much from each other and that by supporting one other we can better redefine the way in which we choose to live and work.</p>
-                         </div>
-                     </div>
-                     
-                     
-                 </div>
-            
+                </div>
+
+                <div class="row">
+                    <div class="six-col">
+                        <div class="about-text">
+                            <div class="check"><i class="fa fa-check"></i></div>
+                            <p>Missed having someone to brainstorm with or run an idea past?</p>
+                        </div>
+                    </div>
+                    <div class="six-col">
+                        <div class="about-text">
+                            <div class="check"><i class="fa fa-check"></i></div>
+                            <p>Arrived in a new city and wished you could find other nomads, local freelancers or entrepreneurs?</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="six-col">
+                        <div class="about-text">
+                            <div class="check"><i class="fa fa-check"></i></div>
+                            <p>Wished you could ask someone in a similar position for advice because most of your friends don’t work remotely?</p>
+                        </div>
+                    </div>
+                    <div class="six-col">
+                        <div class="about-text">
+                            <div class="check"><i class="fa fa-check"></i></div>
+                            <p>Wondered how other location independents do it and wish you could do the same?</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="about-text-full">
+                        <p>So have we, which is why we’ve created this community. We think we can learn so much from each other and that by supporting one other we can better redefine the way in which we choose to live and work.</p>
+                    </div>
+                </div>
+
+
+            </div>
+
         </div>
-        
+
         <div id="about-dictionary">
             <div class="container big " >
                 <div class="row">
-                     <div class="six-col">
-                         <div class="fhellow-brand">
-                             <img src="static/img/fhellow-logo-only.svg" alt="fhellow" width="220" >
-                         </div>
-                         <div class="fhellow-word">
-                             [fel-oh] <a href ng-click="playWord()"><i class="fa fa-volume-down" ></i></a> noun
-                         </div>
-                         <div class="fhellow-definition">
-                             A person belonging to the same group; united by the same occupation, interests of beliefs.
-                         </div>
-                     </div>
-                     <div class="six-col">
-                         <ul>
-                             <li>We are Freelancers, Entrepreneurs and Digital Nomads</li>
-                             <li>We hate the 9 to 5 office job</li>
-                             <li>We believe in the empowering impact of technology</li>
-                             <li>We believe work should put humans first</li>
-                             <li>We love travelling</li>
-                             <li>We love meeting new people</li>
-                             <li>We believe in community</li>
-                             <li>We believe in supporting each other</li>
-                            
-                         </ul>
-                     </div>
+                    <div class="six-col">
+                        <div class="fhellow-brand">
+                            <img src="static/img/fhellow-logo-only.svg" alt="fhellow" width="220" >
+                        </div>
+                        <div class="fhellow-word">
+                            [fel-oh] <a href ng-click="playWord()"><i class="fa fa-volume-down" ></i></a> noun
+                        </div>
+                        <div class="fhellow-definition">
+                            A person belonging to the same group; united by the same occupation, interests of beliefs.
+                        </div>
+                    </div>
+                    <div class="six-col">
+                        <ul>
+                            <li>We are Freelancers, Entrepreneurs and Digital Nomads</li>
+                            <li>We hate the 9 to 5 office job</li>
+                            <li>We believe in the empowering impact of technology</li>
+                            <li>We believe work should put humans first</li>
+                            <li>We love travelling</li>
+                            <li>We love meeting new people</li>
+                            <li>We believe in community</li>
+                            <li>We believe in supporting each other</li>
+
+                        </ul>
+                    </div>
                 </div>
-                
-                
-                
+
+
+
             </div>         
         </div>
     </div>
 </section>
 <section class="sub-screen vertical">
-   <div class="wrapper">
-       <div class="container big" id="invite-team">
-           <div class="team-cards">
-               <h1>Created by Fhellows for Fhellows</h1>
-               <h3>We’re a friendly and proactive bunch with a dream - to connect like-minded Fhellows from all over the world.</h3>
-               <div class="list-container">
-                   <div class="cards-container"  >
+    <div class="wrapper">
+        <div class="container big" id="invite-team">
+            <div class="team-cards">
+                <h1>Created by Fhellows for Fhellows</h1>
+                <h3>We’re a friendly and proactive bunch with a dream - to connect like-minded Fhellows from all over the world.</h3>
+                <div class="list-container">
+                    <div class="cards-container"  >
 
-               
+
                         <div class="fhellow-item" >
-                            
+
                             <div class="fhellow-cover-image" style="background-image:url('static/img/team/alisa_cover.jpg')"> </div>
                             <div class="fhellow-profile">
                                 <div class="fhellow-profile-image hexagon">
@@ -259,17 +259,17 @@
                                     UX & UI Designer
                                 </div>
                                 <div class="fhellow-location">
-                                     Originally from London
+                                    Originally from London
                                 </div>
-                               
-                                
+
+
                                 <div class="fhellow-description">
-                                   Alisa has been a freelance designer for 5 years now working with clients such as Google, Virgin and many tech start-ups in addition to creating several small businesses on the side. Since April this year she has also become a part-time digital nomad. So far she’s worked while exploring San Francisco, surfing in Ireland and travelled to Budapest for a hackathon. 
+                                    Alisa has been a freelance designer for 5 years now working with clients such as Google, Virgin and many tech start-ups in addition to creating several small businesses on the side. Since April this year she has also become a part-time digital nomad. So far she’s worked while exploring San Francisco, surfing in Ireland and travelled to Budapest for a hackathon. 
                                 </div>
                             </div>
                         </div>
                         <div class="fhellow-item" >
-                            
+
                             <div class="fhellow-cover-image" style="background-image:url('static/img/team/salaboy_cover.jpg')"> </div>
                             <div class="fhellow-profile">
                                 <div class="fhellow-profile-image hexagon">
@@ -297,7 +297,7 @@
                                     Full Stack Developer
                                 </div>
                                 <div class="fhellow-location">
-                                     Originally from Argentina
+                                    Originally from Argentina
                                 </div>
 
                                 <div class="fhellow-description">
@@ -306,7 +306,7 @@
                             </div>
                         </div>
                         <div class="fhellow-item" >
-                            
+
                             <div class="fhellow-cover-image" style="background-image:url('static/img/team/eze_cover.jpg')"> </div>
                             <div class="fhellow-profile">
                                 <div class="fhellow-profile-image hexagon">
@@ -334,17 +334,17 @@
                                     Frontend Developer
                                 </div>
                                 <div class="fhellow-location">
-                                     Originally from Argentina
+                                    Originally from Argentina
                                 </div>
-                               
-                                
+
+
                                 <div class="fhellow-description">
                                     Eze is a Web Designer and Front-End Developer currently based in Barcelona. With 7 years’ experience working as a freelancer Eze has clients based in Argentina, Barcelona and London, meaning he can work from home and now juggle different time zones.
                                 </div>
                             </div>
                         </div>
                         <div class="fhellow-item" >
-                            
+
                             <div class="fhellow-cover-image" style="background-image:url('static/img/team/dani_cover.jpg')"> </div>
                             <div class="fhellow-profile">
                                 <div class="fhellow-profile-image hexagon">
@@ -364,24 +364,24 @@
 
                             </div>
                             <div class="fhellow-info">
-                                 <div class="fhellow-name">
+                                <div class="fhellow-name">
                                     Daniel
                                 </div>
                                 <div class="fhellow-title">
                                     Brand Designer
                                 </div>
                                 <div class="fhellow-location">
-                                     Originally from Madrid
+                                    Originally from Madrid
                                 </div>
-                               
-                                
+
+
                                 <div class="fhellow-description">
                                     Dani has over 15 years’ experience working as a brand and product designer. After working for many big agencies and cool studios he decided to launch his own and within 5 years he built a successful award-winning studio in Madrid but... wanderlust and ambition kicked in so he moved to London in search of even more interesting adventures.
                                 </div>
                             </div>
                         </div>
                         <div class="fhellow-item" >
-                            
+
                             <div class="fhellow-cover-image" style="background-image:url('static/img/team/gabriela_cover.jpg')"> </div>
                             <div class="fhellow-profile">
                                 <div class="fhellow-profile-image hexagon">
@@ -401,7 +401,7 @@
 
                             </div>
                             <div class="fhellow-info">
-                                 <div class="fhellow-name">
+                                <div class="fhellow-name">
                                     Gabriela
 
                                 </div>
@@ -409,28 +409,28 @@
                                     Junior Developer
                                 </div>
                                 <div class="fhellow-location">
-                                     Originally from Bulgaria
+                                    Originally from Bulgaria
                                 </div>
-                               
-                                
+
+
                                 <div class="fhellow-description">
                                     Gabriela started her career as an HR expert and PA to a successful tech company in Bulgaria, gaining vast business experience. Looking for a new challenge, Gabriela decided to take a year and half sabbatical in order to move to London and study in order to become a certified Android and Java Programmer.
                                 </div>
                             </div>
                         </div>
                         <div class="fhellow-item" >
-                            
+
                             <div class="fhellow-cover-image" style="background-image:url('static/img/team/other_cover.jpg')"> </div>
-                           
+
                             <div class="fhellow-info">
                                 <div class="fhellow-others">
                                     Other Fhellows who have also been part of the journey so far are...
                                 </div>
-                                
-                               
-                                
+
+
+
                                 <div class="fhellow-description">
-                                   Wendi Lee, Julien Brun, Mikhail Dubov, Jamie Harper, Stephen Lloyd, Jerome Pratt, Ruth Earle, Michelle Stephens, Maya Driver and Makers Academy. Thank you for all your help along the way. 
+                                    Wendi Lee, Julien Brun, Mikhail Dubov, Jamie Harper, Stephen Lloyd, Jerome Pratt, Ruth Earle, Michelle Stephens, Maya Driver and Makers Academy. Thank you for all your help along the way. 
                                 </div>
                             </div>
                         </div>
@@ -440,8 +440,8 @@
                         <a href>View More</a>
                     </div>
                 </div>
-           </div>
-       </div>
+            </div>
+        </div>
     </div>
 </section>
 <section class="sub-screen vertical light" id="invite-contact">
@@ -453,24 +453,24 @@
             <div class="seven-col col-margin ">
                 <form ng-if="!inviteContactStatus">
                     <div class="control-group ">
-                        
+
                         <div class="control full" >
                             <input type="text" ng-model="name" placeholder="Your name">
                         </div>
-                         <div class="control full" >
+                        <div class="control full" >
                             <input type="email" ng-model="email" placeholder="Your email">
                         </div>
-                         <div class="control full" >
+                        <div class="control full" >
                             <input type="text" ng-model="subject" placeholder="Subject">
                         </div>
                         <div class="control full" >
                             <textarea placeholder="Your message" ng-model="text" id="" cols="30" rows="7"></textarea>
                         </div>
-                        
-                         <div class="control full" >
-                            <button class="button" ng-click="sendContactForm(email, name, subject,  text, 'contact-form')">Send Message</button>
+
+                        <div class="control full" >
+                            <button class="button" ng-click="sendContactForm(email, name, subject, text, 'invite-contact-form')">Send Message</button>
                         </div>
-                        
+
                     </div>
                 </form>
                 <div class="manual-notification success" ng-if="inviteContactStatus">
@@ -478,10 +478,20 @@
                     <p>Thanks for dropping us a line. We’ll be in touch shortly.</p>
                 </div>
             </div>
-            <div class="five-col col-margin-left" id="contact-text">
+            <div class="five-col col-margin-left content-block-content" id="contact-text">
                 <h3>We’d love to hear from you</h3>
                 <p>As you may have gathered, we don't have an office. We prefer coffee shops, hotel lobbies and co-working spaces. But out main base is London.</p>
                 <p>If you have any questions, would like to meet for coffee or have any feedback / ideas you would like to share with us, then please just drop us a message - we’d love to hear from you.</p>
+                <p>You can also contact us via: </p>
+                <p>
+                    <strong>Email:</strong> <a href="mailto:hello@fhellow.com">hello@fhellow.com</a> <br>
+                    <strong>Skype ID:</strong> teamfhellow
+                    
+                </p>
+
+                <p>
+                    <a href="https://www.facebook.com/fhellow" target="_blank" class="button block facebook"> <i class="fa fa-facebook"></i> Follow us on Facebook</a> <a href="https://twitter.com/fhellowapp" target="_blank" class="button block twitter"> <i class="fa fa-twitter"></i> Follow us on Twitter</a>
+                </p>
             </div>
         </div>
     </div>
@@ -491,11 +501,10 @@
 <!-- FOOTER -->
 <footer id="global-footer" >
     <nav ng-if="auth_token">
-          <div ng-include="'views/footernav.html'" > </div>
+        <div ng-include="'views/footernav.html'" > </div>
     </nav>
     <div id="legal">
         © Copyright Fhellow LTD 2015
     </div>
 </footer>
-       
-      
+
