@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.codename.core.exceptions.ServiceException;
@@ -39,13 +40,13 @@ public interface PublicUserEndpointService extends Serializable {
     @GET
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     @Produces({MediaType.MEDIA_TYPE_WILDCARD})
-    Response getAvatar(@NotNull @PathParam("nickname") String nickname) throws ServiceException;
+    Response getAvatar(@NotNull @PathParam("nickname") String nickname, @QueryParam("size") Integer size) throws ServiceException;
     
     @Path("{nickname}/cover")
     @GET
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     @Produces({MediaType.MEDIA_TYPE_WILDCARD})
-    Response getCover(@NotNull @PathParam("nickname") String nickname) throws ServiceException;
+    Response getCover(@NotNull @PathParam("nickname") String nickname, @QueryParam("size") Integer size) throws ServiceException;
     
    
     

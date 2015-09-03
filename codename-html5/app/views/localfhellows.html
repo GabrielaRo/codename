@@ -107,12 +107,12 @@
 
         <div class="fhellow-item" ng-repeat="fhellow in fhellowsList">
             <!-- <div class="fhellow-location-range range-{{fhellow.range}}" ng-show="fhellow.range != undefined"> </div>-->
-            <div class="fhellow-cover-image" style="background-image:url('{{serverUrlFull + 'rest/public/users/' + fhellow.nickname + '/cover'}}')"> </div>
+            <div class="fhellow-cover-image" style="background-image:url('{{serverUrlFull + 'rest/public/users/' + fhellow.nickname + '/cover?size=400'}}')"> </div>
             <div class="fhellow-profile">
                 <div class="online-status" ng-if="fhellow.onlineStatus != 'false'">Online</div>
                 <div class="fhellow-profile-image hexagon">
                     <div class="hexagon-inner-1">
-                        <div class="hexagon-inner-2" style="background-image:url('{{serverUrlFull + 'rest/public/users/' + fhellow.nickname + '/avatar'}}')">
+                        <div class="hexagon-inner-2" style="background-image:url('{{serverUrlFull + 'rest/public/users/' + fhellow.nickname + '/avatar?size=200'}}')">
 
                         </div>
                     </div>

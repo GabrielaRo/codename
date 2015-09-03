@@ -5,7 +5,10 @@
  */
 package org.codename.services.endpoints.user.impl;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -13,12 +16,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
@@ -27,6 +29,7 @@ import org.codename.core.user.api.UsersService;
 import org.codename.services.endpoints.user.api.PublicUserEndpointService;
 import static org.codename.services.endpoints.user.impl.UsersHelper.createPublicJsonUser;
 import org.codename.core.exceptions.ServiceException;
+import static org.imgscalr.Scalr.*;
 
 /**
  *
@@ -39,7 +42,7 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     private UsersService usersService;
 
     private static String serverUrl;
-    
+
     private String serverContext;
 
     private final static Logger log = Logger.getLogger(PublicUserEndpointServiceImpl.class.getName());
@@ -55,7 +58,7 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
             serverUrl = "http://localhost:8080/";
         }
         serverUrl = serverUrl + serverContext;
-        
+
         return serverUrl;
     }
 
@@ -84,18 +87,25 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     }
 
     @Override
-    public Response getAvatar(@NotNull @PathParam("nickname") String nickname) throws ServiceException {
+    public Response getAvatar(String nickname, Integer size) throws ServiceException {
 
         byte[] tmp = usersService.getAvatar(nickname);
         final byte[] avatar;
         if (tmp != null && tmp.length > 0) {
-            
+
             avatar = tmp;
             return Response.ok().entity(new StreamingOutput() {
                 @Override
                 public void write(OutputStream output)
                         throws IOException, WebApplicationException {
-                    output.write(avatar);
+                    if (size != null) {
+                        InputStream in = new ByteArrayInputStream(avatar);
+                        BufferedImage bImageFromConvert = ImageIO.read(in);
+//                    
+                        ImageIO.write(resize(bImageFromConvert, size), "JPG", output);
+                    } else {
+                        output.write(avatar);
+                    }
                     output.flush();
                 }
             }).build();
@@ -114,7 +124,7 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     }
 
     @Override
-    public Response getCover(@NotNull @PathParam("nickname") String nickname) throws ServiceException {
+    public Response getCover(String nickname, Integer size) throws ServiceException {
 
         byte[] tmp = usersService.getCover(nickname);
         final byte[] avatar;
@@ -125,7 +135,13 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
                 @Override
                 public void write(OutputStream output)
                         throws IOException, WebApplicationException {
-                    output.write(avatar);
+                    if (size != null) {
+                        InputStream in = new ByteArrayInputStream(avatar);
+                        BufferedImage bImageFromConvert = ImageIO.read(in);
+                        ImageIO.write(resize(bImageFromConvert, size), "JPG", output);
+                    } else {
+                        output.write(avatar);
+                    }
                     output.flush();
                 }
             }).build();
