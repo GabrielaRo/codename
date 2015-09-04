@@ -1,0 +1,42 @@
+<div class="user-section-title">
+    <div class="container">
+        <h2>Settings</h2>
+    </div>
+</div>
+
+
+<div id="messages">
+    <div class="container">
+
+        <div class="right-col">
+            <div class="content-block " >
+
+
+                <div class="content-block-content">
+                    <form>
+                        <div class="control-group ">
+
+                            <div class="control full" >
+                                <input type="password" ng-model="oldPassword" placeholder="Old Password">
+                            </div>
+                            <div class="control full" >
+                                <input type="password" ng-model="newPassword" placeholder="New Password">
+                            </div>
+                            <div class="control full" >
+                                <input type="password" ng-model="newPasswordConfirm" placeholder="Confirm New Password">
+                            </div>
+
+
+                            <div class="control full" >
+                                <button class="button" ng-click="updatePassword(oldPassword, newPassword, newPasswordConfirm)" >Update Password</button>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

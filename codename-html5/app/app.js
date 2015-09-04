@@ -44,6 +44,13 @@
                                 requiresLogin: true
                             }
                         })
+                        .when('/settings', {
+                            templateUrl: 'views/settings.html',
+                            controller: 'settingsController',
+                            access: {
+                                requiresLogin: true
+                            }
+                        })
                         .when('/p/:nickname', {
                             templateUrl: 'views/publicprofile.html',
                             controller: 'publicProfileController',

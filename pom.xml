@@ -21,6 +21,10 @@
         <module>codename-chat-model</module>
         <module>codename-chat-core</module>
         <module>codename-chat-services</module>
+	<!-- Tracking Modules --> 
+        <module>codename-tracking-model</module>
+        <module>codename-tracking-core</module>
+        <module>codename-tracking-services</module>
         
         <!-- Web App Module -->
         <module>codename-html5</module>

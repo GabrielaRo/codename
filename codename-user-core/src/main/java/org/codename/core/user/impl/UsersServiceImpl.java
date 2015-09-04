@@ -513,4 +513,20 @@ public class UsersServiceImpl implements UsersService {
         return (int) ((increasingIndx / maxNumberOfWeight) * 100);
     }
 
+    @Override
+    public void updatePassword(Long user_id, String oldPassword, String newPassword) throws ServiceException {
+        User u = pm.find(User.class, user_id);
+        if (u == null) {
+            throw new ServiceException("User doesn't exist: " + user_id);
+        }
+        if(u.getPassword().equals(CodenameUtil.hash(oldPassword))){
+            u.setPassword(CodenameUtil.hash(newPassword));
+            pm.merge(u);
+        }else{
+            throw new ServiceException("Old Password doesn't match. Password not updated! ");
+        }
+    }
+    
+    
+
 }

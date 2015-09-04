@@ -308,6 +308,17 @@
             });
         };
         
+        //UPDATE User  First Name
+        factory.updatePassword = function (oldPassword, newPassword) {
+            return $http({
+                method: 'PUT',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_id') + '/password',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: {oldPassword: oldPassword, newPassword: newPassword}
+            });
+        };
+        
         //UPDATE User  Nick Name
         factory.updateNickname = function (nickname) {
             return $http({

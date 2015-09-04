@@ -56,3 +56,6 @@ node_modules
 /codename-chat-core/target/
 /codename-chat-model/target/
 /codename-chat-services/target/
+/codename-tracking-model/target/
+/codename-tracking-core/target/
+/codename-tracking-services/target/

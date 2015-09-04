@@ -98,5 +98,7 @@ public interface UsersService {
     public void updateLastLogin(Long user_id, Date date) throws ServiceException;
    
     public int calculateUserProfilePercentage(User u) throws ServiceException;
+    
+    public void updatePassword(Long user_id, String oldPassword, String newPassword) throws ServiceException;
 
 }
