@@ -39,14 +39,19 @@ public class SharedLocation implements Serializable {
     private Double longitude;
 
     private Date timestamp;
+    
+    private String description;
+    
+    private String userLabel;
 
     public SharedLocation() {
     }
 
-    public SharedLocation(Long userId, Double latitude, Double longitude) {
+    public SharedLocation(Long userId, Double latitude, Double longitude, String description) {
         this.userId = userId;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.description = description;
         this.timestamp = new Date();
     }
 
@@ -89,6 +94,24 @@ public class SharedLocation implements Serializable {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUserLabel() {
+        return userLabel;
+    }
+
+    public void setUserLabel(String userLabel) {
+        this.userLabel = userLabel;
+    }
+    
+    
 
     @Override
     public String toString() {

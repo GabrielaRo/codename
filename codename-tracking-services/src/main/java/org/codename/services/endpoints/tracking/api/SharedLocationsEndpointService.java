@@ -19,32 +19,26 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.codename.core.exceptions.ServiceException;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
  * @author grogdj
  */
 @Local
-@Path("/sharedlocations")
+@Path("/trace")
 public interface SharedLocationsEndpointService extends Serializable {
 
-//    @POST
-//    @Path("/")
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public Response sendMessage(@NotNull @FormParam("toUser") String toUser,
-//            @NotNull @NotEmpty @FormParam("sender") String sender,
-//            @NotNull @NotEmpty @FormParam("message") String message) throws ServiceException;
-//
-//    @GET
-//    @Path("/inbox")
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public Response getUserInbox(@NotNull @QueryParam("nickname") String nickname) throws ServiceException;
-//
-//    @GET
-//    @Path("/messages")
-//    @Produces({MediaType.APPLICATION_JSON})
-//    Response getConversationMessages(@NotNull @QueryParam("nickname") String nickname,
-//            @NotNull @QueryParam("withUser") String withUser) throws ServiceException;
+    @POST
+    @Path("")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response shareLocation(@NotNull @FormParam("userId") Long userId,
+            @NotNull @FormParam("latitude") Double latitude,
+            @NotNull @FormParam("longitude") Double longitude, 
+            @NotNull @FormParam("description") String description) throws ServiceException;
+
+    @GET
+    @Path("")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response getSharedLocations(@NotNull @QueryParam("userId") Long userId) throws ServiceException;
 
 }

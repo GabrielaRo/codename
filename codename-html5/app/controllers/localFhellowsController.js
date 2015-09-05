@@ -1,6 +1,6 @@
 (function () {
     var localFhellowsController = function ($scope, $rootScope, $users, $interests, $chat,
-            location, appConstants, reverseGeocoder, $location, $presence) {
+            location, appConstants, reverseGeocoder, $location, $presence, $trace) {
         $scope.imagePath = "static/img/public-images/";
         $scope.filters = {location: '', proximity: 200, type: "", search: ""};
         $scope.filtersType = [];
@@ -34,11 +34,22 @@
                                 description: results[0].address_components[6].short_name + " , " + results[0].address_components[3].short_name
                             };
                             $scope.selectedLocation = locData;
+                            
                             if ($location.path().contains('localfhellows')) {
                                 var el = angular.element(document.querySelectorAll("#myLocationText"));
                                 el[0].value = 'Current Location';
                                 $scope.lookedUpLocation = locData;
                             }
+                            $trace.shareUserLocation($scope.lookedUpLocation.latitude,
+                                    $scope.lookedUpLocation.longitude, $scope.selectedLocation.name).success(function (data) {
+                                    
+                                    console.log("shared location successfully!!!");
+                            }).error(function (data) {
+                                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Something failed: " + data, 'error');
+                                console.log("Error : " + data + "!");
+                                console.log(data);
+
+                            });
 
 
 
@@ -280,7 +291,7 @@
     };
 
     localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests', '$chat',
-        'location', 'appConstants', 'reverseGeocoder', '$location', '$presence'];
+        'location', 'appConstants', 'reverseGeocoder', '$location', '$presence', '$trace'];
     angular.module("codename").controller("localFhellowsController", localFhellowsController);
 
 }());

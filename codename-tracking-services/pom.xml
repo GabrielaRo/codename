@@ -10,10 +10,6 @@
     <artifactId>codename-tracking-services</artifactId>
     <name>CodeName :: Tracking Services</name>
     <packaging>jar</packaging>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    
     
     <dependencies>
         <dependency>
@@ -26,8 +22,8 @@
                     <artifactId>weld-se-core</artifactId>
                 </exclusion>
             </exclusions>
+            <type>jar</type>
         </dependency>
-        
         <dependency>
             <groupId>org.codename</groupId>
             <artifactId>codename-tracking-core</artifactId>
@@ -78,4 +74,6 @@
         </dependency>
        
     </dependencies>
+
+    
 </project>
