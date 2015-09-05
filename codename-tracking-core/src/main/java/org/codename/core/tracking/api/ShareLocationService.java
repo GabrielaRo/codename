@@ -15,12 +15,12 @@ import org.hibernate.service.spi.ServiceException;
  */
 public interface ShareLocationService {
 
-    public void shareLocation(Long userId, Double latitude, Double longitude, String description) throws ServiceException;;
+    public void shareLocation(Long userId, Double latitude, Double longitude, String description) throws ServiceException;
 
     public List<SharedLocation> getSharedLocations(Long userId) throws ServiceException;
-    
-//    public void deleteSharedLocation(Long locId);
-//    
-//    public void clearAllSharedLocation(Long userId);
+
+    public void removeSharedLocation(Long locationId);
+
+    public void clearAllSharedLocations(Long userId);
 
 }

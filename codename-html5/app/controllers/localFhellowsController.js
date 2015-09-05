@@ -42,8 +42,7 @@
                             }
                             $trace.shareUserLocation($scope.lookedUpLocation.latitude,
                                     $scope.lookedUpLocation.longitude, $scope.selectedLocation.description).success(function (data) {
-                                    
-                                    console.log("shared location successfully!!!");
+
                             }).error(function (data) {
                                 $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Something failed: " + data, 'error');
                                 console.log("Error : " + data + "!");

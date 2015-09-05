@@ -49,6 +49,29 @@
             });
         };
         
+        $scope.removeSharedLocation = function (loc) {
+            $trace.removeSharedLocation(loc.id).success(function (data) {
+                var idx = $scope.sharedLocations.indexOf(loc);
+                $scope.sharedLocations.splice(idx, 1);
+            
+            }).error(function (data) {
+                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Something failed: " + data, 'error');
+                console.log("Error : " + data + "!");
+
+            });
+        };
+        
+        
+        $scope.clearSharedLocations = function () {
+            $trace.clearSharedLocations().success(function (data) {
+                $scope.sharedLocations = [];
+            }).error(function (data) {
+                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Something failed: " + data, 'error');
+                console.log("Error : " + data + "!");
+
+            });
+        };
+        
         $scope.loadSharedLocations();
 
     };

@@ -64,7 +64,7 @@
                 </div>
                 <div class="content-block-content">
                  <div class="help-text">
-                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae aut vitae minus molestias necessitatibus perferendis blanditiis magnam, nam, corporis possimus, mollitia repellendus enim eveniet architecto officia minima nobis accusamus nihil.</p>
+                       <p>These are your shared locations. These locations can be used to recommend you people that is near you.</p>
                    </div>
                  <div  ng-if="sharedLocations.length == 0">
                     No locations saved.
@@ -77,14 +77,14 @@
                    
                        <div class="shared-location-action">
                           
-                           <a href> <i class="fa fa-trash-o"></i> Delete</a>
+                           <a href ng-click="removeSharedLocation(location)"> <i class="fa fa-trash-o"></i> Delete</a>
                        </div>
                   </div>
                    
                 </div>
                 <div class="content-block-actions">
                     
-                    <button class="button" ng-click="" ng-disabled="sharedLocations.length == 0" >Clear all locations</button>
+                    <button class="button" ng-click="clearSharedLocations()" ng-disabled="sharedLocations.length == 0" >Clear all locations</button>
                     
                 </div>
             </div>

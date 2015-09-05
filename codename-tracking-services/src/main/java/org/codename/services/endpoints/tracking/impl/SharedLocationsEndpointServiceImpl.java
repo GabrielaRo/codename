@@ -53,6 +53,21 @@ public class SharedLocationsEndpointServiceImpl implements SharedLocationsEndpoi
         return Response.ok(jsonArrayBuilder.build().toString()).build();
     }
 
+    @Override
+    public Response removeSharedLocation(Long locationId) throws ServiceException {
+        shareLocationService.removeSharedLocation(locationId);
+        return Response.ok().build();
+    }
+
+    @Override
+    public Response clearAllSharedLocations(Long userId) throws ServiceException {
+        shareLocationService.clearAllSharedLocations(userId);
+        return Response.ok().build();
+    }
+    
+    
+    
+
     private JsonObjectBuilder createJsonSharedLocation(SharedLocation l) {
 
         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
