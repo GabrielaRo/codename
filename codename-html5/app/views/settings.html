@@ -11,7 +11,7 @@
             <div class="content-block no-margin " >
                 <ul class="sub-section-nav">
                     <li class="sub-section-nav-item">
-                        <a href ng-click="setSection('password')" class="sub-section-nav-link" ng-class="{active : currentSection=='password'}">Password</a>
+                        <a href ng-click="setSection('password')" class="sub-section-nav-link" ng-class="{active : currentSection=='password'}">Change Password</a>
                     </li>
                     <li class="sub-section-nav-item">
                         <a href ng-click="setSection('locations')" class="sub-section-nav-link"  ng-class="{active : currentSection=='locations'}">Shared Locations</a>
@@ -23,11 +23,11 @@
             <div class="content-block " ng-show="currentSection=='password'" >
 
                 <div class="content-block-title">
-                    Password
+                    Change Password
                 </div>
                 <div class="content-block-content">
                    <div class="help-text">
-                       <p>Passwords shuld be between 6 and 12 characters long.</p>
+                       <p>Passwords should be between 6 and 12 characters long.</p>
                    </div>
                     <form novalidate name="passwordForm" >
                         <div class="control-group ">
@@ -63,11 +63,28 @@
                     Shared Locations
                 </div>
                 <div class="content-block-content">
-                   {{sharedLocations}}
+                 <div class="help-text">
+                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae aut vitae minus molestias necessitatibus perferendis blanditiis magnam, nam, corporis possimus, mollitia repellendus enim eveniet architecto officia minima nobis accusamus nihil.</p>
+                   </div>
+                 <div  ng-if="sharedLocations.length == 0">
+                    No locations saved.
+                 </div>
+                  <div class="shared-location-item" ng-repeat="location in sharedLocations" ng-if="sharedLocations.length">
+                       
+                       <div class="shared-location-name">
+                           <i class="fa fa-location-arrow"></i> {{location.desc}} |  {{location.time | date:'short'}}
+                       </div>
+                   
+                       <div class="shared-location-action">
+                          
+                           <a href> <i class="fa fa-trash-o"></i> Delete</a>
+                       </div>
+                  </div>
+                   
                 </div>
                 <div class="content-block-actions">
                     
-                    <button class="button" ng-click="" >Clear all locations</button>
+                    <button class="button" ng-click="" ng-disabled="sharedLocations.length == 0" >Clear all locations</button>
                     
                 </div>
             </div>

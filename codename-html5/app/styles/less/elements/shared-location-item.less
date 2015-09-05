@@ -1,0 +1,26 @@
+.shared-location-item {
+    border-bottom: 1px solid @borders;
+     border-top: 1px solid @borders;
+    padding: (@padding/4) 0 (@padding/8);
+    font-size: 0;
+    border-top: 1px solid @borders;
+    
+
+    
+    .shared-location-name {
+        display: inline-block;
+        width: 80%;
+        font-size: @fontSize;
+    }
+
+    .shared-location-action {
+        display: inline-block;
+         width: 20%;
+        text-align: right;
+        font-size: @fontSize;
+    }
+    
+    & + .shared-location-item {
+        border-top: none;
+    }
+}
