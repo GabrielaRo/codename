@@ -81,6 +81,12 @@
         box-sizing: border-box;
         padding: 0 (@padding/4);
         border: 1px solid @borders;
+        &.ng-invalid.ng-dirty {
+            border-color: @red;
+        }
+        &.ng-pristine {
+            border-color: @borders !important;
+        }
 
     }
     textarea {
@@ -220,9 +226,9 @@
         white-space: normal !important;
      
             div {
-                   &:focus {
-                outline: none !important;
-                   }
+                &:focus {
+                    outline: none !important;
+                }
             }
         &.ta-scroll-window {
             font-size: @fontSize !important;

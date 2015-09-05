@@ -38,6 +38,7 @@
               padding-top: (@padding/4);
         }
     }
+    
     .content-block-content {
         color: @textGray;
         white-space: normal;
@@ -105,11 +106,24 @@
         
         
     }
+    
     .content-block-actions {
         padding-top: (@padding/2);
         text-align: right;
         &.left {
             text-align: left;
+        }
+        .actions-messages {
+            text-align: left;
+            font-size: @helpTextFontSize;
+            color: @textGrayLight;
+            float: left;
+            span {
+               
+                padding: 0px 0 2px;
+                font-style: italic;
+                margin-bottom: 5px;
+            }
         }
     }
     
@@ -124,6 +138,30 @@
         }
         .content-block-content {
             padding-top: 0;
+        }
+    }
+    
+    .sub-section-nav {
+        list-style-type: none;
+        padding: 0;
+        margin: -20px 0 0 0;
+        .sub-section-nav-item {
+            
+            border-bottom: 1px solid @borders;
+            .sub-section-nav-link {
+                display: block;
+                padding: (@padding/2);
+                color: @textGray;
+                font-weight: @lightText;
+                text-decoration: none;
+                &:hover {
+                    color: @link;
+                }
+                &.active {
+                    background-color: @link;
+                    color: @textLight;
+                }
+            }
         }
     }
 }
