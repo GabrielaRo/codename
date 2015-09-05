@@ -20,8 +20,9 @@
     
     &.main-nav-dropdown {
         top:(@globalNavHeight - 10);
-        padding: 10px;
+        padding: 0px;
         right: -10px;
+        transition: opacity .15s ease-in-out 0s, max-height .01s linear .2s, padding .5s ease-in-out .2s;
         &:before {
             content: '';
             width: 0;
@@ -139,7 +140,11 @@ li:hover {
         opacity: 1;
         max-height: 1000px;
         transition: opacity .25s ease-in-out .1s, max-height 0.01s linear 0.01s;
+        &.main-nav-dropdown {
+            padding: 10px 0;
+        }
     }
+    
 }
 
 .option-button {

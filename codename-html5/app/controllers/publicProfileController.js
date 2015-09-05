@@ -25,7 +25,7 @@
             live: "false",
             hasavatar: "false",
             hascover: "false",
-            avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar",
+            avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar?size=600",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/cover"
         };
         
@@ -69,7 +69,7 @@
                         $scope.profile.share = data.share;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
-                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar",
+                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar?size=600",
                                 $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover"
                         initialData = angular.copy($scope.profile)
                         // $scope.calculatePercentage();

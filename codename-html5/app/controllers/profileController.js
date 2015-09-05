@@ -124,7 +124,7 @@
                         $scope.profile.live = data.live;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
-                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar",
+                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar?size=600",
                                 $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover"
                         initialData = angular.copy($scope.profile)
                         $scope.calculatePercentage();
@@ -294,7 +294,7 @@
                         $scope.profile.resources = data.resources;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
-                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar",
+                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar?size=600",
                                 $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover"
                         initialData = angular.copy($scope.profile)
                         $scope.calculatePercentage();
@@ -326,7 +326,7 @@
 
                 $scope.uploadAvatarPercentage = false;
                 $scope.profile.avatarUrl = "";
-                $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar" + '?' + new Date().getTime();
+                $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar?size=600" + '&' + new Date().getTime();
                 $scope.profile.hasavatar = true;
                 $scope.calculatePercentage();
                 $rootScope.$broadcast("updateUser", {token: $scope.auth_token, userId: $scope.user_id, userNick: $scope.user_nick});

@@ -112,7 +112,7 @@
                     $scope.live = $cookieStore.get('live');
                     $scope.credentials = {};
                     $scope.submitted = false;
-                    $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
+                    $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar?size=250' + '&' + new Date().getTime() + ')'};
                     $sockets.initWebSocket();
                     if ($scope.firstLogin) {
                         $rootScope.$broadcast('goTo', "/profile");
@@ -153,7 +153,7 @@
                                 $scope.live = $cookieStore.get('live');
                                 $scope.credentials = {};
                                 $scope.submitted = false;
-                                $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
+                                $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar?size=250' + '&' + new Date().getTime() + ')'};
                                 $sockets.initWebSocket();
                                 if ($scope.firstLogin) {
                                     $rootScope.$broadcast('goTo', "/profile");
@@ -177,14 +177,14 @@
 
         if ($scope.auth_token && $scope.auth_token !== "") {
 
-            $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
+            $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar?size=250' + '&' + new Date().getTime() + ')'};
             $sockets.initWebSocket();
         }
 
         $rootScope.$on("updateUser", function (event, data) {
             $cookieStore.put('user_nick', data.userNick);
             $scope.user_nick = $cookieStore.get('user_nick');
-            $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar' + '?' + new Date().getTime() + ')'};
+            $scope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $scope.user_nick + '/avatar?size=250' + '&' + new Date().getTime() + ')'};
 
         });
     };
