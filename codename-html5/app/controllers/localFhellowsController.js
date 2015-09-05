@@ -41,7 +41,7 @@
                                 $scope.lookedUpLocation = locData;
                             }
                             $trace.shareUserLocation($scope.lookedUpLocation.latitude,
-                                    $scope.lookedUpLocation.longitude, $scope.selectedLocation.name).success(function (data) {
+                                    $scope.lookedUpLocation.longitude, $scope.selectedLocation.description).success(function (data) {
                                     
                                     console.log("shared location successfully!!!");
                             }).error(function (data) {
@@ -117,15 +117,9 @@
 
         $scope.newConversation = function (selectedUser, firstname, lastname, status) {
             $rootScope.$broadcast('goTo', "/messages/" + selectedUser + "/" + firstname + "/" + lastname + "/" + status);
-//            $chat.newConversation(selectedUser).success(function (data) {
-//                $rootScope.$broadcast('goTo', "/messages/" + data);
-//
-//            }).error(function (data) {
-//                console.log("Error: ");
-//                $rootScope.$broadcast("quickNotification", "Something went wrong creating a new conversations!" + data);
-//            });
 
-        }
+
+        };
 
 
 

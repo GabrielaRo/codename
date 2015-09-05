@@ -37,6 +37,8 @@ public class ShareLocationServiceImpl implements ShareLocationService {
 ////                .setMaxResults(limit)
                 .getResultList();
     }
+    
+    
 
     
 

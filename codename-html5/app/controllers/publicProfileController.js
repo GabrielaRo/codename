@@ -4,7 +4,7 @@
         /*
          * For Loading we try to fetch everything at once instead of each different piece
          */
-        
+
         $scope.edit = true;
         $scope.profile = {
             firstname: "",
@@ -28,20 +28,13 @@
             avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar?size=600",
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/cover"
         };
-        
-        $scope.newConversation = function (selectedUser) {
-            
-            $chat.newConversation(selectedUser).success(function (data) {
-                $rootScope.$broadcast('goTo', "/messages/"+data);
 
-            }).error(function (data) {
-                console.log("Error: ");
-                $rootScope.$broadcast("quickNotification", "Something went wrong creating a new conversations!" + data);
-            });
+        $scope.newConversation = function (selectedUser, firstname, lastname, status) {
+            $rootScope.$broadcast('goTo', "/messages/" + selectedUser + "/" + firstname + "/" + lastname + "/" + status);
 
-        }
+        };
 
-        $scope.editProfile = function(){
+        $scope.editProfile = function () {
             $rootScope.$broadcast('goTo', "/profile");
         }
 
