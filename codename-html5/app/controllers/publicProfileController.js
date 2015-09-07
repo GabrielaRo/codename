@@ -1,5 +1,5 @@
 (function () {
-    var publicProfileController = function ($rootScope, $scope, $timeout, $users, $sockets, $cookieStore, appConstants, $routeParams, $auth, location, $chat) {
+    var publicProfileController = function ($rootScope, $scope, $users, appConstants, $routeParams, $error) {
 
         /*
          * For Loading we try to fetch everything at once instead of each different piece
@@ -25,8 +25,8 @@
             live: "false",
             hasavatar: "false",
             hascover: "false",
-            avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar?size=600",
-            coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/cover"
+            avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $rootScope.user_nick + "/avatar?size=600",
+            coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $rootScope.user_nick + "/cover"
         };
 
         $scope.newConversation = function (selectedUser, firstname, lastname, status) {
@@ -66,10 +66,10 @@
                                 $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover"
                         initialData = angular.copy($scope.profile)
                         // $scope.calculatePercentage();
-                    }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with getting the user data" + data);
-            });
+                    })
+                    .error(function (data, status) {
+                        $error.handleError(data, status);
+                    });
 
         };
 
@@ -96,6 +96,6 @@
 
     };
 
-    publicProfileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$sockets", "$cookieStore", "appConstants", "$routeParams", "$auth", "location", '$chat'];
+    publicProfileController.$inject = ["$rootScope", "$scope", "$users", "appConstants", "$error"];
     angular.module("codename").controller("publicProfileController", publicProfileController);
 }());

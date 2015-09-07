@@ -1,7 +1,7 @@
 (function () {
-    var $auth = function ($cookieStore) {
+    var $auth = function ($rootScope, $cookieStore) {
         var factory = {};
-        //SIGNUP
+        //Authorize
         factory.authorize = function (loginRequired, profileRequired, adminRequired, requiredPermissions, permissionCheckType) {
 
             if (loginRequired == true) {
@@ -35,14 +35,19 @@
                 return 'Home';
             }
 
-        }
-
-
+        };
+        // Redirect UnAuthorized! 
+        factory.handleErrors = function(status){
+                if(status == '401'){
+                    $rootScope.$broadcast("goTo", "/");
+                    //Some kind of notification here... 
+                }
+        };
 
         return factory;
     };
 
-    $auth.$inject = ['$cookieStore'];
+    $auth.$inject = ['$rootScope', '$cookieStore'];
     angular.module("codename").factory("$auth", $auth);
 
 }());

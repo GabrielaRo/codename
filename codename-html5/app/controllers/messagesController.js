@@ -1,8 +1,6 @@
 (function () {
 
-    var messagesController = function ($scope, $chat, $cookieStore, $routeParams, $rootScope, $sockets, $presence, $filter, appConstants) {
-
-
+    var messagesController = function ($scope, $chat, $cookieStore, $routeParams, $rootScope, $presence, $filter, appConstants, $error) {
         $scope.serverUrlFull = appConstants.server + appConstants.context;
 
         $scope.inbox = [];
@@ -31,7 +29,7 @@
                     if ($scope.selectedConversation.other_nickname == msg.from) {
 
                         $scope.$apply(function () {
-                            $scope.messageHistory.push({owner_nickname: msg.from, description: msg.description ,text: msg.text, time: Date.now()});
+                            $scope.messageHistory.push({owner_nickname: msg.from, description: msg.description, text: msg.text, time: Date.now()});
                         });
                         var scrollDown = function () {
                             var newListHeight = $(".messages-history").height();
@@ -120,10 +118,8 @@
 
                 }
 
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with unblocking the conversation !" + data);
-
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
 
 
@@ -153,10 +149,8 @@
                 var newListHeight = $(".messages-history").height();
                 $("#user-messages-chat").animate({scrollTop: newListHeight}, 200);
 
-            }).error(function (data) {
-
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with sending the message!" + data);
+            }).error(function (data, status) {
+                $error.handleError(data, status);
                 $scope.emojiMessage = {};
                 $scope.emojiMessage.replyToUser = function () {
                     if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
@@ -164,6 +158,8 @@
                     }
                 };
             });
+
+
 
 
         }
@@ -183,11 +179,10 @@
                 setTimeout(scrollDown, 200);
 
 
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with getting all messages!" + data);
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
-        }
+        };
 
 
 
@@ -219,11 +214,8 @@
                 $filter('orderBy')($scope.inbox, 'conversation.time', true);
 
 
-            }).error(function (data) {
-
-                console.log("Error: " + data);
-
-                $rootScope.$broadcast("quickNotification", "Something went wrong with getting all conversations!" + data);
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
         }
 
@@ -234,7 +226,8 @@
 
     };
 
-    messagesController.$inject = ['$scope', '$chat', '$cookieStore', '$routeParams', '$rootScope', '$sockets', '$presence', '$filter', 'appConstants'];
+    messagesController.$inject = ['$scope', '$chat', '$cookieStore', '$routeParams', '$rootScope',
+        '$presence', '$filter', 'appConstants', '$error'];
     angular.module("codename").controller("messagesController", messagesController);
 
 

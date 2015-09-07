@@ -1,5 +1,5 @@
 (function () {
-    var homeController = function ($scope, $rootScope, $users, $auth, appConstants) {
+    var homeController = function ($scope, $rootScope, $users, $error) {
         $scope.imagePath = "static/img/public-images/";
         $scope.pageClass = "home full";
         $scope.formTabActive = "sign-in";
@@ -19,7 +19,7 @@
                 $(this).removeClass("active");
             });
             actualTab.addClass("active");
-        }
+        };
 
 
         $scope.joinStatusChange = function (status) {
@@ -29,19 +29,17 @@
                 $scope.joinStatus = status;
             }
 
-        }
+        };
 
         $scope.initMockUsers = function () {
             $users.initMockUsers().success(function (data) {
                 $rootScope.$broadcast("quickNotification", "Mock Users Created!");
 
-            }).error(function (data) {
-                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Something failed: " + data, 'error');
-                console.log("Error : " + data + "!");
-
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
 
-        }
+        };
 
         $scope.registerUser = function (isValid) {
 
@@ -58,23 +56,21 @@
                     $scope.joinStatus = "home";
 
 
-                }).error(function (data) {
-                    $rootScope.$broadcast("quickNotification", " <i class='fa fa-exclamation-triangle'></i>Something failed: " + data.error, 'error');
-                    console.log("Error : " + data.error + "!");
-
+                }).error(function (data, status) {
+                    $error.handleError(data, status);
                 });
             } else {
                 console.log("Error : Invalid Form");
             }
         };
-        
+
 
 
 
 
     };
 
-    homeController.$inject = ['$scope', '$rootScope', '$users', '$auth', 'appConstants'];
+    homeController.$inject = ['$scope', '$rootScope', '$users', '$error'];
     angular.module("codename").controller("homeController", homeController);
 
 }());

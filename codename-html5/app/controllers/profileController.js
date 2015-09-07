@@ -1,6 +1,6 @@
 (function () {
     var profileController = function ($rootScope, $scope, $timeout, $users, $cookieStore, appConstants,
-            $routeParams, $auth, location, $interests, reverseGeocoder, $location, taOptions) {
+            $routeParams,  location, $interests, reverseGeocoder, $location, taOptions, $error) {
 
 
         /*
@@ -128,9 +128,9 @@
                                 $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover"
                         initialData = angular.copy($scope.profile)
                         $scope.calculatePercentage();
-                    }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with getting the user data" + data);
+                    }).error(function (data, status) {
+
+                $error.handleError(data, status);
             });
 
         };
@@ -168,10 +168,8 @@
 
                 $scope.interests = data;
 
-            }).error(function (data) {
-                console.log("Error: ");
-                console.log(data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong loading the interests!" + data);
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
 
         }
@@ -205,9 +203,8 @@
                     initialData.interests = interests;
 
                     $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the Interests values!" + data);
+                }).error(function (data, status) {
+                    $error.handleError(data, status);
                 });
             } else {
                 $scope.resetData();
@@ -273,8 +270,6 @@
         $scope.loadPublicUserData = function (userId) {
             $users.getPublicUserData(userId)
                     .success(function (data) {
-
-
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
                         $scope.profile.lastname = data.lastname;
@@ -298,10 +293,10 @@
                                 $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover"
                         initialData = angular.copy($scope.profile)
                         $scope.calculatePercentage();
-                    }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with getting the user data" + data);
-            });
+                    })
+                    .error(function (data, status) {
+                        $error.handleError(data, status);
+                    });
 
         };
 
@@ -331,8 +326,9 @@
                 $scope.calculatePercentage();
                 $rootScope.$broadcast("updateUser", {token: $scope.auth_token, userId: $scope.user_id, userNick: $scope.user_nick});
 
-            }).error(function (data) {
+            }).error(function (data, status) {
                 console.log('Error: file ' + file.name + ' upload error. Response: ' + data);
+                $error.handleError(data, status);
             });
         };
 
@@ -359,8 +355,9 @@
                 $scope.calculatePercentage();
                 $rootScope.$broadcast("updateUserCover");
 
-            }).error(function (data) {
+            }).error(function (data, status) {
                 console.log('Error: file ' + file.name + ' upload error. Response: ' + data);
+                $error.handleError(data, status);
             });
         };
 
@@ -418,9 +415,8 @@
 
 
                 $scope.calculatePercentage();
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the first name!" + data);
+            }).error(function (data, status) {
+                $error.handleError(data, status);
                 $scope.resetData();
             });
 
@@ -438,9 +434,8 @@
                     initialData.lookingFor = lookingFors;
                     $scope.profile.iam = iams;
                     initialData.iam = iams;
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the lookingFor values!" + data);
+                }).error(function (data, status) {
+                    $error.handleError(data, status);
                 });
             } else {
                 $scope.resetData();
@@ -448,24 +443,6 @@
 
         };
 
-        $scope.updateIams = function (iams) {
-            console.log("iams = " + iams);
-            if (typeof (iams) != "undefined"
-                    && iams != initialData.iam) {
-                $users.updateIam(iams).success(function (data) {
-                    $scope.profile.iam = iams;
-                    initialData.iam = iams;
-
-                    $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the I am values!" + data);
-                });
-            } else {
-                $scope.resetData();
-            }
-
-        };
 
 
 
@@ -480,9 +457,9 @@
                     initialData.originallyFrom = originallyFrom;
                     $scope.calculatePercentage();
 
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the Originally From location!" + data);
+                }).error(function (data, status) {
+                    $scope.profile.originallyFrom = initialData.originallyFrom;
+                    $error.handleError(data, status);
                 });
             } else {
                 $scope.resetData();
@@ -503,9 +480,9 @@
                     initialData.location.description = location;
                     $scope.calculatePercentage();
 
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the location!" + data);
+                }).error(function (data, status) {
+                    $scope.profile.location.description = initialData.location.description;
+                    $error.handleError(data, status);
                 });
             } else {
                 $scope.resetData();
@@ -513,26 +490,7 @@
 
         };
 
-        $scope.updateBioLongBioIams = function (bio, longbio, iams) {
 
-            // if (typeof (bio) != "undefined" && bio != "" && bio != initialData.bio) {
-            $users.updateBioLongBioIams(bio, longbio, iams).success(function (data) {
-
-                $scope.profile.bio = bio;
-                initialData.bio = bio;
-                $scope.profile.longbio = longbio;
-                initialData.longbio = longbio;
-                $scope.profile.iam = iams;
-                initialData.iam = iams;
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
-            });
-//            } else {
-//                $scope.resetData();
-//            }
-
-        };
 
         $scope.updateBio = function (bio) {
             $scope.clearEditablesActive();
@@ -541,9 +499,9 @@
 
                     $scope.profile.bio = bio;
                     initialData.bio = bio;
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
+                }).error(function (data, status) {
+                    $scope.profile.bio = initialData.bio;
+                    $error.handleError(data, status);
                 });
             } else {
                 $scope.resetData();
@@ -551,41 +509,6 @@
 
         };
 
-        $scope.updateLongBio = function (longbio) {
-            if (typeof (longbio) != "undefined" && longbio != "" && longbio != initialData.longbio) {
-                $users.updateLongBio(longbio).success(function (data) {
-                    $scope.profile.longbio = longbio;
-                    initialData.longbio = longbio;
-                    $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the long bio!" + data);
-                });
-            } else {
-                $scope.resetData();
-            }
-
-        };
-
-
-        $scope.updateJobTitle = function (title) {
-            $scope.clearEditablesActive();
-            //$scope.clearField($("#user-job-form"));
-            if (typeof (title) != "undefined" && title != "" && title != initialData.title) {
-                $users.updateJobTitle(title).success(function (data) {
-                    $scope.profile.title = title;
-                    initialData.title = title;
-                    $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating the bio!" + data);
-                });
-            } else {
-                $scope.resetData();
-
-            }
-
-        };
 
         $scope.updateNickname = function (nickname) {
             $scope.clearEditablesActive();
@@ -596,11 +519,9 @@
                     initialData.nickname = nickname;
                     $rootScope.$broadcast("updateUser", {token: $scope.auth_token, userId: $scope.user_id, userNick: nickname});
                     $scope.calculatePercentage();
-                }).error(function (data) {
+                }).error(function (data, status) {
                     $scope.profile.nickname = initialData.nickname;
-                    console.log("Error: ");
-                    console.log(data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating your nickname!" + data.error);
+                    $error.handleError(data, status);
                 });
             } else {
                 $scope.resetData();
@@ -617,66 +538,9 @@
                     $scope.profile.twitter = twitter;
                     initialData.twitter = twitter;
                     $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating twitter!" + data);
-                });
-            } else {
-                $scope.resetData();
-
-            }
-
-        };
-
-        $scope.updateAdvice = function (advice) {
-            $scope.clearEditablesActive();
-            //$scope.clearField($("#user-job-form"));
-            if (typeof (advice) != "undefined" && advice != "" && advice != initialData.advice) {
-                $users.updateAdvice(advice).success(function (data) {
-                    $scope.profile.advice = advice;
-                    initialData.advice = advice;
-                    $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating advice!" + data);
-                });
-            } else {
-                $scope.resetData();
-
-            }
-
-        };
-
-        $scope.updateHobbies = function (hobbies) {
-            $scope.clearEditablesActive();
-            //$scope.clearField($("#user-job-form"));
-            if (typeof (hobbies) != "undefined" && hobbies != "" && hobbies != initialData.hobbies) {
-                $users.updateHobbies(hobbies).success(function (data) {
-                    $scope.profile.hobbies = hobbies;
-                    initialData.hobbies = hobbies;
-                    $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating hobbies!" + data);
-                });
-            } else {
-                $scope.resetData();
-
-            }
-
-        };
-
-        $scope.updateResources = function (resources) {
-            $scope.clearEditablesActive();
-            //$scope.clearField($("#user-job-form"));
-            if (typeof (resources) != "undefined" && resources != "" && resources != initialData.resources) {
-                $users.updateResources(resources).success(function (data) {
-                    $scope.profile.resources = resources;
-                    initialData.resources = resources;
-                    $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating resources!" + data);
+                }).error(function (data, status) {
+                    $scope.profile.twitter = initialData.twitter;
+                    $error.handleError(data, status);
                 });
             } else {
                 $scope.resetData();
@@ -693,9 +557,9 @@
                     $scope.profile.share = share;
                     initialData.share = share;
                     $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating share!" + data);
+                }).error(function (data, status) {
+                    $scope.profile.share = initialData.share;
+                    $error.handleError(data, status);
                 });
             } else {
                 $scope.resetData();
@@ -712,9 +576,9 @@
                     $scope.profile.messageme = messageme;
                     initialData.messageme = messageme;
                     $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating messageme!" + data);
+                }).error(function (data, status) {
+                    $scope.profile.messageme = initialData.messageme;
+                    $error.handleError(data, status);
                 });
             } else {
                 $scope.resetData();
@@ -731,9 +595,9 @@
                     $scope.profile.website = website;
                     initialData.website = website;
                     $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating website!" + data);
+                }).error(function (data, status) {
+                    $scope.profile.website = initialData.website;
+                    $error.handleError(data, status);
                 });
             } else {
                 $scope.resetData();
@@ -750,9 +614,9 @@
                     $scope.profile.linkedin = linkedin;
                     initialData.linkedin = linkedin;
                     $scope.calculatePercentage();
-                }).error(function (data) {
-                    console.log("Error: " + data);
-                    $rootScope.$broadcast("quickNotification", "Something went wrong with updating linkedin!" + data);
+                }).error(function (data, status) {
+                    $scope.profile.linkedin = initialData.linkedin;
+                    $error.handleError(data, status);
                 });
             } else {
                 $scope.resetData();
@@ -773,9 +637,8 @@
             $users.updateUserFirstLogin().success(function (data) {
                 $cookieStore.put('firstLogin', false);
                 $scope.loadUserData($scope.user_id, $scope.email, $scope.auth_token);
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the first login data!" + data);
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
 
         };
@@ -841,9 +704,8 @@
             $users.updateUserLiveProfile(!live).success(function (data) {
                 $cookieStore.put('live', !live);
                 $scope.profile.live = !live;
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong with updating the first login data!" + data);
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
 
         };
@@ -924,6 +786,6 @@
     };
 
     profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$cookieStore", "appConstants",
-        "$routeParams", "$auth", "location", "$interests", "reverseGeocoder", "$location", "taOptions"];
+        "$routeParams", "location", "$interests", "reverseGeocoder", "$location", "taOptions", "$error"];
     angular.module("codename").controller("profileController", profileController);
 }());

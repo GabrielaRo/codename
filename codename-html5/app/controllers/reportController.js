@@ -1,10 +1,10 @@
 (function () {
-    var reportController = function ($scope, $rootScope, $users, $auth, appConstants) {
+    var reportController = function ($scope) {
        $scope.pageClass = "report";
        $( window ).scrollTop( 0 );
     };
 
-    reportController.$inject = ['$scope', '$rootScope', '$users', '$auth', 'appConstants'];
+    reportController.$inject = ['$scope'];
     angular.module("codename").controller("privacyController", reportController);
 
 }());

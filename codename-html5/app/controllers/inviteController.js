@@ -1,5 +1,5 @@
 (function () {
-    var inviteController = function ($location, $scope, $rootScope, $users, $auth, appConstants, $routeParams, $invites, $contact) {
+    var inviteController = function ($location, $scope, $rootScope, $invites, $contact, $error) {
         $scope.pageClass = "invite full";
         $scope.inviteStatus = false;
         $scope.inviteContactStatus = false;
@@ -10,12 +10,9 @@
             $contact.sendMessage(email, name, subject, text, type).success(function (data) {
                 $scope.inviteContactStatus = true;
                 $rootScope.$broadcast("quickNotification", "<i class='fa fa-check'></i> Message Sent", 'success');
-            }).error(function (data) {
-                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Something failed: " + data, 'error');
-                console.log("Error : " + data + "!");
-
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
-
         }
 
         $scope.requestInvite = function (email) {
@@ -30,11 +27,8 @@
                 });
 
 
-            }).error(function (data) {
-
-                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Something failed: " + data, 'error');
-                console.log("Error : " + data + "!");
-
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
 
         }
@@ -91,7 +85,7 @@
 
     };
 
-    inviteController.$inject = ['$location', '$scope', '$rootScope', '$users', '$auth', 'appConstants', '$routeParams', '$invites', '$contact'];
+    inviteController.$inject = ['$location', '$scope', '$rootScope', '$invites', '$contact', '$error'];
     angular.module("codename").controller("inviteController", inviteController);
 
 }());

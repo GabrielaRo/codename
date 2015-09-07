@@ -1,6 +1,6 @@
 (function () {
 
-    var notificationsController = function ($rootScope, $scope, $presence, appConstants) {
+    var notificationsController = function ($scope, $presence) {
         console.log($presence.notifications);
 
         $scope.newNotifications = $presence.newNotifications;
@@ -47,8 +47,8 @@
                 $scope.clearNewNotifications();
             }
         });
-        
+
     };
-    notificationsController.$inject = ['$rootScope', '$scope', '$presence', 'appConstants'];
+    notificationsController.$inject = ['$scope', '$presence'];
     angular.module("codename").controller("notificationsController", notificationsController);
 }());

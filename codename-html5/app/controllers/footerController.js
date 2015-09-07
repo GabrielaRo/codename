@@ -1,6 +1,6 @@
 (function () {
 
-    var footerController = function ($scope, $location, $rootScope) {
+    var footerController = function ($scope, $location) {
 
 
         $scope.isActive = function (route) {
@@ -10,7 +10,7 @@
 
     };
 
-    footerController.$inject = ['$scope', '$location', '$rootScope', ];
+    footerController.$inject = ['$scope', '$location' ];
     angular.module("codename").controller("footerController", footerController);
 
 }());

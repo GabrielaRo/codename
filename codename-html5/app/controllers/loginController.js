@@ -1,10 +1,10 @@
 (function () {
-    var loginController = function ($scope, $rootScope, $users, $auth, appConstants) {
+    var loginController = function ($scope) {
        $scope.pageClass = "login full";
  
     };
 
-    loginController.$inject = ['$scope', '$rootScope', '$users', '$auth', 'appConstants'];
+    loginController.$inject = ['$scope'];
     angular.module("codename").controller("loginController", loginController);
 
 }());

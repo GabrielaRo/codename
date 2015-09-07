@@ -1,6 +1,6 @@
 (function () {
-    var localFhellowsController = function ($scope, $rootScope, $users, $interests, $chat,
-            location, appConstants, reverseGeocoder, $location, $presence, $trace) {
+    var localFhellowsController = function ($scope, $rootScope, $users, $interests,
+            location, appConstants, reverseGeocoder, $location, $presence, $trace, $error) {
         $scope.imagePath = "static/img/public-images/";
         $scope.filters = {location: '', proximity: 200, type: "", search: ""};
         $scope.filtersType = [];
@@ -34,7 +34,7 @@
                                 description: results[0].address_components[6].short_name + " , " + results[0].address_components[3].short_name
                             };
                             $scope.selectedLocation = locData;
-                            
+
                             if ($location.path().contains('localfhellows')) {
                                 var el = angular.element(document.querySelectorAll("#myLocationText"));
                                 el[0].value = 'Current Location';
@@ -43,11 +43,8 @@
                             $trace.shareUserLocation($scope.lookedUpLocation.latitude,
                                     $scope.lookedUpLocation.longitude, $scope.selectedLocation.description).success(function (data) {
 
-                            }).error(function (data) {
-                                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Something failed: " + data, 'error');
-                                console.log("Error : " + data + "!");
-                                console.log(data);
-
+                            }).error(function (data, status) {
+                                $error.handleError(data, status);
                             });
 
 
@@ -133,9 +130,8 @@
             $interests.getAll().success(function (data) {
                 $scope.interests = data;
 
-            }).error(function (data) {
-                console.log("Error: ");
-                $rootScope.$broadcast("quickNotification", "Something went wrong loading the interests!" + data);
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
 
         }
@@ -198,10 +194,8 @@
                             fhellows[i].onlineStatus = states[i];
                         }
                         $scope.fhellowsList = $scope.fhellowsList.concat(fhellows);
-                    }).error(function (data) {
-                        console.log("Error: ");
-                        console.log(data);
-                        $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
+                    }).error(function (data, status) {
+                        $error.handleError(data, status);
                     });
                 } else {
 
@@ -212,8 +206,8 @@
                     $scope.noMoreResults = true;
 
                 }
-            }).error(function (data) {
-                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
         }
 
@@ -247,10 +241,8 @@
                                     fhellows[i].onlineStatus = states[i];
                                 }
                                 $scope.fhellowsList = $scope.fhellowsList.concat(fhellows);
-                            }).error(function (data) {
-                                console.log("Error: ");
-                                console.log(data);
-                                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
+                            }).error(function (data, status) {
+                                $error.handleError(data, status);
                             });
                         } else {
 
@@ -261,11 +253,10 @@
                             $scope.noMoreResults = true;
 
                         }
-                    }).error(function (data) {
-                console.log("Error: ");
-                console.log(data);
-                $rootScope.$broadcast("quickNotification", "Something went wrong!" + data);
-            });
+                    })
+                    .error(function (data, status) {
+                        $error.handleError(data, status);
+                    });
 
         };
 
@@ -283,8 +274,8 @@
 
     };
 
-    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests', '$chat',
-        'location', 'appConstants', 'reverseGeocoder', '$location', '$presence', '$trace'];
+    localFhellowsController.$inject = ['$scope', '$rootScope', '$users', '$interests',
+        'location', 'appConstants', 'reverseGeocoder', '$location', '$presence', '$trace', '$error'];
     angular.module("codename").controller("localFhellowsController", localFhellowsController);
 
 }());

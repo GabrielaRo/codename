@@ -1,10 +1,10 @@
 (function () {
-    var privacyController = function ($scope, $rootScope, $users, $auth, appConstants) {
+    var privacyController = function ($scope) {
        $scope.pageClass = "privacy";
  
     };
 
-    privacyController.$inject = ['$scope', '$rootScope', '$users', '$auth', 'appConstants'];
+    privacyController.$inject = ['$scope'];
     angular.module("codename").controller("privacyController", privacyController);
 
 }());
