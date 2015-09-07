@@ -11,7 +11,7 @@
 
             $rootScope.websocket.onopen = function (evt) {
                 console.log(">>> WS on Open");
-
+                
             };
             $rootScope.websocket.onmessage = function (evt) {
 
@@ -38,7 +38,9 @@
         };
 
         factory.closeWebSocket = function () {
-            $rootScope.websocket.close();
+            if($rootScope.websocket){
+                $rootScope.websocket.close();
+            }
         };
 
 

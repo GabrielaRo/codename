@@ -41,7 +41,6 @@
         $scope.loadPublicUserData = function (nickname) {
             $users.getPublicUserData(nickname)
                     .success(function (data) {
-                        console.log(data);
 
                         $scope.profile.userId = data.userId;
                         $scope.profile.firstname = data.firstname;
@@ -85,7 +84,6 @@
 
 
         if ($routeParams && $routeParams.nickname) {
-            console.log($routeParams.nickname);
 
             $scope.loadPublicUserData($routeParams.nickname);
 
@@ -96,6 +94,6 @@
 
     };
 
-    publicProfileController.$inject = ["$rootScope", "$scope", "$users", "appConstants", "$error"];
+    publicProfileController.$inject = ["$rootScope", "$scope", "$users", "appConstants", '$routeParams', "$error"];
     angular.module("codename").controller("publicProfileController", publicProfileController);
 }());

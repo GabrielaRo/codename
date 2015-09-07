@@ -3,7 +3,7 @@
 
     angular.module('codename');
 
-    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, appConstants, $sockets, $routeParams, growl) {
+    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, appConstants, $sockets, $routeParams, growl, $error) {
         $rootScope.auth_token = $cookieStore.get('auth_token');
         $rootScope.email = $cookieStore.get('email');
         $rootScope.user_id = $cookieStore.get('user_id');
@@ -78,9 +78,8 @@
                 $rootScope.avatarStyle = "";
                 $sockets.closeWebSocket();
                 $rootScope.$broadcast('goTo', "/");
-            }).error(function (data) {
-                console.log("Error: " + data);
-                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Error: " + data, 'error');
+            }).error(function (data, status) {
+                $error.handleError(data, status);
             });
 
         };
@@ -120,9 +119,8 @@
                         $rootScope.$broadcast('goTo', "/localfhellows");
                     }
 
-                }).error(function (data) {
-                    console.log(data);
-                    $rootScope.$broadcast("quickNotification", " <i class='fa fa-exclamation-triangle'></i> You are NOT logged in because:" + data, 'error');
+                }).error(function (data, status) {
+                    $error.handleError(data, status, "Wrong username and password.");
                 });
             }
         };
@@ -161,9 +159,8 @@
                                     $rootScope.$broadcast('goTo', "/localfhellows");
                                 }
 
-                            }).error(function (data) {
-                                console.log("Error: " + data.error);
-                                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> You are NOT logged in because:" + data.error, 'error');
+                            }).error(function (data, status) {
+                                $error.handleError(data, status);
                             });
                         } else {
                             $rootScope.$broadcast('goTo', "/");
@@ -190,7 +187,8 @@
     };
 
 
-    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$auth', 'appConstants', '$sockets', '$routeParams', 'growl'];
+    MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$auth',
+        'appConstants', '$sockets', '$routeParams', 'growl', '$error'];
     angular.module("codename").controller("MainCtrl", MainCtrl);
 }());
 

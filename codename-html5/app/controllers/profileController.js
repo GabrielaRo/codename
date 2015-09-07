@@ -32,8 +32,8 @@
             live: "false",
             hasavatar: "false",
             hascover: "false",
-            avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar",
-            coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/cover"
+            avatarUrl: appConstants.server + appConstants.context + "rest/public/users/" + $rootScope.user_nick + "/avatar",
+            coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $rootScope.user_nick + "/cover"
         };
 
         $scope.gettingProfileLocation = false;
