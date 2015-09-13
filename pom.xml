@@ -21,7 +21,9 @@
         <module>codename-chat-model</module>
         <module>codename-chat-core</module>
         <module>codename-chat-services</module>
-        
+        <!-- Tag Module -->
+        <module>codename-tag-model</module>
+        <module>codename-tag-core</module>
         <!-- Web App Module -->
         <module>codename-html5</module>
         
