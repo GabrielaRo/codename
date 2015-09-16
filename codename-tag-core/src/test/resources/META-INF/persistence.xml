@@ -24,6 +24,7 @@
         
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <mapping-file>META-INF/tags.xml</mapping-file>
+        <mapping-file>META-INF/users.xml</mapping-file>
         <class>org.codename.model.user.User</class>
         <class>org.codename.model.user.ServiceKey</class>
         <class>org.codename.model.tag.Tag</class>
