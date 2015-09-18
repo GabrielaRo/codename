@@ -4,8 +4,28 @@
     </div>
 </div>
 
-
-<div id="messages">
+<div id="chatOffline" ng-if="!chatOnline">
+    <div class="container">
+       <div class="row">
+           <div class="col-md-4 col-md-offset-4">
+               <div class="content-block">
+                   <div class="content-block-title">
+                       Chat Offline
+                    </div>
+                    <div class="content-block-content">
+                        <p>    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci ipsa autem molestiae officiis soluta vero repellat, praesentium consequuntur beatae quo odit cum maiores aperiam quod quae laudantium consectetur, dolores doloremque.</p>
+                        
+                    </div>
+                    <div class="content-block-actions">
+                        <a href class="button block"> Re-connect</a>
+                    </div>
+                </div>
+           </div>
+       </div>
+        
+    </div>
+</div>
+<div id="messages" ng-if="chatOnline">
     <div class="container">
         <div class="left-col">
             <div class="content-block no-margin">
@@ -38,9 +58,9 @@
                             </div>
                             
                             <div class="message-data">
-                               
-                                <div class="message-user-name" ng-repeat="p in conversation.participants"><span ng-if="p != me">{{p}}</span></div>
-                                
+                                <div ng-repeat="p in conversation.participants">
+                                    <div class="message-user-name"  ng-if="p != me" ><span>{{p}}</span></div>
+                                </div>
                                 <div class="message-excerpt" >
                                     <span class="reply" ng-if="conversation.last_message.sender.user_id == me"><i class="fa fa-reply"></i></span>
                                     <span ng-bind-html="conversation.last_message.parts[0].body | colonToSmiley"></span>

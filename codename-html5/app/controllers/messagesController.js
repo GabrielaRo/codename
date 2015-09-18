@@ -6,6 +6,8 @@
         $scope.inbox = [];
         $scope.messageHistory = [];
         $scope.selectedConversation = [];
+        
+        $scope.chatOnline = true;
 
 
         $scope.me = $cookieStore.get('user_nick');
