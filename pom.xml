@@ -74,6 +74,20 @@
 
     <repositories>
         <repository>
+            <id>maven-central</id>
+            <name>Maven Central</name>
+            <url>http://repo.maven.apache.org/maven2/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
             <id>jboss-public-repository-group</id>
             <name>JBoss Public Repository Group</name>
             <url>https://repository.jboss.org/nexus/content/groups/public/</url>

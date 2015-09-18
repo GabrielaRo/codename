@@ -7,6 +7,7 @@
         $scope.messageHistory = [];
         $scope.selectedConversation = [];
 
+
         $scope.me = $cookieStore.get('user_nick');
         $scope.emojiMessage = {};
         $scope.emojiMessage.replyToUser = function () {
@@ -17,68 +18,68 @@
 
         $rootScope.websocket.onmessage = function (evt) {
 
-            var msg = JSON.parse(evt.data);
-            console.log(evt);
-            console.log(msg);
-            switch (msg.type) {
-                case 'message':
-
-                    $presence.newNotifications = $presence.newNotifications + 1;
-                    $presence.notifications.push({date: Date.now(), message: 'text: ' + msg.text});
-
-                    if ($scope.selectedConversation.other_nickname == msg.from) {
-
-                        $scope.$apply(function () {
-                            $scope.messageHistory.push({owner_nickname: msg.from, description: msg.description, text: msg.text, time: Date.now()});
-                        });
-                        var scrollDown = function () {
-                            var newListHeight = $(".messages-history").height();
-                            $("#user-messages-chat").scrollTop(newListHeight);
-                            $scope.$apply(new function () {
-                                $presence.clearNewNotifications();
-                            });
-                        };
-                        setTimeout(scrollDown, 200);
-                    }
-                    for (var i = 0; i < $scope.inbox.length; i++) {
-                        if ($scope.inbox[i].other_nickname == msg.from) {
-                            $scope.inbox[i].excerpt = msg.text;
-                            $scope.inbox[i].time = Date.now();
-                            $scope.inbox[i].newMessage = true;
-                            $scope.inbox[i].from = msg.from;
-                            $scope.inbox[i].to = msg.to;
-                            $scope.inbox[i].onlineStatus = true;
-                        }
-                    }
-                    $scope.$apply(function () {
-                        $filter('orderBy')($scope.inbox, 'conversation.time', true);
-                    });
-
-                    break;
-                case 'online':
-
-                    for (var i = 0; i < $scope.inbox.length; i++) {
-                        if ($scope.inbox[i].other_nickname == msg.from) {
-                            $scope.inbox[i].onlineStatus = true;
-                        }
-                    }
-                    break;
-                case 'offline':
-                    for (var i = 0; i < $scope.inbox.length; i++) {
-                        if ($scope.inbox[i].other_nickname == msg.from) {
-                            $scope.inbox[i].onlineStatus = false;
-                        }
-                    }
-                    break;
-
-            }
+//            var msg = JSON.parse(evt.data);
+//            console.log(evt);
+//            console.log(msg);
+//            switch (msg.type) {
+//                case 'message':
+//
+//                    $presence.newNotifications = $presence.newNotifications + 1;
+//                    $presence.notifications.push({date: Date.now(), message: 'text: ' + msg.text});
+//
+//                    if ($scope.selectedConversation.other_nickname == msg.from) {
+//
+//                        $scope.$apply(function () {
+//                            $scope.messageHistory.push({owner_nickname: msg.from, description: msg.description, text: msg.text, time: Date.now()});
+//                        });
+//                        var scrollDown = function () {
+//                            var newListHeight = $(".messages-history").height();
+//                            $("#user-messages-chat").scrollTop(newListHeight);
+////                            $scope.$apply(new function () {
+////                                $presence.clearNewNotifications();
+////                            });
+//                        };
+//                        setTimeout(scrollDown, 200);
+//                    }
+//                    for (var i = 0; i < $scope.inbox.length; i++) {
+//                        if ($scope.inbox[i].other_nickname == msg.from) {
+//                            $scope.inbox[i].excerpt = msg.text;
+//                            $scope.inbox[i].time = Date.now();
+//                            $scope.inbox[i].newMessage = true;
+//                            $scope.inbox[i].from = msg.from;
+//                            $scope.inbox[i].to = msg.to;
+//                            $scope.inbox[i].onlineStatus = true;
+//                        }
+//                    }
+////                    $scope.$apply(function () {
+////                        $filter('orderBy')($scope.inbox, 'conversation.time', true);
+////                    });
+//
+//                    break;
+//                case 'online':
+//
+//                    for (var i = 0; i < $scope.inbox.length; i++) {
+//                        if ($scope.inbox[i].other_nickname == msg.from) {
+//                            $scope.inbox[i].onlineStatus = true;
+//                        }
+//                    }
+//                    break;
+//                case 'offline':
+//                    for (var i = 0; i < $scope.inbox.length; i++) {
+//                        if ($scope.inbox[i].other_nickname == msg.from) {
+//                            $scope.inbox[i].onlineStatus = false;
+//                        }
+//                    }
+//                    break;
+//
+//            }
         };
 
-        $scope.selectConversation = function (conversation) {
+        $scope.selectConversation = function (conversationUrl) {
 
-            $scope.selectedConversation = conversation;
+            $scope.selectedConversation = conversationUrl;
 
-            $scope.getMessages(conversation.other_nickname);
+            $scope.getMessages(conversationUrl);
 
 
         }
@@ -123,23 +124,72 @@
             });
 
 
-        }
+        };
+        $scope.getOneConversation = function (conversationUrl) {
+            $chat.getOneConversation(conversationUrl).success(function (data) {
+                var idx = -1;
+                for (var i = 0; i < $scope.inbox.length; i++) {
+                    if ($scope.inbox[i].url == conversationUrl) {
+                        idx = i;
+                    }
 
-
-        $scope.sendMessage = function (toUser, message) {
-
-            $scope.messageHistory.push({owner_nickname: $cookieStore.get("user_nick"), description: $cookieStore.get("user_full"), text: message, time: Date.now()});
-            for (var i = 0; i < $scope.inbox.length; i++) {
-                if ($scope.inbox[i].other_nickname == toUser) {
-                    $scope.inbox[i].excerpt = message;
-                    $scope.inbox[i].time = Date.now();
-                    $scope.inbox[i].from = $scope.me;
                 }
+                if (idx != -1) {
+                    console.log("index for conversation: " + idx)
+                    $scope.inbox.splice(idx, 1);
+                }
+                $scope.inbox.push(data);
 
-            }
-            $filter('orderBy')($scope.inbox, 'conversation.time', true);
-            $chat.sendMessage(toUser, message).success(function (data) {
+                var orderBy = $filter('orderBy');
 
+                $scope.inbox = orderBy($scope.inbox, 'last_message.sent_at', true);
+                console.log("after sorting: ");
+                console.log($scope.inbox);
+            }).error(function (data, status) {
+                $error.handleError(data, status);
+
+            });
+
+        };
+
+        $scope.deleteConversation = function (conversationUrl) {
+            $chat.deleteConversation(conversationUrl).success(function (data) {
+                var idx = -1;
+                for (var i = 0; i < $scope.inbox.length; i++) {
+                    if ($scope.inbox[i].url == conversationUrl) {
+                        idx = i;
+                    }
+
+                }
+                if (idx != -1) {
+                    console.log("index for conversation: " + idx)
+                    $scope.inbox.splice(idx, 1);
+                }
+                if ($scope.inbox[0] && !$routeParams.selectedUser) {
+                    $scope.selectedConversation = $scope.inbox[0].url;
+                    $scope.getMessages($scope.selectedConversation);
+                }
+            }).error(function (data, status) {
+                $error.handleError(data, status);
+
+            });
+        };
+
+        $scope.sendMessage = function (conversationUrl, body, mimeType) {
+
+//            $scope.messageHistory.push({owner_nickname: $cookieStore.get("user_nick"), description: $cookieStore.get("user_full"), text: message, time: Date.now()});
+//            for (var i = 0; i < $scope.inbox.length; i++) {
+//                if ($scope.inbox[i].other_nickname == toUser) {
+//                    $scope.inbox[i].excerpt = message;
+//                    $scope.inbox[i].time = Date.now();
+//                    $scope.inbox[i].from = $scope.me;
+//                }
+//
+//            }
+//            $filter('orderBy')($scope.inbox, 'conversation.time', true);
+            $chat.sendMessage(conversationUrl, body, mimeType).success(function (data) {
+                console.log(data);
+                $scope.messageHistory.push(data);
                 $scope.emojiMessage = {};
                 $scope.emojiMessage.replyToUser = function () {
                     if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
@@ -148,6 +198,7 @@
                 };
                 var newListHeight = $(".messages-history").height();
                 $("#user-messages-chat").animate({scrollTop: newListHeight}, 200);
+                $scope.getOneConversation(conversationUrl);
 
             }).error(function (data, status) {
                 $error.handleError(data, status);
@@ -164,17 +215,18 @@
 
         }
 
-        $scope.getMessages = function (other_nickname) {
+        $scope.getMessages = function (selectedConversation) {
 
-            $chat.getMessages(other_nickname).success(function (data) {
+
+            $chat.getMessages(selectedConversation).success(function (data) {
+                console.log('Messages >>>>>> ');
+                console.log(data);
                 $scope.messageHistory = data;
-
+                //$filter('orderBy')($scope.messageHistory, 'position', false);
                 var scrollDown = function () {
                     var newListHeight = $(".messages-history").height();
                     $("#user-messages-chat").scrollTop(newListHeight);
-                    $scope.$apply(new function () {
-                        $presence.clearNewNotifications();
-                    });
+
                 };
                 setTimeout(scrollDown, 200);
 
@@ -189,35 +241,83 @@
         $scope.getConversations = function () {
             $scope.inbox = [];
             $chat.getConversations().success(function (data) {
+                console.log('loading conversations.....');
+                console.log(data);
                 $scope.inbox = data;
-
+                //$filter('orderBy')($scope.inbox, 'lastmessage.recieved_at', false);
+                console.log('$routeParams.selectedUser' + $routeParams.selectedUser);
                 if ($routeParams.selectedUser) {
-                    var selected = false;
-                    for (var i = 0; i < $scope.inbox.length; i++) {
-                        if ($scope.inbox[i].other_nickname == $routeParams.selectedUser) {
-                            $scope.selectConversation($scope.inbox[i]);
-                            selected = true;
-                        }
-                    }
-                    if (!selected) {
-                        $scope.inbox.push({other_nickname: $routeParams.selectedUser, description: $routeParams.firstname + " " + $routeParams.lastname,
-                            excerpt: '...', time: Date.now(), onlineStatus: $routeParams.status});
-                        $scope.selectConversation($scope.inbox[$scope.inbox.length - 1]);
-                    }
+                    $chat.newConversation([$cookieStore.get('user_nick'),
+                        $routeParams.selectedUser]).success(function (data) {
+                        console.log('conversation created!');
+                        console.log(data);
+                        $scope.inbox.push(data);
+                        $scope.selectConversation(data.url);
+
+                    }).error(function (data, status) {
+                        console.log("Error: ");
+                        console.log(data);
+                        console.log(status);
+                    });
+//                    var selected = false;
+//                    for (var i = 0; i < $scope.inbox.length; i++) {
+//                        if ($scope.inbox[i].other_nickname == $routeParams.selectedUser) {
+//                            $scope.selectConversation($scope.inbox[i]);
+//                            selected = true;
+//                        }
+//                    }
+//                    if (!selected) {
+//                        $scope.inbox.push({other_nickname: $routeParams.selectedUser, description: $routeParams.firstname + " " + $routeParams.lastname,
+//                            excerpt: '...', time: Date.now(), onlineStatus: $routeParams.status});
+//                        $scope.selectConversation($scope.inbox[$scope.inbox.length - 1]);
+//                    }
 
                 } else if ($scope.inbox[0] && !$routeParams.selectedUser) {
-                    $scope.selectedConversationOtherNickname = $scope.inbox[0].other_nickname;
-                    $scope.getMessages($scope.selectedConversationOtherNickname);
-                    $scope.selectedUserName = $scope.inbox[0].description;
-                    $scope.selectedConversation = $scope.inbox[0];
+                    //$scope.selectedConversationOtherNickname = $scope.inbox[0].other_nickname;
+                    //$scope.getMessages($scope.selectedConversationOtherNickname);
+                    //$scope.selectedUserName = $scope.inbox[0].description;
+                    $scope.selectedConversation = $scope.inbox[0].url;
+                    $scope.getMessages($scope.selectedConversation);
                 }
-                $filter('orderBy')($scope.inbox, 'conversation.time', true);
+
 
 
             }).error(function (data, status) {
-                $error.handleError(data, status);
+                console.log("Error: ");
+                console.log(data);
+                console.log(status);
             });
-        }
+//            $chat.getConversations().success(function (data) {
+//                $scope.inbox = data;
+//
+//                if ($routeParams.selectedUser) {
+//                    var selected = false;
+//                    for (var i = 0; i < $scope.inbox.length; i++) {
+//                        if ($scope.inbox[i].other_nickname == $routeParams.selectedUser) {
+//                            $scope.selectConversation($scope.inbox[i]);
+//                            selected = true;
+//                        }
+//                    }
+//                    if (!selected) {
+//                        $scope.inbox.push({other_nickname: $routeParams.selectedUser, description: $routeParams.firstname + " " + $routeParams.lastname,
+//                            excerpt: '...', time: Date.now(), onlineStatus: $routeParams.status});
+//                        $scope.selectConversation($scope.inbox[$scope.inbox.length - 1]);
+//                    }
+//
+//                } else if ($scope.inbox[0] && !$routeParams.selectedUser) {
+//                    $scope.selectedConversationOtherNickname = $scope.inbox[0].other_nickname;
+//                    $scope.getMessages($scope.selectedConversationOtherNickname);
+//                    $scope.selectedUserName = $scope.inbox[0].description;
+//                    $scope.selectedConversation = $scope.inbox[0];
+//                }
+//                $filter('orderBy')($scope.inbox, 'conversation.time', true);
+//
+//
+//            }).error(function (data, status) {
+//                $error.handleError(data, status);
+//            });
+        };
+
 
         $scope.getConversations();
 

@@ -8,7 +8,14 @@
         server: 'http://localhost:8080/',
         address: "localhost",
         port: "8080",
-        context: 'codename-server/'
+        context: 'codename-server/',
+        chatServer: 'https://api.layer.com',
+        chatHeaders: {
+            Accept: 'application/vnd.layer+json; version=1.0',
+            Authorization: '',
+            'Content-type': 'application/json'
+        },
+        chatAppId: 'a094788a-52e8-11e5-ae20-faf631006ce3'
 
     })
             // configure our routes
@@ -128,11 +135,6 @@
                         .otherwise({
                             redirectTo: '/'
                         });
-//                $authProvider.google({
-//                    url: '/' + "codename-server/" + '/rest/auth/google',
-//                    redirectUri: window.location.protocol + '//' + window.location.host + '/' + "codename-server/",
-//                    clientId: '475121985833-g2ludjvano3pbgbt98nvt04h7ojmvpjv.apps.googleusercontent.com'
-//                });
             });
 
 

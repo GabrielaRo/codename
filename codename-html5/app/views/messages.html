@@ -10,18 +10,18 @@
         <div class="left-col">
             <div class="content-block no-margin">
                 <div class="content-block-title">
-                    Inbox  
+                    Inbox 
                 </div>
                 <div class="content-block-content">
                     <div id="user-messages-inbox">
-                        <div class="inbox-message" ng-repeat="conversation in inbox| orderBy: -conversation.time" ng-click="selectConversation(conversation)" ng-class="{active: selectedConversation.description == conversation.description, blocked: conversation.blocked, new: conversation.newMessage == true}">
+                        <div class="inbox-message" ng-repeat="conversation in inbox | orderBy:'last_message.sent_at':true" ng-click="selectConversation(conversation.url)" ng-class="{active: selectedConversation == conversation.url, blocked: conversation.blocked, new: conversation.last_message.is_unread == true}">
                             
                             <div class="user-avatar">
 
-                                <div class="message-user-avatar hexagon">
-                                    <div class="hexagon-inner-1">
-
-                                        <div class="hexagon-inner-2 avatar" style="background-image: url('{{serverUrlFull + 'rest/public/users/' + conversation.other_nickname + '/avatar?size=90'}}');">
+                                <div class="message-user-avatar hexagon" ng-repeat="p in conversation.participants">
+                                    <div class="hexagon-inner-1" >
+                                        
+                                        <div class="hexagon-inner-2 avatar" ng-if="p != me" style="background-image: url('{{serverUrlFull + 'rest/public/users/' + p + '/avatar?size=90'}}');">
 
 
                                         </div>
@@ -39,13 +39,15 @@
                             
                             <div class="message-data">
                                
-                                <div class="message-user-name">{{conversation.description}}</div>
-
+                                <div class="message-user-name" ng-repeat="p in conversation.participants"><span ng-if="p != me">{{p}}</span></div>
+                                
                                 <div class="message-excerpt" >
-                                    <span class="reply" ng-if="(conversation.from == me)"><i class="fa fa-reply"></i></span>
-                                    <span ng-bind-html="conversation.excerpt | colonToSmiley"></span>
+                                    <span class="reply" ng-if="conversation.last_message.sender.user_id == me"><i class="fa fa-reply"></i></span>
+                                    <span ng-bind-html="conversation.last_message.parts[0].body | colonToSmiley"></span>
+                                    <span>Unread: {{conversation.unread_message_count}}</span>
+                                    <a ng-click="deleteConversation(conversation.url)">X</a>
                                 </div>
-                                <div class="message-date">{{conversation.time| date:'EEE HH:mm'}}</div>
+                                <div class="message-date">{{conversation.last_message.received_at| date:'EEE HH:mm'}}</div>
                             </div>
                         </div>
                          <a href class="button block" ng-if="inbox.length > 6">Load more</a>
@@ -99,17 +101,17 @@
                         <div class="messages-history" ng-if="!selectedConversation.blocked">
                            
                             <div class="messages-history-day" >
-                                <div class="day-name" ng-if="selectedConversation.description.length">
+                                <div class="day-name" ng-if="selectedConversation">
                                     <span>
                                         <a href class="button inverted small">Load more</a>
                                     </span>
                                 </div>
                                 <div class="day-messages">
-                                    <div class="history-message" ng-repeat="message in messageHistory">
+                                    <div class="history-message" ng-repeat="message in messageHistory | orderBy:'position':reverse">
                                         <div class="user-avatar">
                                             <div class="history-message-user-avatar hexagon">
                                                 <div class="hexagon-inner-1">
-                                                    <div class="hexagon-inner-2 avatar" style="background-image: url('{{serverUrlFull + 'rest/public/users/' + message.owner_nickname + '/avatar?size=90'}}');">
+                                                    <div class="hexagon-inner-2 avatar" style="background-image: url('{{serverUrlFull + 'rest/public/users/' + message.sender.user_id + '/avatar?size=90'}}');">
 
                                                     </div>
                                                 </div>
@@ -117,12 +119,12 @@
                                         </div>
                                         <div class="message-body">
                                             <div class="message-hour">
-                                                {{message.time| date:'EEE HH:mm'}}
+                                                {{message.sent_at| date:'EEE HH:mm'}}
                                             </div>
                                             <div class="message-user">
-                                                {{message.description}}
+                                                {{message.sender.user_id}}
                                             </div>
-                                            <div ng-bind-html="message.text | colonToSmiley" class="message-text">
+                                            <div ng-bind-html="message.parts[0].body | colonToSmiley" class="message-text">
                                                 
                                             </div>
                                         </div>
@@ -133,15 +135,15 @@
                     </div>
                     <div id="user-messages-send">
                         <div class="send-input" emoji-form emoji-message="emojiMessage">
-                            <textarea ng-model="emojiMessage.messagetext" id="sendMessageTextArea"  ng-disabled="!selectedConversation.description.length || selectedConversation.blocked" placeholder="Write your message here..." ng-class="{disabled: !selectedConversation.description.length || selectedConversation.blocked}" ></textarea>
+                            <textarea ng-model="emojiMessage.messagetext" id="sendMessageTextArea"  ng-disabled="!selectedConversation" placeholder="Write your message here..." ng-class="{disabled: !selectedConversation}" ></textarea>
                         </div>  
                        <!-- <button id="emojibtn">
                                 <i class="icon icon-emoji"></i>
                         </button>-->
                         <div class="send-actions">
                             
-                            <button id="sendMessageButton" class="button primary" ng-disabled="!selectedConversation.description.length || selectedConversation.blocked" 
-                                    ng-click="sendMessage(selectedConversation.other_nickname, emojiMessage.messagetext)" >Send</button>
+                            <button id="sendMessageButton" class="button primary" ng-disabled="!selectedConversation" 
+                                    ng-click="sendMessage(selectedConversation, emojiMessage.messagetext,'text/plain')" >Send</button>
                         </div>
                     </div>
                 </div>
