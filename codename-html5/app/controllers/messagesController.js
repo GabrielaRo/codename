@@ -6,16 +6,22 @@
         $scope.inbox = [];
         $scope.messageHistory = [];
         $scope.selectedConversation = [];
-        
-        $scope.chatOnline = true;
 
+        
 
         $scope.me = $cookieStore.get('user_nick');
+        $scope.meFull = $cookieStore.get('user_full');
         $scope.emojiMessage = {};
         $scope.emojiMessage.replyToUser = function () {
             if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
                 $('#sendMessageButton').click();
             }
+        };
+
+        $scope.reConnectChat = function () {
+            $rootScope.initChat();
+            $rootScope.chatOnline = appConstants.chatOnline;
+            $scope.getConversations();
         };
 
         $rootScope.websocket.onmessage = function (evt) {
@@ -77,11 +83,11 @@
 //            }
         };
 
-        $scope.selectConversation = function (conversationUrl) {
+        $scope.selectConversation = function (conversation) {
 
-            $scope.selectedConversation = conversationUrl;
+            $scope.selectedConversation = conversation;
 
-            $scope.getMessages(conversationUrl);
+            $scope.getMessages(conversation.url);
 
 
         }
@@ -140,6 +146,7 @@
                     console.log("index for conversation: " + idx)
                     $scope.inbox.splice(idx, 1);
                 }
+                data.metadata.participantsName = JSON.parse(data.metadata.participantsName); 
                 $scope.inbox.push(data);
 
                 var orderBy = $filter('orderBy');
@@ -171,6 +178,9 @@
                     $scope.selectedConversation = $scope.inbox[0].url;
                     $scope.getMessages($scope.selectedConversation);
                 }
+                if ($scope.inbox.length == 0) {
+                    $scope.selectedConversation = '';
+                }
             }).error(function (data, status) {
                 $error.handleError(data, status);
 
@@ -190,7 +200,7 @@
 //            }
 //            $filter('orderBy')($scope.inbox, 'conversation.time', true);
             $chat.sendMessage(conversationUrl, body, mimeType).success(function (data) {
-                console.log(data);
+                
                 $scope.messageHistory.push(data);
                 $scope.emojiMessage = {};
                 $scope.emojiMessage.replyToUser = function () {
@@ -243,18 +253,21 @@
         $scope.getConversations = function () {
             $scope.inbox = [];
             $chat.getConversations().success(function (data) {
-                console.log('loading conversations.....');
-                console.log(data);
+                
+                for(var i = 0; i < data.length; i++){
+                    console.log(JSON.parse(data[i].metadata.participantsName));
+                    data[i].metadata.participantsName = JSON.parse(data[i].metadata.participantsName);
+                }
                 $scope.inbox = data;
-                //$filter('orderBy')($scope.inbox, 'lastmessage.recieved_at', false);
-                console.log('$routeParams.selectedUser' + $routeParams.selectedUser);
+                
                 if ($routeParams.selectedUser) {
-                    $chat.newConversation([$cookieStore.get('user_nick'),
-                        $routeParams.selectedUser]).success(function (data) {
-                        console.log('conversation created!');
-                        console.log(data);
+                    $chat.newConversation([$cookieStore.get('user_nick'), $routeParams.selectedUser], 
+                        [$cookieStore.get('user_full'), $routeParams.firstname + " " + $routeParams.lastname]
+                                ).success(function (data) {
+                       console.log(data);
+                        data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
                         $scope.inbox.push(data);
-                        $scope.selectConversation(data.url);
+                        $scope.selectConversation(data);
 
                     }).error(function (data, status) {
                         console.log("Error: ");
@@ -320,8 +333,19 @@
 //            });
         };
 
+        $scope.$watch('chatOnline',
+                function (newValue) {
+                    if (newValue == false) {
+                        console.log("reconnecting chat.. becuase it is offline");
+                        $rootScope.initChat();
+                        $scope.chatOnline = appConstants.chatOnline;
+                    } else {
+                        console.log("getting conversations because the chat is online");
+                        $scope.getConversations();
 
-        $scope.getConversations();
+                    }
+                });
+
 
 
 

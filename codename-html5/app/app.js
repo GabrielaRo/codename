@@ -74,7 +74,7 @@
                                 requiresProfile: true
                             }
                         })
-                        .when('/messages/:selectedUser/:firstname/:lastname/:status', {
+                        .when('/messages/:selectedUser/:firstname/:lastname', {
                             templateUrl: 'views/messages.html',
                             controller: 'messagesController',
                             access: {

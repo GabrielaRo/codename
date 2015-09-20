@@ -92,7 +92,7 @@
             if (isValid) {
                 $users.login(user).success(function (data) {
                     $rootScope.$broadcast("quickNotification", "You are logged now, have fun!", 'success');
-                    
+
                     $cookieStore.put('auth_token', data.auth_token);
                     $cookieStore.put('email', data.email);
                     $cookieStore.put('user_id', data.user_id);
@@ -113,7 +113,7 @@
                     $rootScope.submitted = false;
                     $rootScope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $rootScope.user_nick + '/avatar?size=250' + '&' + new Date().getTime() + ')'};
                     $sockets.initWebSocket();
-                    $scope.initChat();
+                    $rootScope.initChat();
                     if ($rootScope.firstLogin) {
                         $rootScope.$broadcast('goTo', "/profile");
                     } else {
@@ -126,19 +126,16 @@
             }
         };
 
-        $scope.initChat = function () {
+        $rootScope.initChat = function () {
 
             $chat.getNonce().success(function (data) {
-                console.log("YEAH");
-                console.log(data);
-                $chat.getIdentityToken(data.nonce).success(function (data) {
-                    console.log("YEAH");
-                    console.log(data);
-                    $chat.getChatSession(data.identity_token).success(function (data) {
-                        console.log("YEAH");
-                        console.log(data);
-                        appConstants.chatHeaders.Authorization = 'Layer session-token=' + data.session_token;
 
+                $chat.getIdentityToken(data.nonce).success(function (data) {
+
+                    $chat.getChatSession(data.identity_token).success(function (data) {
+
+                        appConstants.chatHeaders.Authorization = 'Layer session-token=' + data.session_token;
+                        $rootScope.chatOnline = true;
 
                     }).error(function (data, status) {
                         console.log("Error: ");
@@ -158,7 +155,7 @@
             });
         };
 
-        
+
 
         $scope.authenticate = function (provider) {
             $auth.authenticate(provider)
@@ -187,7 +184,7 @@
                                 $rootScope.submitted = false;
                                 $rootScope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $rootScope.user_nick + '/avatar?size=250' + '&' + new Date().getTime() + ')'};
                                 $sockets.initWebSocket();
-                                $scope.initChat();
+                                $rootScope.initChat();
                                 if ($rootScope.firstLogin) {
                                     $rootScope.$broadcast('goTo', "/profile");
                                 } else {
@@ -211,7 +208,7 @@
 
             $rootScope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $rootScope.user_nick + '/avatar?size=250' + '&' + new Date().getTime() + ')'};
             $sockets.initWebSocket();
-            $scope.initChat();
+            $rootScope.initChat();
         }
 
         $rootScope.$on("updateUser", function (event, data) {

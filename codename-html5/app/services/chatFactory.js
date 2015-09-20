@@ -39,7 +39,7 @@
 
 
         //new conversation
-        factory.newConversation = function (participants) {
+        factory.newConversation = function (participants, participantsName) {
             return $http({
                 method: 'POST',
                 url: appConstants.chatServer + '/conversations',
@@ -47,7 +47,7 @@
                 data: JSON.stringify({
                     participants: participants,
                     distinct: false,
-                    metadata: {}})
+                    metadata: {participantsName : JSON.stringify(participantsName)}})
             });
         };
 
