@@ -129,27 +129,27 @@
 
             });
         };
-        $scope.getLastSentMessageStatus = function(recipient_status){
+        $scope.getLastSentMessageStatus = function (recipient_status) {
             var status;
-            for (var prop in recipient_status){
-                if(recipient_status.hasOwnProperty(prop)) {
-                    
-                    if(prop !== $scope.me ){
+            for (var prop in recipient_status) {
+                if (recipient_status.hasOwnProperty(prop)) {
+
+                    if (prop !== $scope.me) {
                         status = recipient_status[prop];
-                        
+
                     }
                 }
             }
             console.log(status);
             return status;
-            
+
         };
-        
-        
+
+
         $scope.sendMessage = function (conversationUrl, body, mimeType) {
             $scope.sendText = 'Sending...';
             $chat.sendMessage(conversationUrl, body, mimeType).success(function (data) {
-                
+
                 $scope.messageHistory.push(data);
                 $scope.emojiMessage = {};
                 $scope.emojiMessage.replyToUser = function () {
@@ -225,7 +225,7 @@
             $chat.getConversations().success(function (data) {
                 console.log(data);
                 for (var i = 0; i < data.length; i++) {
-                    if(data[i].metadata.participantsName){
+                    if (data[i].metadata.participantsName) {
                         data[i].metadata.participantsName = JSON.parse(data[i].metadata.participantsName);
                     }
                 }
@@ -237,11 +237,24 @@
                 $scope.inbox = data;
 
                 if ($routeParams.selectedUser) {
+
+
                     $chat.newConversation([$cookieStore.get('user_nick'), $routeParams.selectedUser],
                             [$cookieStore.get('user_full'), $routeParams.firstname + " " + $routeParams.lastname]
                             ).success(function (data) {
                         console.log(data);
                         data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
+                        var idx = -1;
+                        for (var i = 0; i < $scope.inbox.length; i++) {
+                            if ($scope.inbox[i].url === data.url) {
+                                idx = i;
+                            }
+
+                        }
+                        if (idx !== -1) {
+                            console.log("index for conversation: " + idx)
+                            $scope.inbox.splice(idx, 1);
+                        }
                         $scope.inbox.push(data);
                         $scope.selectConversation(data);
 

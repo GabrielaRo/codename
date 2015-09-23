@@ -35,7 +35,6 @@
                 <div class="content-block-content">
                     <div id="user-messages-inbox">
                         <div class="inbox-message" ng-repeat="conversation in inbox | orderBy:'last_message.sent_at':true" ng-click="selectConversation(conversation)" ng-class="{active: selectedConversation.url == conversation.url, blocked: conversation.blocked, new: conversation.last_message.is_unread == true}">
-                            
                             <div class="user-avatar">
                                 
                                 <div class="message-user-avatar hexagon" ng-repeat="p in conversation.participants">

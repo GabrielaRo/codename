@@ -8,7 +8,7 @@
 //                    + "fhellow?nickname=" + $cookieStore.get('user_nick');
 
             if ($rootScope.chat_session_token) {
-                $rootScope.websocket = new WebSocket('wss://api.layer.com/websocket?session_token=' + $rootScope.chat_session_token, 'com.layer.notifications-1.0');
+                $rootScope.websocket = new WebSocket('wss://api.layer.com/websocket?session_token=' + $rootScope.chat_session_token, 'layer-1.0');
                 $rootScope.websocket.onopen = function (evt) {
                     console.log(">>> WS on Open");
                 };
@@ -29,6 +29,7 @@
                                         $rootScope.newNotifications = $rootScope.newNotifications + 1;
                                         console.log("notifications now: " + $rootScope.newNotifications);
                                     });
+                                    
                                 }
                                 break;
                             case "change.delete":

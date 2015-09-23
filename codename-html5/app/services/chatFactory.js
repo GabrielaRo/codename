@@ -46,7 +46,7 @@
                 headers: appConstants.chatHeaders,
                 data: JSON.stringify({
                     participants: participants,
-                    distinct: false,
+                    distinct: true,
                     metadata: {participantsName : JSON.stringify(participantsName)}})
             });
         };
