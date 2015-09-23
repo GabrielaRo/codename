@@ -1,10 +1,8 @@
 (function () {
 
-    var notificationsController = function ($scope, $presence) {
-        console.log($presence.notifications);
+    var notificationsController = function ($scope, $rootScope) {
+        
 
-        $scope.newNotifications = $presence.newNotifications;
-        $scope.notifications = $presence.notifications;
 //        $rootScope.websocket.onmessage = function (evt) {
 //
 //            var msg = JSON.parse(evt.data);

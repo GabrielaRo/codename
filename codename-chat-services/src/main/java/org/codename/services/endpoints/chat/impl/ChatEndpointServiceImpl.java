@@ -47,7 +47,6 @@ public class ChatEndpointServiceImpl implements ChatEndpointService {
     @Override
     public Response sendMessage(String toUser, String sender, String message) throws ServiceException {
         chatService.sendMessage(toUser, sender, message);
-
         return Response.ok().build();
     }
 

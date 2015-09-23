@@ -103,6 +103,27 @@
                 })
             });
         };
+        
+        //send message
+        factory.markAsReadConversation = function (conversationUrl, message_id) {
+            return $http({
+                method: 'POST',
+                url: conversationUrl + '/messages/receipts',
+                headers: appConstants.chatHeaders,
+                data: JSON.stringify({type: "read", message_id: message_id})
+            });
+        };
+       
+        
+        //send message
+        factory.markAsReadMessage = function (messageUrl) {
+            return $http({
+                method: 'POST',
+                url: messageUrl + '/receipts',
+                headers: appConstants.chatHeaders,
+                data: JSON.stringify({type: "read"})
+            });
+        };
        
 
 

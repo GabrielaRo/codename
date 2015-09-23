@@ -19,8 +19,6 @@
         $scope.$routeParams = $routeParams;
 
 
-
-
         $rootScope.$on('quickNotification', function (event, data, type) {
             var config = {};
 
@@ -112,7 +110,7 @@
                     $rootScope.credentials = {};
                     $rootScope.submitted = false;
                     $rootScope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $rootScope.user_nick + '/avatar?size=250' + '&' + new Date().getTime() + ')'};
-                    $sockets.initWebSocket();
+
                     $rootScope.initChat();
                     if ($rootScope.firstLogin) {
                         $rootScope.$broadcast('goTo', "/profile");
@@ -129,13 +127,33 @@
         $rootScope.initChat = function () {
 
             $chat.getNonce().success(function (data) {
-
+//                console.log("nonce = ");
+//                        console.log(data.nonce);
                 $chat.getIdentityToken(data.nonce).success(function (data) {
-
+//                    console.log("identity token = ");
+//                        console.log(data.identity_token);
                     $chat.getChatSession(data.identity_token).success(function (data) {
 
+//                        console.log("session_token = ");
+//                        console.log(data.session_token);
+                        $rootScope.chat_session_token = data.session_token;
                         appConstants.chatHeaders.Authorization = 'Layer session-token=' + data.session_token;
+                        $sockets.initWebSocket();
                         $rootScope.chatOnline = true;
+
+                        $chat.getConversations().success(function (data) {
+                            var unread = 0;
+                            for (var i = 0; i < data.length; i++) {
+
+                                unread += data[i].unread_message_count;
+                            }
+                            $rootScope.newNotifications = unread;
+
+                        }).error(function (data, status) {
+                            console.log("Error: ");
+                            console.log(data);
+                            console.log(status);
+                        });
 
                     }).error(function (data, status) {
                         console.log("Error: ");
@@ -153,6 +171,8 @@
                 console.log(data);
                 console.log(status);
             });
+
+
         };
 
 
@@ -183,7 +203,7 @@
                                 $rootScope.credentials = {};
                                 $rootScope.submitted = false;
                                 $rootScope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $rootScope.user_nick + '/avatar?size=250' + '&' + new Date().getTime() + ')'};
-                                $sockets.initWebSocket();
+
                                 $rootScope.initChat();
                                 if ($rootScope.firstLogin) {
                                     $rootScope.$broadcast('goTo', "/profile");
@@ -207,7 +227,7 @@
         if ($rootScope.auth_token && $rootScope.auth_token !== "") {
 
             $rootScope.avatarStyle = {'background-image': 'url(' + appConstants.server + appConstants.context + 'rest/public/users/' + $rootScope.user_nick + '/avatar?size=250' + '&' + new Date().getTime() + ')'};
-            $sockets.initWebSocket();
+
             $rootScope.initChat();
         }
 

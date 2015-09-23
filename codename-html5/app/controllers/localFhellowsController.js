@@ -188,15 +188,15 @@
                     for (var i = 0; i < fhellows.length; i++) {
                         nicknames.push(fhellows[i].nickname);
                     }
-
-                    $presence.getUsersState(nicknames).success(function (states) {
-                        for (var i = 0; i < fhellows.length; i++) {
-                            fhellows[i].onlineStatus = states[i];
-                        }
-                        $scope.fhellowsList = $scope.fhellowsList.concat(fhellows);
-                    }).error(function (data, status) {
-                        $error.handleError(data, status);
-                    });
+                    $scope.fhellowsList = $scope.fhellowsList.concat(fhellows);
+//                    $presence.getUsersState(nicknames).success(function (states) {
+//                        for (var i = 0; i < fhellows.length; i++) {
+//                            fhellows[i].onlineStatus = states[i];
+//                        }
+//                        $scope.fhellowsList = $scope.fhellowsList.concat(fhellows);
+//                    }).error(function (data, status) {
+//                        $error.handleError(data, status);
+//                    });
                 } else {
 
                     $scope.noMoreResults = true;
@@ -234,16 +234,16 @@
                                 nicknames.push(fhellows[i].nickname);
                             }
 
-
-                            $presence.getUsersState(nicknames).success(function (states) {
-
-                                for (var i = 0; i < fhellows.length; i++) {
-                                    fhellows[i].onlineStatus = states[i];
-                                }
-                                $scope.fhellowsList = $scope.fhellowsList.concat(fhellows);
-                            }).error(function (data, status) {
-                                $error.handleError(data, status);
-                            });
+                             $scope.fhellowsList = $scope.fhellowsList.concat(fhellows);
+//                            $presence.getUsersState(nicknames).success(function (states) {
+//
+//                                for (var i = 0; i < fhellows.length; i++) {
+//                                    fhellows[i].onlineStatus = states[i];
+//                                }
+//                                $scope.fhellowsList = $scope.fhellowsList.concat(fhellows);
+//                            }).error(function (data, status) {
+//                                $error.handleError(data, status);
+//                            });
                         } else {
 
                             $scope.noMoreResults = true;
