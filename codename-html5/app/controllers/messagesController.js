@@ -208,8 +208,9 @@
             $chat.getConversations().success(function (data) {
                 console.log(data);
                 for (var i = 0; i < data.length; i++) {
-
-                    data[i].metadata.participantsName = JSON.parse(data[i].metadata.participantsName);
+                    if(data[i].metadata.participantsName){
+                        data[i].metadata.participantsName = JSON.parse(data[i].metadata.participantsName);
+                    }
                 }
                 var unread = 0;
                 for (var i = 0; i < data.length; i++) {
