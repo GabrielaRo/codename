@@ -7,7 +7,7 @@
         $scope.messageHistory = [];
         $scope.selectedConversation = [];
 
-
+        $scope.sendText = 'Send';
 
         $scope.me = $cookieStore.get('user_nick');
         $scope.meFull = $cookieStore.get('user_full');
@@ -129,11 +129,27 @@
 
             });
         };
-
+        $scope.getLastSentMessageStatus = function(recipient_status){
+            var status;
+            for (var prop in recipient_status){
+                if(recipient_status.hasOwnProperty(prop)) {
+                    
+                    if(prop !== $scope.me ){
+                        status = recipient_status[prop];
+                        
+                    }
+                }
+            }
+            console.log(status);
+            return status;
+            
+        };
+        
+        
         $scope.sendMessage = function (conversationUrl, body, mimeType) {
-
+            $scope.sendText = 'Sending...';
             $chat.sendMessage(conversationUrl, body, mimeType).success(function (data) {
-
+                
                 $scope.messageHistory.push(data);
                 $scope.emojiMessage = {};
                 $scope.emojiMessage.replyToUser = function () {
@@ -144,6 +160,7 @@
                 var newListHeight = $(".messages-history").height();
                 $("#user-messages-chat").animate({scrollTop: newListHeight}, 200);
                 $scope.getOneConversation(conversationUrl);
+                $scope.sendText = 'Send';
 
             }).error(function (data, status) {
                 $error.handleError(data, status);

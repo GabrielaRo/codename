@@ -140,14 +140,17 @@
                                         </div>
                                         <div class="message-body">
                                             <div class="message-hour">
+                                                
                                                 {{message.sent_at| date:'EEE HH:mm'}}
                                             </div>
+                                            
                                             <div class="message-user">
                                                 {{message.sender.user_id}}
                                             </div>
                                             <div ng-bind-html="message.parts[0].body | colonToSmiley" class="message-text">
                                                 
                                             </div>
+                                            <div ng-if="$last && getLastSentMessageStatus(message.recipient_status) == 'read'">Read</div>
                                         </div>
                                     </div>
                                 </div>
@@ -164,7 +167,7 @@
                         <div class="send-actions">
                             
                             <button id="sendMessageButton" class="button primary" ng-disabled="!selectedConversation" 
-                                    ng-click="sendMessage(selectedConversation.url, emojiMessage.messagetext,'text/plain')" >Send</button>
+                                    ng-click="sendMessage(selectedConversation.url, emojiMessage.messagetext,'text/plain')" >{{sendText}}</button>
                         </div>
                     </div>
                 </div>
