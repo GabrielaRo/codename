@@ -91,6 +91,8 @@
                 left: 43px;
             }
             
+          
+            
         }
         
         .message-data {
@@ -191,6 +193,22 @@
                 left: 43px;
             }
             
+            .unread-badge {
+                height: 18px;
+                line-height: 17px;
+                color: @textLight;
+                font-weight: @regularText;
+                padding: 0 7px;
+                position: absolute;
+                z-index: 15;
+                border-radius: 7px;
+                background-color: @link;
+                top: 20px;
+                left: 7px;
+                font-size: @badgeFontSize;
+ 
+            }
+            
         }
         
         .message-data {
@@ -235,7 +253,7 @@
         }
         &.active {
             background-color: @link !important;
-            color: @textLight;
+            color: @textDark;
         }
         
         &.blocked {
@@ -324,6 +342,11 @@
                             color: @textGrayLight;
                             padding-right: (@padding*1.5);
                         }
+                    }
+                    .message-read-status {
+                        font-size: @dayFontSize;
+                        color: @textGrayLight;
+                        opacity: .5;
                     }
                 }
             }
