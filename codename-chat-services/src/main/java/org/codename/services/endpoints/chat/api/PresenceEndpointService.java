@@ -7,9 +7,10 @@ package org.codename.services.endpoints.chat.api;
 
 import java.io.Serializable;
 import javax.ejb.Local;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
@@ -34,6 +35,10 @@ public interface PresenceEndpointService extends Serializable {
     @Produces({"application/json"})
     Response getUsersState(@QueryParam("users") String users) throws ServiceException;
     
+    @PUT
+    @Path("/")
+    @Produces({"application/json"})
+    Response registerInterstInUser(@FormParam("nickname") String nickname, @FormParam("otherUser") String otherUser);
     
 
 }

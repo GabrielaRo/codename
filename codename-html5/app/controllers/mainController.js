@@ -3,7 +3,7 @@
 
     angular.module('codename');
 
-    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, appConstants, $sockets, $routeParams, growl, $chat, $error) {
+    var MainCtrl = function ($scope, $cookieStore, $rootScope, $users, $auth, appConstants, $sockets, $routeParams, growl, $chat, $presence, $error) {
         $rootScope.auth_token = $cookieStore.get('auth_token');
         $rootScope.email = $cookieStore.get('email');
         $rootScope.user_id = $cookieStore.get('user_id');
@@ -11,8 +11,12 @@
         $rootScope.user_id = $cookieStore.get('user_roles');
         $rootScope.user_nick = $cookieStore.get('user_nick');
         $rootScope.firstLogin = $cookieStore.get('firstLogin');
+        $rootScope.inbox = [];
+        $rootScope.messageHistory = [];
+        $rootScope.selectedConversation = '';
         $scope.index = 0;
         $scope.notifications = [];
+
 
         $rootScope.avatarStyle = "";
         $rootScope.socket = {};
@@ -148,6 +152,22 @@
                                 unread += data[i].unread_message_count;
                             }
                             $rootScope.newNotifications = unread;
+                            var usernicknames = [];
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].metadata.participantsName) {
+                                    data[i].metadata.participantsName = JSON.parse(data[i].metadata.participantsName);
+
+                                }
+                                for (var j = 0; j < data[i].participants.length; j++) {
+                                    if (data[i].participants[j] !== $cookieStore.get('user_nick')) {
+                                        usernicknames.push(data[i].participants[j]);
+                                    }
+                                }
+                            }
+                            console.log('registering interest in users: ');
+                            console.log(usernicknames);
+                            $presence.registerInterestInUsers(usernicknames);
+                            $rootScope.inbox = data;
 
                         }).error(function (data, status) {
                             console.log("Error: ");
@@ -241,7 +261,7 @@
 
 
     MainCtrl.$inject = ['$scope', '$cookieStore', '$rootScope', '$users', '$auth',
-        'appConstants', '$sockets', '$routeParams', 'growl', '$chat', '$error'];
+        'appConstants', '$sockets', '$routeParams', 'growl', '$chat', '$presence', '$error'];
     angular.module("codename").controller("MainCtrl", MainCtrl);
 }());
 

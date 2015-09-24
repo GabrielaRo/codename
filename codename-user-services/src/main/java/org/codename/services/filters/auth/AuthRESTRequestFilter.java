@@ -34,13 +34,13 @@ public class AuthRESTRequestFilter implements ContainerRequestFilter {
 
         String path = requestCtx.getUriInfo().getPath();
 
-        log.info("Filtering request path: " + path);
+//        log.info("Filtering request path: " + path);
 
         // IMPORTANT!!! First, Acknowledge any pre-flight test from browsers for this case before validating the headers (CORS stuff)
         if (requestCtx.getRequest().getMethod().equals("OPTIONS")) {
 
             requestCtx.abortWith(Response.status(Response.Status.OK).build());
-            log.info("OPTIONS related request" + path);
+//            log.info("OPTIONS related request" + path);
             return;
 
         }
@@ -52,7 +52,7 @@ public class AuthRESTRequestFilter implements ContainerRequestFilter {
             // Then check is the service key exists and is valid.
             // For any pther methods besides login, the authToken and service key  must be verified
             if (!path.startsWith("/auth/login")) {
-                log.info("Checking for correct service_key " + path);
+//                log.info("Checking for correct service_key " + path);
                 String serviceKey = requestCtx.getHeaderString(GrogHTTPHeaderNames.SERVICE_KEY);
 
                 if (!grogAuthenticator.isServiceKeyValid(serviceKey)) {
@@ -64,7 +64,7 @@ public class AuthRESTRequestFilter implements ContainerRequestFilter {
 
                 }
 
-                log.info("Checking for correct auth_token: " + path);
+//                log.info("Checking for correct auth_token: " + path);
                 String authToken = requestCtx.getHeaderString(GrogHTTPHeaderNames.AUTH_TOKEN);
 
                 // if it isn't valid, just kick them out.
@@ -80,7 +80,7 @@ public class AuthRESTRequestFilter implements ContainerRequestFilter {
                     log.severe("You cannot access to this resources without out Admin role " + path);
                     requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
                 } else {
-                    log.info("This is an admin request from ("+serviceKey+") to " + path + " - with roles = "+roles);
+//                    log.info("This is an admin request from ("+serviceKey+") to " + path + " - with roles = "+roles);
                 }
 
             }

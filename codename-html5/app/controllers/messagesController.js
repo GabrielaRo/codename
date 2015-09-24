@@ -3,9 +3,8 @@
     var messagesController = function ($scope, $chat, $cookieStore, $routeParams, $rootScope, $presence, $filter, appConstants, $error) {
         $scope.serverUrlFull = appConstants.server + appConstants.context;
 
-        $scope.inbox = [];
-        $scope.messageHistory = [];
-        $scope.selectedConversation = [];
+
+
 
         $scope.sendText = 'Send';
 
@@ -28,7 +27,7 @@
 
         $scope.selectConversation = function (conversation) {
 
-            $scope.selectedConversation = conversation;
+            $rootScope.selectedConversation = conversation;
 
             $scope.getMessages(conversation.url);
 
@@ -40,8 +39,8 @@
             $chat.blockConversation(conversationId).success(function (data) {
                 $rootScope.$broadcast("quickNotification", "Conversation Blocked !" + data);
                 for (var i = 0; i < $scope.inbox.length; i++) {
-                    if ($scope.inbox[i].conversation_id == conversationId) {
-                        $scope.inbox[i].blocked = true;
+                    if ($rootScope.inbox[i].conversation_id === conversationId) {
+                        $rootScope.inbox[i].blocked = true;
 
                     }
 
@@ -62,12 +61,10 @@
 
 
                 $rootScope.$broadcast("quickNotification", "Conversation UnBlocked !" + data);
-                for (var i = 0; i < $scope.inbox.length; i++) {
-                    if ($scope.inbox[i].conversation_id == conversationId) {
-                        $scope.inbox[i].blocked = false;
-
+                for (var i = 0; i < $rootScope.inbox.length; i++) {
+                    if ($rootScope.inbox[i].conversation_id === conversationId) {
+                        $rootScope.inbox[i].blocked = false;
                     }
-
                 }
 
             }).error(function (data, status) {
@@ -79,24 +76,22 @@
         $scope.getOneConversation = function (conversationUrl) {
             $chat.getOneConversation(conversationUrl).success(function (data) {
                 var idx = -1;
-                for (var i = 0; i < $scope.inbox.length; i++) {
-                    if ($scope.inbox[i].url == conversationUrl) {
+                for (var i = 0; i < $rootScope.inbox.length; i++) {
+                    if ($rootScope.inbox[i].url == conversationUrl) {
                         idx = i;
                     }
 
                 }
                 if (idx != -1) {
-                    console.log("index for conversation: " + idx)
-                    $scope.inbox.splice(idx, 1);
+                    $rootScope.inbox.splice(idx, 1);
                 }
                 data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
-                $scope.inbox.push(data);
+                $rootScope.inbox.push(data);
 
                 var orderBy = $filter('orderBy');
 
-                $scope.inbox = orderBy($scope.inbox, 'last_message.sent_at', true);
-                console.log("after sorting: ");
-                console.log($scope.inbox);
+                $rootScope.inbox = orderBy($rootScope.inbox, 'last_message.sent_at', true);
+
             }).error(function (data, status) {
                 $error.handleError(data, status);
 
@@ -107,22 +102,22 @@
         $scope.deleteConversation = function (conversationUrl) {
             $chat.deleteConversation(conversationUrl).success(function (data) {
                 var idx = -1;
-                for (var i = 0; i < $scope.inbox.length; i++) {
-                    if ($scope.inbox[i].url == conversationUrl) {
+                for (var i = 0; i < $rootScope.inbox.length; i++) {
+                    if ($rootScope.inbox[i].url === conversationUrl) {
                         idx = i;
                     }
 
                 }
-                if (idx != -1) {
-                    console.log("index for conversation: " + idx)
-                    $scope.inbox.splice(idx, 1);
+                if (idx !== -1) {
+
+                    $rootScope.inbox.splice(idx, 1);
                 }
-                if ($scope.inbox[0] && !$routeParams.selectedUser) {
-                    $scope.selectedConversation = $scope.inbox[0].url;
-                    $scope.getMessages($scope.selectedConversation);
+                if ($rootScope.inbox[0] && !$routeParams.selectedUser) {
+                    $rootScope.selectedConversation = $rootScope.inbox[0].url;
+                    $scope.getMessages($rootScope.selectedConversation);
                 }
-                if ($scope.inbox.length == 0) {
-                    $scope.selectedConversation = '';
+                if ($rootScope.inbox.length === 0) {
+                    $rootScope.selectedConversation = '';
                 }
             }).error(function (data, status) {
                 $error.handleError(data, status);
@@ -140,7 +135,7 @@
                     }
                 }
             }
-            console.log(status);
+
             return status;
 
         };
@@ -150,7 +145,7 @@
             $scope.sendText = 'Sending...';
             $chat.sendMessage(conversationUrl, body, mimeType).success(function (data) {
 
-                $scope.messageHistory.push(data);
+                $rootScope.messageHistory.push(data);
                 $scope.emojiMessage = {};
                 $scope.emojiMessage.replyToUser = function () {
                     if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
@@ -177,14 +172,21 @@
 
         }
 
-        $scope.markAsRead = function (messageUrl) {
+        $scope.markAsRead = function (message) {
+            console.log("marking as read: ");
+            console.log(message);
+            $chat.markAsReadMessage(message.url).success(function (data) {
 
-            $chat.markAsReadMessage(messageUrl).success(function (data) {
-                console.log('Makr as read >>>>>> ');
-                console.log(data);
                 $rootScope.newNotifications = $rootScope.newNotifications - 1;
+                for (var i = 0; i < $rootScope.inbox.length; i++) {
+                    if ($rootScope.inbox[i].id === message.conversation.id) {
+
+                        $rootScope.inbox[i].unread_message_count = $rootScope.inbox[i].unread_message_count - 1;
 
 
+                    }
+
+                }
             }).error(function (data, status) {
                 $error.handleError(data, status);
             });
@@ -194,8 +196,8 @@
 
 
             $chat.getMessages(selectedConversation).success(function (data) {
-                $scope.messageHistory = data;
-                console.log(data);
+                $rootScope.messageHistory = data;
+
                 var scrollDown = function () {
                     var newListHeight = $(".messages-history").height();
                     $("#user-messages-chat").scrollTop(newListHeight);
@@ -205,8 +207,8 @@
                 for (var i = 0; i < data.length; i++) {
 
                     if (data[i].is_unread) {
-                        $scope.markAsRead(data[i].url);
-                        console.log("marking as read  message: " + data[i].id);
+                        $scope.markAsRead(data[i]);
+
                     }
 
 
@@ -221,9 +223,8 @@
 
 
         $scope.getConversations = function () {
-            $scope.inbox = [];
+            $rootScope.inbox = [];
             $chat.getConversations().success(function (data) {
-                console.log(data);
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].metadata.participantsName) {
                         data[i].metadata.participantsName = JSON.parse(data[i].metadata.participantsName);
@@ -234,7 +235,7 @@
                     unread += data[i].unread_message_count;
                 }
                 $rootScope.newNotifications = unread;
-                $scope.inbox = data;
+                $rootScope.inbox = data;
 
                 if ($routeParams.selectedUser) {
 
@@ -242,20 +243,19 @@
                     $chat.newConversation([$cookieStore.get('user_nick'), $routeParams.selectedUser],
                             [$cookieStore.get('user_full'), $routeParams.firstname + " " + $routeParams.lastname]
                             ).success(function (data) {
-                        console.log(data);
+
                         data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
                         var idx = -1;
-                        for (var i = 0; i < $scope.inbox.length; i++) {
-                            if ($scope.inbox[i].url === data.url) {
+                        for (var i = 0; i < $rootScope.inbox.length; i++) {
+                            if ($rootScope.inbox[i].url === data.url) {
                                 idx = i;
                             }
 
                         }
                         if (idx !== -1) {
-                            console.log("index for conversation: " + idx)
-                            $scope.inbox.splice(idx, 1);
+                            $rootScope.inbox.splice(idx, 1);
                         }
-                        $scope.inbox.push(data);
+                        $rootScope.inbox.push(data);
                         $scope.selectConversation(data);
 
                     }).error(function (data, status) {
@@ -264,10 +264,10 @@
                         console.log(status);
                     });
 
-                } else if ($scope.inbox[0] && !$routeParams.selectedUser) {
+                } else if ($rootScope.inbox[0] && !$routeParams.selectedUser) {
 
-                    $scope.selectedConversation = $scope.inbox[0];
-                    $scope.getMessages($scope.selectedConversation.url);
+                    $rootScope.selectedConversation = $rootScope.inbox[0];
+                    $scope.getMessages($rootScope.selectedConversation.url);
                 }
 
 

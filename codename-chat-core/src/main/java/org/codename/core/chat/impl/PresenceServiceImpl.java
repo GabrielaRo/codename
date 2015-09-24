@@ -11,14 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Conversation;
-import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.model.chat.Notification;
 import javax.websocket.Session;
-import org.codename.core.chat.api.ChatService;
+
 import org.codename.core.chat.api.PresenceService;
 
 /**
@@ -30,9 +28,7 @@ public class PresenceServiceImpl implements PresenceService {
 
     private Map<String, Session> nickToSessionMap = new HashMap<String, Session>();
     private Map<Session, String> sessionToNickMap = new HashMap<Session, String>();
-
-    @Inject
-    private ChatService chatService;
+    private Map<String, List<String>> usersInterest = new HashMap<String, List<String>>();
 
     @Override
     public void userJoin(final String nickname, Session client) throws ServiceException {
@@ -50,6 +46,17 @@ public class PresenceServiceImpl implements PresenceService {
         statusUpdate(nickname, false);
         sessionToNickMap.remove(client);
         nickToSessionMap.remove(nickname);
+        if (usersInterest.get(nickname) != null) {
+            usersInterest.get(nickname).clear();
+        }
+    }
+
+    @Override
+    public void registerInterstInUser(String nickname, String otherUser) {
+        if (usersInterest.get(nickname) == null) {
+            usersInterest.put(nickname, new ArrayList<String>());
+        }
+        usersInterest.get(nickname).add(otherUser);
     }
 
     @Override
@@ -84,6 +91,7 @@ public class PresenceServiceImpl implements PresenceService {
 
     @Override
     public List<Boolean> getUsersState(List<String> nicknames) {
+        
         List<Boolean> precenses = new ArrayList<Boolean>();
         for (String n : nicknames) {
             precenses.add(nickToSessionMap.keySet().contains(n));
@@ -93,33 +101,33 @@ public class PresenceServiceImpl implements PresenceService {
 
     private void statusUpdate(String userNickname, boolean online) throws ServiceException {
 
-//        List<Conversation> conversations = chatService.getConversations(userNickname);
-//
-//        if (!conversations.isEmpty()) {
-//
-//            JsonObjectBuilder jsonUserObjectBuilder = Json.createObjectBuilder();
-//            if (online) {
-//                jsonUserObjectBuilder.add("type", "online");
-//            } else {
-//                jsonUserObjectBuilder.add("type", "offline");
-//            }
-//            jsonUserObjectBuilder.add("online", online);
-//            jsonUserObjectBuilder.add("user", userNickname);
-//            for (Conversation c : conversations) {
-//                String sendTo = (!c.getUserA().equals(userNickname)) ? c.getUserA() : c.getUserB();
-//                if (nickToSessionMap.keySet().contains(sendTo)) {
-//                    try {
-//                        jsonUserObjectBuilder.add("conversationId", c.getId());
-//                        nickToSessionMap.get(sendTo).getBasicRemote().sendText(jsonUserObjectBuilder.build().toString());
-//                    } catch (IOException ex) {
-//
-//                        ex.printStackTrace();
-//                    }
-//
-//                }
-//
-//            }
-//        }
+        List<String> userInterested = usersInterest.get(userNickname);
+        System.out.println(">>>>> Notifying about status update to: "+ userInterested.size() + " users");
+        if (userInterested != null && !userInterested.isEmpty()) {
+
+            JsonObjectBuilder jsonUserObjectBuilder = Json.createObjectBuilder();
+            if (online) {
+                jsonUserObjectBuilder.add("type", "online");
+            } else {
+                jsonUserObjectBuilder.add("type", "offline");
+            }
+            jsonUserObjectBuilder.add("online", online);
+            jsonUserObjectBuilder.add("user", userNickname);
+            
+            for (String sendTo : userInterested) {
+                System.out.println(">>>> Sending status update to: "+ sendTo);
+                if (nickToSessionMap.keySet().contains(sendTo)) {
+                    try {
+                        nickToSessionMap.get(sendTo).getBasicRemote().sendText(jsonUserObjectBuilder.build().toString());
+                    } catch (IOException ex) {
+
+                        ex.printStackTrace();
+                    }
+
+                }
+
+            }
+        }
     }
 
 }

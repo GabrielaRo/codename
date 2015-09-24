@@ -73,4 +73,12 @@ public class PresenceEndpointServiceImpl implements PresenceEndpointService {
 
     }
 
+    @Override
+    public Response registerInterstInUser(String nickname, String otherUser) {
+        presenceService.registerInterstInUser(nickname, otherUser);
+        return Response.ok().build();
+    }
+    
+    
+
 }

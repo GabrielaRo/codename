@@ -37,6 +37,7 @@ public class NotificationsWSEndpoint {
         List<String> nicks = client.getRequestParameterMap().get("nickname");
 
         try {
+            System.out.println("User Joining via Presence WS: "+ nicks.get(0));
             notificationService.userJoin(nicks.get(0), client);
         } catch (ServiceException ex) {
             ex.printStackTrace();

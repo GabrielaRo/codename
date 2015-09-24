@@ -6,7 +6,6 @@
 package org.codename.core.chat.api;
 
 import java.util.List;
-import java.util.Map;
 import javax.websocket.Session;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.model.chat.Notification;
@@ -28,4 +27,6 @@ public interface PresenceService {
     boolean isOnline(String nickname);
     
     List<Boolean> getUsersState(List<String> nicknames);
+    
+    void registerInterstInUser(String nickname, String otherUser);
 }
