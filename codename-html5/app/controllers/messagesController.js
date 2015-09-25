@@ -76,16 +76,21 @@
         $scope.getOneConversation = function (conversationUrl) {
             $chat.getOneConversation(conversationUrl).success(function (data) {
                 var idx = -1;
+                var onlineStatus = false;
                 for (var i = 0; i < $rootScope.inbox.length; i++) {
-                    if ($rootScope.inbox[i].url == conversationUrl) {
+                    if ($rootScope.inbox[i].url === conversationUrl) {
                         idx = i;
+                        onlineStatus = $rootScope.inbox[i].onlineStatus;
                     }
 
                 }
-                if (idx != -1) {
+                if (idx !== -1) {
                     $rootScope.inbox.splice(idx, 1);
                 }
                 data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
+
+                data.onlineStatus = onlineStatus;
+
                 $rootScope.inbox.push(data);
 
                 var orderBy = $filter('orderBy');
@@ -155,6 +160,7 @@
                 var newListHeight = $(".messages-history").height();
                 $("#user-messages-chat").animate({scrollTop: newListHeight}, 200);
                 $scope.getOneConversation(conversationUrl);
+
                 $scope.sendText = 'Send';
 
             }).error(function (data, status) {
@@ -225,11 +231,29 @@
         $scope.getConversations = function () {
             $rootScope.inbox = [];
             $chat.getConversations().success(function (data) {
+                var usernicknames = [];
                 for (var i = 0; i < data.length; i++) {
+                    data[i].onlineStatus = false;
                     if (data[i].metadata.participantsName) {
                         data[i].metadata.participantsName = JSON.parse(data[i].metadata.participantsName);
                     }
+
+                    for (var j = 0; j < data[i].participants.length; j++) {
+                        if (data[i].participants[j] !== $cookieStore.get('user_nick')) {
+                            usernicknames.push(data[i].participants[j]);
+                        }
+                    }
                 }
+
+                $presence.getUsersState(usernicknames).success(function (states) {
+                    for (var i = 0; i < data.length; i++) {
+
+                        data[i].onlineStatus = states[i];
+                    }
+
+                }).error(function (data, status) {
+                    $error.handleError(data, status);
+                });
                 var unread = 0;
                 for (var i = 0; i < data.length; i++) {
                     unread += data[i].unread_message_count;
@@ -246,15 +270,18 @@
 
                         data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
                         var idx = -1;
+                        var onlineStatus = false;
                         for (var i = 0; i < $rootScope.inbox.length; i++) {
                             if ($rootScope.inbox[i].url === data.url) {
                                 idx = i;
+                                onlineStatus = $rootScope.inbox[i].onlineStatus;
                             }
 
                         }
                         if (idx !== -1) {
                             $rootScope.inbox.splice(idx, 1);
                         }
+                        data.onlineStatus = onlineStatus;
                         $rootScope.inbox.push(data);
                         $scope.selectConversation(data);
 

@@ -163,10 +163,18 @@
                                         usernicknames.push(data[i].participants[j]);
                                     }
                                 }
+                                data[i].onlineStatus = false;
                             }
-                            console.log('registering interest in users: ');
-                            console.log(usernicknames);
+                            $presence.getUsersState(usernicknames).success(function (states) {
+                                for (var i = 0; i < data.length; i++) {
+                                    data[i].onlineStatus = states[i];
+                                }
+                                
+                            }).error(function (data, status) {
+                                $error.handleError(data, status);
+                            });
                             $presence.registerInterestInUsers(usernicknames);
+                            
                             $rootScope.inbox = data;
 
                         }).error(function (data, status) {

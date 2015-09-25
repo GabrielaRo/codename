@@ -19,9 +19,28 @@
                     try {
                         switch (msg.type) {
                             case "online":
-
+                                for (var i = 0; i < $rootScope.inbox.length; i++) {
+                                    for (var j = 0; j < $rootScope.inbox[i].participants.length; j++) {
+                                        if ($rootScope.inbox[i].participants[j] === msg.user) {
+                                            console.log("msg.user = " + msg.user + " is online!");
+                                            $rootScope.$apply(function () {
+                                                $rootScope.inbox[i].onlineStatus = true;
+                                            });
+                                        }
+                                    }
+                                }
                                 break;
                             case "offline":
+                                for (var i = 0; i < $rootScope.inbox.length; i++) {
+                                    for (var j = 0; j < $rootScope.inbox[i].participants.length; j++) {
+                                        if ($rootScope.inbox[i].participants[j] === msg.user) {
+                                            console.log("msg.user = " + msg.user + " is offline!");
+                                            $rootScope.$apply(function () {
+                                                $rootScope.inbox[i].onlineStatus = false;
+                                            });
+                                        }
+                                    }
+                                }
                                 break;
 
                         }
@@ -58,13 +77,14 @@
 
                                     });
                                     if ($rootScope.selectedConversation.id === msg.body.data.conversation.id) {
-                                        console.log('adding message to selected conversation');
+                                       
                                         $rootScope.$apply(function () {
                                             $rootScope.messageHistory.push(msg.body.data);
                                         });
                                         for (var i = 0; i < $rootScope.inbox.length; i++) {
                                             if ($rootScope.inbox[i].url === msg.body.data.conversation.url) {
                                                 $rootScope.$apply(function () {
+                                                    console.log($rootScope.inbox[i].last_message);
                                                     $rootScope.inbox[i].last_message.sender.user_id = msg.body.data.sender.user_id;
                                                     $rootScope.inbox[i].last_message.parts[0].body = msg.body.data.parts[0].body;
                                                     $rootScope.inbox[i].last_message.received_at = new Date();

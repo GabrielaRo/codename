@@ -38,7 +38,7 @@ public interface PresenceEndpointService extends Serializable {
     @PUT
     @Path("/")
     @Produces({"application/json"})
-    Response registerInterstInUser(@FormParam("nickname") String nickname, @FormParam("otherUser") String otherUser);
+    Response registerInterstInUser(@FormParam("nickname") String nickname, @FormParam("usersNicknames") String usersNicknames);
     
 
 }

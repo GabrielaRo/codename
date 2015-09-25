@@ -44,7 +44,7 @@ public class PresenceEndpointServiceImpl implements PresenceEndpointService {
     @Override
     public Response getUsersState(String users) throws ServiceException {
         List<String> nicknames = null;
-        System.out.println("List of names: " + users);
+//        System.out.println("List of names: " + users);
         if (users != null) {
             JsonReader reader = Json.createReader(new ByteArrayInputStream(users.getBytes()));
             JsonArray array = reader.readArray();
@@ -53,7 +53,7 @@ public class PresenceEndpointServiceImpl implements PresenceEndpointService {
             if (array != null) {
                 nicknames = new ArrayList<String>(array.size());
                 for (int i = 0; i < array.size(); i++) {
-                    log.info("nicknames[" + i + "]: " + array.getString(i));
+//                    log.info("nicknames[" + i + "]: " + array.getString(i));
 
                     nicknames.add(array.getString(i));
                 }
@@ -74,8 +74,25 @@ public class PresenceEndpointServiceImpl implements PresenceEndpointService {
     }
 
     @Override
-    public Response registerInterstInUser(String nickname, String otherUser) {
-        presenceService.registerInterstInUser(nickname, otherUser);
+    public Response registerInterstInUser(String nickname, String usersNicknames) {
+        List<String> nicknames = null;
+//        System.out.println("List of names: " + usersNicknames);
+        if (usersNicknames != null) {
+            JsonReader reader = Json.createReader(new ByteArrayInputStream(usersNicknames.getBytes()));
+            JsonArray array = reader.readArray();
+            reader.close();
+
+            if (array != null) {
+                nicknames = new ArrayList<String>(array.size());
+                for (int i = 0; i < array.size(); i++) {
+//                    log.info("nicknames[" + i + "]: " + array.getString(i));
+
+                    nicknames.add(array.getString(i));
+                }
+
+            }
+        }
+        presenceService.registerInterstInUser(nickname, nicknames);
         return Response.ok().build();
     }
     

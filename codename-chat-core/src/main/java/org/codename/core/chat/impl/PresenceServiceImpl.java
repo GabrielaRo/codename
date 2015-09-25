@@ -52,11 +52,11 @@ public class PresenceServiceImpl implements PresenceService {
     }
 
     @Override
-    public void registerInterstInUser(String nickname, String otherUser) {
+    public void registerInterstInUser(String nickname, List<String> otherUsers) {
         if (usersInterest.get(nickname) == null) {
             usersInterest.put(nickname, new ArrayList<String>());
         }
-        usersInterest.get(nickname).add(otherUser);
+        usersInterest.get(nickname).addAll(otherUsers);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class PresenceServiceImpl implements PresenceService {
 
     @Override
     public List<Boolean> getUsersState(List<String> nicknames) {
-        
+
         List<Boolean> precenses = new ArrayList<Boolean>();
         for (String n : nicknames) {
             precenses.add(nickToSessionMap.keySet().contains(n));
@@ -101,8 +101,15 @@ public class PresenceServiceImpl implements PresenceService {
 
     private void statusUpdate(String userNickname, boolean online) throws ServiceException {
 
-        List<String> userInterested = usersInterest.get(userNickname);
-        System.out.println(">>>>> Notifying about status update to: "+ userInterested.size() + " users");
+        List<String> userInterested = new ArrayList<String>();
+        for (String user : usersInterest.keySet()) {
+
+            if (usersInterest.get(user).contains(userNickname)) {
+
+                userInterested.add(user);
+            }
+        }
+
         if (userInterested != null && !userInterested.isEmpty()) {
 
             JsonObjectBuilder jsonUserObjectBuilder = Json.createObjectBuilder();
@@ -111,11 +118,9 @@ public class PresenceServiceImpl implements PresenceService {
             } else {
                 jsonUserObjectBuilder.add("type", "offline");
             }
-            jsonUserObjectBuilder.add("online", online);
             jsonUserObjectBuilder.add("user", userNickname);
-            
+
             for (String sendTo : userInterested) {
-                System.out.println(">>>> Sending status update to: "+ sendTo);
                 if (nickToSessionMap.keySet().contains(sendTo)) {
                     try {
                         nickToSessionMap.get(sendTo).getBasicRemote().sendText(jsonUserObjectBuilder.build().toString());

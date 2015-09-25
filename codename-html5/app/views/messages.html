@@ -13,7 +13,7 @@
                        Chat Offline
                     </div>
                     <div class="content-block-content">
-                        <p>Sometimes the Chat Server goes down, we apologies for the inconviniense, please try reconnecting.</p>
+                        <p>Sometimes the Chat Server goes down, we apologies for the inconvenience, please try reconnecting.</p>
                         
                     </div>
                     <div class="content-block-actions">
@@ -53,7 +53,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="online-status" ng-if="conversation.onlineStatus != 'false'"></div>
+                                <div class="online-status" ng-if="conversation.onlineStatus !== 'false'"></div>
                                 <div class="unread-badge" ng-if="conversation.unread_message_count > 0">{{conversation.unread_message_count}}</div>
                                 
                             </div>
@@ -151,7 +151,7 @@
                                             <div ng-bind-html="message.parts[0].body | colonToSmiley" class="message-text">
                                                 
                                             </div>
-                                            <div class="message-read-status" ng-if="$last && getLastSentMessageStatus(message.recipient_status) == 'read'"> <i class="fa fa-check"></i> Read</div>
+                                            <div class="message-read-status" ng-if="$last && getLastSentMessageStatus(message.recipient_status) == 'read' && message.sender.user_id == me"> <i class="fa fa-check"></i> Read</div>
                                         </div>
                                     </div>
                                 </div>

@@ -23,10 +23,10 @@ public interface PresenceService {
     void newNotification(String toNickname, String fromNickname, String message, String action, String type) throws ServiceException;
 
     List<Notification> getAllNotificationsByUser(String nickname);
-    
+
     boolean isOnline(String nickname);
-    
+
     List<Boolean> getUsersState(List<String> nicknames);
-    
-    void registerInterstInUser(String nickname, String otherUser);
+
+    void registerInterstInUser(String nickname, List<String> otherUser);
 }
