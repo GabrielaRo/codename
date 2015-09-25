@@ -34,6 +34,7 @@
                 </div>
                 <div class="content-block-content">
                     <div id="user-messages-inbox">
+                        <div ng-if="!conversationsLoaded">Loading conversations...</div>
                         <div class="inbox-message" ng-repeat="conversation in inbox | orderBy:'last_message.sent_at':true" ng-click="selectConversation(conversation)" ng-class="{active: selectedConversation.url == conversation.url, blocked: conversation.blocked, new: conversation.last_message.is_unread == true}">
                             <div class="user-avatar">
                                 
@@ -129,6 +130,7 @@
                                     </span>
                                 </div>
                                 <div class="day-messages">
+                                    <div ng-if="!messagesLoaded && selectedConversation">Loading messages...</div>
                                     <div class="history-message" ng-repeat="message in messageHistory | orderBy:'position':reverse">
                                         <div class="user-avatar">
                                             <div class="history-message-user-avatar hexagon">

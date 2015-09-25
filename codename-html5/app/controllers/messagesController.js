@@ -4,7 +4,8 @@
         $scope.serverUrlFull = appConstants.server + appConstants.context;
 
 
-
+        $scope.messagesLoaded = false;
+        $scope.conversationsLoaded = false;
 
         $scope.sendText = 'Send';
 
@@ -200,7 +201,7 @@
 
         $scope.getMessages = function (selectedConversation) {
 
-
+            $scope.messagesLoaded = false;
             $chat.getMessages(selectedConversation).success(function (data) {
                 $rootScope.messageHistory = data;
 
@@ -217,10 +218,8 @@
 
                     }
 
-
-
                 }
-
+                $scope.messagesLoaded = true;
             }).error(function (data, status) {
                 $error.handleError(data, status);
             });
@@ -230,6 +229,7 @@
 
         $scope.getConversations = function () {
             $rootScope.inbox = [];
+            $scope.conversationsLoaded = false;
             $chat.getConversations().success(function (data) {
                 var usernicknames = [];
                 for (var i = 0; i < data.length; i++) {
@@ -297,7 +297,7 @@
                     $scope.getMessages($rootScope.selectedConversation.url);
                 }
 
-
+                $scope.conversationsLoaded = true;
 
             }).error(function (data, status) {
                 console.log("Error: ");
