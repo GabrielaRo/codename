@@ -20,7 +20,7 @@
 
         $scope.reConnectChat = function () {
             $rootScope.initChat();
-            $rootScope.chatOnline = appConstants.chatOnline;
+            
             $scope.getConversations();
         };
 
@@ -232,6 +232,7 @@
             $scope.conversationsLoaded = false;
             $chat.getConversations().success(function (data) {
                 var usernicknames = [];
+                
                 for (var i = 0; i < data.length; i++) {
                     data[i].onlineStatus = false;
                     if (data[i].metadata.participantsName) {
@@ -244,7 +245,7 @@
                         }
                     }
                 }
-
+                
                 $presence.getUsersState(usernicknames).success(function (states) {
                     for (var i = 0; i < data.length; i++) {
 
@@ -260,7 +261,7 @@
                 }
                 $rootScope.newNotifications = unread;
                 $rootScope.inbox = data;
-
+                
                 if ($routeParams.selectedUser) {
 
 
@@ -296,8 +297,9 @@
                     $rootScope.selectedConversation = $rootScope.inbox[0];
                     $scope.getMessages($rootScope.selectedConversation.url);
                 }
-
+                
                 $scope.conversationsLoaded = true;
+                
 
             }).error(function (data, status) {
                 console.log("Error: ");
@@ -307,12 +309,12 @@
 
         };
 
-        $scope.$watch('chatOnline',
+        $scope.$watch('chatStatus',
                 function (newValue) {
-                    if (newValue == false) {
+                    if (newValue == 'offline') {
                         console.log("reconnecting chat.. becuase it is offline");
                         $rootScope.initChat();
-                        $scope.chatOnline = appConstants.chatOnline;
+                        
                     } else {
                         console.log("getting conversations because the chat is online");
                         $scope.getConversations();

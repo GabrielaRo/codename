@@ -129,7 +129,7 @@
         };
 
         $rootScope.initChat = function () {
-
+            $rootScope.chatStatus = 'loading';
             $chat.getNonce().success(function (data) {
 //                console.log("nonce = ");
 //                        console.log(data.nonce);
@@ -143,7 +143,7 @@
                         $rootScope.chat_session_token = data.session_token;
                         appConstants.chatHeaders.Authorization = 'Layer session-token=' + data.session_token;
                         $sockets.initWebSocket();
-                        $rootScope.chatOnline = true;
+                        $rootScope.chatStatus = 'online';
 
                         $chat.getConversations().success(function (data) {
                             var unread = 0;
@@ -187,17 +187,20 @@
                         console.log("Error: ");
                         console.log(data);
                         console.log(status);
+                        $rootScope.chatStatus = 'offline';
                     });
                 }).error(function (data, status) {
                     console.log("Error: ");
                     console.log(data);
                     console.log(status);
+                    $rootScope.chatStatus = 'offline';
                 });
 
             }).error(function (data, status) {
                 console.log("Error: ");
                 console.log(data);
                 console.log(status);
+                $rootScope.chatStatus = 'offline';
             });
 
 

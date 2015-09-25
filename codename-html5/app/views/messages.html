@@ -4,7 +4,22 @@
     </div>
 </div>
 
-<div id="chatOffline" ng-if="!chatOnline">
+<div id="chatOffline" ng-if="chatStatus === 'loading'">
+    <div class="container">
+       <div class="row">
+           <div class="col-md-4 col-md-offset-4">
+               <div class="content-block">
+                   <div class="content-block-title">
+                      Connecting to Chat Server ...
+                    </div>
+                   
+                </div>
+           </div>
+       </div>
+        
+    </div>
+</div>
+<div id="chatOffline" ng-if="chatStatus === 'offline'">
     <div class="container">
        <div class="row">
            <div class="col-md-4 col-md-offset-4">
@@ -25,7 +40,7 @@
         
     </div>
 </div>
-<div id="messages" ng-if="chatOnline">
+<div id="messages" ng-if="chatStatus === 'online'">
     <div class="container">
         <div class="left-col">
             <div class="content-block no-margin">
