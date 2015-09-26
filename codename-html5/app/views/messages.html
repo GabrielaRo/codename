@@ -9,7 +9,7 @@
        <div class="row">
            <div class="col-md-12 text-center">
                <div class="loader">
-                   <i class="fa fa-spinner"></i> Connecting to Chat Server ...
+                   <i class="fa fa-spinner fa-spin"></i> Connecting to Chat Server ...
                </div>
                    
                
@@ -50,7 +50,7 @@
                     <div id="user-messages-inbox">
                         <div ng-if="!conversationsLoaded">
                             <div class="loader text-center">
-                               <i class="fa fa-spinner"></i>
+                               <i class="fa fa-spinner fa-spin"></i>
                             </div>
                             
                         </div>
@@ -152,7 +152,7 @@
                                 <div class="day-messages">
                                     <div ng-if="!messagesLoaded && selectedConversation">
                                         <div class="loader text-center">
-                                           <i class="fa fa-spinner"></i> Loading messages...
+                                           <i class="fa fa-spinner fa-spin"></i> Loading messages...
                                         </div>
                                     </div>
                                     <div class="history-message" ng-repeat="message in messageHistory | orderBy:'position':reverse">
