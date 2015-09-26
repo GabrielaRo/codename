@@ -6,6 +6,7 @@
 package org.codename.core.user.impl;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -16,6 +17,7 @@ import org.codename.model.user.User;
 import org.codename.core.user.api.UsersQueryService;
 import org.codename.core.exceptions.ServiceException;
 import org.codename.core.util.PersistenceManager;
+import org.hibernate.search.batchindexing.MassIndexerProgressMonitor;
 import org.hibernate.search.engine.ProjectionConstants;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
@@ -41,8 +43,43 @@ public class UsersQueryServiceImpl implements UsersQueryService {
     }
 
     @PostConstruct
-    public void init() throws InterruptedException {
-        Search.getFullTextEntityManager(pm.getEm()).createIndexer().startAndWait();
+    public void init() throws ServiceException {
+        reCreateIndex();
+    }
+    @Override
+    public void reCreateIndex() throws ServiceException {
+        System.out.println(">> Starting Re-Indexation: ");
+        try {
+            Search.getFullTextEntityManager(pm.getEm()).createIndexer().progressMonitor( new MassIndexerProgressMonitor() {
+                
+                @Override
+                public void documentsBuilt(int number) {
+                    System.out.println(" -- Documents Built: "+number);
+                }
+                
+                @Override
+                public void entitiesLoaded(int size) {
+                    System.out.println(" -- Entities Loaded: "+size);
+                }
+                
+                @Override
+                public void addToTotalCount(long count) {
+                    
+                }
+                
+                @Override
+                public void indexingCompleted() {
+                    System.out.println(" -- Indexing Completed");
+                }
+                
+                @Override
+                public void documentsAdded(long increment) {
+                    
+                }
+            } ).startAndWait();
+        } catch (InterruptedException ex) {
+            throw new ServiceException("Error while re indexing", ex);
+        }
     }
 
     @Override

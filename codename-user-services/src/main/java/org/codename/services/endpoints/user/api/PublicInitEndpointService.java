@@ -29,4 +29,7 @@ public interface PublicInitEndpointService extends Serializable {
     Response usersCreated() throws ServiceException;
 
 
+    @GET
+    @Path("/reindex")
+    void reCreateIndex() throws ServiceException;
 }

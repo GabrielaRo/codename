@@ -21,6 +21,7 @@ import org.codename.model.user.User;
 import org.codename.core.user.api.UsersService;
 import org.codename.services.endpoints.user.api.PublicInitEndpointService;
 import org.codename.core.exceptions.ServiceException;
+import org.codename.core.user.api.UsersQueryService;
 
 //http://localhost:8080/codename-server/rest/public/app/createusers
 @Stateless
@@ -28,6 +29,9 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
 
     @Inject
     private UsersService usersService;
+    
+    @Inject
+    private UsersQueryService usersQueryService;
     //rhc env set JAVA_OPTS_EXT=-DSERVERURL="http://fhellow-restprovider.rhcloud.com/" -a fhellow
     private String serverUrl;
     private String serverContext;
@@ -54,6 +58,12 @@ public class PublicInitEndpointServiceImpl implements PublicInitEndpointService 
     public Response usersCreated() throws ServiceException {
         return Response.ok(mockUsersCreated).build();
     }
+
+    @Override
+    public void reCreateIndex() throws ServiceException {
+        usersQueryService.reCreateIndex();
+    }
+    
     
     
 

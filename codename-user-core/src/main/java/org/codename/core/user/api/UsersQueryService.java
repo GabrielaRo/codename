@@ -14,7 +14,8 @@ import org.codename.model.user.User;
  * @author grogdj
  */
 public interface UsersQueryService {
-
+    
+    void reCreateIndex() throws ServiceException;
 
     List<User> search(Double lon, Double lat, Double offsetRange, Double limitRange, 
             List<String> interests, List<String> lookingFors, List<String> iams, 
