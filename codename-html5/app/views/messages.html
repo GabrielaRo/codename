@@ -93,7 +93,7 @@
                             </div>
                         </div>
                          <a href class="button block" ng-if="inbox.length > 6">Load more</a>
-                        <div class="no-message" ng-if="inbox.length == 0">
+                        <div class="no-message" ng-if="inbox.length === 0 && conversationsLoaded ">
                             No Messages 
                         </div>
 

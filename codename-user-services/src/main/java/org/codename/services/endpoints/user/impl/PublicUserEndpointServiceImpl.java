@@ -111,7 +111,7 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
             }).build();
         } else {
             try {
-                log.info("avatar not found");
+//                log.info("avatar not found");
                 return Response.temporaryRedirect(new URI(getServerUrl() + "static/img/public-images/default-avatar.jpg")).build();
             } catch (URISyntaxException ex) {
                 Logger.getLogger(PublicUserEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -129,7 +129,7 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
         byte[] tmp = usersService.getCover(nickname);
         final byte[] avatar;
         if (tmp != null && tmp.length > 0) {
-            log.info("cover found");
+//            log.info("cover found");
             avatar = tmp;
             return Response.ok().entity(new StreamingOutput() {
                 @Override
@@ -147,7 +147,7 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
             }).build();
         } else {
             try {
-                log.info("cover not found");
+//                log.info("cover not found");
                 return Response.temporaryRedirect(new URI(getServerUrl() + "/static/img/public-images/default-cover.jpg")).build();
             } catch (URISyntaxException ex) {
                 Logger.getLogger(PublicUserEndpointServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

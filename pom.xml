@@ -17,8 +17,7 @@
         <module>codename-user-model</module>
         <module>codename-user-core</module>
         <module>codename-user-services</module>
-        <!-- Chat Modules --> 
-        <module>codename-chat-model</module>
+        <!-- Chat Modules -->
         <module>codename-chat-core</module>
         <module>codename-chat-services</module>
         <!-- Tracking Modules --> 

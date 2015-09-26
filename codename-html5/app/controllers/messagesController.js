@@ -124,7 +124,9 @@
                 }
                 if ($rootScope.inbox.length === 0) {
                     $rootScope.selectedConversation = '';
+                    $rootScope.messageHistory = [];
                 }
+                
             }).error(function (data, status) {
                 $error.handleError(data, status);
 
@@ -264,11 +266,11 @@
                 
                 if ($routeParams.selectedUser) {
 
-
+                    
                     $chat.newConversation([$cookieStore.get('user_nick'), $routeParams.selectedUser],
                             [$cookieStore.get('user_full'), $routeParams.firstname + " " + $routeParams.lastname]
                             ).success(function (data) {
-
+                        $presence.registerInterestInUsers([$routeParams.selectedUser]);
                         data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
                         var idx = -1;
                         var onlineStatus = false;

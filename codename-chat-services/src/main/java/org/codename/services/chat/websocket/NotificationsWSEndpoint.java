@@ -15,22 +15,18 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import org.codename.core.exceptions.ServiceException;
-import org.codename.services.chat.websocket.decoders.NotificationDecoder;
-import org.codename.services.chat.websocket.encoders.NotificationEncoder;
 import org.codename.core.chat.api.PresenceService;
 
 /**
  *
  * @author grogdj
  */
-@ServerEndpoint(value = "/fhellow",
-        encoders = {NotificationEncoder.class},
-        decoders = {NotificationDecoder.class}
+@ServerEndpoint(value = "/fhellow"
 )
 public class NotificationsWSEndpoint {
 
     @Inject
-    PresenceService notificationService;
+    private PresenceService presenceService;
 
     @OnOpen
     public void onOpen(Session client) {
@@ -38,7 +34,7 @@ public class NotificationsWSEndpoint {
 
         try {
             System.out.println("User Joining via Presence WS: "+ nicks.get(0));
-            notificationService.userJoin(nicks.get(0), client);
+            presenceService.userJoin(nicks.get(0), client);
         } catch (ServiceException ex) {
             ex.printStackTrace();
             Logger.getLogger(NotificationsWSEndpoint.class.getName()).log(Level.SEVERE, null, ex);
@@ -53,7 +49,7 @@ public class NotificationsWSEndpoint {
     @OnClose
     public void onClose(Session client) throws ServiceException {
 
-        notificationService.userLeave(client);
+        presenceService.userLeave(client);
     }
 
 }

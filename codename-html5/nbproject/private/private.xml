@@ -2,12 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/app.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/services/chatFactory.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/controllers/messagesController.js</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/views/messages.html</file>
-            <file>file:/Users/salaboy/Projects/codename/codename-html5/app/controllers/mainController.js</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
