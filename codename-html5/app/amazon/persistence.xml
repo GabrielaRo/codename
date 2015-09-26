@@ -20,20 +20,13 @@
         <jta-data-source>java:jboss/datasources/MysqlDS</jta-data-source>
         <mapping-file>META-INF/users.xml</mapping-file>
         <mapping-file>META-INF/servicekey.xml</mapping-file>
-        <mapping-file>META-INF/messages.xml</mapping-file>
-        
-        <mapping-file>META-INF/notifications.xml</mapping-file>
         <mapping-file>META-INF/invitations.xml</mapping-file>
         <mapping-file>META-INF/contactMessage.xml</mapping-file>
-        
         <mapping-file>META-INF/sharedlocations.xml</mapping-file>
-        
         <class>org.codename.model.user.Invitation</class>
         <class>org.codename.model.user.User</class>
         <class>org.codename.model.user.ServiceKey</class>
         <class>org.codename.model.user.ContactMessage</class>
-        <class>org.codename.model.chat.Notification</class>
-        <class>org.codename.model.chat.Message</class>
         <class>org.codename.model.tracking.SharedLocation</class>
          
         <exclude-unlisted-classes>false</exclude-unlisted-classes>

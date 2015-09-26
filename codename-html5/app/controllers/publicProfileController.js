@@ -29,8 +29,8 @@
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $rootScope.user_nick + "/cover"
         };
 
-        $scope.newConversation = function (selectedUser, firstname, lastname, status) {
-            $rootScope.$broadcast('goTo', "/messages/" + selectedUser + "/" + firstname + "/" + lastname + "/" + status);
+        $scope.newConversation = function (selectedUser, firstname, lastname) {
+            $rootScope.$broadcast('goTo', "/messages/" + selectedUser + "/" + firstname + "/" + lastname);
 
         };
 
