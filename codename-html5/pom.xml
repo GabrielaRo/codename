@@ -45,7 +45,11 @@
             <artifactId>codename-chat-services</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.codename</groupId>
+            <artifactId>codename-tag-services</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         
         <dependency>  
             <groupId>javax</groupId>    

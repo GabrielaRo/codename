@@ -29,6 +29,7 @@
         <mapping-file>META-INF/notifications.xml</mapping-file>
         <mapping-file>META-INF/invitations.xml</mapping-file>
         <mapping-file>META-INF/contactMessage.xml</mapping-file>
+        <mapping-file>META-INF/tags.xml</mapping-file>
         <class>org.codename.model.Invitation</class>
         <class>org.codename.model.User</class>
         <class>org.codename.model.ServiceKey</class>
@@ -36,6 +37,7 @@
         <class>org.codename.model.Message</class>
         <class>org.codename.model.Conversation</class>
         <class>org.codename.model.ContactMessage</class>
+        <class>org.codename.model.Tag</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <!-- Properties for Hibernate -->

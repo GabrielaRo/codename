@@ -24,6 +24,7 @@
         <!-- Tag Module -->
         <module>codename-tag-model</module>
         <module>codename-tag-core</module>
+        <module>codename-tag-services</module>
         <!-- Web App Module -->
         <module>codename-html5</module>
         

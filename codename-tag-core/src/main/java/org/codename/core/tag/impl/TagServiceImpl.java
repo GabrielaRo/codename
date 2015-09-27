@@ -43,8 +43,6 @@ public class TagServiceImpl implements TagService {
         return pm.createNamedQuery("Tags.getByUser", Tag.class).setParameter("user", user.getId()).getResultList();
 	}
 	
-
-	
 	@Override
 	public void deleteTag(Long tagId) throws ServiceException {
 		Tag tag = pm.find(Tag.class, tagId);

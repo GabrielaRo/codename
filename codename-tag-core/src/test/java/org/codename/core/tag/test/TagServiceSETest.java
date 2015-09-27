@@ -43,8 +43,6 @@ public class TagServiceSETest {
     @Inject
     private UsersService usersService;
 
-    private User testUser = new User("test.user@gmail.com", "fakepassword");
-
     @BeforeClass
     public static void setUpClass() {
     }
@@ -54,14 +52,11 @@ public class TagServiceSETest {
     }
 
     @Before
-    public void setUp() throws ServiceException {
-
-        usersService.newUser(testUser);
+    public void setUp() throws ServiceException {        
     }
 
     @After
     public void tearDown() throws ServiceException {
-//        tagService.deleteTag(testUser.getId());
     }
 
     @Deployment
@@ -77,12 +72,100 @@ public class TagServiceSETest {
 
     @Test
     public void createTagServiceTest() throws ServiceException, Exception {
+    	User testUser = new User("test@gmail.com", "fakepassword");
+    	usersService.newUser(testUser);
     	Long tagId = tagService.createTag(testUser.getId(), "Friends", Color.BLUE, true);
-//    	tagService.createTag(101056L, "Family", Color.RED, true);
-//    	tagService.createTag(101056L, "Work", Color.BLACK, false);
-//    	Tag tag = new Tag(testUser, "Friends", Color.GREEN, true);
-//    	Long tagIdNumer = tagIdNumer = tagService.createTag(101056L, "Friends", Color.BLUE, true);
         Assert.assertTrue(0 != tagId);
+    }
+    
+    @Test
+    public void getAllTagsCreatedByUserTest() throws ServiceException, Exception {
+    	User testUser1 = new User("test.user1@gmail.com", "fakepassword");
+    	usersService.newUser(testUser1);
+    	tagService.createTag(testUser1.getId(), "Friends", Color.BLUE, true);
+    	tagService.createTag(testUser1.getId(), "Family", Color.RED, true);
+    	tagService.createTag(testUser1.getId(), "Work", Color.BLACK, false);
+    	List<Tag> tagsForUser = tagService.getAllTagsCreatedByUser(testUser1.getId()); 
+        Assert.assertEquals(3, tagsForUser.size());
+    }
+    
+    @Test
+    public void getAllTagsCreatedByManyUsersTest() throws ServiceException, Exception {
+    	User testUser2 = new User("test.user2@gmail.com", "fakepassword");
+    	usersService.newUser(testUser2);    	
+    	tagService.createTag(testUser2.getId(), "Friends", Color.BLUE, true);
+    	tagService.createTag(testUser2.getId(), "Friends", Color.RED, true);
+    	tagService.createTag(testUser2.getId(), "Work", Color.BLACK, false);
+    	List<Tag> tagsForUser2 = tagService.getAllTagsCreatedByUser(testUser2.getId());
+
+    	User testUser3 = new User("test.user3@gmail.com", "fakepassword");
+    	usersService.newUser(testUser3);
+    	tagService.createTag(testUser3.getId(), "Friends", Color.BLUE, true);
+    	tagService.createTag(testUser3.getId(), "Family", Color.RED, true);
+    	tagService.createTag(testUser3.getId(), "Work", Color.BLACK, false);
+    	tagService.createTag(testUser3.getId(), "School", Color.BLACK, false);
+    	tagService.createTag(testUser3.getId(), "Office", Color.BLACK, false);
+    	tagService.createTag(testUser3.getId(), "Bar", Color.BLACK, false);
+    	tagService.createTag(testUser3.getId(), "Course", Color.BLACK, false);
+    	List<Tag> tagsForUser3 = tagService.getAllTagsCreatedByUser(testUser3.getId());
+        Assert.assertEquals(3, tagsForUser2.size());
+        Assert.assertEquals(7, tagsForUser3.size());
+    }
+    
+    @Test
+    public void deleteTagServiceTest() throws ServiceException, Exception {
+    	User testUser4 = new User("test4@gmail.com", "fakepassword");
+    	usersService.newUser(testUser4);
+    	Long tagId = tagService.createTag(testUser4.getId(), "Friends", Color.BLUE, true);
+    	tagService.deleteTag(tagId);
+    	List<Tag> tagsForUser4 = tagService.getAllTagsCreatedByUser(testUser4.getId());
+        Assert.assertEquals(0, tagsForUser4.size());
+    }
+    
+    @Test
+    public void createDeleteReturnTagsByManyUsersTest() throws ServiceException, Exception {
+    	User testUser5 = new User("test.user5@gmail.com", "fakepassword");
+    	usersService.newUser(testUser5);    	
+    	tagService.createTag(testUser5.getId(), "Friends", Color.BLUE, true);
+    	tagService.createTag(testUser5.getId(), "Friends", Color.RED, true);
+    	tagService.createTag(testUser5.getId(), "Work", Color.BLACK, false);
+
+    	User testUser6 = new User("test.user6@gmail.com", "fakepassword");
+    	usersService.newUser(testUser6);
+    	tagService.createTag(testUser6.getId(), "Friends", Color.BLUE, true);
+    	Long tagID1User6 = tagService.createTag(testUser6.getId(), "Family", Color.RED, true);
+    	tagService.createTag(testUser6.getId(), "Work", Color.BLACK, false);
+    	tagService.createTag(testUser6.getId(), "School", Color.BLACK, false);
+    	tagService.createTag(testUser6.getId(), "Office", Color.BLACK, false);
+    	tagService.createTag(testUser6.getId(), "Bar", Color.BLACK, false);
+    	tagService.createTag(testUser6.getId(), "Course", Color.BLACK, false);
+    	tagService.deleteTag(tagID1User6);
+        
+        User testUser7 = new User("test.user7@gmail.com", "fakepassword");
+    	usersService.newUser(testUser7);
+    	Long tagID1User7 = tagService.createTag(testUser7.getId(), "Friends", Color.BLUE, true);
+    	Long tagID2User7 = tagService.createTag(testUser7.getId(), "Family", Color.RED, true);
+    	Long tagID3User7 = tagService.createTag(testUser7.getId(), "Work", Color.BLACK, false);
+    	tagService.deleteTag(tagID1User7);
+    	tagService.deleteTag(tagID2User7);
+    	tagService.deleteTag(tagID3User7);
+        
+        User testUser8 = new User("test.user8@gmail.com", "fakepassword");
+    	usersService.newUser(testUser8);    	
+    	Long tagID1User8 = tagService.createTag(testUser8.getId(), "Friends", Color.BLUE, true);
+    	Long tagID2User8 = tagService.createTag(testUser8.getId(), "Friends", Color.RED, true);
+    	tagService.createTag(testUser8.getId(), "Work", Color.BLACK, false);
+    	tagService.deleteTag(tagID1User8);
+    	tagService.deleteTag(tagID2User8);
+    	
+    	List<Tag> tagsForUser5 = tagService.getAllTagsCreatedByUser(testUser5.getId());
+    	List<Tag> tagsForUser6 = tagService.getAllTagsCreatedByUser(testUser6.getId());
+    	List<Tag> tagsForUser7 = tagService.getAllTagsCreatedByUser(testUser7.getId());
+    	List<Tag> tagsForUser8 = tagService.getAllTagsCreatedByUser(testUser8.getId());
+    	Assert.assertEquals(3, tagsForUser5.size());
+        Assert.assertEquals(6, tagsForUser6.size());
+        Assert.assertEquals(0, tagsForUser7.size());
+    	Assert.assertEquals(1, tagsForUser8.size());
     }
 
 }
