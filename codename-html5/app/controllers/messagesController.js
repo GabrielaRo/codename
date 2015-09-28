@@ -234,7 +234,7 @@
             $scope.conversationsLoaded = false;
             $chat.getConversations().success(function (data) {
                 var usernicknames = [];
-                
+                var converstaionIndexToSelect = -1;
                 for (var i = 0; i < data.length; i++) {
                     data[i].onlineStatus = false;
                     if (data[i].metadata.participantsName) {
@@ -245,7 +245,12 @@
                         if (data[i].participants[j] !== $cookieStore.get('user_nick')) {
                             usernicknames.push(data[i].participants[j]);
                         }
+                        if(data[i].participants[j] === $routeParams.selectedUser){
+                            converstaionIndexToSelect = i;
+                        }
                     }
+                    
+                    
                 }
                 
                 $presence.getUsersState(usernicknames).success(function (states) {
@@ -265,34 +270,37 @@
                 $rootScope.inbox = data;
                 
                 if ($routeParams.selectedUser) {
-
                     
-                    $chat.newConversation([$cookieStore.get('user_nick'), $routeParams.selectedUser],
-                            [$cookieStore.get('user_full'), $routeParams.firstname + " " + $routeParams.lastname]
-                            ).success(function (data) {
-                        $presence.registerInterestInUsers([$routeParams.selectedUser]);
-                        data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
-                        var idx = -1;
-                        var onlineStatus = false;
-                        for (var i = 0; i < $rootScope.inbox.length; i++) {
-                            if ($rootScope.inbox[i].url === data.url) {
-                                idx = i;
-                                onlineStatus = $rootScope.inbox[i].onlineStatus;
+                    if(converstaionIndexToSelect >= 0){
+                        $scope.selectConversation(data[converstaionIndexToSelect]);
+                    }else{
+                        $chat.newConversation([$cookieStore.get('user_nick'), $routeParams.selectedUser],
+                                [$cookieStore.get('user_full'), $routeParams.firstname + " " + $routeParams.lastname]
+                                ).success(function (data) {
+                            $presence.registerInterestInUsers([$routeParams.selectedUser]);
+                            data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
+                            var idx = -1;
+                            var onlineStatus = 'false';
+                            for (var i = 0; i < $rootScope.inbox.length; i++) {
+                                if ($rootScope.inbox[i].url === data.url) {
+                                    idx = i;
+                                    onlineStatus = $rootScope.inbox[i].onlineStatus;
+                                }
+
                             }
+                            if (idx !== -1) {
+                                $rootScope.inbox.splice(idx, 1);
+                            }
+                            data.onlineStatus = onlineStatus;
+                            $rootScope.inbox.push(data);
+                            $scope.selectConversation(data);
 
-                        }
-                        if (idx !== -1) {
-                            $rootScope.inbox.splice(idx, 1);
-                        }
-                        data.onlineStatus = onlineStatus;
-                        $rootScope.inbox.push(data);
-                        $scope.selectConversation(data);
-
-                    }).error(function (data, status) {
-                        console.log("Error: ");
-                        console.log(data);
-                        console.log(status);
-                    });
+                        }).error(function (data, status) {
+                            console.log("Error: ");
+                            console.log(data);
+                            console.log(status);
+                        });
+                    }
 
                 } else if ($rootScope.inbox[0] && !$routeParams.selectedUser) {
 
