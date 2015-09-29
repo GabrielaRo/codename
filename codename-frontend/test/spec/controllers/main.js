@@ -14,6 +14,7 @@ describe('Controller: MainCtrl', function () {
     MainCtrl = $controller('MainCtrl', {
       $scope: scope
     });
+    scope.awesomeThings = ['a','b','c'];
   }));
 
   it('should attach a list of awesomeThings to the scope', function () {

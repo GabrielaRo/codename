@@ -15,6 +15,7 @@ hs_err_pid*
 /codename-rules/target/
 /codename-tests/target/
 /codename-html5/target/
+/codename-frontend/target/
 /deployments/
 .DS_Store
 .AppleDouble

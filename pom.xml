@@ -27,7 +27,6 @@
         
         <!-- Web App Module -->
         <module>codename-html5</module>
-	<!— New UI -—>
 	<module>codename-frontend</module>
         
         <!--module>codename-rules</module-->
