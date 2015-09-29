@@ -247,7 +247,7 @@ module.exports = function (grunt) {
       },
       server: {
         options: {
-          sourcemap: true
+//          sourcemap: true
         }
       }
     },
