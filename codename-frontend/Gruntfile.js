@@ -217,13 +217,13 @@ module.exports = function (grunt) {
             }
           }
       },
-      sass: {
-        src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        ignorePath: /(\.\.\/){1,2}bower_components\//
-      }
+//      sass: {
+//        src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+//        ignorePath: /(\.\.\/){1,2}bower_components\//
+//      }
     },
 
-    // Compiles Sass to CSS and generates necessary files if requested
+//    // Compiles Sass to CSS and generates necessary files if requested
     compass: {
       options: {
         sassDir: '<%= yeoman.app %>/styles',
