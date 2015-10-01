@@ -20,7 +20,7 @@
 
         $scope.reConnectChat = function () {
             $rootScope.initChat();
-            
+
             $scope.getConversations();
         };
 
@@ -29,8 +29,12 @@
         $scope.selectConversation = function (conversation) {
 
             $rootScope.selectedConversation = conversation;
-
-            $scope.getMessages(conversation.url);
+            if (conversation.url !== 'new') { // If this conversation has message get them.
+                $scope.getMessages(conversation.url);
+            } else {
+                $scope.messagesLoaded = true; // there are no messages to load.
+                $rootScope.messageHistory = []; // need to make sure that there no other messages loaded
+            }
 
 
         }
@@ -106,10 +110,37 @@
         };
 
         $scope.deleteConversation = function (conversationUrl) {
-            $chat.deleteConversation(conversationUrl).success(function (data) {
+            if (conversationUrl !== 'new') {
+                $chat.deleteConversation(conversationUrl).success(function (data) {
+                    var idx = -1;
+                    for (var i = 0; i < $rootScope.inbox.length; i++) {
+                        if ($rootScope.inbox[i].url === conversationUrl) {
+                            idx = i;
+                        }
+
+                    }
+                    if (idx !== -1) {
+
+                        $rootScope.inbox.splice(idx, 1);
+                    }
+                    if ($rootScope.inbox.length > 0) {
+
+                        $scope.selectConversation($rootScope.inbox[0]);
+                    }
+
+                    if ($rootScope.inbox.length === 0) {
+                        $rootScope.selectedConversation = '';
+                        $rootScope.messageHistory = [];
+                    }
+
+                }).error(function (data, status) {
+                    $error.handleError(data, status);
+
+                });
+            } else {
                 var idx = -1;
                 for (var i = 0; i < $rootScope.inbox.length; i++) {
-                    if ($rootScope.inbox[i].url === conversationUrl) {
+                    if ($rootScope.inbox[i].url === 'new') {
                         idx = i;
                     }
 
@@ -118,19 +149,16 @@
 
                     $rootScope.inbox.splice(idx, 1);
                 }
-                if ($rootScope.inbox[0] && !$routeParams.selectedUser) {
-                    $rootScope.selectedConversation = $rootScope.inbox[0].url;
-                    $scope.getMessages($rootScope.selectedConversation);
+                if ($rootScope.inbox.length > 0) {
+
+                    $scope.selectConversation($rootScope.inbox[0]);
                 }
+
                 if ($rootScope.inbox.length === 0) {
                     $rootScope.selectedConversation = '';
                     $rootScope.messageHistory = [];
                 }
-                
-            }).error(function (data, status) {
-                $error.handleError(data, status);
-
-            });
+            }
         };
         $scope.getLastSentMessageStatus = function (recipient_status) {
             var status;
@@ -149,37 +177,107 @@
         };
 
 
-        $scope.sendMessage = function (conversationUrl, body, mimeType) {
+        $scope.sendMessage = function (conversation, body, mimeType) {
             $scope.sendText = 'Sending...';
-            $chat.sendMessage(conversationUrl, body, mimeType).success(function (data) {
-
-                $rootScope.messageHistory.push(data);
-                $scope.emojiMessage = {};
-                $scope.emojiMessage.replyToUser = function () {
-                    if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
-                        $('#sendMessageButton').click();
+            if (conversation.url === 'new') {
+                var selectedUser;
+                for (var i = 0; i < conversation.participants.length; i++) {
+                    if (conversation.participants[i] !== $cookieStore.get("user_nick")) {
+                        selectedUser = conversation.participants[i];
                     }
-                };
-                var newListHeight = $(".messages-history").height();
-                $("#user-messages-chat").animate({scrollTop: newListHeight}, 200);
-                $scope.getOneConversation(conversationUrl);
+                }
+                var fullName;
 
-                $scope.sendText = 'Send';
-
-            }).error(function (data, status) {
-                $error.handleError(data, status);
-                $scope.emojiMessage = {};
-                $scope.emojiMessage.replyToUser = function () {
-                    if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
-                        $('#sendMessageButton').click();
+                for (var i = 0; i < conversation.metadata.participantsName.length; i++) {
+                    if (conversation.metadata.participantsName[i] !== $cookieStore.get("user_full")) {
+                        fullName = conversation.metadata.participantsName[i];
                     }
-                };
-            });
+                }
+
+                $chat.newConversation([$cookieStore.get('user_nick'), selectedUser],
+                        [$cookieStore.get('user_full'), fullName]
+                        ).success(function (conversation) {
+                    $presence.registerInterestInUsers([$routeParams.selectedUser]);
+                    conversation.metadata.participantsName = JSON.parse(conversation.metadata.participantsName);
+                    var idx = -1;
+                    var onlineStatus = 'false';
+                    for (var i = 0; i < $rootScope.inbox.length; i++) {
+                        if ($rootScope.inbox[i].url === conversation.url) {
+                            idx = i;
+                            onlineStatus = $rootScope.inbox[i].onlineStatus;
+                        }
+                        if ($rootScope.inbox[i].url === 'new') {
+                            idx = i;
+                            onlineStatus = $rootScope.inbox[i].onlineStatus;
+                        }
+
+                    }
+                    if (idx !== -1) {
+                        $rootScope.inbox.splice(idx, 1);
+                    }
+                    conversation.onlineStatus = onlineStatus;
+                    $rootScope.inbox.push(conversation);
+                    $scope.selectConversation(conversation);
+                    $chat.sendMessage(conversation.url, body, mimeType).success(function (message) {
+
+                        $rootScope.messageHistory.push(message);
+                        $scope.emojiMessage = {};
+                        $scope.emojiMessage.replyToUser = function () {
+                            if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
+                                $('#sendMessageButton').click();
+                            }
+                        };
+                        var newListHeight = $(".messages-history").height();
+                        $("#user-messages-chat").animate({scrollTop: newListHeight}, 200);
+                        $scope.getOneConversation(conversation.url);
+
+                        $scope.sendText = 'Send';
+
+                    }).error(function (data, status) {
+                        $error.handleError(data, status);
+                        $scope.emojiMessage = {};
+                        $scope.emojiMessage.replyToUser = function () {
+                            if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
+                                $('#sendMessageButton').click();
+                            }
+                        };
+                    });
 
 
 
+                }).error(function (data, status) {
+                    console.log("Error: ");
+                    console.log(data);
+                    console.log(status);
+                });
+            } else {
+                $chat.sendMessage(conversation.url, body, mimeType).success(function (data) {
 
-        }
+                    $rootScope.messageHistory.push(data);
+                    $scope.emojiMessage = {};
+                    $scope.emojiMessage.replyToUser = function () {
+                        if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
+                            $('#sendMessageButton').click();
+                        }
+                    };
+                    var newListHeight = $(".messages-history").height();
+                    $("#user-messages-chat").animate({scrollTop: newListHeight}, 200);
+                    $scope.getOneConversation(conversation.url);
+
+                    $scope.sendText = 'Send';
+
+                }).error(function (data, status) {
+                    $error.handleError(data, status);
+                    $scope.emojiMessage = {};
+                    $scope.emojiMessage.replyToUser = function () {
+                        if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
+                            $('#sendMessageButton').click();
+                        }
+                    };
+                });
+            }
+
+        };
 
         $scope.markAsRead = function (message) {
             console.log("marking as read: ");
@@ -234,7 +332,7 @@
             $scope.conversationsLoaded = false;
             $chat.getConversations().success(function (data) {
                 var usernicknames = [];
-                var converstaionIndexToSelect = -1;
+
                 for (var i = 0; i < data.length; i++) {
                     data[i].onlineStatus = false;
                     if (data[i].metadata.participantsName) {
@@ -245,14 +343,12 @@
                         if (data[i].participants[j] !== $cookieStore.get('user_nick')) {
                             usernicknames.push(data[i].participants[j]);
                         }
-                        if(data[i].participants[j] === $routeParams.selectedUser){
-                            converstaionIndexToSelect = i;
-                        }
+
                     }
-                    
-                    
+
+
                 }
-                
+                console.log(">>> converstaionIndexToSelect: " + converstaionIndexToSelect);
                 $presence.getUsersState(usernicknames).success(function (states) {
                     for (var i = 0; i < data.length; i++) {
 
@@ -267,49 +363,43 @@
                     unread += data[i].unread_message_count;
                 }
                 $rootScope.newNotifications = unread;
-                $rootScope.inbox = data;
-                
-                if ($routeParams.selectedUser) {
-                    
-                    if(converstaionIndexToSelect >= 0){
-                        $scope.selectConversation(data[converstaionIndexToSelect]);
-                    }else{
-                        $chat.newConversation([$cookieStore.get('user_nick'), $routeParams.selectedUser],
-                                [$cookieStore.get('user_full'), $routeParams.firstname + " " + $routeParams.lastname]
-                                ).success(function (data) {
-                            $presence.registerInterestInUsers([$routeParams.selectedUser]);
-                            data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
-                            var idx = -1;
-                            var onlineStatus = 'false';
-                            for (var i = 0; i < $rootScope.inbox.length; i++) {
-                                if ($rootScope.inbox[i].url === data.url) {
-                                    idx = i;
-                                    onlineStatus = $rootScope.inbox[i].onlineStatus;
-                                }
+                var orderBy = $filter('orderBy');
 
-                            }
-                            if (idx !== -1) {
-                                $rootScope.inbox.splice(idx, 1);
-                            }
-                            data.onlineStatus = onlineStatus;
-                            $rootScope.inbox.push(data);
-                            $scope.selectConversation(data);
-
-                        }).error(function (data, status) {
-                            console.log("Error: ");
-                            console.log(data);
-                            console.log(status);
-                        });
+                $rootScope.inbox = orderBy(data, 'last_message.sent_at', true);
+                var converstaionIndexToSelect = -1;
+                for (var i = 0; i < $rootScope.inbox.length; i++) {
+                    for (var j = 0; j < $rootScope.inbox[i].participants.length; j++) {
+                        if ($rootScope.inbox[i].participants[j] === $routeParams.selectedUser) {
+                            converstaionIndexToSelect = i;
+                        }
                     }
-
-                } else if ($rootScope.inbox[0] && !$routeParams.selectedUser) {
-
-                    $rootScope.selectedConversation = $rootScope.inbox[0];
-                    $scope.getMessages($rootScope.selectedConversation.url);
                 }
-                
+
+
+                if (converstaionIndexToSelect >= 0) {
+                    $scope.selectConversation($rootScope.inbox[converstaionIndexToSelect]);
+                    console.log("selecting conversation with index: " + converstaionIndexToSelect);
+                } else if ($rootScope.inbox.length > 0 && !$routeParams.selectedUser && converstaionIndexToSelect === -1) {
+                    $scope.selectConversation($rootScope.inbox[0]);
+                    console.log("selecting conversation with index: " + 0);
+                }
+
+                if ($routeParams.selectedUser && converstaionIndexToSelect === -1) {
+                    console.log("creating conversation conversation");
+//                    $scope.newConversation($routeParams.selectedUser, $routeParams.firstname, $routeParams.lastname)
+                    var newConversationData = {
+                        url: 'new',
+                        participants: [$cookieStore.get('user_nick'), $routeParams.selectedUser],
+                        metadata: {participantsName: [$cookieStore.get('user_full'), $routeParams.firstname + " " + $routeParams.lastname]},
+                    };
+                    $rootScope.inbox.push(newConversationData);
+                    $scope.selectConversation(newConversationData);
+                }
+
+
+
                 $scope.conversationsLoaded = true;
-                
+
 
             }).error(function (data, status) {
                 console.log("Error: ");
@@ -319,12 +409,42 @@
 
         };
 
+        $scope.newConversation = function (selectedUser, firstname, lastname) {
+            $chat.newConversation([$cookieStore.get('user_nick'), selectedUser],
+                    [$cookieStore.get('user_full'), firstname + " " + lastname]
+                    ).success(function (data) {
+                $presence.registerInterestInUsers([$routeParams.selectedUser]);
+                data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
+                var idx = -1;
+                var onlineStatus = 'false';
+                for (var i = 0; i < $rootScope.inbox.length; i++) {
+                    if ($rootScope.inbox[i].url === data.url) {
+                        idx = i;
+                        onlineStatus = $rootScope.inbox[i].onlineStatus;
+                    }
+
+                }
+                if (idx !== -1) {
+                    $rootScope.inbox.splice(idx, 1);
+                }
+                data.onlineStatus = onlineStatus;
+                $rootScope.inbox.push(data);
+                $scope.selectConversation(data);
+
+            }).error(function (data, status) {
+                console.log("Error: ");
+                console.log(data);
+                console.log(status);
+            });
+
+        }
+
         $scope.$watch('chatStatus',
                 function (newValue) {
                     if (newValue == 'offline') {
                         console.log("reconnecting chat.. becuase it is offline");
                         $rootScope.initChat();
-                        
+
                     } else {
                         console.log("getting conversations because the chat is online");
                         $scope.getConversations();

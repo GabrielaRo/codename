@@ -8,7 +8,16 @@
                     + "fhellow?nickname=" + $cookieStore.get('user_nick');
 
             if ($rootScope.chat_session_token) {
-                $rootScope.presenceWebsocket = new WebSocket(wsUri);
+                $rootScope.presenceWebsocket = new RcSocket(wsUri);
+                $rootScope.presenceWebsocket.debug    = false;
+                $rootScope.presenceWebsocket.timeout  = 2500;
+                $rootScope.presenceWebsocket.maxRetry = 1000;
+                $rootScope.presenceWebsocket.logger   = console.debug;
+                
+                $rootScope.presenceWebsocket.onconnecting = function (evt) {
+                    console.log(">>> Presence WS on Connecting");
+                };
+                
                 $rootScope.presenceWebsocket.onopen = function (evt) {
                     console.log(">>> Presence WS on Open");
                 };
@@ -57,7 +66,15 @@
                     console.log(">>> Presence WS on Close");
                 };
 
-                $rootScope.chatWebsocket = new WebSocket('wss://api.layer.com/websocket?session_token=' + $rootScope.chat_session_token, 'layer-1.0');
+                $rootScope.chatWebsocket = new RcSocket('wss://api.layer.com/websocket?session_token=' + $rootScope.chat_session_token, 'layer-1.0');
+                $rootScope.chatWebsocket.debug    = false;
+                $rootScope.chatWebsocket.timeout  = 2500;
+                $rootScope.chatWebsocket.maxRetry = 1000;
+                $rootScope.chatWebsocket.logger   = console.debug;
+                
+                $rootScope.chatWebsocket.onconnecting = function (evt) {
+                    console.log(">>> Chat WS on Connecting");
+                };
                 $rootScope.chatWebsocket.onopen = function (evt) {
                     console.log(">>> Chat WS on Open");
                 };

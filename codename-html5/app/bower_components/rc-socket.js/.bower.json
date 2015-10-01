@@ -1,0 +1,23 @@
+{
+  "name": "rc-socket.js",
+  "version": "0.2.6",
+  "ignore": [
+    "**/.*",
+    "Gruntfile.js",
+    "src",
+    "docs",
+    "test",
+    "build"
+  ],
+  "homepage": "https://github.com/firstopinion/rc-socket.js",
+  "_release": "0.2.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.2.6",
+    "commit": "5e04281c92f427aa753c8215d677e31df29af450"
+  },
+  "_source": "git://github.com/firstopinion/rc-socket.js.git",
+  "_target": "~0.2.6",
+  "_originalSource": "rc-socket.js",
+  "_direct": true
+}
