@@ -29,11 +29,12 @@ public class AuthRESTResponseFilter implements ContainerResponseFilter {
 
         responseCtx.getHeaders().add("Access-Control-Allow-Origin", "*");    // You may further limit certain client IPs with Access-Control-Allow-Origin instead of '*'
 
+        
         responseCtx.getHeaders().add("Access-Control-Allow-Credentials", "true");
 
         responseCtx.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
 
-        responseCtx.getHeaders().add("Access-Control-Allow-Headers", GrogHTTPHeaderNames.SERVICE_KEY + ", " + GrogHTTPHeaderNames.AUTH_TOKEN);
+        responseCtx.getHeaders().add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept" + GrogHTTPHeaderNames.SERVICE_KEY + ", " + GrogHTTPHeaderNames.AUTH_TOKEN);
 
     }
 

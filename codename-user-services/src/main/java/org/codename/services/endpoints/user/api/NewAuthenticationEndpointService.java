@@ -8,6 +8,7 @@ package org.codename.services.endpoints.user.api;
 import java.io.Serializable;
 import javax.ejb.Local;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -29,11 +30,13 @@ public interface NewAuthenticationEndpointService extends Serializable {
 
     @POST
     @Path("/register")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON})
     public Response registerUser(@NotNull User user) throws ServiceException;
 
     @POST
     @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(@NotNull User user) throws ServiceException;
 
