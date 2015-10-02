@@ -13,7 +13,7 @@
         $scope.meFull = $cookieStore.get('user_full');
         $scope.emojiMessage = {};
         $scope.emojiMessage.replyToUser = function () {
-            if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
+            if ($scope.emojiMessage.messagetext !== "" && $scope.emojiMessage.messagetext !== undefined) {
                 $('#sendMessageButton').click();
             }
         };
@@ -223,7 +223,7 @@
                         $rootScope.messageHistory.push(message);
                         $scope.emojiMessage = {};
                         $scope.emojiMessage.replyToUser = function () {
-                            if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
+                            if ($scope.emojiMessage.messagetext !== "" && $scope.emojiMessage.messagetext !== undefined) {
                                 $('#sendMessageButton').click();
                             }
                         };
@@ -237,7 +237,7 @@
                         $error.handleError(data, status);
                         $scope.emojiMessage = {};
                         $scope.emojiMessage.replyToUser = function () {
-                            if ($scope.emojiMessage.messagetext != "" && $scope.emojiMessage.messagetext != undefined) {
+                            if ($scope.emojiMessage.messagetext !== "" && $scope.emojiMessage.messagetext !== undefined) {
                                 $('#sendMessageButton').click();
                             }
                         };
@@ -330,6 +330,7 @@
         $scope.getConversations = function () {
             $rootScope.inbox = [];
             $scope.conversationsLoaded = false;
+            
             $chat.getConversations().success(function (data) {
                 var usernicknames = [];
 
@@ -366,6 +367,9 @@
                 var orderBy = $filter('orderBy');
 
                 $rootScope.inbox = orderBy(data, 'last_message.sent_at', true);
+                if($rootScope.inbox.length === 0){
+                   $rootScope.messageHistory = []; 
+                } 
                 var converstaionIndexToSelect = -1;
                 for (var i = 0; i < $rootScope.inbox.length; i++) {
                     for (var j = 0; j < $rootScope.inbox[i].participants.length; j++) {
@@ -389,6 +393,7 @@
 //                    $scope.newConversation($routeParams.selectedUser, $routeParams.firstname, $routeParams.lastname)
                     var newConversationData = {
                         url: 'new',
+                        onlineStatus: $routeParams.onlineStatus, 
                         participants: [$cookieStore.get('user_nick'), $routeParams.selectedUser],
                         metadata: {participantsName: [$cookieStore.get('user_full'), $routeParams.firstname + " " + $routeParams.lastname]},
                     };

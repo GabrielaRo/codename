@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Boost;
@@ -42,6 +43,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "USERS")
 @Indexed
 @Spatial
+@XmlRootElement
 public class User implements Serializable {
 
     public static enum UserProvider {

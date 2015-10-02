@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.Consumes;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;

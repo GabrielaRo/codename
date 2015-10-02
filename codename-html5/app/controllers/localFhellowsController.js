@@ -111,8 +111,8 @@
 
         $scope.$watch('lookedUpLocation', $scope.selectAddress);
 
-        $scope.newConversation = function (selectedUser, firstname, lastname) {
-            $rootScope.$broadcast('goTo', "/messages/" + selectedUser + "/" + firstname + "/" + lastname);
+        $scope.newConversation = function (selectedUser, firstname, lastname, onlineStatus) {
+            $rootScope.$broadcast('goTo', "/messages/" + selectedUser + "/" + firstname + "/" + lastname + "/" + onlineStatus);
 
 
         };

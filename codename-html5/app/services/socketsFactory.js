@@ -1,5 +1,5 @@
 (function () {
-    var $sockets = function ($rootScope, $cookieStore, appConstants) {
+    var $sockets = function ($rootScope, $cookieStore, $chat, $filter, appConstants) {
         var factory = {};
         //init web socket for a client
         factory.initWebSocket = function () {
@@ -9,15 +9,15 @@
 
             if ($rootScope.chat_session_token) {
                 $rootScope.presenceWebsocket = new RcSocket(wsUri);
-                $rootScope.presenceWebsocket.debug    = false;
-                $rootScope.presenceWebsocket.timeout  = 2500;
+                $rootScope.presenceWebsocket.debug = false;
+                $rootScope.presenceWebsocket.timeout = 2500;
                 $rootScope.presenceWebsocket.maxRetry = 1000;
-                $rootScope.presenceWebsocket.logger   = console.debug;
-                
+                $rootScope.presenceWebsocket.logger = console.debug;
+
                 $rootScope.presenceWebsocket.onconnecting = function (evt) {
                     console.log(">>> Presence WS on Connecting");
                 };
-                
+
                 $rootScope.presenceWebsocket.onopen = function (evt) {
                     console.log(">>> Presence WS on Open");
                 };
@@ -67,11 +67,11 @@
                 };
 
                 $rootScope.chatWebsocket = new RcSocket('wss://api.layer.com/websocket?session_token=' + $rootScope.chat_session_token, 'layer-1.0');
-                $rootScope.chatWebsocket.debug    = false;
-                $rootScope.chatWebsocket.timeout  = 2500;
+                $rootScope.chatWebsocket.debug = false;
+                $rootScope.chatWebsocket.timeout = 2500;
                 $rootScope.chatWebsocket.maxRetry = 1000;
-                $rootScope.chatWebsocket.logger   = console.debug;
-                
+                $rootScope.chatWebsocket.logger = console.debug;
+
                 $rootScope.chatWebsocket.onconnecting = function (evt) {
                     console.log(">>> Chat WS on Connecting");
                 };
@@ -88,43 +88,118 @@
                                 //console.log("WEBSOCKET CREATE: " + msg.body.object.id + " - by: " + msg.body.data.sender.user_id);
                                 //console.log(msg.body.data);
                                 console.log(msg);
+                                // check that the notificatio is not from myself
                                 if (msg.body.data.sender.user_id !== $cookieStore.get('user_nick')) {
-                                    $rootScope.$apply(function () {
-                                        $rootScope.newNotifications = $rootScope.newNotifications + 1;
 
-                                    });
+                                    var conversationUpdated = false;
+                                    // If the ws notification is for the selected conversation
                                     if ($rootScope.selectedConversation.id === msg.body.data.conversation.id) {
-                                       
+
                                         $rootScope.$apply(function () {
                                             $rootScope.messageHistory.push(msg.body.data);
                                         });
+                                        // look for the conversation in the inbox
                                         for (var i = 0; i < $rootScope.inbox.length; i++) {
                                             if ($rootScope.inbox[i].url === msg.body.data.conversation.url) {
+                                                // apply the new data to the inbox entry
                                                 $rootScope.$apply(function () {
                                                     console.log($rootScope.inbox[i].last_message);
                                                     $rootScope.inbox[i].last_message.sender.user_id = msg.body.data.sender.user_id;
                                                     $rootScope.inbox[i].last_message.parts[0].body = msg.body.data.parts[0].body;
                                                     $rootScope.inbox[i].last_message.received_at = new Date();
-                                                    $rootScope.inbox[i].unread_message_count = $rootScope.inbox[i].unread_message_count + 1;
+                                                    //$rootScope.inbox[i].unread_message_count = $rootScope.inbox[i].unread_message_count + 1;
+                                                    conversationUpdated = true;
                                                 });
                                                 var newListHeight = $(".messages-history").height();
                                                 $("#user-messages-chat").animate({scrollTop: newListHeight}, 200);
                                             }
 
                                         }
-                                    } else {
+                                    }
+                                    // if the ws notification is not about the selected conversation
+                                    else {
+
+                                        // look for the inbox entry to update
                                         for (var i = 0; i < $rootScope.inbox.length; i++) {
                                             if ($rootScope.inbox[i].url === msg.body.data.conversation.url) {
+//                                                $rootScope.$apply(function () {
+//
+//                                                    $rootScope.inbox[i].last_message.sender.user_id = msg.body.data.sender.user_id;
+//                                                    $rootScope.inbox[i].last_message.parts[0].body = msg.body.data.parts[0].body;
+//                                                    $rootScope.inbox[i].last_message.received_at = new Date();
+//                                                    $rootScope.inbox[i].unread_message_count = $rootScope.inbox[i].unread_message_count + 1;
+//                                                    conversationUpdated = true;
+//                                                });
                                                 $rootScope.$apply(function () {
-                                                    $rootScope.inbox[i].last_message.sender.user_id = msg.body.data.sender.user_id;
-                                                    $rootScope.inbox[i].last_message.parts[0].body = msg.body.data.parts[0].body;
-                                                    $rootScope.inbox[i].last_message.received_at = new Date();
-                                                    $rootScope.inbox[i].unread_message_count = $rootScope.inbox[i].unread_message_count + 1;
+                                                    $rootScope.newNotifications = $rootScope.newNotifications + 1;
+
+                                                });
+                                                $chat.getOneConversation(msg.body.data.conversation.url).success(function (data) {
+                                                    var idx = -1;
+                                                    var onlineStatus = false;
+                                                    for (var i = 0; i < $rootScope.inbox.length; i++) {
+                                                        if ($rootScope.inbox[i].url === msg.body.data.conversation.url) {
+                                                            idx = i;
+                                                            onlineStatus = $rootScope.inbox[i].onlineStatus;
+                                                        }
+
+                                                    }
+                                                    if (idx !== -1) {
+                                                        $rootScope.inbox.splice(idx, 1);
+                                                    }
+                                                    data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
+
+                                                    data.onlineStatus = onlineStatus;
+
+                                                    $rootScope.inbox.push(data);
+
+                                                    var orderBy = $filter('orderBy');
+
+                                                    $rootScope.inbox = orderBy($rootScope.inbox, 'last_message.sent_at', true);
+
+                                                }).error(function (data, status) {
+                                                    console.log("Error: " + data + " - " + status);
+
                                                 });
                                             }
 
                                         }
                                     }
+                                    //if the conversation didn't exist for this user yet -> add it
+                                    if (conversationUpdated === false) {
+                                        $rootScope.$apply(function () {
+                                            $rootScope.newNotifications = $rootScope.newNotifications + 1;
+
+                                        });
+                                        $chat.getOneConversation(msg.body.data.conversation.url).success(function (data) {
+                                            var idx = -1;
+                                            var onlineStatus = false;
+                                            for (var i = 0; i < $rootScope.inbox.length; i++) {
+                                                if ($rootScope.inbox[i].url === msg.body.data.conversation.url) {
+                                                    idx = i;
+                                                    onlineStatus = $rootScope.inbox[i].onlineStatus;
+                                                }
+
+                                            }
+                                            if (idx !== -1) {
+                                                $rootScope.inbox.splice(idx, 1);
+                                            }
+                                            data.metadata.participantsName = JSON.parse(data.metadata.participantsName);
+
+                                            data.onlineStatus = onlineStatus;
+
+                                            $rootScope.inbox.push(data);
+
+                                            var orderBy = $filter('orderBy');
+
+                                            $rootScope.inbox = orderBy($rootScope.inbox, 'last_message.sent_at', true);
+
+                                        }).error(function (data, status) {
+                                            console.log("Error: " + data + " - " + status);
+
+                                        });
+                                    }
+
                                 }
                                 break;
                             case "change.delete":
@@ -154,8 +229,10 @@
                 $rootScope.chatWebsocket.close();
             }
         };
+
+
         return factory;
     };
-    $sockets.$inject = ['$rootScope', '$cookieStore', 'appConstants'];
+    $sockets.$inject = ['$rootScope', '$cookieStore', '$chat', '$filter', 'appConstants'];
     angular.module("codename").factory("$sockets", $sockets);
 }());

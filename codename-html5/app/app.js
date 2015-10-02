@@ -74,7 +74,7 @@
                                 requiresProfile: true
                             }
                         })
-                        .when('/messages/:selectedUser/:firstname/:lastname', {
+                        .when('/messages/:selectedUser/:firstname/:lastname/:onlineStatus', {
                             templateUrl: 'views/messages.html',
                             controller: 'messagesController',
                             access: {
