@@ -13,7 +13,7 @@ angular.module('codebaseFrontendApp')
         var registerFactory = {};
         
         hello.on('auth.login', function(auth) {
-            registerFactory.getUser(auth.network);
+           // registerFactory.getUser(auth.network);
         });
 
         registerFactory.post = function (network, data) {

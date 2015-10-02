@@ -45,13 +45,15 @@ public class AuthRESTRequestFilter implements ContainerRequestFilter {
 
         }
 
-        if (!path.startsWith("/auth/register")
+        if (!path.startsWith("/auth/register") && !path.startsWith("/auth2/register")
                 && !path.startsWith("/static") && !path.startsWith("/auth/google")
                 && !path.contains("public")) {
 
             // Then check is the service key exists and is valid.
             // For any pther methods besides login, the authToken and service key  must be verified
-            if (!path.startsWith("/auth/login")) {
+            if (!path.startsWith("/auth/login") && !path.startsWith("/auth2/login")) {
+
+
 //                log.info("Checking for correct service_key " + path);
                 String serviceKey = requestCtx.getHeaderString(GrogHTTPHeaderNames.SERVICE_KEY);
 
