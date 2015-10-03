@@ -90,7 +90,10 @@
                                 console.log(msg);
                                 // check that the notificatio is not from myself
                                 if (msg.body.data.sender.user_id !== $cookieStore.get('user_nick')) {
-
+                                    $rootScope.$apply(function () {
+                                        $rootScope.newNotifications = $rootScope.newNotifications + 1;
+                                        
+                                    });
                                     var conversationUpdated = false;
                                     // If the ws notification is for the selected conversation
                                     if ($rootScope.selectedConversation.id === msg.body.data.conversation.id) {
@@ -109,6 +112,8 @@
                                                     $rootScope.inbox[i].last_message.received_at = new Date();
                                                     //$rootScope.inbox[i].unread_message_count = $rootScope.inbox[i].unread_message_count + 1;
                                                     conversationUpdated = true;
+
+
                                                 });
                                                 var newListHeight = $(".messages-history").height();
                                                 $("#user-messages-chat").animate({scrollTop: newListHeight}, 200);
@@ -130,10 +135,7 @@
 //                                                    $rootScope.inbox[i].unread_message_count = $rootScope.inbox[i].unread_message_count + 1;
 //                                                    conversationUpdated = true;
 //                                                });
-                                                $rootScope.$apply(function () {
-                                                    $rootScope.newNotifications = $rootScope.newNotifications + 1;
-
-                                                });
+                                                
                                                 $chat.getOneConversation(msg.body.data.conversation.url).success(function (data) {
                                                     var idx = -1;
                                                     var onlineStatus = false;
@@ -167,10 +169,7 @@
                                     }
                                     //if the conversation didn't exist for this user yet -> add it
                                     if (conversationUpdated === false) {
-                                        $rootScope.$apply(function () {
-                                            $rootScope.newNotifications = $rootScope.newNotifications + 1;
-
-                                        });
+                                        
                                         $chat.getOneConversation(msg.body.data.conversation.url).success(function (data) {
                                             var idx = -1;
                                             var onlineStatus = false;

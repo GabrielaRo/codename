@@ -194,9 +194,10 @@
                         </button>-->
                         <div class="send-actions">
                             
-                            <button id="sendMessageButton" class="button primary" ng-disabled="!selectedConversation" 
+                            <button id="sendMessageButton" class="button primary" ng-disabled="!selectedConversation || !emojiMessage.messagetext" 
                                     ng-click="sendMessage(selectedConversation, emojiMessage.messagetext,'text/plain')" >{{sendText}}</button>
                         </div>
+                       
                     </div>
                 </div>
             </div>

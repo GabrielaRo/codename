@@ -18,6 +18,8 @@
             }
         };
 
+        
+
         $scope.reConnectChat = function () {
             $rootScope.initChat();
 
@@ -330,7 +332,7 @@
         $scope.getConversations = function () {
             $rootScope.inbox = [];
             $scope.conversationsLoaded = false;
-            
+
             $chat.getConversations().success(function (data) {
                 var usernicknames = [];
 
@@ -367,9 +369,9 @@
                 var orderBy = $filter('orderBy');
 
                 $rootScope.inbox = orderBy(data, 'last_message.sent_at', true);
-                if($rootScope.inbox.length === 0){
-                   $rootScope.messageHistory = []; 
-                } 
+                if ($rootScope.inbox.length === 0) {
+                    $rootScope.messageHistory = [];
+                }
                 var converstaionIndexToSelect = -1;
                 for (var i = 0; i < $rootScope.inbox.length; i++) {
                     for (var j = 0; j < $rootScope.inbox[i].participants.length; j++) {
@@ -393,7 +395,7 @@
 //                    $scope.newConversation($routeParams.selectedUser, $routeParams.firstname, $routeParams.lastname)
                     var newConversationData = {
                         url: 'new',
-                        onlineStatus: $routeParams.onlineStatus, 
+                        onlineStatus: $routeParams.onlineStatus,
                         participants: [$cookieStore.get('user_nick'), $routeParams.selectedUser],
                         metadata: {participantsName: [$cookieStore.get('user_full'), $routeParams.firstname + " " + $routeParams.lastname]},
                     };
@@ -467,5 +469,5 @@
         '$presence', '$filter', 'appConstants', '$error'];
     angular.module("codename").controller("messagesController", messagesController);
 
-
 }());
+
