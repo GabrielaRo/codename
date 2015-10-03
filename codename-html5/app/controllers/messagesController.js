@@ -29,7 +29,7 @@
 
 
         $scope.selectConversation = function (conversation) {
-
+            $rootScope.messageHistory = [];
             $rootScope.selectedConversation = conversation;
             if (conversation.url !== 'new') { // If this conversation has message get them.
                 $scope.getMessages(conversation.url);
@@ -331,6 +331,7 @@
 
         $scope.getConversations = function () {
             $rootScope.inbox = [];
+            $rootScope.messageHistory = [];
             $scope.conversationsLoaded = false;
 
             $chat.getConversations().success(function (data) {

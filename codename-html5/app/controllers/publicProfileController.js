@@ -29,14 +29,14 @@
             coverUrl: appConstants.server + appConstants.context + "rest/public/users/" + $rootScope.user_nick + "/cover"
         };
 
-        $scope.newConversation = function (selectedUser, firstname, lastname) {
-            $rootScope.$broadcast('goTo', "/messages/" + selectedUser + "/" + firstname + "/" + lastname);
+        $scope.newConversation = function (selectedUser, firstname, lastname, onlineStatus) {
+            $rootScope.$broadcast('goTo', "/messages/" + selectedUser + "/" + firstname + "/" + lastname + "/" + onlineStatus);
 
         };
 
         $scope.editProfile = function () {
             $rootScope.$broadcast('goTo', "/profile");
-        }
+        };
 
         $scope.loadPublicUserData = function (nickname) {
             $users.getPublicUserData(nickname)
