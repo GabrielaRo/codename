@@ -37,12 +37,12 @@ angular
         $stateProvider
             .state('home', {
                 url: '/',
-                templateUrl: 'views/main.html',
+                templateUrl: 'scripts/User/user.html',
                 controller: 'userController'
             })
             .state('about', {
                 url: '/about',
-                templateUrl: 'views/about.html',
+                templateUrl: 'scripts/About/about.html',
                 controller: 'aboutController'
             });
     }).run(function () {});
