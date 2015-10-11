@@ -3,7 +3,7 @@
         .module('search.factory', [])
         .factory('searchFactory', searchFactory);
 
-    userFactory.$inject = ['$cookies', 'restFactory'];
+    searchFactory.$inject = ['$cookies', 'restFactory'];
 
     function searchFactory($cookies, rest) {
         var service = {

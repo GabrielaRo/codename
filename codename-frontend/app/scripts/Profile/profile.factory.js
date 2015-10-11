@@ -3,7 +3,7 @@
         .module('profile.factory', [])
         .factory('profileFactory', profileFactory);
 
-    userFactory.$inject = ['$cookies', 'restFactory', 'hello'];
+    profileFactory.$inject = ['$cookies', 'restFactory', 'hello'];
 
     function profileFactory($cookies, rest, hello) {
         var service = {

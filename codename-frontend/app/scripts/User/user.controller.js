@@ -12,5 +12,4 @@ angular.module('user.controller', [])
         // register.login('facebook');
         // user.login({email:'grogdj@gmail.com', password:'asdasd'});
         $scope.username = 'asdasad';
-        alert('dssa');
 }]);
