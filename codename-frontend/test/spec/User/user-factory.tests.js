@@ -11,8 +11,8 @@ describe("user", function (userFactory) {
         })
     });
 
-    describe('getCustomers', function () {
-        it("should return a list of customers", inject(function () {
+    describe('asset user factory exists', function () {
+        it("should return a string", inject(function () {
             // httpBackend.expectGET('/Home/Customers').respond(['david', 'James', 'Sam']);
             /*service.getString(function (result) {
                 expect(result).toEqual(["david", "James", "Sam"]);
