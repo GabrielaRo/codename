@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-  .module('codebaseFrontendApp', [
+    .module('codebaseFrontendApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -17,26 +17,28 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngHello',
-    'ui.router'
+    'ui.router',
+    'user.factory',
+    'rest.factory',
+    'constants.factory',
+    'user.controller',
+    'about.controller'
   ])
-  .config(function ($stateProvider, $urlRouterProvider, helloProvider) {
-    helloProvider.init({
-        facebook:'163194807355490'
-    });
-    
+    .config(function ($stateProvider, $urlRouterProvider, helloProvider) {
+        helloProvider.init({
+            facebook: '163194807355490'
+        });
 
-    $urlRouterProvider.otherwise('/');
-    $stateProvider
-      .state('home', {
-        url:'/',
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .state('about', {
-        url:'/about',
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      });
-  }).run(function () {
-
-});
+        $urlRouterProvider.otherwise('/');
+        $stateProvider
+            .state('home', {
+                url: '/',
+                templateUrl: 'views/main.html',
+                controller: 'userController'
+            })
+            .state('about', {
+                url: '/about',
+                templateUrl: 'views/about.html',
+                controller: 'aboutController'
+            });
+    }).run(function () {});
