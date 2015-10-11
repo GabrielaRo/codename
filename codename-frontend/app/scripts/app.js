@@ -22,7 +22,11 @@ angular
     'rest.factory',
     'constants.factory',
     'user.controller',
-    'about.controller'
+    'about.controller',
+    'search.controller',
+    'search.factory',
+    'profile.controller',
+    'profile.factory'
   ])
     .config(function ($stateProvider, $urlRouterProvider, helloProvider) {
         helloProvider.init({
