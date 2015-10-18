@@ -13,32 +13,35 @@
 
             <div id="profile-cover-options">
 
-                <!--button class="button inverted" ngf-select ng-model="picCoverFile" name="file" ngf-change="generateCoverThumb(picCoverFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false"><i class="fa fa-camera"></i> <span ng-hide="!profile.hascover">Change</span> <span ng-hide="profile.hascover">Upload</span> Cover Image</button-->               
+                <!--button class="button inverted" ngf-select ng-model="picCoverFile" name="file" ngf-change="generateCoverThumb(picCoverFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false"><i class="fa fa-camera"></i> <span ng-hide="!profile.hascover">Change</span> <span ng-hide="profile.hascover">Upload</span> Cover Image</button-->              
                 
-            </div>
+                 <div class="editable no-glow">
+                     <div class="button inverted editable-child" ><i class="fa fa-camera  editable-child"></i> <span ng-hide="!profile.hascover  editable-child">Change</span> <span ng-hide="profile.hascover" class=" editable-child">Upload</span> Cover Image</div>   
 
-        </div>
-    </div>
-    <div class="editable">
+                    <div class="floatform bottom right " id="user-cover-form">
+                        <div class="form-content">
 
-        <div class="floatform" id="user-cover-form">
-            <div class="form-content">
-                
-                <canvas width="500px" height="400px" id="canvas" image-cropper image="cropper.sourceImage" cropped-image="cropper.croppedImage" 
-                        crop-width="400" crop-height="200" keep-aspect="true" touch-radius="30" crop-area-bounds="bounds"></canvas>
-                <input type="file" img-cropper-fileread  image="cropper.sourceImage" />
-                <div class="form-actions">
-                    <button class="button primary" ng-click="uploadCoverFile(cropper.croppedImage)" >Save</button> 
-                    <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+                            <canvas width="500px" height="400px" id="canvas" image-cropper image="cropper.sourceImage" cropped-image="cropper.croppedImage" 
+                                    crop-width="400" crop-height="200" keep-aspect="true" touch-radius="30" crop-area-bounds="bounds"></canvas>
+                            <input type="file" img-cropper-fileread  image="cropper.sourceImage" />
+                            <div class="form-actions">
+                                <button class="button primary" ng-click="uploadCoverFile(cropper.croppedImage)" >Save</button> 
+                                <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                  
+                    
                 </div>
-            </div>
-        </div>
 
-        <div class="editable-mark">
-            <i class="fa fa-pencil editable-child"></i>
+                  
+                
+            </div>
+
         </div>
     </div>
-
+   
 
 
     <div id="profile-user-main-info">
@@ -62,30 +65,32 @@
 
                     <div id="profile-user-image-options">
                         <!--<button class="button inverted" ngf-select ng-model="picFile" name="file" ngf-change="generateThumb(picFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false"><i class="fa fa-camera"></i> <span ng-hide="!profile.hasavatar">Change</span> <span ng-hide="profile.hasavatar">Upload</span> Profile Picture</button>-->
+                        
+                         <div class="editable no-glow">
+                            
+                            <button class="button inverted editable-child" ><i class="fa fa-camera editable-child"></i> <span ng-hide="!profile.hasavatar" class="editable-child">Change</span> <span ng-hide="profile.hasavatar" class="editable-child">Upload</span> Profile Picture</button>
+
+                            <div class="floatform bottom" id="user-avatar-form">
+                                <div class="form-content">
+
+                                    <canvas width="500px" height="400px" id="canvas" image-cropper image="cropper2.sourceImage" cropped-image="cropper2.croppedImage" 
+                                            crop-width="400" crop-height="200" keep-aspect="true" touch-radius="30" crop-area-bounds="bounds"></canvas>
+                                    <input type="file" img-cropper-fileread  image="cropper2.sourceImage" />
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="uploadAvatarFile(cropper2.croppedImage)" >Save</button> 
+                                        <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                        </div>
                     </div>
 
 
                 </div>
             </div>
-            <div class="editable">
-
-        <div class="floatform" id="user-avatar-form">
-            <div class="form-content">
-                
-                <canvas width="500px" height="400px" id="canvas" image-cropper image="cropper2.sourceImage" cropped-image="cropper2.croppedImage" 
-                        crop-width="400" crop-height="200" keep-aspect="true" touch-radius="30" crop-area-bounds="bounds"></canvas>
-                <input type="file" img-cropper-fileread  image="cropper2.sourceImage" />
-                <div class="form-actions">
-                    <button class="button primary" ng-click="uploadAvatarFile(cropper2.croppedImage)" >Save</button> 
-                    <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="editable-mark">
-            <i class="fa fa-pencil editable-child"></i>
-        </div>
-    </div>
+           
             <div class="right-col">
                 <div id="profile-user-data">
                     <div id="profile-user-name">

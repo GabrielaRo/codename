@@ -18,6 +18,18 @@
             }
         }
         
+        &.bottom {
+            top: 70%;
+            bottom: auto;
+        }
+        
+        &.right {
+            right: 0;
+            left: auto;
+            
+        }
+       
+        
         .form-content {
             .form-column {
                 width: 45%;
@@ -112,5 +124,12 @@
         .floatform {
             display: block;
         }
+    }
+    
+     &.no-glow {
+        &:before {
+            display: none;
+        }
+        padding-right: 0;
     }
 }
