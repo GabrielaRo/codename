@@ -14,8 +14,11 @@
         }
         .text {
             display: inline-block;
-            font-size: 20px;
-           line-height: 45px;
+            font-size: @fontSize;
+            line-height: @lineHeight;
+            text-align: left;
+            padding-right: 20px;
+            padding-top: 3px;
         }
         .control {
             vertical-align: top;
@@ -136,6 +139,7 @@
                 line-height: 40px;
             }
             padding-bottom: 60px;
+            
         }
     }
     #invite-about {
