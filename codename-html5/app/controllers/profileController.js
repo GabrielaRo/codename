@@ -1,8 +1,19 @@
 (function () {
     var profileController = function ($rootScope, $scope, $timeout, $users, $cookieStore, appConstants,
-            $routeParams,  location, $interests, reverseGeocoder, $location, taOptions, $error) {
+            $routeParams, location, $interests, reverseGeocoder, $location, taOptions, $http, $error) {
 
 
+        $scope.cropper = {};
+        $scope.cropper.sourceImage = null;
+        $scope.cropper.croppedImage = null;
+        $scope.cropper2 = {};
+        $scope.cropper2.sourceImage = null;
+        $scope.cropper2.croppedImage = null;
+        $scope.bounds = {};
+        $scope.bounds.left = 0;
+        $scope.bounds.right = 0;
+        $scope.bounds.top = 0;
+        $scope.bounds.bottom = 0;
         /*
          * For Loading we try to fetch everything at once instead of each different piece
          */
@@ -124,9 +135,26 @@
                         $scope.profile.live = data.live;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
-                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar?size=600",
-                                $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover"
-                        initialData = angular.copy($scope.profile)
+                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar?size=600";
+                        $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover";
+                        $http.get($scope.profile.coverUrl, {headers: {'Accept': 'image/png', 'Content-Type': 'image/png'}}).
+                                success(function (data, status, headers, config) {
+
+                                    $scope.cropper.croppedImage = data;
+                                }).
+                                error(function (data, status, headers, config) {
+                                    console.log(data);
+                                });
+                        $http.get($scope.profile.avatarUrl, {headers: {'Accept': 'image/png', 'Content-Type': 'image/png'}}).
+                                success(function (data, status, headers, config) {
+
+                                    $scope.cropper2.croppedImage = data;
+                                }).
+                                error(function (data, status, headers, config) {
+                                    console.log(data);
+                                });
+
+                        initialData = angular.copy($scope.profile);
                         $scope.calculatePercentage();
                     }).error(function (data, status) {
 
@@ -151,6 +179,7 @@
                 $scope.profile.interests.push(tagClicked.text);
             }
         }
+
         $scope.interestsTagDeleted = function (tagClicked) {
             $scope.profile.interests.splice($scope.profile.interests.indexOf(tagClicked), 1);
         }
@@ -215,7 +244,8 @@
 
         $scope.lookingFors = [['Socialise', 'Socialise with other Fhellows'], ['Collaborate', 'Collaborate with other Fhellows'], ['Mentor', 'Mentor Fhellows']];
         $scope.iAms = [['Freelancer', 'Freelancer'], ['Entrepreneur', 'Entrepreneur'], ['Digital Nomad', 'Digital Nomad']];
-        $scope.interestsList = ['Tech', 'Design', 'Journalism', 'Photography', 'Fashion', 'Gaming', 'Virtual Reality', 'Software', 'Education', 'Startups', 'Business', 'Blogging', 'Music', 'Sports'];
+        $scope.interestsList = ['Tech', 'Design', 'Journalism', 'Photography', 'Fashion', 'Gaming',
+            'Virtual Reality', 'Software', 'Education', 'Startups', 'Business', 'Blogging', 'Music', 'Sports'];
 
         $scope.toggleIamSelection = function (iam) {
 
@@ -289,8 +319,26 @@
                         $scope.profile.resources = data.resources;
                         $scope.profile.hasavatar = data.hasavatar;
                         $scope.profile.hascover = data.hascover;
-                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar?size=600",
-                                $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover"
+                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/avatar?size=600";
+                        $scope.profile.coverUrl = appConstants.server + appConstants.context + "rest/public/users/" + data.nickname + "/cover";
+
+                        $http.get($scope.profile.coverUrl, {headers: {'Accept': 'image/png', 'Content-Type': 'image/png'}}).
+                                success(function (data, status, headers, config) {
+
+                                    $scope.cropper.croppedImage = data;
+                                }).
+                                error(function (data, status, headers, config) {
+                                    console.log(data);
+                                });
+                        $http.get($scope.profile.avatarUrl, {headers: {'Accept': 'image/png', 'Content-Type': 'image/png'}}).
+                                success(function (data, status, headers, config) {
+
+                                    $scope.cropper2.croppedImage = data;
+                                }).
+                                error(function (data, status, headers, config) {
+                                    console.log(data);
+                                });
+
                         initialData = angular.copy($scope.profile)
                         $scope.calculatePercentage();
                     })
@@ -308,25 +356,21 @@
          */
         $scope.uploadingAvatar = false;
         $scope.uploadAvatarPercentage = 0;
-        $scope.uploadAvatarFile = function (files, event) {
-
+        $scope.uploadAvatarFile = function (files) {
+            $scope.clearEditablesActive();
             var file = files;
-
+            $scope.cropper2.croppedImage = files;
             $scope.upload = $users.uploadAvatar(file)
-                    .progress(function (evt) {
-                        $scope.uploadAvatarPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                        $scope.uploadingAvatar = true;
+                    .success(function (data) {
 
-                    }).success(function (data) {
+                        $scope.uploadAvatarPercentage = false;
+                        $scope.profile.avatarUrl = "";
+                        $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar?size=600" + '&' + new Date().getTime();
+                        $scope.profile.hasavatar = true;
+                        $scope.calculatePercentage();
+                        $rootScope.$broadcast("updateUser", {token: $scope.auth_token, userId: $scope.user_id, userNick: $scope.user_nick});
 
-                $scope.uploadAvatarPercentage = false;
-                $scope.profile.avatarUrl = "";
-                $scope.profile.avatarUrl = appConstants.server + appConstants.context + "rest/public/users/" + $scope.user_nick + "/avatar?size=600" + '&' + new Date().getTime();
-                $scope.profile.hasavatar = true;
-                $scope.calculatePercentage();
-                $rootScope.$broadcast("updateUser", {token: $scope.auth_token, userId: $scope.user_id, userNick: $scope.user_nick});
-
-            }).error(function (data, status) {
+                    }).error(function (data, status) {
                 console.log('Error: file ' + file.name + ' upload error. Response: ' + data);
                 $error.handleError(data, status);
             });
@@ -337,15 +381,11 @@
          */
         $scope.uploadingCover = false;
         $scope.uploadCoverPercentage = 0;
-        $scope.uploadCoverFile = function (files, event) {
-
+        $scope.uploadCoverFile = function (files) {
+            $scope.clearEditablesActive();
+            $scope.cropper.croppedImage = files;
             var file = files;
-            $scope.upload = $users.uploadCover(file)
-                    .progress(function (evt) {
-                        $scope.uploadCoverPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                        $scope.uploadingCover = true;
-
-                    }).success(function (data) {
+            $scope.upload = $users.uploadCover(file).success(function (data) {
                 // file is uploaded successfully
 
                 $scope.uploadingCover = false;
@@ -786,6 +826,6 @@
     };
 
     profileController.$inject = ["$rootScope", "$scope", "$timeout", "$users", "$cookieStore", "appConstants",
-        "$routeParams", "location", "$interests", "reverseGeocoder", "$location", "taOptions", "$error"];
+        "$routeParams", "location", "$interests", "reverseGeocoder", "$location", "taOptions", "$http", "$error"];
     angular.module("codename").controller("profileController", profileController);
 }());

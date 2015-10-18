@@ -29,7 +29,8 @@
                 }
             } else {
                 console.log($scope.passwordForm.$valid);
-                $scope.formStatus = "Fill all fields";
+                $rootScope.$broadcast("quickNotification", "<i class='fa fa-exclamation-triangle'></i> Passwords must match and needs to be between 6 and 15 characters long", 'error');
+                $scope.formStatus = "Passwords must match and needs to be between 6 and 15 characters long";
             }
 
         }

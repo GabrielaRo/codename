@@ -57,7 +57,6 @@ public class UserEndpointServiceImpl implements UserEndpointService {
     @Inject
     private UsersQueryService usersQueryService;
 
-
     private final static Logger log = Logger.getLogger(UserEndpointServiceImpl.class.getName());
 
     private final String UPLOADED_FILE_PARAMETER_NAME = "file";
@@ -305,57 +304,6 @@ public class UserEndpointServiceImpl implements UserEndpointService {
         return Response.ok().build();
     }
 
-    @Override
-    public Response uploadAvatar(@NotNull @PathParam("String") String nickname, MultipartFormDataInput input) throws ServiceException {
-        log.info(">>>> sit back - starting file upload for user_id..." + nickname);
-
-        Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
-        List<InputPart> inputParts = uploadForm.get(UPLOADED_FILE_PARAMETER_NAME);
-
-        for (InputPart inputPart : inputParts) {
-            MultivaluedMap<String, String> headers = inputPart.getHeaders();
-            String filename = getFileName(headers);
-
-            try {
-                InputStream inputStream = inputPart.getBody(InputStream.class, null);
-
-                byte[] bytes = IOUtils.toByteArray(inputStream);
-
-                log.log(Level.INFO, ">>> File '''{'{0}'}''' has been read, size: #'{'{1}'}' bytes", new Object[]{filename, bytes.length});
-                usersService.updateAvatar(nickname, filename, bytes);
-
-            } catch (IOException e) {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-            }
-        }
-        return Response.ok().build();
-    }
-
-    @Override
-    public Response uploadCover(@NotNull @PathParam("nickname") String nickname, MultipartFormDataInput input) throws ServiceException {
-        log.info(">>>> sit back - starting file upload for user_id..." + nickname);
-
-        Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
-        List<InputPart> inputParts = uploadForm.get(UPLOADED_FILE_PARAMETER_NAME);
-
-        for (InputPart inputPart : inputParts) {
-            MultivaluedMap<String, String> headers = inputPart.getHeaders();
-            String filename = getFileName(headers);
-
-            try {
-                InputStream inputStream = inputPart.getBody(InputStream.class, null);
-
-                byte[] bytes = IOUtils.toByteArray(inputStream);
-
-                log.log(Level.INFO, ">>> File '''{'{0}'}''' has been read, size: #'{'{1}'}' bytes", new Object[]{filename, bytes.length});
-                usersService.updateCover(nickname, filename, bytes);
-
-            } catch (IOException e) {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-            }
-        }
-        return Response.ok().build();
-    }
 
     @Override
     public Response removeAvatar(@NotNull @PathParam("nickname") String nickname) throws ServiceException {
@@ -587,7 +535,19 @@ public class UserEndpointServiceImpl implements UserEndpointService {
         usersService.updatePassword(user_id, oldPassword, newPassword);
         return Response.ok().build();
     }
+
+    @Override
+    public Response uploadCover(String nickname, String image) throws ServiceException {
+        log.log(Level.INFO, ">>> File '''{'{0}'}''' has been read, size: #'{'{1}'}' bytes", new Object[]{nickname, image.getBytes().length});
+        usersService.updateCover(nickname, nickname, image.getBytes());
+        return Response.ok().build();
+    }
     
-    
+    @Override
+    public Response uploadAvatar(String nickname, String image) throws ServiceException {
+        log.log(Level.INFO, ">>> File '''{'{0}'}''' has been read, size: #'{'{1}'}' bytes", new Object[]{nickname, image.getBytes().length});
+        usersService.updateAvatar(nickname, nickname, image.getBytes());
+        return Response.ok().build();
+    }
 
 }

@@ -31,7 +31,7 @@
         
         <!-- Web App Module -->
         <module>codename-html5</module>
-	<module>codename-frontend</module>
+	<!--module>codename-frontend</module-->
         
         <!--module>codename-rules</module-->
         <!--module>codename-tests</module-->

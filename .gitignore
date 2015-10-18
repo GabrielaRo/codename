@@ -10,13 +10,9 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/codename-model/target/
-/codename-services/target/
-/codename-rules/target/
-/codename-tests/target/
-/codename-html5/target/
-/codename-frontend/target/
-/deployments/
+target/
+deployments/
+/codename-html5/app/bower_components/
 .DS_Store
 .AppleDouble
 .LSOverride

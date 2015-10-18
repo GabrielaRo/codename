@@ -329,24 +329,30 @@
                 data: {nickname: nickname}
             });
         };
-        //UPLOAD AVATAR
-        factory.uploadAvatar = function (file) {
-            return Upload.upload({
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_nick') + '/avatar/upload',
-                method: 'POST',
-                headers: {'Content-Type': 'multipart/form-data', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
-                file: file
-            })
-        };
+        
 
         //UPLOAD COVER
-        factory.uploadCover = function (file) {
-            return Upload.upload({
-                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_nick') + '/cover/upload',
+        factory.uploadAvatar = function (image) {
+            return $http({
                 method: 'POST',
-                headers: {'Content-Type': 'multipart/form-data', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
-                file: file,
-            })
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_nick') + '/avatar/upload',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: {image: image}
+            });
+            
+        };
+        
+        //UPLOAD COVER
+        factory.uploadCover = function (image) {
+            return $http({
+                method: 'POST',
+                url: appConstants.server + appConstants.context + 'rest/users/' + $cookieStore.get('user_nick') + '/cover/upload',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded', service_key: 'webkey:' + $cookieStore.get('email'), auth_token: $cookieStore.get('auth_token')},
+                transformRequest: $transformRequestToForm.transformRequest,
+                data: {image: image}
+            });
+            
         };
 
         //Search Users

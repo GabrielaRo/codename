@@ -30,6 +30,7 @@ import org.codename.services.endpoints.user.api.PublicUserEndpointService;
 import static org.codename.services.endpoints.user.impl.UsersHelper.createPublicJsonUser;
 import org.codename.core.exceptions.ServiceException;
 import static org.imgscalr.Scalr.*;
+import sun.misc.BASE64Decoder;
 
 /**
  *
@@ -90,21 +91,22 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     public Response getAvatar(String nickname, Integer size) throws ServiceException {
 
         byte[] tmp = usersService.getAvatar(nickname);
-        final byte[] avatar;
         if (tmp != null && tmp.length > 0) {
-
-            avatar = tmp;
+//
+//            avatar = tmp;
             return Response.ok().entity(new StreamingOutput() {
                 @Override
                 public void write(OutputStream output)
                         throws IOException, WebApplicationException {
+                    byte[] avatar;
                     if (size != null) {
+                        BASE64Decoder decoder = new BASE64Decoder();
+                        avatar = decoder.decodeBuffer(new String(tmp));
                         InputStream in = new ByteArrayInputStream(avatar);
                         BufferedImage bImageFromConvert = ImageIO.read(in);
-//                    
                         ImageIO.write(resize(bImageFromConvert, size), "JPG", output);
                     } else {
-                        output.write(avatar);
+                        output.write(tmp);
                     }
                     output.flush();
                 }
@@ -127,20 +129,23 @@ public class PublicUserEndpointServiceImpl implements PublicUserEndpointService 
     public Response getCover(String nickname, Integer size) throws ServiceException {
 
         byte[] tmp = usersService.getCover(nickname);
-        final byte[] avatar;
+        
         if (tmp != null && tmp.length > 0) {
 //            log.info("cover found");
-            avatar = tmp;
+           // avatar = tmp;
             return Response.ok().entity(new StreamingOutput() {
                 @Override
                 public void write(OutputStream output)
                         throws IOException, WebApplicationException {
+                    byte[] avatar;
                     if (size != null) {
+                        BASE64Decoder decoder = new BASE64Decoder();
+                        avatar = decoder.decodeBuffer(new String(tmp));
                         InputStream in = new ByteArrayInputStream(avatar);
                         BufferedImage bImageFromConvert = ImageIO.read(in);
                         ImageIO.write(resize(bImageFromConvert, size), "JPG", output);
                     } else {
-                        output.write(avatar);
+                        output.write(tmp);
                     }
                     output.flush();
                 }

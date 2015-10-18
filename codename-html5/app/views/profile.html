@@ -1,571 +1,613 @@
 
 <div id="profile">
-    <form novalidate name="profileForm" ng-init="">
-        <div id="profile-cover-image" style="background-image:url('{{profile.coverUrl}}')">
-            <div id="profile-cover-options-wrapper">
-                <div ng-hide="profile.hascover">
-                    <div id="section-header" class="ng-scope">
-                        <h1>Welcome to the Community!<br/>You are now officially a Fhellow</h1>
-                        <h3>Complete your profile and start finding Fhellows around you.<br/>Your profile must be at least 50% complete in order to start.</h3>
-                    </div>
+
+    <div id="profile-cover-image" style="background-image:url('{{cropper.croppedImage}}')">
+        <div id="profile-cover-options-wrapper">
+            <div ng-hide="profile.hascover">
+                <div id="section-header" class="ng-scope">
+                    <h1>Welcome to the Community!<br/>You are now officially a Fhellow</h1>
+                    <h3>Complete your profile and start finding Fhellows around you.<br/>Your profile must be at least 50% complete in order to start.</h3>
                 </div>
+            </div>
 
 
-                <div id="profile-cover-options">
+            <div id="profile-cover-options">
 
-                    <button class="button inverted" ngf-select ng-model="picCoverFile" name="file" ngf-change="generateCoverThumb(picCoverFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false"><i class="fa fa-camera"></i> <span ng-hide="!profile.hascover">Change</span> <span ng-hide="profile.hascover">Upload</span> Cover Image</button>
+                <!--button class="button inverted" ngf-select ng-model="picCoverFile" name="file" ngf-change="generateCoverThumb(picCoverFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false"><i class="fa fa-camera"></i> <span ng-hide="!profile.hascover">Change</span> <span ng-hide="profile.hascover">Upload</span> Cover Image</button-->               
+                
+            </div>
 
+        </div>
+    </div>
+    <div class="editable">
+
+        <div class="floatform" id="user-cover-form">
+            <div class="form-content">
+                
+                <canvas width="500px" height="400px" id="canvas" image-cropper image="cropper.sourceImage" cropped-image="cropper.croppedImage" 
+                        crop-width="400" crop-height="200" keep-aspect="true" touch-radius="30" crop-area-bounds="bounds"></canvas>
+                <input type="file" img-cropper-fileread  image="cropper.sourceImage" />
+                <div class="form-actions">
+                    <button class="button primary" ng-click="uploadCoverFile(cropper.croppedImage)" >Save</button> 
+                    <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                 </div>
             </div>
         </div>
 
-        <div id="profile-user-main-info">
-            <div class="container">
-                <div class="left-col">
-                    <div id="profile-user-image">
-                        <div class="profile-image hexagon">
-                            <div class="hexagon-inner-1">
-                                <div class="hexagon-inner-2" style="background-image:url('{{profile.avatarUrl}}')">
+        <div class="editable-mark">
+            <i class="fa fa-pencil editable-child"></i>
+        </div>
+    </div>
 
-                                </div>
+
+
+    <div id="profile-user-main-info">
+        <div class="container">
+            <div class="left-col">
+                <div id="profile-user-image">
+                    <div class="profile-image hexagon">
+                        <div class="hexagon-inner-1">
+                            <div class="hexagon-inner-2" style="background-image:url('{{cropper2.croppedImage}}')">
+
                             </div>
                         </div>
-                        <div class="profile-image-brd hexagon">
-                            <div class="hexagon-inner-1">
-                                <div class="hexagon-inner-2">
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="profile-user-image-options">
-                            <button class="button inverted" ngf-select ng-model="picFile" name="file" ngf-change="generateThumb(picFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false"><i class="fa fa-camera"></i> <span ng-hide="!profile.hasavatar">Change</span> <span ng-hide="profile.hasavatar">Upload</span> Profile Picture</button>
-                        </div>
-
-
                     </div>
+                    <div class="profile-image-brd hexagon">
+                        <div class="hexagon-inner-1">
+                            <div class="hexagon-inner-2">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="profile-user-image-options">
+                        <!--<button class="button inverted" ngf-select ng-model="picFile" name="file" ngf-change="generateThumb(picFile[0])"  ngf-accept="'image/*'"  ngf-multiple="false"><i class="fa fa-camera"></i> <span ng-hide="!profile.hasavatar">Change</span> <span ng-hide="profile.hasavatar">Upload</span> Profile Picture</button>-->
+                    </div>
+
+
                 </div>
-                <div class="right-col">
-                    <div id="profile-user-data">
-                        <div id="profile-user-name">
-                            <div class="editable">
-                                {{profile.firstname}}<span class="editable-placeholder" ng-show="profile.firstname == ''">First Name</span> {{profile.lastname}} <span class="editable-placeholder" ng-show="profile.lastname == ''">Last Name</span>
-                                <div class="floatform" id="user-name-form">
-                                    <div class="form-content">
-                                        <div class="form-title">
-                                            Name:
-                                        </div>
-                                        <div class="form-fields">
-                                            <div class="control">
-                                                <input type="text" ng-model="profile.firstname" placeholder="First Name">
-                                            </div>
-                                            <div class="control">
-                                                <input type="text" ng-model="profile.lastname" placeholder="Last Name">
-                                            </div>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button class="button primary" ng-click="updateBothNames(profile.firstname, profile.lastname)">Save</button> 
-                                            <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
+            </div>
+            <div class="editable">
 
-                                <div class="editable-mark">
-                                    <i class="fa fa-pencil editable-child"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="profile-user-location">
-                            <div class="editable">
-                                <span class="editable-placeholder" ng-show="profile.location.description == ''"> <i class="fhellow-logo"></i>  Where are you currently based? </span>
-                                <span class="editable-child" ng-show="profile.location.description != ''"> <i class="fhellow-logo"></i> {{profile.location.description}}</span>
-                                <div class="editable-mark">
-                                    <i class="fa fa-pencil editable-child"></i>
-                                </div>
-
-                                <div class="floatform" id="user-location-form">
-                                    <div class="form-content">
-                                        <div class="form-title">
-                                            I am currently based in:
-                                        </div>
-                                        <div class="form-fields">
-                                            <div class="control full">
-                                                <location-lookup ng-model="userCurrentLocation" templateUrl="" limit-to="4"></location-lookup>
-                                                <a class="user-location-button no-animate" ng-click="shareLocationForProfile()" ng-if="!gettingProfileLocation" >
-                                                    <i class="fa fa-location-arrow"></i>
-                                                </a>
-                                                
-                                                <a class="user-location-button no-animate" ng-if="gettingProfileLocation">
-                                                     <i  class="fa fa-spinner fa-spin no-animate"></i>
-                                                </a>
-                                            </div>
-                                            <!--<div class="help-text" >
-                                                Rest asure we will never share your postcode or address. This is only so you can find Fhellows in your general area.
-                                            </div>-->
-                                        </div>
-                                        <div class="form-actions">
-                                            <button class="button primary" ng-click="updateLocation(userCurrentLocation.description, userCurrentLocation.longitude, userCurrentLocation.latitude)">Save</button> 
-                                            <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div id="profile-user-looking-to" >
-
-                            <div class="editable">
-                                <span class="editable-placeholder" ng-hide="profile.lookingFor.length > 0 || profile.iam.length > 0" >What type of Fhellow are you? And what are you looking to do?</span>
-
-                                <span class="iams editable-child" ng-repeat="item in profile.iam" class="editable-child">{{item}}<span ng-hide="$index == (profile.iam.length - 1)">, </span></span>
-
-                                <span ng-repeat="item in profile.lookingFor" class="editable-child looking-fors">
-
-                                    <span class="editable-child icon" ng-show="item == 'Socialise'">
-                                        <i class="fa fa-coffee editable-child"></i>
-                                    </span>
-                                    <span class="editable-child icon" ng-show="item == 'Collaborate'">
-                                        <i class="fa fa-lightbulb-o editable-child"></i>
-                                    </span>
-                                    <span class="editable-child icon" ng-show="item == 'Mentor'">
-                                        <i class="fa fa-graduation-cap editable-child"></i>
-                                    </span>
-                                </span>    
-
-                                <div class="editable-mark">
-                                    <i class="fa fa-pencil editable-child"></i>
-                                </div>
-
-                                <div class="floatform" id="user-looking-to-form">
-                                    <div class="form-content">
-                                        <div class="form-column">
-                                            <div class="form-title">
-                                                I’m a:
-                                            </div>
-                                            <div class="form-fields vertical">
-
-                                                <div class="control full">
-                                                    <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.iam.indexOf('Freelancer') > -1}" ng-click="typeButtonPressed('Freelancer')">Freelancer</button>
-                                                </div>
-
-                                                <div class="control full">
-                                                    <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.iam.indexOf('Entrepreneur') > -1}" ng-click="typeButtonPressed('Entrepreneur')">Entrepreneur</button>
-                                                </div>
-
-                                                <div class="control full">
-                                                    <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.iam.indexOf('Digital Nomad') > -1}" ng-click="typeButtonPressed('Digital Nomad')">Digital Nomad</button> 
-                                                    <div class="tooltip-item button-help-tooltip">
-                                                        <i class="fa fa-question-circle"></i>
-                                                        <div class="tooltip-content big">
-                                                            <span>
-                                                                Digital Nomads are individuals who typically work remotely - from home, coffee shops, coworking spaces or while traveling.
-                                                            </span>
-                                                        </div> 
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="form-column">
-                                            <div class="form-title">
-                                                Looking to:
-                                            </div>
-                                            <div class="form-fields vertical">
-
-                                                <div class="control full">
-                                                    <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.lookingFor.indexOf('Socialise') > -1}" ng-click="lookingForButtonPressed('Socialise')"> <i class="fa fa-coffee"></i> Socialise</button>
-                                                </div>
-
-                                                <div class="control full">
-                                                    <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.lookingFor.indexOf('Collaborate') > -1}" ng-click="lookingForButtonPressed('Collaborate')"> <i class="fa fa-lightbulb-o"></i> Collaborate</button>
-                                                </div>
-
-                                                <div class="control full">
-                                                    <button class="toggle  toggle-with-check block button" ng-class="{'on' : profile.lookingFor.indexOf('Mentor') > -1}" ng-click="lookingForButtonPressed('Mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
-                                                    <div class="tooltip-item button-help-tooltip">
-                                                        <i class="fa fa-question-circle"></i>
-                                                        <div class="tooltip-content big">
-                                                            <span>
-                                                               Are you happy for Fhellows to contact you with any specific work related questions? Your advice could really help them out.
-                                                            </span>
-                                                        </div> 
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button class="button primary" ng-click="updateLookingForsAndIams(profile.lookingFor, profile.iam)">Save</button> <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="profile-status">
-                        <div id="profile-status-percentage">
-                            Profile completeness
-                            <div id="profile-progress-bar">
-                                <div class="profile-progress" style="width: {{profile.percentage}}%">
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div id="profile-status-publish">
-
-                            <button class="button primary block no-animate" ng-disabled="profile.percentage < 30" ng-if="!profile.live" ng-click="updateUserLiveProfile(profile.live)" >Publish Profile</button>
-
-                            <button class="button inverted block no-animate" ng-if="profile.live" ng-click="previewProfile(profile.nickname)" >Preview Profile</button>
-                        </div>
-                    </div>
+        <div class="floatform" id="user-avatar-form">
+            <div class="form-content">
+                
+                <canvas width="500px" height="400px" id="canvas" image-cropper image="cropper2.sourceImage" cropped-image="cropper2.croppedImage" 
+                        crop-width="400" crop-height="200" keep-aspect="true" touch-radius="30" crop-area-bounds="bounds"></canvas>
+                <input type="file" img-cropper-fileread  image="cropper2.sourceImage" />
+                <div class="form-actions">
+                    <button class="button primary" ng-click="uploadAvatarFile(cropper2.croppedImage)" >Save</button> 
+                    <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                 </div>
             </div>
         </div>
 
-        <div id="profile-bio">
-            <div class="right-col ">
-                <div class="content-block" id="user-bio-form" >
-                    <div class="content-block-title">
+        <div class="editable-mark">
+            <i class="fa fa-pencil editable-child"></i>
+        </div>
+    </div>
+            <div class="right-col">
+                <div id="profile-user-data">
+                    <div id="profile-user-name">
                         <div class="editable">
-                            Allow me to introduce myself...   
+                            {{profile.firstname}}<span class="editable-placeholder" ng-show="profile.firstname == ''">First Name</span> {{profile.lastname}} <span class="editable-placeholder" ng-show="profile.lastname == ''">Last Name</span>
+                            <div class="floatform" id="user-name-form">
+                                <div class="form-content">
+                                    <div class="form-title">
+                                        Name:
+                                    </div>
+                                    <div class="form-fields">
+                                        <div class="control">
+                                            <input type="text" ng-model="profile.firstname" placeholder="First Name">
+                                        </div>
+                                        <div class="control">
+                                            <input type="text" ng-model="profile.lastname" placeholder="Last Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="updateBothNames(profile.firstname, profile.lastname)">Save</button> 
+                                        <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="editable-mark">
+                                <i class="fa fa-pencil editable-child"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="profile-user-location">
+                        <div class="editable">
+                            <span class="editable-placeholder" ng-show="profile.location.description == ''"> <i class="fhellow-logo"></i>  Where are you currently based? </span>
+                            <span class="editable-child" ng-show="profile.location.description != ''"> <i class="fhellow-logo"></i> {{profile.location.description}}</span>
                             <div class="editable-mark">
                                 <i class="fa fa-pencil editable-child"></i>
                             </div>
 
-                            <div class="floatform big" id="user-bio-form">
+                            <div class="floatform" id="user-location-form">
                                 <div class="form-content">
                                     <div class="form-title">
-                                        Bio:
+                                        I am currently based in:
                                     </div>
                                     <div class="form-fields">
                                         <div class="control full">
-                                            <textarea ng-model="profile.bio" maxlength="140"></textarea>
+                                            <location-lookup ng-model="userCurrentLocation" templateUrl="" limit-to="4"></location-lookup>
+                                            <a class="user-location-button no-animate" ng-click="shareLocationForProfile()" ng-if="!gettingProfileLocation" >
+                                                <i class="fa fa-location-arrow"></i>
+                                            </a>
+
+                                            <a class="user-location-button no-animate" ng-if="gettingProfileLocation">
+                                                <i  class="fa fa-spinner fa-spin no-animate"></i>
+                                            </a>
+                                        </div>
+                                        <!--<div class="help-text" >
+                                            Rest asure we will never share your postcode or address. This is only so you can find Fhellows in your general area.
+                                        </div>-->
+                                    </div>
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="updateLocation(userCurrentLocation.description, userCurrentLocation.longitude, userCurrentLocation.latitude)">Save</button> 
+                                        <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="profile-user-looking-to" >
+
+                        <div class="editable">
+                            <span class="editable-placeholder" ng-hide="profile.lookingFor.length > 0 || profile.iam.length > 0" >What type of Fhellow are you? And what are you looking to do?</span>
+
+                            <span class="iams editable-child" ng-repeat="item in profile.iam" class="editable-child">{{item}}<span ng-hide="$index == (profile.iam.length - 1)">, </span></span>
+
+                            <span ng-repeat="item in profile.lookingFor" class="editable-child looking-fors">
+
+                                <span class="editable-child icon" ng-show="item == 'Socialise'">
+                                    <i class="fa fa-coffee editable-child"></i>
+                                </span>
+                                <span class="editable-child icon" ng-show="item == 'Collaborate'">
+                                    <i class="fa fa-lightbulb-o editable-child"></i>
+                                </span>
+                                <span class="editable-child icon" ng-show="item == 'Mentor'">
+                                    <i class="fa fa-graduation-cap editable-child"></i>
+                                </span>
+                            </span>    
+
+                            <div class="editable-mark">
+                                <i class="fa fa-pencil editable-child"></i>
+                            </div>
+
+                            <div class="floatform" id="user-looking-to-form">
+                                <div class="form-content">
+                                    <div class="form-column">
+                                        <div class="form-title">
+                                            I’m a:
+                                        </div>
+                                        <div class="form-fields vertical">
+
+                                            <div class="control full">
+                                                <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.iam.indexOf('Freelancer') > -1}" ng-click="typeButtonPressed('Freelancer')">Freelancer</button>
+                                            </div>
+
+                                            <div class="control full">
+                                                <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.iam.indexOf('Entrepreneur') > -1}" ng-click="typeButtonPressed('Entrepreneur')">Entrepreneur</button>
+                                            </div>
+
+                                            <div class="control full">
+                                                <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.iam.indexOf('Digital Nomad') > -1}" ng-click="typeButtonPressed('Digital Nomad')">Digital Nomad</button> 
+                                                <div class="tooltip-item button-help-tooltip">
+                                                    <i class="fa fa-question-circle"></i>
+                                                    <div class="tooltip-content big">
+                                                        <span>
+                                                            Digital Nomads are individuals who typically work remotely - from home, coffee shops, coworking spaces or while traveling.
+                                                        </span>
+                                                    </div> 
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-column">
+                                        <div class="form-title">
+                                            Looking to:
+                                        </div>
+                                        <div class="form-fields vertical">
+
+                                            <div class="control full">
+                                                <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.lookingFor.indexOf('Socialise') > -1}" ng-click="lookingForButtonPressed('Socialise')"> <i class="fa fa-coffee"></i> Socialise</button>
+                                            </div>
+
+                                            <div class="control full">
+                                                <button class="toggle toggle-with-check block button" ng-class="{'on' : profile.lookingFor.indexOf('Collaborate') > -1}" ng-click="lookingForButtonPressed('Collaborate')"> <i class="fa fa-lightbulb-o"></i> Collaborate</button>
+                                            </div>
+
+                                            <div class="control full">
+                                                <button class="toggle  toggle-with-check block button" ng-class="{'on' : profile.lookingFor.indexOf('Mentor') > -1}" ng-click="lookingForButtonPressed('Mentor')"><i class="fa fa-graduation-cap"></i> Mentor</button>
+                                                <div class="tooltip-item button-help-tooltip">
+                                                    <i class="fa fa-question-circle"></i>
+                                                    <div class="tooltip-content big">
+                                                        <span>
+                                                            Are you happy for Fhellows to contact you with any specific work related questions? Your advice could really help them out.
+                                                        </span>
+                                                    </div> 
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="form-actions">
-                                        <button class="button primary" ng-click="updateBio(profile.bio)">Save</button> 
-                                        <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
-                                        
+                                        <button class="button primary" ng-click="updateLookingForsAndIams(profile.lookingFor, profile.iam)">Save</button> <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="profile-status">
+                    <div id="profile-status-percentage">
+                        Profile completeness
+                        <div id="profile-progress-bar">
+                            <div class="profile-progress" style="width: {{profile.percentage}}%">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="profile-status-publish">
+
+                        <button class="button primary block no-animate" ng-disabled="profile.percentage < 30" ng-if="!profile.live" ng-click="updateUserLiveProfile(profile.live)" >Publish Profile</button>
+
+                        <button class="button inverted block no-animate" ng-if="profile.live" ng-click="previewProfile(profile.nickname)" >Preview Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-bio">
+        <div class="right-col ">
+            <div class="content-block" id="user-bio-form" >
+                <div class="content-block-title">
+                    <div class="editable">
+                        Allow me to introduce myself...   
+                        <div class="editable-mark">
+                            <i class="fa fa-pencil editable-child"></i>
+                        </div>
+
+                        <div class="floatform big" id="user-bio-form">
+                            <div class="form-content">
+                                <div class="form-title">
+                                    Bio:
+                                </div>
+                                <div class="form-fields">
+                                    <div class="control full">
+                                        <textarea ng-model="profile.bio" maxlength="140"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="button primary" ng-click="updateBio(profile.bio)">Save</button> 
+                                    <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+
+                                    <div class="actions-text">
+                                        {{140 - profile.bio.length}} Characters Left
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="content-block-content">
+                    <div class="textarea">
+                        {{profile.bio}}
+                        <span class="content-block-placeholder" ng-show="profile.bio == ''"> What do you do? What are you up to these days? </span>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="profile-user-info">
+        <div class="left-col ">
+            <div class="content-block editable-block" id="user-interests-form">
+                <div class="content-block-title editable-title">
+                    My Interests
+                    <div class="editable-title-options" >
+                        <i class="fa fa-pencil editable-child icon-button" ng-hide="interestStatus" ng-click="editInterestBlock()"></i>
+
+                    </div>
+                </div>
+                <div class="content-block-content">
+
+                    <div class="control full"  ng-show="interestStatus" >
+                        <tags-input  ng-model="tags"  class="no-list show-top"                
+                                     placeholder="What are you in to?" 
+                                     replace-spaces-with-dashes="false"
+                                     add-from-autocomplete-only="true"
+                                     on-tag-added="interestsTagAdded($tag)"
+                                     >
+                            <auto-complete source="loadInterests($query)" 
+                                           min-length="0"
+                                           load-on-focus="true"
+                                           load-on-empty="true"
+                                           load-on-down-arrow="true"
+                                           max-results-to-show="32"
+                                           >
+
+                            </auto-complete>
+                        </tags-input>
+                    </div>
+
+                    <div >
+
+                        <div ng-show="profile.interests == ''">Share your interests with Fhellows</div>
+
+                        <div class="interest" ng-class="{editing : interestStatus }" ng-repeat="interst in profile.interests">
+                            <a class="delete" data-type="{{interst}}" ng-show="interestStatus" ng-click="interestsTagDeleted(interst)"><i class="fa fa-times-circle"></i></a>
+                            {{interst}}
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+                <div class="content-block-actions left" ng-show="interestStatus">
+                    <button class="button primary"  ng-click="saveInterestBlock(profile.interests)">Save</button>
+                    <button class="button inverted"  ng-click="cancelInterestBlock()">Cancel</button>
+
+                </div>
+
+            </div>
+            <div class="content-block" id="profile-user-links">
+                <div class="content-block-title ">
+                    My Links
+                </div>
+                <div class="content-block-content">
+                    <div class="link inline" >
+                        <i class="fhellow-logo profile-icon"></i> 
+                        <span class="editable editable-inline editable-icon-left">
+
+                            <span class="editable-child" ng-show="profile.nickname != ''">http://www.fhellow.com/p/</span>{{profile.nickname}} 
+                            <span class="editable-placeholder" ng-show="profile.nickname == ''">Update your Nickname</span>
+
+                            <div class="editable-mark">
+                                <i class="fa fa-pencil editable-child"></i>
+                            </div>
+                            <div class="floatform" id="user-nickname-form">
+                                <div class="form-content">
+                                    <div class="form-title">
+                                        My Fhellow URL
+                                    </div>
+                                    <div class="form-fields">
+
+                                        <div class="control">
+                                            <span class="help-text-inline">http://www.fhellow.com/p/</span>
+                                            <input type="text" ng-model="profile.nickname" placeholder="Nickname Here" maxlength="8">
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="updateNickname(profile.nickname)">Save</button> 
+                                        <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
                                         <div class="actions-text">
-                                            {{140 - profile.bio.length}} Characters Left
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="content-block-content">
-                        <div class="textarea">
-                            {{profile.bio}}
-                            <span class="content-block-placeholder" ng-show="profile.bio == ''"> What do you do? What are you up to these days? </span>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-
-
-        <div id="profile-user-info">
-            <div class="left-col ">
-                <div class="content-block editable-block" id="user-interests-form">
-                    <div class="content-block-title editable-title">
-                        My Interests
-                        <div class="editable-title-options" >
-                            <i class="fa fa-pencil editable-child icon-button" ng-hide="interestStatus" ng-click="editInterestBlock()"></i>
-
-                        </div>
-                    </div>
-                    <div class="content-block-content">
-
-                        <div class="control full"  ng-show="interestStatus" >
-                            <tags-input  ng-model="tags"  class="no-list show-top"                
-                                         placeholder="What are you in to?" 
-                                         replace-spaces-with-dashes="false"
-                                         add-from-autocomplete-only="true" 
-                                         on-tag-added="interestsTagAdded($tag)"
-                                         >
-                                <auto-complete source="loadInterests($query)" 
-                                               min-length="0"
-                                               load-on-focus="true"
-                                               load-on-empty="false"
-                                               
-                                               >
-
-                                </auto-complete>
-                            </tags-input>
-                        </div>
-
-                        <div >
-
-                            <div ng-show="profile.interests == ''">Share your interests with Fhellows</div>
-
-                            <div class="interest" ng-class="{editing : interestStatus }" ng-repeat="interst in profile.interests">
-                                <a class="delete" data-type="{{interst}}" ng-show="interestStatus" ng-click="interestsTagDeleted(interst)"><i class="fa fa-times-circle"></i></a>
-                                {{interst}}
-                            </div>
-
-                        </div>
-
-
-
-
-                    </div>
-                    <div class="content-block-actions left" ng-show="interestStatus">
-                        <button class="button primary"  ng-click="saveInterestBlock(profile.interests)">Save</button>
-                        <button class="button inverted"  ng-click="cancelInterestBlock()">Cancel</button>
-                        
-                    </div>
-
-                </div>
-                <div class="content-block" id="profile-user-links">
-                    <div class="content-block-title ">
-                        My Links
-                    </div>
-                    <div class="content-block-content">
-                        <div class="link inline" >
-                            <i class="fhellow-logo profile-icon"></i> 
-                            <span class="editable editable-inline editable-icon-left">
-                                
-                                <span class="editable-child" ng-show="profile.nickname != ''">http://www.fhellow.com/p/</span>{{profile.nickname}} 
-                                <span class="editable-placeholder" ng-show="profile.nickname == ''">Update your Nickname</span>
-                                
-                                <div class="editable-mark">
-                                    <i class="fa fa-pencil editable-child"></i>
-                                </div>
-                                <div class="floatform" id="user-nickname-form">
-                                    <div class="form-content">
-                                        <div class="form-title">
-                                            My Fhellow URL
-                                        </div>
-                                        <div class="form-fields">
-                                           
-                                            <div class="control">
-                                                <span class="help-text-inline">http://www.fhellow.com/p/</span>
-                                                <input type="text" ng-model="profile.nickname" placeholder="Nickname Here" maxlength="8">
-                                            </div>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button class="button primary" ng-click="updateNickname(profile.nickname)">Save</button> 
-                                            <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
-                                            <div class="actions-text">
                                             {{8 - profile.nickname.length}} Characters Left
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                            </span>
-                        </div>
-                        <div class="link" >
-                            <i class="fa fa-twitter profile-icon"></i> 
-                            <span class="editable"  >
+                        </span>
+                    </div>
+                    <div class="link" >
+                        <i class="fa fa-twitter profile-icon"></i> 
+                        <span class="editable"  >
 
-                                {{profile.twitter}} <span class="editable-placeholder" ng-show="profile.twitter == ''">Add Twitter Link</span>
-                                <div class="editable-mark">
-                                    <i class="fa fa-pencil editable-child"></i>
-                                </div>
-                                <div class="floatform" id="user-twitter-form">
-                                    <div class="form-content">
-                                        <div class="form-fields">
-                                            <div class="control full">
-                                                <input type="text" ng-model="profile.twitter" placeholder="Twitter Link">
-                                            </div>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button class="button primary" ng-click="updateTwitter(profile.twitter)">Save</button> 
-                                            <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                            {{profile.twitter}} <span class="editable-placeholder" ng-show="profile.twitter == ''">Add Twitter Link</span>
+                            <div class="editable-mark">
+                                <i class="fa fa-pencil editable-child"></i>
+                            </div>
+                            <div class="floatform" id="user-twitter-form">
+                                <div class="form-content">
+                                    <div class="form-fields">
+                                        <div class="control full">
+                                            <input type="text" ng-model="profile.twitter" placeholder="Twitter Link">
                                         </div>
                                     </div>
-                                </div>
-
-                            </span>
-                        </div>
-
-                        <div class="link" >
-                            <i class="fa fa-linkedin profile-icon"></i>
-                            <span class="editable">
-                                {{profile.linkedin}}
-                                <span class="editable-placeholder" ng-show="profile.linkedin == ''">Add Linkedin Link</span>
-                                <div class="editable-mark">
-                                    <i class="fa fa-pencil editable-child"></i>
-                                </div>
-                                <div class="floatform" id="user-linkedin-form">
-                                    <div class="form-content">
-                                        <div class="form-fields">
-                                            <div class="control full">
-                                                <input type="text" ng-model="profile.linkedin" placeholder="Linkedin Link">
-                                            </div>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button class="button primary" ng-click="updateLinkedin(profile.linkedin)">Save</button> 
-                                            <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
-                                        </div>
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="updateTwitter(profile.twitter)">Save</button> 
+                                        <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
                                     </div>
                                 </div>
-                            </span>
-                        </div>
-                        <div class="link">
-                            <i class="fa fa-globe profile-icon"></i>
-                            <span class="editable">
-                                {{profile.website}}<span class="editable-placeholder" ng-show="profile.website == ''">Add Website</span>
-                                <div class="editable-mark">
-                                    <i class="fa fa-pencil editable-child"></i>
-                                </div>
-                                <div class="floatform" id="user-website-form">
-                                    <div class="form-content">
-                                        <div class="form-fields">
-                                            <div class="control full">
-                                                <input type="text" ng-model="profile.website" placeholder="Website Link">
-                                            </div>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button class="button primary" ng-click="updateWebsite(profile.website)">Save</button> 
-                                            <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                            </div>
+
+                        </span>
+                    </div>
+
+                    <div class="link" >
+                        <i class="fa fa-linkedin profile-icon"></i>
+                        <span class="editable">
+                            {{profile.linkedin}}
+                            <span class="editable-placeholder" ng-show="profile.linkedin == ''">Add Linkedin Link</span>
+                            <div class="editable-mark">
+                                <i class="fa fa-pencil editable-child"></i>
+                            </div>
+                            <div class="floatform" id="user-linkedin-form">
+                                <div class="form-content">
+                                    <div class="form-fields">
+                                        <div class="control full">
+                                            <input type="text" ng-model="profile.linkedin" placeholder="Linkedin Link">
                                         </div>
                                     </div>
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="updateLinkedin(profile.linkedin)">Save</button> 
+                                        <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                                    </div>
                                 </div>
-                            </span>
-                        </div>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="link">
+                        <i class="fa fa-globe profile-icon"></i>
+                        <span class="editable">
+                            {{profile.website}}<span class="editable-placeholder" ng-show="profile.website == ''">Add Website</span>
+                            <div class="editable-mark">
+                                <i class="fa fa-pencil editable-child"></i>
+                            </div>
+                            <div class="floatform" id="user-website-form">
+                                <div class="form-content">
+                                    <div class="form-fields">
+                                        <div class="control full">
+                                            <input type="text" ng-model="profile.website" placeholder="Website Link">
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="updateWebsite(profile.website)">Save</button> 
+                                        <button class="button inverted" ng-click="closeEditables($event)">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
                     </div>
                 </div>
-<!--                <div class="content-block">
-                    <div class="content-block-title ">
-                        My work playlist
-                    </div>
-                </div>
-
-                <div class="content-block">
-                    <div class="content-block-title ">
-                        I like to work at
-                    </div>
-                </div>-->
             </div>
-            <div class="right-col">
-                <div class="content-block" id="user-more-about-form">
-                    <div class="content-block-title editable-title">
-                        More about me
+            <!--                <div class="content-block">
+                                <div class="content-block-title ">
+                                    My work playlist
+                                </div>
+                            </div>
+            
+                            <div class="content-block">
+                                <div class="content-block-title ">
+                                    I like to work at
+                                </div>
+                            </div>-->
+        </div>
+        <div class="right-col">
+            <div class="content-block" id="user-more-about-form">
+                <div class="content-block-title editable-title">
+                    More about me
+                </div>
+                <div class="content-block-content">
+                    <div class="sub-block" id="user-originally-from-form">
+                        <div class="editable">
+                            <strong class="editable-child">Where are you originally from? </strong>   
+                            <div class="editable-mark">
+                                <i class="fa fa-pencil editable-child"></i>
+                            </div>
+
+                            <div class="floatform big" id="user-originally-from-float-form">
+                                <div class="form-content">
+                                    <div class="form-title">
+                                        Originally from  
+                                    </div>
+                                    <div class="form-fields">
+                                        <div class="control full">
+                                            <textarea ng-model="profile.originallyFrom" placeholder="London, New York, Paris, Timbuktu, etc..."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="updateOriginallyFrom(profile.originallyFrom)">Save</button> 
+                                        <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="textarea">
+                            {{profile.originallyFrom}}
+                            <span class="content-block-placeholder" ng-show="profile.originallyFrom == ''"> London, New York, Paris, Timbuktu, etc...</span>
+                        </div>
+
                     </div>
-                    <div class="content-block-content">
-                        <div class="sub-block" id="user-originally-from-form">
-                            <div class="editable">
-                                <strong class="editable-child">Where are you originally from? </strong>   
-                                <div class="editable-mark">
-                                    <i class="fa fa-pencil editable-child"></i>
-                                </div>
 
-                                <div class="floatform big" id="user-originally-from-float-form">
-                                    <div class="form-content">
-                                        <div class="form-title">
-                                            Originally from  
-                                        </div>
-                                        <div class="form-fields">
-                                            <div class="control full">
-                                                <textarea ng-model="profile.originallyFrom" placeholder="London, New York, Paris, Timbuktu, etc..."></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button class="button primary" ng-click="updateOriginallyFrom(profile.originallyFrom)">Save</button> 
-                                            <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
-                                        </div>
+                    <div class="sub-block" id="user-share-form">
+                        <div class="editable">
+                            <strong class="editable-child">My Story</strong>   
+                            <div class="editable-mark">
+                                <i class="fa fa-pencil editable-child"></i>
+                            </div>
+
+                            <div class="floatform big" id="user-share-float-form">
+                                <div class="form-content">
+                                    <div class="form-title">
+                                        My Story
+                                    </div>
+                                    <div class="form-fields">
+                                        <div text-angular="text-angular" class="html-editor" name="profile.share" ng-model="profile.share" ta-disabled='disabled'></div>
+                                        <!--div class="control full">
+                                            <textarea ng-model="profile.share" placeholder="What do you do? How did you get started? What do you like to do when you’re not working? Any advice you’d like share with other Fhellows? What are your favourite resrouces? What are your plans and goals for the future?"></textarea>
+                                        </div-->
+                                    </div>
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="updateShare(profile.share)">Save</button> 
+                                        <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
                                     </div>
                                 </div>
-
-                            </div>
-
-
-                            <div class="textarea">
-                                {{profile.originallyFrom}}
-                                <span class="content-block-placeholder" ng-show="profile.originallyFrom == ''"> London, New York, Paris, Timbuktu, etc...</span>
-                            </div>
-
-                        </div>
-
-                        <div class="sub-block" id="user-share-form">
-                            <div class="editable">
-                                <strong class="editable-child">My Story</strong>   
-                                <div class="editable-mark">
-                                    <i class="fa fa-pencil editable-child"></i>
-                                </div>
-
-                                <div class="floatform big" id="user-share-float-form">
-                                    <div class="form-content">
-                                        <div class="form-title">
-                                            My Story
-                                        </div>
-                                        <div class="form-fields">
-                                            <div text-angular="text-angular" class="html-editor" name="profile.share" ng-model="profile.share" ta-disabled='disabled'></div>
-                                            <!--div class="control full">
-                                                <textarea ng-model="profile.share" placeholder="What do you do? How did you get started? What do you like to do when you’re not working? Any advice you’d like share with other Fhellows? What are your favourite resrouces? What are your plans and goals for the future?"></textarea>
-                                            </div-->
-                                        </div>
-                                        <div class="form-actions">
-                                            <button class="button primary" ng-click="updateShare(profile.share)">Save</button> 
-                                            <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="textarea">
-                                <span ng-bind-html="profile.share"></span>
-                                <span class="content-block-placeholder" ng-show="profile.share == '' || profile.share == undefined" > What do you do? How did you get started? What do you like to do when you’re not working? Any advice you’d like share with other Fhellows? What are your favourite resrouces? What are your plans and goals for the future? </span>
                             </div>
 
                         </div>
 
 
-                        <div class="sub-block" id="user-message-form">
-                            <div class="editable">
-                                <strong class="editable-child"> Message me if...</strong>   
-                                <div class="editable-mark">
-                                    <i class="fa fa-pencil editable-child"></i>
-                                </div>
+                        <div class="textarea">
+                            <span ng-bind-html="profile.share"></span>
+                            <span class="content-block-placeholder" ng-show="profile.share == '' || profile.share == undefined" > What do you do? How did you get started? What do you like to do when you’re not working? Any advice you’d like share with other Fhellows? What are your favourite resrouces? What are your plans and goals for the future? </span>
+                        </div>
 
-                                <div class="floatform big" id="user-message-float-form">
-                                    <div class="form-content">
-                                        <div class="form-title">
-                                            Message
-                                        </div>
-                                        <div class="form-fields">
-                                            <div class="control full">
-                                                <textarea ng-model="profile.messageme" placeholder="Fancy a coffee, want to brainstorm, are going to be in Madrid in July?"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button class="button primary" ng-click="updateMessageMe(profile.messageme)">Save</button> 
-                                            <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
+                    </div>
 
+
+                    <div class="sub-block" id="user-message-form">
+                        <div class="editable">
+                            <strong class="editable-child"> Message me if...</strong>   
+                            <div class="editable-mark">
+                                <i class="fa fa-pencil editable-child"></i>
                             </div>
 
-
-                            <div class="textarea">
-                                {{profile.messageme}}
-                                <span class="content-block-placeholder" ng-show="profile.messageme == '' || profile.messageme == undefined"> Fancy a coffee, want to brainstorm, are going to be in Madrid in July?</span>
-                            </div>  
+                            <div class="floatform big" id="user-message-float-form">
+                                <div class="form-content">
+                                    <div class="form-title">
+                                        Message
+                                    </div>
+                                    <div class="form-fields">
+                                        <div class="control full">
+                                            <textarea ng-model="profile.messageme" placeholder="Fancy a coffee, want to brainstorm, are going to be in Madrid in July?"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button class="button primary" ng-click="updateMessageMe(profile.messageme)">Save</button> 
+                                        <button class="button inverted"  ng-click="closeEditables($event)">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
+
+
+                        <div class="textarea">
+                            {{profile.messageme}}
+                            <span class="content-block-placeholder" ng-show="profile.messageme == '' || profile.messageme == undefined"> Fancy a coffee, want to brainstorm, are going to be in Madrid in July?</span>
+                        </div>  
 
                     </div>
 
                 </div>
 
             </div>
-        </div>
-        <div class="clear-bottom">
 
         </div>
-    </form>
+    </div>
+    <div class="clear-bottom">
+
+    </div>
+
 </div>

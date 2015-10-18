@@ -5,6 +5,7 @@
  */
 package org.codename.services.endpoints.user.api;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import javax.ejb.Local;
 import javax.validation.constraints.NotNull;
@@ -64,15 +65,8 @@ public interface UserEndpointService extends Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     Response get(@PathParam("id") Long user_id) throws ServiceException;
 
-    @Path("{nickname}/avatar/upload")
-    @POST
-    @Consumes({MediaType.MULTIPART_FORM_DATA})
-    Response uploadAvatar(@NotNull @PathParam("nickname") String nickname, MultipartFormDataInput input) throws ServiceException;
+    
 
-    @Path("{nickname}/cover/upload")
-    @POST
-    @Consumes({MediaType.MULTIPART_FORM_DATA})
-    Response uploadCover(@NotNull @PathParam("nickname") String nickname, MultipartFormDataInput input) throws ServiceException;
 
     @Path("{nickname}/avatar")
     @DELETE
@@ -211,4 +205,14 @@ public interface UserEndpointService extends Serializable {
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON})
     Response updatePassword(@NotNull @PathParam("id") Long user_id, @FormParam("oldPassword") String oldPassword, @FormParam("newPassword") String newPassword) throws ServiceException;
+    
+    @Path("{nickname}/cover/upload")
+    @POST
+    @Consumes({MediaType.WILDCARD})
+    Response uploadCover(@NotNull @PathParam("nickname") String nickname, @FormParam("image")String image) throws ServiceException;
+    
+    @Path("{nickname}/avatar/upload")
+    @POST
+    @Consumes({MediaType.WILDCARD})
+    Response uploadAvatar(@NotNull @PathParam("nickname") String nickname, @FormParam("image")String image) throws ServiceException;
 }

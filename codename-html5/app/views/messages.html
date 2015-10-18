@@ -125,9 +125,9 @@
                                     <li class="dropdown-item">
                                         <a href="#/report" class="dropdown-link" >Report abuse / spam</a>
                                     </li>
-                                    <li ng-if="!selectedConversation.blocked" class="dropdown-item">
+                                    <!--li ng-if="!selectedConversation.blocked" class="dropdown-item">
                                         <a href class="dropdown-link" ng-click="deleteConversation(selectedConversation.url)">Remove Conversation</a>
-                                    </li>
+                                    </li-->
 
                                 </ul>
                             </li>
@@ -172,8 +172,13 @@
                                                 {{message.sent_at| date:'EEE HH:mm'}}
                                             </div>
                                             
-                                            <div class="message-user">
-                                                {{message.sender.user_id}}
+                                            <div class="message-user" ng-if="message.sender.user_id == me">
+                                                {{meFull}}
+                                            </div>
+                                            <div class="message-user" ng-if="message.sender.user_id != me">
+                                                <span ng-repeat="p in selectedConversation.metadata.participantsName">
+                                                    <span ng-if="p != meFull">{{p}}</span>
+                                                </span>
                                             </div>
                                             <div ng-bind-html="message.parts[0].body | colonToSmiley" class="message-text">
                                                 
