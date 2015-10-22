@@ -1,0 +1,23 @@
+.container {
+    border: 1px solid;
+    width: @lg;
+    margin: 0 auto;
+    @media screen and (max-width: @lg) {
+            width: 100%;
+    }
+    
+    
+}
+
+.col(@width) {
+    border: 1px solid;
+    @media screen and (max-width: @lg) {
+        width: @width%;
+    }
+    width: @width * @colWidth;
+}
+
+.col1{
+    .col(1);
+    
+}
