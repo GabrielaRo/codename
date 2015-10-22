@@ -1,25 +1,81 @@
 @import "../variables.less";
 
+.clearfix  {
+    &:after {
+       content: " "; /* Older browser do not support empty content */
+       visibility: hidden;
+       display: block;
+       height: 0;
+       clear: both;
+    }
+}
+
 .container {
-    border: 1px solid;
+
     width: @lg;
     margin: 0 auto;
+    box-sizing: border-box;
+    .clearfix();
     @media screen and (max-width: @lg) {
-            width: 100%;
+        width: 100%;
     }
     
     
+}
+.row {
+    .clearfix();
+    box-sizing: border-box;
+
 }
 
 .col(@width) {
     border: 1px solid;
+    width: (@width * @colWidth) + (@width * @gridGutterWidth);
+    padding: 0 (@gridGutterWidth/2);
+    float: left;
+    box-sizing: border-box;
+    
     @media screen and (max-width: @lg) {
-        width: @width;
+        width: 100% / (@colNumber / @width);
     }
-    width: @width * @colWidth;
+    @media screen and (max-width: @sm) {
+       padding: 0 (@gridGutterWidth/4); 
+    }
 }
 
 .col1{
-    .col(1);
-    
+    .col(1px);
+}
+.col2{
+    .col(2px);
+}
+.col3{
+    .col(3px);
+}
+.col4{
+    .col(4px);
+}
+.col5{
+    .col(5px);
+}
+.col6{
+    .col(6px);
+}
+.col7{
+    .col(7px);
+}
+.col8{
+    .col(8px);
+}
+.col9{
+    .col(9px);
+}
+.col10{
+    .col(10px);
+}
+.col11{
+    .col(11px);
+}
+.col12{
+    .col(12px);
 }
