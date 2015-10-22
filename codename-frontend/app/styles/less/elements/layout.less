@@ -1,3 +1,5 @@
+@import "../variables.less";
+
 .container {
     border: 1px solid;
     width: @lg;
@@ -12,7 +14,7 @@
 .col(@width) {
     border: 1px solid;
     @media screen and (max-width: @lg) {
-        width: @width%;
+        width: @width;
     }
     width: @width * @colWidth;
 }
